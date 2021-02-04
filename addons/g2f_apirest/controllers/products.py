@@ -39,8 +39,7 @@ class Product(http.Controller):
             ('active', '=', True),
             ('sale_ok', '=', True),
             ('is_published', '=', True)])
-        __import__('ipdb').set_trace()
-
+        
         response = products.search_read([],
                                         ['name',
                                          'alternative_product_ids',
