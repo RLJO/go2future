@@ -8,7 +8,7 @@ from odoo import http, _
 
 class Product(http.Controller):
     @http.route(['/products'], type='http', auth='public',
-                methods=['GET', 'POST', 'PUT', 'DELETE'],
+                methods=['POST', 'PUT', 'DELETE'],
                 website=True, csrf=False)
     def product(self, **kw):
         method = http.request.httprequest.method
@@ -20,16 +20,24 @@ class Product(http.Controller):
 
         if method == 'PUT':
             print('Modificar Producto')
+        
+
+        if method == 'DELETE':
+            print('Eliminar Productos')
+        return False
+
+    @http.route(['/products/GetAll'], type='http', auth='public',
+                methods=['GET'],
+                website=True, csrf=False)
+    def productAll(self, **kw):
+        method = http.request.httprequest.method
+        print(kw)
 
         if method == 'GET':
             print('Listar, Obtener Productos')
             product_list = self.get_product_list()
             print(product_list)
             return product_list
-
-        if method == 'DELETE':
-            print('Eliminar Productos')
-        return False
 
     def get_product_list(self):
         # Considerar filtrar por ultima fecha de actualizacion del Producto
@@ -40,7 +48,10 @@ class Product(http.Controller):
             ('sale_ok', '=', True),
             ('is_published', '=', True)])
         
-        response = products.search_read([],
+        
+        response = {"status": 200, "data": []}
+        
+        response["data"] = products.search_read([],
                                         ['name',
                                          'alternative_product_ids',
                                          'categ_id',
@@ -56,12 +67,12 @@ class Product(http.Controller):
                                          'list_price',
                                          'website_id',
                                          'sale_ok'])
-        """
-        for product in response:
+        
+        for product in response["data"]:
             if product.get('image_128'):
                 product.update('image_128',
                                product.get('image_128').decode('ascii'))
-                               """
+                              
 
         return dumps(response)
 
