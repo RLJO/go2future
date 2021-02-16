@@ -14,15 +14,20 @@ class ResUser(http.Controller):
         method = http.request.httprequest.method
         print(kw)
 
-        login = kw.get('email')
+        login = kw.get('username')
         password = kw.get('password')
+        qr_code = kw.get('QRCode')
+        latitude = kw.get('latitude')
+        longitude = kw.get('longitude')
+        fecha = kw.get('dateTime')
 
         if method == 'POST':
             print('Validar que el usuario exista o este activo')
             if self._validate_user(login):
                 print('Hacer login en odoo')
                 if self._validate_login(login, password):
-                    return 'ok'
+                    response = {"status": "200", "message": "User enters store"}
+                    return dumps(response)
                 else:
                     msg = _('Incorrect user or password!')
                     response = {'status': '400', 'messsage': msg}
@@ -46,7 +51,17 @@ class ResUser(http.Controller):
             return response
 
         if method == 'PUT':
+            login = kw.get('username')
+            password = kw.get('password')
+
             print('Modificar Usuario')
+            # Validar que el usuario exista
+            # if _validate.user()
+            #   tomar los datos que se desean modificar
+            # Modificarlos y envoar un ok si todo sale bien
+            response = {'status': '200', 'message': 'ok'}
+            return dumps(response
+                         )
         if method == 'GET':
             print('Listar, Obtener Usuario')
         if method == 'DELETE':
