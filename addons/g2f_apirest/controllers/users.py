@@ -7,6 +7,31 @@ from odoo import http, _
 
 
 class ResUser(http.Controller):
+    @http.route(['/users/EnterStore'], type='http', auth='public',
+                methods=['POST'],
+                website=True, csrf=False)
+    def enter_store(self, **kw):
+        method = http.request.httprequest.method
+        print(kw)
+
+        login = kw.get('email')
+        password = kw.get('password')
+
+        if method == 'POST':
+            print('Validar que el usuario exista o este activo')
+            if self._validate_user(login):
+                print('Hacer login en odoo')
+                if self._validate_login(login, password):
+                    return 'ok'
+                else:
+                    msg = _('Incorrect user or password!')
+                    response = {'status': '400', 'messsage': msg}
+                    return dumps(response)
+            else:
+                msg = _('User dont exists!')
+                response = {'status': '400', 'messsage': msg}
+                return dumps(response)
+
     @http.route(['/users'], type='http', auth='public',
                 methods=['GET', 'POST', 'PUT', 'DELETE'],
                 website=True, csrf=False)
@@ -92,10 +117,19 @@ class ResUser(http.Controller):
             msg = _('Incorrect user or password!')
             response = {'status': '400', 'messsage': msg}
             return dumps(response)
+        else:
+            user_data = self._get_data_user(login)
 
-        # por ahora devuelvo un OK pero deberia devolver un hash
+        # por ahora devuelvo un OK y los datos del usuario,
+        # pero deberia devolver un hash
         # luego la app basada en ese hash genera un QR para entrar
-        return dumps({'status': '200', 'messsage': 'ok'})
+        return dumps({'status': '200', 'messsage': 'ok', 'data': user_data})
+
+    def _get_data_user(self, login):
+        user = http.request.env['res.users'].sudo().search(
+            [('login', '=', 'login')]
+        )
+        return user if user else ''
 
     def _validate_login(self, email, password):
         user = http.request.env['res.users'].sudo().search(

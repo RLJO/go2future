@@ -10,7 +10,7 @@
     'category': 'ecommerce',
     'license': 'LGPL-3',
     'version': '12.0.1.0.0',
-    'depends': ['contacts', 'website', 'website_sale'],
+    'depends': ['website'],
     'data': [
         # 'security/ir.model.access.csv',
     ],

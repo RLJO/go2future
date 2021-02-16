@@ -20,7 +20,6 @@ class Product(http.Controller):
 
         if method == 'PUT':
             print('Modificar Producto')
-        
 
         if method == 'DELETE':
             print('Eliminar Productos')
@@ -47,32 +46,30 @@ class Product(http.Controller):
             ('active', '=', True),
             ('sale_ok', '=', True),
             ('is_published', '=', True)])
-        
-        
+
         response = {"status": 200, "data": []}
-        
         response["data"] = products.search_read([],
-                                        ['name',
-                                         'alternative_product_ids',
-                                         'categ_id',
-                                         'code',
-                                         'company_id',
-                                         'default_code',
-                                         'description',
-                                         'description_purchase',
-                                         'display_name',
-                                         # 'image_128',
-                                         # 'image_variant_128',
-                                         'is_published',
-                                         'list_price',
-                                         'website_id',
-                                         'sale_ok'])
-        
+                                                ['name',
+                                                 'alternative_product_ids',
+                                                 'categ_id',
+                                                 'code',
+                                                 'company_id',
+                                                 'default_code',
+                                                 'description',
+                                                 'description_purchase',
+                                                 'display_name',
+                                                 # 'image_128',
+                                                 # 'image_variant_128',
+                                                 'is_published',
+                                                 'list_price',
+                                                 'website_id',
+                                                 'sale_ok']
+                                                )
+
         for product in response["data"]:
             if product.get('image_128'):
                 product.update('image_128',
                                product.get('image_128').decode('ascii'))
-                              
 
         return dumps(response)
 
