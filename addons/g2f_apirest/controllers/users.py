@@ -7,12 +7,12 @@ from odoo import http, _
 
 
 class ResUser(http.Controller):
-    @http.route(['/users/EnterStore'], type='http', auth='public',
+    @http.route(['/users/EnterStore'], type='json', auth='public',
                 methods=['POST'],
                 website=True, csrf=False)
     def enter_store(self, **kw):
         method = http.request.httprequest.method
-        print(kw)
+        kw = http.request.jsonrequest
 
         login = kw.get('username')
         password = kw.get('password')
@@ -37,12 +37,12 @@ class ResUser(http.Controller):
                 response = {'status': '400', 'messsage': msg}
                 return dumps(response)
 
-    @http.route(['/users'], type='http', auth='public',
+    @http.route(['/users'], type='json', auth='public',
                 methods=['GET', 'POST', 'PUT', 'DELETE'],
                 website=True, csrf=False)
     def res_user(self, **kw):
         method = http.request.httprequest.method
-        print(kw)
+        kw = http.request.jsonrequest
 
         if method == 'POST':
             print('Crear usuario')
@@ -74,7 +74,7 @@ class ResUser(http.Controller):
 
         login = params.get('email')
         passw = params.get('password')
-        name = params.get('name')
+        name = params.get('firstname')
         lastname = params.get('lastname')
 
         print(login, passw, name, lastname)
@@ -116,10 +116,10 @@ class ResUser(http.Controller):
             return True
         return False
 
-    @http.route(['/login'], type='http', auth='public',
+    @http.route(['/login'], type='json', auth='public',
                 methods=['POST'], website=True, csrf=False)
     def login(self, **kw):
-        print(kw)
+        kw = http.request.jsonrequest
         login = kw.get('email')
         passw = kw.get('password')
 
