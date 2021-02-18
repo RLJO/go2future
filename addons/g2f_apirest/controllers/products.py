@@ -58,7 +58,7 @@ class Product(http.Controller):
                                                  'description',
                                                  'description_purchase',
                                                  'display_name',
-                                                 # 'image_128',
+                                                 'image_128',
                                                  # 'image_variant_128',
                                                  'is_published',
                                                  'list_price',
@@ -66,12 +66,11 @@ class Product(http.Controller):
                                                  'sale_ok']
                                                 )
 
-        for product in response["data"]:
+        for product in response['data']:
             if product.get('image_128'):
-                product.update('image_128',
-                               product.get('image_128').decode('ascii'))
+                product['image_128'] = product.get('image_128').decode('ascii')
 
-        return dumps(response)
+        return dumps(response['data'])
 
     @http.route(['/update_gondola'], type='http', auth='public',
                 methods=['POST'], website=True, csrf=False)
