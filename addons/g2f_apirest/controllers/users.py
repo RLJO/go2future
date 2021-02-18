@@ -116,7 +116,7 @@ class ResUser(http.Controller):
             return True
         return False
 
-    @http.route(['/login'], type='json', auth='public',
+    @http.route(['/users/login'], type='json', auth='public',
                 methods=['POST'], website=True, csrf=False)
     def login(self, **kw):
         kw = http.request.jsonrequest
@@ -140,11 +140,11 @@ class ResUser(http.Controller):
         # luego la app basada en ese hash genera un QR para entrar
         return dumps({'status': '200', 'messsage': 'ok', 'data': user_data})
 
-    def _get_data_user(self, login):
-        user = http.request.env['res.users'].sudo().search(
-            [('login', '=', 'login')]
-        )
-        return user if user else ''
+    def _get_data_user(self, email):
+        user = http.request.env['res.users'].sudo().search_read(
+            [('login', 'ilike', email)], ['login', 'name', ])
+
+        return user[0] if user else ''
 
     def _validate_login(self, email, password):
         user = http.request.env['res.users'].sudo().search(
