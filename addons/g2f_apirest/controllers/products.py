@@ -48,7 +48,7 @@ class Product(http.Controller):
             ('is_published', '=', True)])
 
         response = {"status": 200, "data": []}
-        response["data"] = products.search_read([],
+        response["data"] = products.sudo().search_read([],
                                                 ['name',
                                                  'alternative_product_ids',
                                                  'categ_id',
