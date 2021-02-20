@@ -14,7 +14,7 @@ class ResUser(http.Controller):
         method = http.request.httprequest.method
         kw = http.request.jsonrequest
 
-        login = kw.get('username')
+        login = kw.get('login')
         password = kw.get('password')
         qr_code = kw.get('QRCode')
         latitude = kw.get('latitude')
@@ -25,13 +25,13 @@ class ResUser(http.Controller):
             print('Validar que el usuario exista o este activo')
             if self._validate_user(login):
                 print('Hacer login en odoo')
-                if self._validate_login(login, password):
-                    response = {"status": "200", "message": "User enters store"}
-                    return dumps(response)
-                else:
-                    msg = _('Incorrect user or password!')
-                    response = {'status': '400', 'messsage': msg}
-                    return dumps(response)
+                # if self._validate_login(login, password):
+                response = {"status": "200", "message": "User enters store"}
+                return dumps(response)
+                #else:
+                #    msg = _('Incorrect user or password!')
+                #    response = {'status': '400', 'messsage': msg}
+                #    return dumps(response)
             else:
                 msg = _('User dont exists!')
                 response = {'status': '400', 'messsage': msg}
@@ -49,32 +49,43 @@ class ResUser(http.Controller):
             response = self.register(kw)
             print(response)
             return response
-
         if method == 'PUT':
-            login = kw.get('username')
-            password = kw.get('password')
-
             print('Modificar Usuario')
-            # Validar que el usuario exista
-            # if _validate.user()
-            #   tomar los datos que se desean modificar
-            # Modificarlos y envoar un ok si todo sale bien
-            response = {'status': '200', 'message': 'ok'}
-            return dumps(response
-                         )
+            response = self.update_user(kw)
+            return response
         if method == 'GET':
             print('Listar, Obtener Usuario')
         if method == 'DELETE':
             print('Eliminar usuario')
         return False
 
+    def update_user(self, kw):
+        login = kw.get('login')
+        name = kw.get('name')
+        lastname = kw.get('lastname')
+
+        user = self._validate_user(login)
+        if not user:
+            msg = _('User does not exist!')
+            response = {'status': '400', 'messsage': msg}
+            return dumps(response)
+
+        try:
+            user.sudo().write({'name': name, 'lastname': lastname})
+            user._cr.commit()
+            response = {'status': '200', 'message': 'ok'}
+        except Exception as error_excp:
+            response = {'status': '400', 'message': _(error_excp)}
+
+        return dumps(response)
+
     def register(self, params=''):
         if not params:
             params = {}
 
-        login = params.get('email')
+        login = params.get('login')
         passw = params.get('password')
-        name = params.get('firstname')
+        name = params.get('name')
         lastname = params.get('lastname')
 
         print(login, passw, name, lastname)
@@ -82,7 +93,7 @@ class ResUser(http.Controller):
         user = http.request.env['res.users']
         if self._validate_user(login):
             msg = _('User already exists!')
-            response = {'status': '400', 'messsage': msg}
+            response = {'status': '400', 'message': msg}
             return dumps(response)
 
         try:
@@ -90,16 +101,17 @@ class ResUser(http.Controller):
                 'login': login,
                 'password': passw,
                 'name': name,
+                'lastname': lastname,
             })
             user._cr.commit()
 
             # Update data inm respartner
             self._update_res_partner(login)
 
-            response = {'status': '200', 'messsage': 'ok'}
+            response = {'status': '200', 'message': 'ok'}
         except Exception as error_excp:
             msg = _(error_excp)
-            response = {'status': '400', 'messsage': msg}
+            response = {'status': '400', 'message': msg}
             return dumps(response)
         return dumps(response)
 
@@ -120,7 +132,7 @@ class ResUser(http.Controller):
                 methods=['POST'], website=True, csrf=False)
     def login(self, **kw):
         kw = http.request.jsonrequest
-        login = kw.get('email')
+        login = kw.get('login')
         passw = kw.get('password')
 
         if not self._validate_user(login):
@@ -142,13 +154,13 @@ class ResUser(http.Controller):
 
     def _get_data_user(self, email):
         user = http.request.env['res.users'].sudo().search_read(
-            [('login', 'ilike', email)], ['login', 'name', ])
+            [('login', 'ilike', email)], ['login', 'name', 'lastname'])
 
         return user[0] if user else ''
 
-    def _validate_login(self, email, password):
+    def _validate_login(self, login, password):
         user = http.request.env['res.users'].sudo().search(
-            [('login', '=', email)])
+            [('login', '=', login)])
         user_id = user.id
         try:
             user.with_user(user_id)._check_credentials(password, user.env)
