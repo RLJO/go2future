@@ -21,7 +21,6 @@
     'installable': True,
     'application': True,
     
-
     # any module necessary for this one to work correctly
     'depends': ['sale_management',
 'account',
