@@ -12,7 +12,8 @@
     'version': '12.0.1.0.0',
     'depends': ['website', 'website_sale'],
     'data': [
-        # 'security/ir.model.access.csv',
+        'views/store.xml',
+        'security/ir.model.access.csv',
     ],
     'demo': [
     ],
