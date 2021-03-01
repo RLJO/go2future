@@ -1,0 +1,4 @@
+[submodule "ctmil/payment_mercadopago"]
+	path = ctmil/payment_mercadopago
+	url = git@github.com:ctmil/payment_mercadopago.git
+	branch = 14.0
