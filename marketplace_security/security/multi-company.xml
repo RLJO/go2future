@@ -31,6 +31,7 @@
         <field name="perm_unlink" eval="True"/>
     </record>
 
+<!--
     <record id="product.product_pricelist_comp_rule" model="ir.rule">
         <field name="active" eval="False"/>
     </record>
@@ -47,7 +48,7 @@
         <field name="model_id" ref="product.model_product_pricelist_item"/>
         <field name="domain_force">[('company_id', 'in', company_ids)]</field>
     </record>
-
+-->
 
 <!--/SALE-->
 </data>
