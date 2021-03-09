@@ -1,3 +1,2 @@
-# go2future
+Productos customizados Go2Future
 
-Repositorio de desarrollo Odoo Go2Future
