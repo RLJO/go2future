@@ -10,8 +10,8 @@ class Product(models.Model):
     contiene_tacc = fields.Boolean(string = 'Contiene TACC')
     organico = fields.Boolean(string = 'Orgánico')
     
-    nombre_producto_linea_1 = fields.Char(string = 'Linea 1 para Display')
-    nombre_producto_linea_2 = fields.Char(string = 'Línea 2 para Display')
+    nombre_producto_linea_1 = fields.Char(string = 'Linea 1 para Display', size=16)
+    nombre_producto_linea_2 = fields.Char(string = 'Línea 2 para Display', size=16)
 
     url_link_video_entrenamiento = fields.Char(string = 'URL al video de entrenamiento')
 
@@ -46,19 +46,6 @@ class Product(models.Model):
 
                 record.precio_por_l = record.list_price / record.volume
 
-    @api.constrains('nombre_producto_linea_1')
-    def valida_nombre_producto_linea_1(self):
-
-        if self.nombre_producto_linea_1.length > 16:
-
-            raise exceptions.ValidationException('El campo Línea 1 para display no debe exceder los 16 caracteres')
-
-    @api.constrains('nombre_producto_linea_2')
-    def valida_nombre_producto_linea_2(self):
-
-        if self.nombre_producto_linea_2.length > 16:
-
-            raise exceptions.ValidationException('El campo Línea 2 para display no debe exceder los 16 caracteres')
 
     
 
