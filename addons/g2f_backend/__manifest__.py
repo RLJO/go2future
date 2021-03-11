@@ -16,6 +16,7 @@
         'templates/sellers_registration_template.xml',
         'templates/message_ok_template.xml',
         'templates/warning_template.xml',
+        'views/sellers_registration_views.xml'
     ],
     'demo': [
     ],

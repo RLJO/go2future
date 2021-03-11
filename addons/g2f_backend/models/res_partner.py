@@ -17,6 +17,7 @@ class ResPartner(models.Model):
     _inherit = 'res.partner'
 
     company = fields.Char(string='Company Name')
+    colaborate_registration = fields.Boolean(default=False)
 
     def create_seller(self, data):
         res_partner = self.env['res.partner']
@@ -36,6 +37,7 @@ class ResPartner(models.Model):
                 'email': email,
                 'company': company,
                 'industry_id': sector_ids.id,
+                'colaborate_registration': True,
             })
         except Exception as error_create:
             _logger.error("{error_create}", error_create=error_create)
