@@ -69,11 +69,21 @@
           <field name="descripcion_audible"/>
           <field name="message_main_attachment_id" groups="sales_team.group_sale_manager"/>
         </xpath>
-       <!--
-        <xpath expr="//field[@name='tic_category_id']" position="attributes">
-          <attribute name="groups">sales_team.group_sale_manager</attribute>
+
+        <xpath expr="//field[@name='taxes_id']" position="attributes">
+          <attribute name="groups">base.group_system,purchase.group_purchase_user,stock.group_stock_user,sales_team.group_sale_manager,sales_team.group_sale_salesman_all_leads,sales_team.group_sale_salesman</attribute>
         </xpath>
-        -->
+
+        <xpath expr="//field[@name='standard_price']" position="attributes">
+          <attribute name="groups">base.group_system,purchase.group_purchase_user,stock.group_stock_user,sales_team.group_sale_manager,sales_team.group_sale_salesman_all_leads,sales_team.group_sale_salesman</attribute>
+        </xpath>
+        <xpath expr="//field[@name='uom_id']" position="attributes">
+          <attribute name="groups">base.group_system,purchase.group_purchase_user,stock.group_stock_user,sales_team.group_sale_manager,sales_team.group_sale_salesman_all_leads,sales_team.group_sale_salesman</attribute>
+        </xpath>
+        <xpath expr="//field[@name='uom_po_id']" position="attributes">
+          <attribute name="groups">base.group_system,purchase.group_purchase_user,stock.group_stock_user,sales_team.group_sale_manager,sales_team.group_sale_salesman_all_leads,sales_team.group_sale_salesman</attribute>
+        </xpath>
+
         <xpath expr="//form[@name='Product Template']/sheet[1]/notebook[1]/page[@name='general_information']/group[1]" position="after">
           <group name="studio_group_fKmh1">
             <group name="studio_group_fKmh1_left">
