@@ -8,7 +8,7 @@ class SellerRegistrationController(http.Controller):
     def dti_person_get(self, **kw):
         data = kw
 
-        res_partner = http.request.env['res.partner']
+        corporate_registration = http.request.env['corporate.registration']
         metodo = http.request.httprequest.method
         sector_list = http.request.env['res.partner.industry'].sudo().search(
             [('active', '=', True)], order="name")
@@ -25,7 +25,7 @@ class SellerRegistrationController(http.Controller):
 
             data['sector_id'] = sector_ids
 
-            response = res_partner.sudo().create_seller(data)
+            response = corporate_registration.sudo().create_seller(data)
 
             if not response[0]:
                 msg1 = """No se pudo registrar el vendedor,

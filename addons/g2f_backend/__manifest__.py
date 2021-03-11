@@ -12,7 +12,7 @@
     'version': '14.0.1.0.0',
     'depends': ['contacts', 'website', 'website_sale'],
     'data': [
-        # 'security/ir.model.access.csv',
+        'security/ir.model.access.csv',
         'templates/sellers_registration_template.xml',
         'templates/message_ok_template.xml',
         'templates/warning_template.xml',

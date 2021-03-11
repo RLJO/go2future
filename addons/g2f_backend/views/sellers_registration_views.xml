@@ -2,7 +2,7 @@
 
     <record id="corporate_registrations_view_form" model="ir.ui.view" >
       <field name="name">Corporate Registration</field>
-      <field name="model">res.partner</field>
+      <field name="model">corporate.registration</field>
       <field name="type">form</field>
       <field name="arch" type="xml">
         <form string="Corporate Registration">
@@ -21,7 +21,7 @@
 
     <record id="corporate_registration_view_search" model="ir.ui.view" >
       <field name="name">Corporate Registration</field>
-      <field name="model">res.partner</field>
+      <field name="model">corporate.registration</field>
       <field name="arch" type="xml">
         <search>
             <filter name="pendiente" string="Pendiente por aprobar" domain="[('colaborate_registration','=',True)]"/>
@@ -32,7 +32,7 @@
 
     <record id="corporate_registration_view_tree" model="ir.ui.view" >
       <field name="name">Corporate Registration</field>
-      <field name="model">res.partner</field>
+      <field name="model">corporate.registration</field>
       <field name="type">tree</field>
       <field name="arch" type="xml">
         <tree>
@@ -46,7 +46,7 @@
 
     <record id="corporate_registrations_action_window" model="ir.actions.act_window">
       <field name="name">Corporate Registration</field>
-      <field name="res_model">res.partner</field>
+      <field name="res_model">corporate.registration</field>
       <field name="view_mode">tree,form</field>
     </record>
 

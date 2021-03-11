@@ -13,14 +13,17 @@ logging.basicConfig(
 _logger = logging.getLogger(__name__)
 
 
-class ResPartner(models.Model):
-    _inherit = 'res.partner'
+class CorporateRegistration(models.Model):
+    _name = 'corporate.registration'
 
+    name = fields.Char()
+    phone = fields.Char()
+    email = fields.Char()
     company = fields.Char(string='Company Name')
+    industry_id = fields.Many2one('res.partner.industry', string='Sector')
     colaborate_registration = fields.Boolean(default=False)
 
     def create_seller(self, data):
-        res_partner = self.env['res.partner']
         name = data.get('name')
         phone = data.get('phone')
         email = data.get('email')
@@ -31,7 +34,7 @@ class ResPartner(models.Model):
         )
 
         try:
-            res_partner.create({
+            self.create({
                 'name': name,
                 'phone': phone,
                 'email': email,
@@ -40,7 +43,7 @@ class ResPartner(models.Model):
                 'colaborate_registration': True,
             })
         except Exception as error_create:
-            _logger.error("{error_create}", error_create=error_create)
+            _logger.error(error_create, error_create=error_create)
             return False, error_create
 
         print('Aqui')
