@@ -119,8 +119,8 @@
         </field>
     </record>
 
-  
 
+<!-- 
     <record id="productos_action_window" model="ir.actions.act_window">
         <field name="name">Productos</field>
         <field name="res_model">product.template</field>
@@ -133,5 +133,5 @@
         <menuitem name="Go2Future Productos" id="name_productos" parent="productos_menu_root"/>
         <menuitem name="Productos" id="productos_list" parent="name_productos"
         action="productos_action_window"/>
-
+ -->
 </odoo>
