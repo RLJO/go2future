@@ -1,0 +1,14 @@
+<odoo>
+
+        <record id="store_action_window" model="ir.actions.act_window">
+        <field name="name">Store Name</field>
+        <field name="res_model">store</field>
+        <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Go2Future" id="store_menu_root"/>
+        <menuitem name="Go2Future" id="name_store" parent="store_menu_root"/>
+        <menuitem name="Store" id="store_list" parent="name_store"
+        action="store_action_window"/>
+
+</odoo>
