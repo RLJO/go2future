@@ -3,7 +3,7 @@
 
     <template id="sellers_registration_page_template">
         <t t-call="website.layout">
-            <t t-set="title">Registro de Vendedores</t>
+            <t t-set="title">Registro de Empresas</t>
             <div class="oe_structure">
                 <div id="wrap">
                     <br/>
@@ -83,7 +83,7 @@
     <record id="person_template_id" model="website.page">
         <field name="name">Registro de Vendedores</field>
         <field name="website_published">True</field>
-        <field name="url">/sellers-registration</field>
+        <field name="url">/corporate-registration</field>
         <field name="view_id" ref="sellers_registration_page_template"/>
     </record>
 

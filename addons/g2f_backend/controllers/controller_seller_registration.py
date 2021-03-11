@@ -3,7 +3,7 @@ from odoo import http
 
 class SellerRegistrationController(http.Controller):
 
-    @http.route(['/sellers-registration'], type='http', auth='public',
+    @http.route(['/corporate-registration'], type='http', auth='public',
                 website=True, csrf=False, methods=['GET', 'POST'])
     def dti_person_get(self, **kw):
         data = kw
