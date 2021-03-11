@@ -22,6 +22,34 @@ class CorporateRegistration(models.Model):
     company = fields.Char(string='Company Name')
     industry_id = fields.Many2one('res.partner.industry', string='Sector')
     colaborate_registration = fields.Boolean(default=False)
+    active = fields.Boolean(default=True)
+    parent_id = fields.Many2one('res.partner', string='Company')
+
+    def create_contacts(self):
+        try:
+            res_partner = self.env['res.partner']
+
+            company_id = res_partner.create({
+                'name': self.company,
+                'phone': self.phone,
+                'company_type': 'company'
+            })
+
+            res_partner.create({
+                'name': self.name,
+                'phone': self.phone,
+                'email': self.email,
+                'company_type': 'person',
+                'parent_id': company_id.id
+            })
+
+            self.colaborate_registration = True
+            self.parent_id = company_id
+        except Exception as error_create:
+            _logger.error(error_create, error_create=error_create)
+            return False, error_create
+
+        return True
 
     def create_seller(self, data):
         name = data.get('name')
@@ -40,11 +68,9 @@ class CorporateRegistration(models.Model):
                 'email': email,
                 'company': company,
                 'industry_id': sector_ids.id,
-                'colaborate_registration': True,
             })
         except Exception as error_create:
             _logger.error(error_create, error_create=error_create)
             return False, error_create
 
-        print('Aqui')
         return True, ''
