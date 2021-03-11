@@ -15,8 +15,8 @@ class Product(models.Model):
 
     url_link_video_entrenamiento = fields.Char(string = 'URL al video de entrenamiento')
 
-    precio_por_kg = fields.Float(compute='_precio_por_kg', store=True, string='Precio por Kg')
-    precio_por_l = fields.Float(compute='_precio_por_l', store=True, string='Precio por l')
+    precio_por_kg = fields.Float(string='Precio por Kg')
+    precio_por_l = fields.Float(string='Precio por l')
 
     descripcion_audible = fields.Char(string='Descripción audible del producto')
 
@@ -27,28 +27,5 @@ class Product(models.Model):
     type = fields.Selection(default='product')
     
     #company_id -> Por defecto debe ser la compañía del vendedor logueado
-
-    @api.depends('weight')
-    def _precio_por_kg(self):
-
-        for record in self:
-
-            if record.weight != 0:
-
-                record.precio_por_kg = record.list_price / record.weight
-
-    @api.depends('volume')
-    def _precio_por_l(self):
-
-        for record in self:
-
-            if record.volume != 0:
-
-                record.precio_por_l = record.list_price / record.volume
-
-
-    
-
-    
 
 
