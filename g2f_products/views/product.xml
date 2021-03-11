@@ -62,14 +62,6 @@
           <attribute name="groups">base.group_system,purchase.group_purchase_user,stock.group_stock_user,sales_team.group_sale_manager,sales_team.group_sale_salesman_all_leads,sales_team.group_sale_salesman</attribute>
         </xpath>
 
-        <xpath expr="//field[@name='categ_id']" position="after">
-          <field name="url_link_video_entrenamiento"/>
-          <field name="nombre_producto_linea_1"/>
-           <field name="nombre_producto_linea_2"/>
-          <field name="descripcion_audible"/>
-          <field name="message_main_attachment_id" groups="sales_team.group_sale_manager"/>
-        </xpath>
-
         <xpath expr="//field[@name='taxes_id']" position="attributes">
           <attribute name="groups">base.group_system,purchase.group_purchase_user,stock.group_stock_user,sales_team.group_sale_manager,sales_team.group_sale_salesman_all_leads,sales_team.group_sale_salesman</attribute>
         </xpath>
@@ -85,9 +77,21 @@
         </xpath>
 
         <xpath expr="//form[@name='Product Template']/sheet[1]/notebook[1]/page[@name='general_information']/group[1]" position="after">
+
+
+          <group name="studio_group_descpro1">
+            <group name="studio_group_descpro1_left">
+          <field name="url_link_video_entrenamiento"/>
+          <field name="descripcion_audible"/>
+            </group>
+            <group name="studio_group_descpro1_right">
+          <field name="nombre_producto_linea_1"/>
+           <field name="nombre_producto_linea_2"/>
+            </group>
+          </group>
+
           <group name="studio_group_fKmh1">
             <group name="studio_group_fKmh1_left">
-              <field name="company_id" />
               <field name="organico"/>
               <field name="vegano"/>
               <field name="contenido_azucar"/>
@@ -115,8 +119,8 @@
         </field>
     </record>
 
-  
 
+<!-- 
     <record id="productos_action_window" model="ir.actions.act_window">
         <field name="name">Productos</field>
         <field name="res_model">product.template</field>
@@ -129,5 +133,5 @@
         <menuitem name="Go2Future Productos" id="name_productos" parent="productos_menu_root"/>
         <menuitem name="Productos" id="productos_list" parent="name_productos"
         action="productos_action_window"/>
-
+ -->
 </odoo>
