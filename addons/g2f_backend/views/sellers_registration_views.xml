@@ -1,0 +1,66 @@
+<odoo>
+
+    <record id="corporate_registrations_view_form" model="ir.ui.view" >
+      <field name="name">Corporate Registration</field>
+      <field name="model">corporate.registration</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+        <form string="Corporate Registration">
+            <header>
+                <button name="create_contacts" string="Approve request" type="object" class="oe_highlight"/>
+            </header>
+            <sheet>
+                <separator/>
+                <group string="Registration requests" col="4" colspan="2">
+                    <field name="name" placeholder="Firstname"/>
+                    <field name="company" placeholder="Company Name"/>
+                    <field name="email" widget="url" placeholder="e-mail"/>
+                    <field name="phone" placeholder="phone"/>
+                    <field name="industry_id" widget="many2one_tags" options="{'no_create_edit': True}"/>
+                    <field name="colaborate_registration" string='Approved?' widget="many2one_tags"/>
+                    <field name="parent_id" string='Company' widget="many2one_tags"/>
+                </group>
+            </sheet>
+        </form>
+      </field>
+    </record>
+
+    <record id="corporate_registration_view_search" model="ir.ui.view" >
+      <field name="name">Corporate Registration</field>
+      <field name="model">corporate.registration</field>
+      <field name="arch" type="xml">
+        <search>
+            <filter name="pending" string="Pendient to Approve" domain="[('colaborate_registration', '=', False)]"/>
+            <filter name="approved" string="Aproved" domain="[('colaborate_registration', '=', True)]"/>
+            <separator/>
+        </search>
+      </field>
+    </record>
+
+    <record id="corporate_registration_view_tree" model="ir.ui.view" >
+      <field name="name">Corporate Registration</field>
+      <field name="model">corporate.registration</field>
+      <field name="type">tree</field>
+      <field name="arch" type="xml">
+        <tree>
+            <field name="company"/>
+            <field name="name"/>
+            <field name="email"/>
+            <field name="phone"/>
+        </tree>
+      </field>
+    </record>
+
+    <record id="corporate_registrations_action_window" model="ir.actions.act_window">
+      <field name="name">Corporate Registration</field>
+      <field name="res_model">corporate.registration</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem name="Solicitud de registro de vendedores"
+        id="corporate_list"
+        parent="g2f_apirest.name_store"
+        action="corporate_registrations_action_window"
+        sequence="1"/>
+
+</odoo>

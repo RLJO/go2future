@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <template id="messageok_page_template">
+        <t t-call="website.layout">
+            <t t-set="title">Mensaje de sistema</t>
+            <div class="oe_structure">
+                <div id="wrap">
+                    <br/>
+                    <div class="container">
+                        <!-- === Snippets' area === -->
+                        <div class="oe_structure"/>
+                        <br/>
+                        <div class="jumbotron">
+                        <h1 class="display-3"><t t-esc="values.get('msg1')"/> </h1>
+                        <p class="lead"><t t-esc="values.get('msg2')"/></p>
+                        <hr class="my-4"/>
+                        <p class="lead">
+                            <a class="btn btn-success btn-lg" href="/" role="button">Volver al menu principal.</a>
+                        </p>
+                        </div>
+                        <!-- === Snippets' area === -->
+                        <div class="oe_structure"/>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <record id="mensaje_post_ok_template" model="website.page">
+        <field name="name">Mensaje de sistema</field>
+        <field name="website_published">True</field>
+        <field name="url">/mensaje-page-post-ok</field>
+        <field name="view_id" ref="messageok_page_template"/>
+    </record>
+
+</odoo>

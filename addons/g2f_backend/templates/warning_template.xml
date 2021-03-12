@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <template id="warning_sin_contacto_template">
+        <t t-call="website.layout">
+            <t t-set="title">Contacte con el administrador del sistema</t>
+            <div class="oe_structure">
+                <div id="wrap">
+                    <br/>
+                    <div class="container">
+                        <br/>
+                        <div class="alert alert-dismissible alert-warning">
+                            <button type="button" class="close" data-dismiss="alert"></button>
+                            <h4 class="alert-heading">Warning!</h4>
+                            <p class="mb-0"><t t-esc="values.get('msg1')"/>, <a href="#" class="alert-link"> <t t-esc="values.get('msg2')"/></a>.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <record id="warning_template_id" model="website.page">
+        <field name="name">Warning de Sistema</field>
+        <field name="website_published">True</field>
+        <field name="url">/waring-sin-contacto</field>
+        <field name="view_id" ref="warning_sin_contacto_template"/>
+    </record>
+
+</odoo>
