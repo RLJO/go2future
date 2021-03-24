@@ -3,7 +3,6 @@
 # pylint: disable=consider-add-field-help
 # pylint: disable=broad-except
 
-import base64
 import logging
 from odoo import models, fields
 

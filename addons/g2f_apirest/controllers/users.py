@@ -168,3 +168,24 @@ class ResUser(http.Controller):
         except Exception as error:
             print(error)
             return False
+
+    @http.route(['/users/ResetPassword'], type='json', auth='public',
+                methods=['POST'],
+                website=True, csrf=False)
+    def reset_password_user(self, **kw):
+        kw = http.request.jsonrequest
+        login = kw.get('login')
+        user = self._validate_user(login)
+
+        if not user:
+            msg = _('User does not exist!')
+            response = {'status': '400', 'messsage': msg}
+            return dumps(response)
+
+        try:
+            user.reset_password(user.login)
+            response = {'status': '200', 'message': 'ok'}
+        except Exception as error_reset_password:
+            response = {'status': '400', 'message': _(error_reset_password)}
+
+        return dumps(response)
