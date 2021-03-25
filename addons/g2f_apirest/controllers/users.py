@@ -99,6 +99,7 @@ class ResUser(http.Controller):
         try:
             user.sudo().create({
                 'login': login,
+                'email': login,
                 'password': passw,
                 'name': name,
                 'lastname': lastname,
