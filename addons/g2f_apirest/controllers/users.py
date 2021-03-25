@@ -123,9 +123,9 @@ class ResUser(http.Controller):
     def _update_res_partner(self, login):
         user = self._validate_user(login)
         if user:
-            data = {'phone': '11111'}
-            user.partner_id.write(data)
-            user._cr.commit()
+            # data = {'phone': '11111'}
+            # user.partner_id.write(data)
+            # user._cr.commit()
             return True
         return False
 
