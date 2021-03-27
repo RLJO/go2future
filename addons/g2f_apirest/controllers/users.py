@@ -3,6 +3,7 @@
 from json import dumps
 
 from odoo import http, _
+from odoo.addons.g2f_apirest.controllers.vision_system import VisionSystem
 # from odoo.exceptions import ValidationError, UserError
 
 
@@ -11,7 +12,7 @@ class ResUser(http.Controller):
                 methods=['POST'],
                 website=True, csrf=False)
     def enter_store(self, **kw):
-        method = http.request.httprequest.method
+        method = http.request.est.method
         kw = http.request.jsonrequest
 
         login = kw.get('login')
@@ -87,8 +88,10 @@ class ResUser(http.Controller):
         passw = params.get('password')
         name = params.get('name')
         lastname = params.get('lastname')
-
-        print(login, passw, name, lastname)
+        birthday = params.get('birthday')
+        gender = params.get('gender')
+        phone = params.get('phone')
+        address = params.get('address')
 
         user = http.request.env['res.users']
         if self._validate_user(login):
@@ -97,7 +100,7 @@ class ResUser(http.Controller):
             return dumps(response)
 
         try:
-            user.sudo().create({
+            new_user = user.sudo().create({
                 'login': login,
                 'email': login,
                 'password': passw,
@@ -106,10 +109,16 @@ class ResUser(http.Controller):
             })
             user._cr.commit()
 
-            # Update data inm respartner
-            self._update_res_partner(login)
+            # Update data in respartner
+            data = {'birthday': birthday, 'gender': gender, 'phone': phone,
+                    'street': address}
+            self._update_res_partner(login, data)
 
             response = {'status': '200', 'message': 'ok'}
+
+            # Send data to Vision System
+            # VisionSystem.customer_entry(new_user)
+
         except Exception as error_excp:
             msg = _(error_excp)
             response = {'status': '400', 'message': msg}
@@ -120,12 +129,12 @@ class ResUser(http.Controller):
         user = http.request.env['res.users']
         return user.sudo().search([('login', '=', login)])
 
-    def _update_res_partner(self, login):
+    def _update_res_partner(self, login, data):
         user = self._validate_user(login)
+
         if user:
-            # data = {'phone': '11111'}
-            # user.partner_id.write(data)
-            # user._cr.commit()
+            user.partner_id.write(data)
+            user._cr.commit()
             return True
         return False
 
