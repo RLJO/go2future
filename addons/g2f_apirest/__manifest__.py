@@ -13,6 +13,7 @@
     'depends': ['website', 'website_sale'],
     'data': [
         'views/store.xml',
+        'views/res_partner_views.xml',
         'security/ir.model.access.csv',
     ],
     'demo': [
