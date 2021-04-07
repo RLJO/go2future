@@ -19,25 +19,31 @@ class ProductTemplate(models.Model):
     _check_company_auto = True
 
     type = fields.Selection(selection_add=[('product', 'Storable Product')],
-                            tracking=True,
+                            tracking=True, track_visibility='always',
                             ondelete={'product': 'set default'},
                             default='product'
                             )
-    brand = fields.Char(required=True)
-    contents = fields.Integer(required=True)
+    brand = fields.Char(required=True, track_visibility='always')
+    contents = fields.Integer(required=True, track_visibility='always')
     country_id = fields.Many2one('res.country',
                                  string='Origin Country',
                                  default=lambda self: self.env['res.country'].
                                  search([('code', 'ilike', 'AR')]),
                                  required=True)
-    useful_life = fields.Integer(required=True, string='useful life in days')
-    internal_tax = fields.Float(required=True, digits=(16, 2), default=0.0)
-    units_per_package = fields.Integer(required=True)
-    dun14 = fields.Char(required=True, size=14)
-    width = fields.Integer(required=True)
-    height = fields.Integer(required=True)
-    depth = fields.Integer(required=True)
-    weight = fields.Integer(required=True)
+    useful_life = fields.Integer(required=True, string='useful life in days', track_visibility='always')
+    internal_tax = fields.Float(required=True, digits=(16, 2), default=0.0, track_visibility='always')
+    units_per_package = fields.Integer(required=True, track_visibility='always')
+    dun14 = fields.Char(required=True, size=14, track_visibility='always')
+    width = fields.Integer(required=True, track_visibility='always')
+    height = fields.Integer(required=True, track_visibility='always')
+    depth = fields.Integer(required=True, track_visibility='always')
+    weight = fields.Integer(required=True, track_visibility='always')
+    vegan = fields.Boolean(default=False, track_visibility='always')
+    organic = fields.Boolean(default=False, track_visibility='always')
+    without_tacc = fields.Boolean(default=False, track_visibility='always')
+    sugar_free = fields.Boolean(default=False, track_visibility='always')
+    optional_messages = fields.Text(size=14, track_visibility='always')
+    product_description = fields.Char(required=True, size=35, track_visibility='always')
 
     _sql_constraints = [(
         'product_template_dun14_uniq',

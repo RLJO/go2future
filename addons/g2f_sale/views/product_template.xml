@@ -79,14 +79,29 @@
             <xpath expr="//group[@name='group_standard_price']" position="after">
                 <group string="Datos del Bulto">
                     <field name="units_per_package"/>
-                    <field name="dun14" string="Dum14" attrs="{'required': True}"/>
+                    <field name="dun14" attrs="{'required': True}"/>
                     <field name="width" string="Width (mm)" attrs="{'required': True}"/>
                     <field name="height" string="Height (mm)" attrs="{'required': True}"/>
                     <field name="depth" string="Depth (mm)" attrs="{'required': True}"/>
                     <field name="weight" string="Weight of package (g)" attrs="{'required': True}"/>
                 </group>
+                <group string="Atributos">
+                    <field name="vegan"/>
+                    <field name="organic"/>
+                    <field name="without_tacc"/>
+                    <field name="sugar_free"/>
+                </group>
             </xpath>
 
+            <xpath expr="//group[4]" position="after">
+                <group string="Optional messages">
+                    <field name="optional_messages" nolabel="1" placeholder="Optional messages"/>
+                </group>
+                <br/>
+                <group string="Description">
+                    <field name="product_description" nolabel="1" placeholder="Description"/>
+                </group>
+            </xpath>
         </field>
     </record>
 </odoo>
