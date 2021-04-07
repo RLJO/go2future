@@ -79,7 +79,7 @@
             <xpath expr="//group[@name='group_standard_price']" position="after">
                 <group string="Datos del Bulto">
                     <field name="units_per_package"/>
-                    <field name="dun14" attrs="{'required': True}"/>
+                    <field name="dun14" string="Dum14" attrs="{'required': True}"/>
                     <field name="width" string="Width (mm)" attrs="{'required': True}"/>
                     <field name="height" string="Height (mm)" attrs="{'required': True}"/>
                     <field name="depth" string="Depth (mm)" attrs="{'required': True}"/>
