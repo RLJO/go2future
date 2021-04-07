@@ -12,7 +12,7 @@ class ResUser(http.Controller):
                 methods=['POST'],
                 website=True, csrf=False)
     def enter_store(self, **kw):
-        method = http.request.est.method
+        method = http.request.httprequest.method
         kw = http.request.jsonrequest
 
         login = kw.get('login')
@@ -22,6 +22,7 @@ class ResUser(http.Controller):
         longitude = kw.get('longitude')
         fecha = kw.get('dateTime')
 
+        print(qr_code)
         if method == 'POST':
             print('Validar que el usuario exista o este activo')
             if self._validate_user(login):

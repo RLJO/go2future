@@ -48,10 +48,43 @@
                 <attribute name="groups">base.group_system</attribute>
             </xpath>
 
+            <xpath expr="//field[@name='barcode']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='taxes_id']" position="replace">
+                <field name="taxes_id" widget="many2many_tags" options="{'no_create': True}" attrs="{'required': True }"/>
+            </xpath>
+
             <xpath expr="//field[@name='categ_id']" position="before">
                 <field name="brand"/>
                 <field name="contents"/>
+                <field name="barcode" string="EAN 13"/>
                 <field name="country_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,}"/>
+                <field name="useful_life" string="Useful life in days"/>
+            </xpath>
+
+            <xpath expr="//field[@name='taxes_id']" position="after">
+                <field name="internal_tax" widget="float" placeholder="Internal Taxes"/>
+            </xpath>
+
+            <xpath expr="//field[@name='uom_id']" position="replace">
+                <field name="uom_id" options="{'no_open':True, 'no_create_edit':True, 'no_create':True}" attrs="{'required': True }"/>
+            </xpath>
+
+            <xpath expr="//field[@name='uom_po_id']" position="attributes">
+                <attribute name="groups">base.group_system</attribute>
+            </xpath>
+
+            <xpath expr="//group[@name='group_standard_price']" position="after">
+                <group string="Datos del Bulto">
+                    <field name="units_per_package"/>
+                    <field name="dun14" attrs="{'required': True}"/>
+                    <field name="width" string="Width (mm)" attrs="{'required': True}"/>
+                    <field name="height" string="Height (mm)" attrs="{'required': True}"/>
+                    <field name="depth" string="Depth (mm)" attrs="{'required': True}"/>
+                    <field name="weight" string="Weight of package (g)" attrs="{'required': True}"/>
+                </group>
             </xpath>
 
         </field>
