@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="g2f_product_template_form_view">
+            <field name="name">g2f.product.template.product.form</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook" position="inside">
+                  <page name="catman" string="CatMan">
+                    <group>
+                      <group string="Estructura mercadológica">
+                        <field name="sector"/>
+                        <field name="familia"/>
+                        <field name="subfamilia"/>
+                        <field name="categoria"/>
+                      </group>
+                      <group string="Datos del producto">
+                        <field name="alto"/>
+                        <field name="ancho"/>
+                        <field name="profundidad"/>
+                        <field name="peso_bruto"/>
+                      </group>
+                      <group string="Ubicación">
+                        <field name="layout"/>
+                        <field name="cant_frente"/>
+                        <field name="cant_fondo"/>
+                        <field name="cant_altura"/>
+                      </group>
+                      <group string="Logística">
+                        <field name="gondola"/>
+                        <field name="peso_estante"/>
+                        <label for="aptitud"/>
+                        <div class="o_row" name="aptitud">
+                          <field name="aptitud"/>
+                          <span>%</span>
+                        </div>
+                        <field name="desc_tag"/>
+                      </group>
+                    </group>
+                  </page>
+                </xpath>
+            </field>
+        </record>
+
+<!--        SECTOR-->
+        <record id="product_sector_view_form" model="ir.ui.view">
+            <field name="name">product.sector.form</field>
+            <field name="model">product.sector</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Sector">
+                    <sheet>
+                        <group>
+                            <field name="nro"/>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="product_sector_view_tree" model="ir.ui.view">
+            <field name="name">product.sector.tree</field>
+            <field name="model">product.sector</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Sector">
+                    <field name="nro"/>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="product_sector_action" model="ir.actions.act_window">
+            <field name="name">Sector</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.sector</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Crear Sector para estructura mercadológica
+                </p><p>
+
+                </p>
+            </field>
+        </record>
+
+<!--        FAMILIA-->
+        <record id="product_familia_view_form" model="ir.ui.view">
+            <field name="name">product.familia.form</field>
+            <field name="model">product.familia</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Familia">
+                    <sheet>
+                        <group>
+                            <field name="nro"/>
+                            <field name="sector"/>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="product_familia_view_tree" model="ir.ui.view">
+            <field name="name">product.familia.tree</field>
+            <field name="model">product.familia</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Familia">
+                    <field name="nro"/>
+                    <field name="sector"/>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="product_familia_action" model="ir.actions.act_window">
+            <field name="name">Familia</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.familia</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Crear Familia para estructura mercadológica
+                </p><p>
+
+                </p>
+            </field>
+        </record>
+
+<!--        SUBFAMILIA-->
+        <record id="product_subfamilia_view_form" model="ir.ui.view">
+            <field name="name">product.subfamilia.form</field>
+            <field name="model">product.subfamilia</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Subfamilia">
+                    <sheet>
+                        <group>
+                            <field name="nro"/>
+                            <field name="familia"/>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="product_subfamilia_view_tree" model="ir.ui.view">
+            <field name="name">product.subfamilia.tree</field>
+            <field name="model">product.subfamilia</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Subfamilia">
+                    <field name="nro"/>
+                    <field name="familia"/>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="product_subfamilia_action" model="ir.actions.act_window">
+            <field name="name">Subfamilia</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.subfamilia</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Crear Subfamilia para estructura mercadológica
+                </p><p>
+
+                </p>
+            </field>
+        </record>
+
+<!--        CATEGORÍA-->
+        <record id="product_categoria_view_form" model="ir.ui.view">
+            <field name="name">product.categoria.form</field>
+            <field name="model">product.categoria</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Categoría">
+                    <sheet>
+                        <group>
+                            <field name="nro"/>
+                            <field name="subfamilia"/>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="product_categoria_view_tree" model="ir.ui.view">
+            <field name="name">product.categoria.tree</field>
+            <field name="model">product.categoria</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Categoría">
+                    <field name="nro"/>
+                    <field name="subfamilia"/>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="product_categoria_action" model="ir.actions.act_window">
+            <field name="name">Categoría</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.categoria</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Crear Categoría para estructura mercadológica
+                </p><p>
+
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="marketing_structure_menu" parent="sale.menu_sale_config" name="Estructura mercadológica" groups=""/>
+        <menuitem id="product_sector_menu" action="product_sector_action" parent="marketing_structure_menu" sequence="1" name="Sector" groups=""/>
+        <menuitem id="product_familia_menu" action="product_familia_action" parent="marketing_structure_menu" sequence="2" name="Familia" groups=""/>
+        <menuitem id="product_subfamilia_menu" action="product_subfamilia_action" parent="marketing_structure_menu" sequence="3" name="Subfamilia" groups=""/>
+        <menuitem id="product_categoria_menu" action="product_categoria_action" parent="marketing_structure_menu" sequence="4" name="Categoría" groups=""/>
+
+    </data>
+</odoo>
