@@ -18,6 +18,7 @@
 from . import sale
 from . import res_users
 from . import res_partner
+from . import website
 from . import res_config
 from . import marketplace_product
 from . import seller_payment
@@ -26,7 +27,6 @@ from . import seller_payment_method
 from . import stock
 from . import ir_action
 from . import ir_ui_menu
-from . import website
 from . import seller_shop
 from . import marketplace_dashboard
 from . import seller_review
