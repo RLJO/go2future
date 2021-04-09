@@ -39,6 +39,11 @@
                       </group>
                     </group>
                   </page>
+                    <page name="nutrition_facts" string="Nutrition Facts">
+                        <group>
+                            <field name="atributos_ids" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}"/>
+                        </group>
+                    </page>
                 </xpath>
             </field>
         </record>
