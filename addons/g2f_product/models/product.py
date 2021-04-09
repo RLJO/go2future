@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 from random import randint
+from odoo.exceptions import UserError
 
 
 class ProductTemplate(models.Model):
@@ -20,7 +21,7 @@ class ProductTemplate(models.Model):
     cant_fondo = fields.Integer('Cantidad de unidades por fondo', required=True)
     cant_altura = fields.Integer('Cantidad de unidades por altura', required=True)
     gondola = fields.Char('Posición en góndola', required=True, size=14)
-    peso_estante = fields.Integer('Peso total del estante (g)', compute='_get_peso_estante')
+    peso_estante = fields.Integer('Peso total del estante', compute='_get_peso_estante')
     aptitud = fields.Integer('Porcentaje de aptitud de vida útil', required=True, default=70)
     desc_tag = fields.Char('Descripción corta del TAG', required=True)
     atributos_ids = fields.Many2many('product.atributos', 'product_atributos_rel', 'prod_id', 'atributos_id', string='Atributos')
@@ -64,6 +65,20 @@ class ProductTemplate(models.Model):
             res['domain'] = {'categoria': [('id', '=', 0)]}
         self.categoria = False
         return res
+
+    def write(self, vals):
+        if 'gondola' in vals and len(vals['gondola']) != 14:
+            raise UserError(_('El campo (Posición en góndola: %s) debe contener 14 caracteres', vals['gondola']))
+        if 'cant_frente' in vals and int(vals['cant_frente']) == 0:
+            raise UserError(_('El campo (Cantidad de unidades por frente: %s) debe ser mayor a cero',
+                              vals['cant_frente']))
+        if 'cant_fondo' in vals and int(vals['cant_fondo']) == 0:
+            raise UserError(_('El campo (Cantidad de unidades por fondo: %s) debe ser mayor a cero',
+                              vals['cant_fondo']))
+        if 'cant_altura' in vals and int(vals['cant_altura']) == 0:
+            raise UserError(_('El campo (Cantidad de unidades por altura: %s) debe ser mayor a cero',
+                              vals['cant_altura']))
+        return super(ProductTemplate, self).write(vals)
 
 
 class ProductSector(models.Model):

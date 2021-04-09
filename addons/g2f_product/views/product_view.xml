@@ -29,7 +29,11 @@
                       </group>
                       <group string="Logística">
                         <field name="gondola"/>
-                        <field name="peso_estante"/>
+                        <label for="peso_estante"/>
+                        <div class="o_row" name="peso_estante">
+                          <field name="peso_estante"/>
+                          <span>g</span>
+                        </div>
                         <label for="aptitud"/>
                         <div class="o_row" name="aptitud">
                           <field name="aptitud"/>
