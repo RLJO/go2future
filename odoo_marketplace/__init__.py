@@ -14,7 +14,7 @@
 # You should have received a copy of the License along with this program.
 # If not, see <https://store.webkul.com/license.html/>
 #################################################################################
-
+#1.0.2
 from . import wizard
 from . import models
 from . import controllers
