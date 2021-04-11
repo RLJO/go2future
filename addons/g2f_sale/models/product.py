@@ -30,9 +30,12 @@ class ProductTemplate(models.Model):
                                  default=lambda self: self.env['res.country'].
                                  search([('code', 'ilike', 'AR')]),
                                  required=True)
-    useful_life = fields.Integer(required=True, string='useful life in days', track_visibility='always')
-    internal_tax = fields.Float(required=True, digits=(16, 2), default=0.0, track_visibility='always')
-    units_per_package = fields.Integer(required=True, track_visibility='always')
+    useful_life = fields.Integer(required=True, string='useful life in days',
+                                 track_visibility='always')
+    internal_tax = fields.Float(required=True, digits=(16, 2), default=0.0,
+                                track_visibility='always')
+    units_per_package = fields.Integer(required=True,
+                                       track_visibility='always')
     dun14 = fields.Char(required=True, size=14, track_visibility='always')
     width = fields.Integer(required=True, track_visibility='always')
     height = fields.Integer(required=True, track_visibility='always')
@@ -43,7 +46,8 @@ class ProductTemplate(models.Model):
     without_tacc = fields.Boolean(default=False, track_visibility='always')
     sugar_free = fields.Boolean(default=False, track_visibility='always')
     optional_messages = fields.Text(size=14, track_visibility='always')
-    product_description = fields.Char(required=True, size=35, track_visibility='always')
+    product_description = fields.Char(required=True, size=35,
+                                      track_visibility='always')
 
     _sql_constraints = [(
         'product_template_dun14_uniq',
