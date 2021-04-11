@@ -29,13 +29,24 @@ class ProductTemplate(models.Model):
                                  string='Origin Country',
                                  default=lambda self: self.env['res.country'].
                                  search([('code', 'ilike', 'AR')]),
-                                 required=True)
+                                 required=True, track_visibility='always')
     useful_life = fields.Integer(required=True, string='useful life in days',
                                  track_visibility='always')
     internal_tax = fields.Float(required=True, digits=(16, 2), default=0.0,
                                 track_visibility='always')
     units_per_package = fields.Integer(required=True,
                                        track_visibility='always')
+    barcode = fields.Char(
+        'Barcode', copy=False,
+        size=13,
+        help="EAN13 Number used for product identification.",
+        track_visibility='always'
+    )
+    # list_price: catalog price, user defined
+    list_price = fields.Float('Sales Price', default=1.0,
+                              digits='Product Price',
+                              help="Price at which the product is sold to customers.",
+                              track_visibility='always')
     dun14 = fields.Char(required=True, size=14, track_visibility='always')
     width = fields.Integer(required=True, track_visibility='always')
     height = fields.Integer(required=True, track_visibility='always')
@@ -75,11 +86,17 @@ class ProductTemplate(models.Model):
                 raise ValidationError(
                     'Units per Package has be >0 and length char <= 3')
 
-    @api.constrains('barcode')
-    def _check_length(self):
+    @api.constrains('dun14')
+    def _check_length_dun14(self):
         for record in self:
-            if record.barcode and len(record.barcode) > 13:
-                raise ValidationError('Barcode length cannot be > 13')
+            if len(record.dun14) != 14:
+                raise ValidationError('Dun14 length has be = 14')
+
+    @api.constrains('barcode')
+    def _check_length_barcode(self):
+        for record in self:
+            if len(record.barcode) != 13:
+                raise ValidationError('Barcode length has be = 13')
 
     @api.constrains('width')
     def _check_width(self):

@@ -29,8 +29,21 @@
 
             <xpath expr="//group[@name='bill']" position="attributes">
                 <attribute name="invisible">1</attribute>
-                </xpath>
+            </xpath>
 
+        </field>
+    </record>
+
+    <record id="go2f_product_template_common_form_view" model="ir.ui.view" >
+        <field name="name">go2f.product.template.common.form</field>
+        <field name="model">product.template</field>
+        <field name="priority" eval="1"/>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//page[@name='purchase']" position="attributes">
+                <attribute name="string">Vendors</attribute>
+            </xpath>
         </field>
     </record>
 
