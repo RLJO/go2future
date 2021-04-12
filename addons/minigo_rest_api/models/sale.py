@@ -45,6 +45,7 @@ class SaleOrder(models.Model):
                 items.append(item)
 
             data = {
+                "id": self.id,
                 "name": self.partner_id.name,
                 "last_name": self.partner_id.name,
                 "consumer_address": consumer_address,
@@ -72,13 +73,27 @@ class SaleOrder(models.Model):
             print(payload)
             _logger.warning('Json enviado: (%s).', payload)
 
+
+class SaleAdvancePaymentInv(models.TransientModel):
+    _inherit = "sale.advance.payment.inv"
+
     @api.model
     def confirmar_orden(self, vals):
         order_obj = self.env['sale.order']
-        order_id = order_obj.search([('id', '=', vals['id'])])
+        order_id = order_obj.search([('id', '=', vals['id']), ('invoice_status', '!=', 'invoiced')])
         res = 'No se encontró una orden registrada con el id: %s' % vals['id']
-        if order_id and not order_id.invoiced:
-            order_id.action_confirm()
-            res = order_id.action_invoice_create()
-            if res: order_id.write({'invoiced': True})
+        if order_id:
+            sale_orders = self.env['sale.order'].browse(order_id.id)
+            res = sale_orders._create_invoices(final=True)
+            res.write({
+                'einvoice': vals['einvoice'],
+                'date_einvoice': vals['date_einvoice'],
+                'cae_number': vals['cae_number'],
+                'ei_qr_code': vals['ei_qr_code'],
+                'ei_barcode': vals['ei_barcode'],
+                'ei_xml_file': vals['ei_xml_file'],
+                'ei_pdf': vals['ei_pdf']
+            })
+
+            # if res: order_id.write({'invoice_status': 'invoiced'})
         return res

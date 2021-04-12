@@ -19,6 +19,7 @@ def getOrders():
 @app.route('/orders', methods=['POST'])
 def addOrders():
     new_order = {
+		"id": request.json['id'],
 		"name": request.json['name'],
 		"last_name": request.json['last_name'],
 		"consumer_address": request.json['consumer_address'],
