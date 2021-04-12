@@ -1,4 +1,52 @@
 <odoo>
+    <record id="go2f_product_template_supplierinfo_tree_view2" model="ir.ui.view" >
+        <field name="name">go2f.supplierinfo.tree</field>
+        <field name="model">product.supplierinfo</field>
+        <field name="priority" eval="1"/>
+        <field name="inherit_id" ref="purchase.product_supplierinfo_tree_view2"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='product_uom']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='price']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='delay']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="go2f_view_product_account_purchase_ok_form" model="ir.ui.view">
+        <field name="name">product.template.account.purchase.ok.form.inherit</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="account.product_template_form_view"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//group[@name='bill']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="go2f_product_template_common_form_view" model="ir.ui.view" >
+        <field name="name">go2f.product.template.common.form</field>
+        <field name="model">product.template</field>
+        <field name="priority" eval="1"/>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//page[@name='purchase']" position="attributes">
+                <attribute name="string">Vendors</attribute>
+            </xpath>
+        </field>
+    </record>
+
     <record id="go2f_product_template_only_form_view" model="ir.ui.view" >
         <field name="name">go2f.product.form</field>
         <field name="model">product.template</field>
@@ -102,6 +150,8 @@
                     <field name="product_description" nolabel="1" placeholder="Description"/>
                 </group>
             </xpath>
+
+
         </field>
     </record>
 </odoo>
