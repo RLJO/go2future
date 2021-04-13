@@ -37,6 +37,7 @@ ids = call(url, "object", "execute_kw", DB, uid, PASS, 'res.partner', 'search',
 partner_ids = call(url, "object", "execute_kw", DB, uid, PASS, 'res.partner', 'read',
     [ids], {'fields': ['name', 'country_id', 'comment']})
 print(partner_ids)
+
 # create a new note
 # args = {
 #     'color': 8,
