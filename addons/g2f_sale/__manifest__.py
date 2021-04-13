@@ -10,7 +10,7 @@
     'category': 'Sales',
     'license': 'LGPL-3',
     'version': '12.0.1.0.0',
-    'depends': ['sale_management'],
+    'depends': ['sale_management', 'purchase', 'stock'],
     'data': [
         'views/product_template.xml',
         'security/ir.model.access.csv',
