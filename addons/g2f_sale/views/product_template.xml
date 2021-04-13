@@ -1,10 +1,28 @@
 <odoo>
+    <record id="go2f_uom_product_uom_form_view" model="ir.ui.view" >
+        <field name="name">go2f_uom_product_uom_form</field>
+        <field name="model">uom.uom</field>
+        <field name="priority" eval="1"/>
+        <field name="inherit_id" ref="uom.product_uom_form_view"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='name']" position="before">
+                <field name="unit_for_sale"/>
+            </xpath>
+
+        </field>
+    </record>
+
     <record id="go2f_product_template_supplierinfo_tree_view2" model="ir.ui.view" >
         <field name="name">go2f.supplierinfo.tree</field>
         <field name="model">product.supplierinfo</field>
         <field name="priority" eval="1"/>
         <field name="inherit_id" ref="purchase.product_supplierinfo_tree_view2"/>
         <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="warehouse_id"/>
+            </xpath>
 
             <xpath expr="//field[@name='product_uom']" position="attributes">
                 <attribute name="invisible">1</attribute>
@@ -117,7 +135,7 @@
             </xpath>
 
             <xpath expr="//field[@name='uom_id']" position="replace">
-                <field name="uom_id" options="{'no_open':True, 'no_create_edit':True, 'no_create':True}" attrs="{'required': True }"/>
+                <field name="uom_id" options="{'no_open':True, 'no_create_edit':True, 'no_create':True}" attrs="{'required': True }" domain="[('unit_for_sale', '=', True)]"/>
             </xpath>
 
             <xpath expr="//field[@name='uom_po_id']" position="attributes">

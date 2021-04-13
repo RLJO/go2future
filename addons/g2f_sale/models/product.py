@@ -14,6 +14,20 @@ logging.basicConfig(
 _logger = logging.getLogger(__name__)
 
 
+class UoM(models.Model):
+    _inherit = 'uom.uom'
+
+    unit_for_sale = fields.Boolean(default=False)
+
+
+class ProductSupplierInfo(models.Model):
+    _inherit = 'product.supplierinfo'
+    _description = "Supplier Pricelist"
+
+    warehouse_id = fields.Many2one('stock.warehouse', 'stock.warehouse',
+                                   required=True)
+
+
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
     _check_company_auto = True
