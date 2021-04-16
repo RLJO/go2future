@@ -2,18 +2,17 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl).
 
 {
-    'name': "G2F Api Rest",
+    'name': "G2F Sale",
     'summary': """
-        Go2future App Mobile""",
+        Go2future Sale""",
     'author': "FoxCarlos, Odoo Community Association (OCA)",
-    'website': "http://redti.naltu.com",
-    'category': 'ecommerce',
+    'website': "",
+    'category': 'Sales',
     'license': 'LGPL-3',
     'version': '12.0.1.0.0',
-    'depends': ['website', 'website_sale'],
+    'depends': ['sale_management', 'purchase', 'stock', 'uom'],
     'data': [
-        'views/store.xml',
-        'views/res_partner_views.xml',
+        'views/product_template.xml',
         'security/ir.model.access.csv',
     ],
     'demo': [

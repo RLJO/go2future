@@ -1,0 +1,175 @@
+<odoo>
+    <record id="go2f_uom_product_uom_form_view" model="ir.ui.view" >
+        <field name="name">go2f_uom_product_uom_form</field>
+        <field name="model">uom.uom</field>
+        <field name="priority" eval="1"/>
+        <field name="inherit_id" ref="uom.product_uom_form_view"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='name']" position="before">
+                <field name="unit_for_sale"/>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="go2f_product_template_supplierinfo_tree_view2" model="ir.ui.view" >
+        <field name="name">go2f.supplierinfo.tree</field>
+        <field name="model">product.supplierinfo</field>
+        <field name="priority" eval="1"/>
+        <field name="inherit_id" ref="purchase.product_supplierinfo_tree_view2"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="warehouse_id"/>
+            </xpath>
+
+            <xpath expr="//field[@name='product_uom']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='price']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='delay']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="go2f_view_product_account_purchase_ok_form" model="ir.ui.view">
+        <field name="name">product.template.account.purchase.ok.form.inherit</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="account.product_template_form_view"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//group[@name='bill']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="go2f_product_template_common_form_view" model="ir.ui.view" >
+        <field name="name">go2f.product.template.common.form</field>
+        <field name="model">product.template</field>
+        <field name="priority" eval="1"/>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//page[@name='purchase']" position="attributes">
+                <attribute name="string">Vendors</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="go2f_product_template_only_form_view" model="ir.ui.view" >
+        <field name="name">go2f.product.form</field>
+        <field name="model">product.template</field>
+        <field name="priority" eval="1"/>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='sale_ok']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='purchase_ok']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//div[@name='options']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+
+            <xpath expr="//field[@name='default_code']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='name']" position="after">
+                <br/>
+                <field name="default_code" placeholder="Default Code" attrs="{'readonly': True}"/>
+            </xpath>
+
+            <xpath expr="//field[@name='default_code']" position="attributes">
+                <attribute name="groups">sales_team.group_sale_manager</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='standard_price']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//label[@for='standard_price']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='type']" position="attributes">
+                <attribute name="groups">base.group_system</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='categ_id']" position="attributes">
+                <attribute name="groups">base.group_system</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='barcode']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='taxes_id']" position="replace">
+                <field name="taxes_id" widget="many2many_tags" options="{'no_create': True}" attrs="{'required': True }"/>
+            </xpath>
+
+            <xpath expr="//field[@name='categ_id']" position="before">
+                <field name="brand"/>
+                <field name="contents"/>
+                <field name="barcode" string="EAN 13"/>
+                <field name="country_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,}"/>
+                <field name="useful_life" string="Useful life in days"/>
+            </xpath>
+
+            <xpath expr="//field[@name='taxes_id']" position="after">
+                <field name="internal_tax" widget="float" placeholder="Internal Taxes"/>
+            </xpath>
+
+            <xpath expr="//field[@name='uom_id']" position="replace">
+                <field name="uom_id" options="{'no_open':True, 'no_create_edit':True, 'no_create':True}" attrs="{'required': True }" domain="[('unit_for_sale', '=', True)]"/>
+            </xpath>
+
+            <xpath expr="//field[@name='uom_po_id']" position="attributes">
+                <attribute name="groups">base.group_system</attribute>
+            </xpath>
+
+            <xpath expr="//group[@name='group_standard_price']" position="after">
+                <group string="Datos del Bulto">
+                    <field name="units_per_package"/>
+                    <field name="dun14" attrs="{'required': True}"/>
+                    <field name="width" string="Width (mm)" attrs="{'required': True}"/>
+                    <field name="height" string="Height (mm)" attrs="{'required': True}"/>
+                    <field name="depth" string="Depth (mm)" attrs="{'required': True}"/>
+                    <field name="weight" string="Weight of package (g)" attrs="{'required': True}"/>
+                </group>
+                <group string="Atributos">
+                    <field name="vegan"/>
+                    <field name="organic"/>
+                    <field name="without_tacc"/>
+                    <field name="sugar_free"/>
+                </group>
+            </xpath>
+
+            <xpath expr="//group[4]" position="after">
+                <group string="Optional messages">
+                    <field name="optional_messages" nolabel="1" placeholder="Optional messages"/>
+                </group>
+                <br/>
+                <group string="Description">
+                    <field name="product_description" nolabel="1" placeholder="Description"/>
+                </group>
+            </xpath>
+
+
+        </field>
+    </record>
+</odoo>

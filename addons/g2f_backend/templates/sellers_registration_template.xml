@@ -3,7 +3,7 @@
 
     <template id="sellers_registration_page_template">
         <t t-call="website.layout">
-            <t t-set="title">Registro de Empresas</t>
+            <t t-set="title">Company Registration</t>
             <div class="oe_structure">
                 <div id="wrap">
                     <br/>
@@ -20,12 +20,55 @@
                                 background-size: 25px;}
                             </style>
 
+                            <script>
+                                function myFunction() {
+                                    var checkBox = document.getElementById("is_exclution_iva");
+                                    if (checkBox.checked == true){
+                                        mostrar.style.display = "block";
+                                    } else {
+                                        mostrar.style.display = "none";
+                                    }
+                                }
+
+                                 function isPermanentExclution() {
+                                    var IsPermanet = document.getElementById("is_permanent_exclution");
+                                    if (IsPermanet.checked == true){
+                                        mostrarPermanent.style.display = "none";
+                                    } else {
+                                        mostrarPermanent.style.display = "block";
+                                    }
+                                }
+                            </script>
+
                             <div class="row">
                                 <div class="col-sm-8">
                                     <fieldset>
+                                        <h4>Account data</h4>
+                                        <hr style="border-color:grey;"/>
+
                                         <div class="form-group">
-                                            <label for="name">Nombres*</label>
-                                            <input type="text" class="form-control" name="name" placeholder="Nombre" required="true"/>
+                                            <label for="company">Company name*</label>
+                                            <input type="text" class="form-control" name="company" placeholder="Company Name" required="true"/>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="cuit">Company CUIT*</label>
+                                            <input type="number" class="form-control" maxlength="11" name="cuit" placeholder="CUIT" required="true" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="address">Company address*</label>
+                                            <input type="text" class="form-control" name="address" placeholder="Company Address" required="true"/>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="name">Name*</label>
+                                            <input type="text" class="form-control" name="name" placeholder="Name" required="true"/>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="lastname">Last Name*</label>
+                                            <input type="text" class="form-control" name="lastname" placeholder="Last Name" required="true"/>
                                         </div>
 
                                         <div class="form-group">
@@ -37,14 +80,68 @@
                                             <label for="phone">Teléfono*</label>
                                             <input type="number" class="form-control" id="phone" name="phone" placeholder="Sin el 15, sin guion, ni puntos, ni espacios Ejemplo: 1124322354"/>
                                         </div>
+                                        <br/>
+
+                                        <h4>Datos fiscales</h4>
+                                        <hr style="border-color:grey;"/>
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" id="is_exempt_iva" name="is_exempt_iva"/>
+                                            <label class="custom-control-label" for="is_exempt_iva">¿Is Exempt IVA?*</label>
+                                        </div>
+                                        <br/>
+
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" id="is_exclution_iva" name="is_exclution_iva" onclick="myFunction()"/>
+                                            <label class="custom-control-label" for="is_exclution_iva">¿You have an exclusion or exemption to the VAT tax?*</label>
+                                        </div>
+
+                                        <div id="mostrar" style="display: none;">
+                                            <div class="custom-control custom-switch">
+                                                <input type="checkbox" class="custom-control-input" id="is_permanent_exclution" name="is_permanent_exclution" onclick="isPermanentExclution()" checked="true"/>
+                                                <label class="custom-control-label" for="is_permanent_exclution">¿Is permanent exclusion?</label>
+                                                <br/>
+                                                <br/>
+
+                                                <div class="form-group" id="mostrarPermanent" style="display: none;">
+                                                    <label for="certificate_date_start">Certificate date start</label>
+                                                    <input type="date" class="form-control" id="certificate_date_start" name="certificate_date_start" placeholder="Certificate date start"/>
+
+                                                    <label for="certificate_date_end">Certificate date end</label>
+                                                    <input type="date" class="form-control" id="certificate_date_end" name="certificate_date_end" placeholder="Certificate date end"/>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="certificate_exclution_iva_file">Certificado de exclusion o constancia de excepción en el impuesto al valor agregado para percepciones</label>
+                                                    <input type="file" accept="application/pdf"  class="form-control-file" name="certificate_exclution_iva_file" aria-describedby="fileHelp"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br/>
+
+                                        <h4>Ingresos Brutos</h4>
+                                        <hr style="border-color:grey;"/>
 
                                         <div class="form-group">
-                                            <label for="company">Compania</label>
-                                            <input type="text" class="form-control" name="company" placeholder="Nombre de la Compania" required="true"/>
+                                            <label for="regime_gross_income">¿Which gross income region are you enrolled in?*</label>
+                                            <select class="custom-select" id="regime_gross_income" name="regime_gross_income">
+                                            <option value="LOCAL">Opero en una sola provincia.</option>
+                                            <option value="SIMPLIFICADO">Soy un peque;o contribuyente que realiza actividades en una sola provincia.</option>
+                                            <option value="MULTILATERAL">Opero en mas de una provincia.</option>
+                                            </select>
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="sector_id">Tipo de Sector</label>
+                                            <label for="registration_number_gross_income">Registration number gross income*</label>
+                                            <input type="text" class="form-control" name="registration_number_gross_income" placeholder="Registration number gross income" required="true"/>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="registration_gross_income_file">Registration form file</label>
+                                            <input type="file" accept="application/pdf"  class="form-control-file" name="registration_gross_income_file" aria-describedby="fileHelp" required="true"/>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="sector_id">Sector type</label>
                                             <select class="custom-select" name="sector_id">
                                                 <t t-foreach="sector_list" t-as="sector">
                                                     <option t-att-value="sector.id">
@@ -53,8 +150,6 @@
                                                 </t>
                                             </select>
                                         </div>
-
-                                        <br/>
 
                                         <br/>
                                         <br/>

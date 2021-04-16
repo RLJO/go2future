@@ -2,7 +2,7 @@
 {apirest}
 ==============
 
-ApiRest Go2Future
+Sale Go2Future
 
 Configuration
 =============
@@ -29,11 +29,10 @@ Contributors
 ------------
 
 * Carlos Garcia <foxcarlos@gmail.com>
-* Pablo Manuel Rizzo <info@pablorizzo.com>
 
 Maintainer
 ----------
 
 * Carlos Garcia <foxcarlos@gmail.com>
-* Pablo Manuel Rizzo <info@pablorizzo.com>
+
 

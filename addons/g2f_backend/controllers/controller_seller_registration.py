@@ -5,7 +5,7 @@ class SellerRegistrationController(http.Controller):
 
     @http.route(['/corporate-registration'], type='http', auth='public',
                 website=True, csrf=False, methods=['GET', 'POST'])
-    def dti_person_get(self, **kw):
+    def seller_registration_get(self, **kw):
         data = kw
 
         corporate_registration = http.request.env['corporate.registration']
@@ -26,6 +26,7 @@ class SellerRegistrationController(http.Controller):
             data['sector_id'] = sector_ids
 
             response = corporate_registration.sudo().create_seller(data)
+            response2 = corporate_registration.sudo().create_res_user(data)
 
             if not response[0]:
                 msg1 = """No se pudo registrar el vendedor,

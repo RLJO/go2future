@@ -3,6 +3,7 @@
 from json import dumps
 
 from odoo import http, _
+from odoo.addons.g2f_apirest.controllers.vision_system import VisionSystem
 # from odoo.exceptions import ValidationError, UserError
 
 
@@ -21,6 +22,7 @@ class ResUser(http.Controller):
         longitude = kw.get('longitude')
         fecha = kw.get('dateTime')
 
+        print(qr_code)
         if method == 'POST':
             print('Validar que el usuario exista o este activo')
             if self._validate_user(login):
@@ -87,8 +89,10 @@ class ResUser(http.Controller):
         passw = params.get('password')
         name = params.get('name')
         lastname = params.get('lastname')
-
-        print(login, passw, name, lastname)
+        birthday = params.get('birthday')
+        gender = params.get('gender')
+        phone = params.get('phone')
+        address = params.get('address')
 
         user = http.request.env['res.users']
         if self._validate_user(login):
@@ -97,18 +101,25 @@ class ResUser(http.Controller):
             return dumps(response)
 
         try:
-            user.sudo().create({
+            new_user = user.sudo().create({
                 'login': login,
+                'email': login,
                 'password': passw,
                 'name': name,
                 'lastname': lastname,
             })
             user._cr.commit()
 
-            # Update data inm respartner
-            self._update_res_partner(login)
+            # Update data in respartner
+            data = {'birthday': birthday, 'gender': gender, 'phone': phone,
+                    'street': address}
+            self._update_res_partner(login, data)
 
             response = {'status': '200', 'message': 'ok'}
+
+            # Send data to Vision System
+            # VisionSystem.customer_entry(new_user)
+
         except Exception as error_excp:
             msg = _(error_excp)
             response = {'status': '400', 'message': msg}
@@ -119,10 +130,10 @@ class ResUser(http.Controller):
         user = http.request.env['res.users']
         return user.sudo().search([('login', '=', login)])
 
-    def _update_res_partner(self, login):
+    def _update_res_partner(self, login, data):
         user = self._validate_user(login)
+
         if user:
-            data = {'phone': '11111'}
             user.partner_id.write(data)
             user._cr.commit()
             return True
@@ -168,3 +179,24 @@ class ResUser(http.Controller):
         except Exception as error:
             print(error)
             return False
+
+    @http.route(['/users/ResetPassword'], type='json', auth='public',
+                methods=['POST'],
+                website=True, csrf=False)
+    def reset_password_user(self, **kw):
+        kw = http.request.jsonrequest
+        login = kw.get('login')
+        user = self._validate_user(login)
+
+        if not user:
+            msg = _('User does not exist!')
+            response = {'status': '400', 'messsage': msg}
+            return dumps(response)
+
+        try:
+            user.reset_password(user.login)
+            response = {'status': '200', 'message': 'ok'}
+        except Exception as error_reset_password:
+            response = {'status': '400', 'message': _(error_reset_password)}
+
+        return dumps(response)
