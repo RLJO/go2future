@@ -1,0 +1,54 @@
+<data noupdate="0">
+
+    <record id="group_multi_company_website_admin" model="res.groups">
+        <field name="name">Multi Company Website Admin</field>
+        <!-- <field name="category_id" ref="base.module_category_human_resources_employees"/> -->
+        <field name="comment">The user will be able manage websites associated with the users's companies.</field>
+    </record>
+
+<!--SALE-->
+    <record id="website_sale_product_template_comp_rule" model="ir.rule">
+        <field name="name" >website product template multi-company</field>
+        <field name="model_id" ref="website_sale.model_product_template"/>
+        <field name="global" eval="False"/>
+        <field name="domain_force"> [('website_id.company_id', 'in', company_ids)]</field>
+        <field name="groups" eval="[(4, ref('group_multi_company_website_admin'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record id="website_sale_product_product_comp_rule" model="ir.rule">
+        <field name="name" >website product product multi-company</field>
+        <field name="model_id" ref="website_sale.model_product_product"/>
+        <field name="global" eval="False"/>
+        <field name="domain_force"> [('website_id.company_id', 'in', company_ids)]</field>
+        <field name="groups" eval="[(4, ref('group_multi_company_website_admin'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+<!--
+    <record id="product.product_pricelist_comp_rule" model="ir.rule">
+        <field name="active" eval="False"/>
+    </record>
+    <record id="product.product_pricelist_item_comp_rule" model="ir.rule">
+        <field name="active" eval="False"/>
+    </record>
+    <record id="product_pricelist_comp_rule" model="ir.rule">
+        <field name="name">product pricelist company rule</field>
+        <field name="model_id" ref="product.model_product_pricelist"/>
+        <field name="domain_force">['|', ('id', '=', 2), ('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="product_pricelist_item_comp_rule" model="ir.rule">
+        <field name="name">product pricelist item company rule</field>
+        <field name="model_id" ref="product.model_product_pricelist_item"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+-->
+
+<!--/SALE-->
+</data>
