@@ -10,13 +10,9 @@
     'category': 'sale',
     'license': 'LGPL-3',
     'version': '14.0.1.0.0',
-    'depends': ['contacts', 'website', 'website_sale', 'odoo_marketplace'],
+    'depends': ['contacts', 'website', 'odoo_marketplace'],
     'data': [
         'security/ir.model.access.csv',
-        'templates/sellers_registration_template.xml',
-        'templates/message_ok_template.xml',
-        'templates/warning_template.xml',
-        'views/sellers_registration_view.xml',
         'views/seller_view.xml'
     ],
     'demo': [
