@@ -98,7 +98,7 @@ class ProductTemplate(models.Model):
         self.product_label = label
 
     def _get_uom_price(self, uom, price):
-	uom_price = 0
+        uom_price = 0
         ref_unid = self.env['uom.uom'].search([('category_id', '=', uom.category_id.id),
                                                ('uom_type', '=', 'reference')])
         if uom.uom_type == 'bigger':
