@@ -83,6 +83,7 @@ class ProductTemplate(models.Model):
 
     @api.depends('list_price', 'desc_tag', 'uom_id')
     def _get_label(self):
+        uom_price = 0
         if self.list_price == 0:
             raise UserError(_('The Sale Price must be greater than zero (0)'))
         if self.uom_id.name == 'Unidades':
