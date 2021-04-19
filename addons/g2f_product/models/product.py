@@ -83,7 +83,7 @@ class ProductTemplate(models.Model):
 
     @api.depends('list_price', 'desc_tag', 'uom_id')
     def _get_label(self):
-        uom_price = 0
+        uom_price = ''
         if self.list_price == 0:
             raise UserError(_('The Sale Price must be greater than zero (0)'))
         if self.uom_id.name == 'Unidades':
@@ -102,10 +102,10 @@ class ProductTemplate(models.Model):
         ref_unid = self.env['uom.uom'].search([('category_id', '=', uom.category_id.id),
                                                ('uom_type', '=', 'reference')])
         uom_price = 0
-        # if uom.uom_type == 'bigger':
-        #     uom_price = uom.factor_inv / price
-        # elif uom.uom_type == 'smaller':
-        #     uom_price = uom.factor_inv * price
+        if uom.uom_type == 'bigger':
+            uom_price = uom.factor_inv / price
+        elif uom.uom_type == 'smaller':
+            uom_price = uom.factor_inv * price
         return ref_unid.name + ' ' + str(uom_price)
 
 
