@@ -106,7 +106,7 @@ class ProductTemplate(models.Model):
             uom_price = uom.factor_inv / price
         elif uom.uom_type == 'smaller':
             uom_price = uom.factor_inv * price
-        return ref_unid.name + ' ' + str(uom_price)
+        # return ref_unid.name + ' ' + str(uom_price)
 
 
 class ProductSector(models.Model):
