@@ -99,14 +99,14 @@ class ProductTemplate(models.Model):
         self.product_label = label
 
     def _get_uom_price(self, uom, price):
-        uom_price = 0
         ref_unid = self.env['uom.uom'].search([('category_id', '=', uom.category_id.id),
                                                ('uom_type', '=', 'reference')])
-        if uom.uom_type == 'bigger':
-            uom_price = uom.factor_inv / price
-        elif uom.uom_type == 'smaller':
-            uom_price = uom.factor_inv * price
-        # return ref_unid.name + ' ' + str(uom_price)
+        uom_price = 0
+        # if uom.uom_type == 'bigger':
+        #     uom_price = uom.factor_inv / price
+        # elif uom.uom_type == 'smaller':
+        #     uom_price = uom.factor_inv * price
+        return ref_unid.name + ' ' + str(uom_price)
 
 
 class ProductSector(models.Model):
