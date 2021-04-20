@@ -98,7 +98,7 @@ class ProductTemplate(models.Model):
         label += str(self.contents) + ' ' if self.contents else ''
         label += self.uom_id.name + '\n'
         label += 'Precio por cada ' + uom_price + '\n'
-        label += self.barcode
+        label += self.barcode or ''
         self.product_label = label
 
     def _get_uom_price(self):
