@@ -25,7 +25,7 @@ class ProductTemplate(models.Model):
     aptitud = fields.Integer('Lifetime fitness percentage', required=True, default=70)
     desc_tag = fields.Char('TAG short description', required=True)
     atributos_ids = fields.Many2many('product.atributos', 'product_atributos_rel', 'prod_id', 'atributos_id', string='Attributes')
-    product_label = fields.Text('Product Label', compute='_get_label')
+    product_label = fields.Text('Product Label')
 
     @api.depends('peso_bruto', 'cant_frente', 'cant_fondo', 'cant_altura')
     def _get_peso_estante(self):
