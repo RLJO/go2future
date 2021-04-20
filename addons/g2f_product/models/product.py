@@ -109,7 +109,7 @@ class ProductTemplate(models.Model):
             uom_price = self.uom_id.factor_inv / self.list_price
         elif self.uom_id.uom_type == 'smaller':
             uom_price = self.uom_id.factor_inv * self.list_price / self.contents or 1
-        return ref_unid.name + ' ' + str(uom_price) or ''
+        return ref_unid.name or '' + ' ' + str(uom_price) or ''
 
 
 class ProductSector(models.Model):
