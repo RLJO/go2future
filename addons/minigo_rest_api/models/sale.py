@@ -56,7 +56,7 @@ class SaleOrder(models.Model):
                 "items": items
             }
 
-            url = "http://127.0.0.1:4000/orders"
+            url = self.env.user.api_path  # "http://127.0.0.1:4000/orders"
             # token = company_id.api_token
             payload = json.dumps(data)
             headers = {
@@ -94,6 +94,9 @@ class SaleAdvancePaymentInv(models.TransientModel):
                 'ei_xml_file': vals['ei_xml_file'],
                 'ei_pdf': vals['ei_pdf']
             })
+            # with open("/home/boris/Descargas/frame.png", "rb") as f:
+            #     encodedZip = base64.b64encode(f.read())
+            #     print(encodedZip.decode())
 
             # if res: order_id.write({'invoice_status': 'invoiced'})
         return res
