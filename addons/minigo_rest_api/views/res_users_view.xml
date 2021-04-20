@@ -6,6 +6,8 @@
           <field name="inherit_id" ref="base.view_users_form_simple_modif"/>
           <field name="arch" type="xml">
               <button name="api_key_wizard" position="before">
+                  <br/>
+                  <label for="api_path"/>
                   <field name="api_path"/>
               </button>
           </field>
