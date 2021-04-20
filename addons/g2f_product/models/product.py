@@ -25,7 +25,7 @@ class ProductTemplate(models.Model):
     aptitud = fields.Integer('Lifetime fitness percentage', required=True, default=70)
     desc_tag = fields.Char('TAG short description', required=True)
     atributos_ids = fields.Many2many('product.atributos', 'product_atributos_rel', 'prod_id', 'atributos_id', string='Attributes')
-    product_label = fields.Text('Product Label')
+    product_label = fields.Text('Product Label', compute='_get_label')
 
     @api.depends('peso_bruto', 'cant_frente', 'cant_fondo', 'cant_altura')
     def _get_peso_estante(self):
@@ -84,18 +84,18 @@ class ProductTemplate(models.Model):
     @api.depends('list_price', 'desc_tag', 'uom_id')
     def _get_label(self):
         uom_price = ''
-        if self.list_price == 0:
-            raise UserError(_('The Sale Price must be greater than zero (0)'))
-        if self.uom_id.name == 'Unidades':
-            uom_price = 'Und ' + str(self.list_price)
-        else:
-            uom_price = self._get_uom_price(self.uom_id, self.list_price)
+        # if self.list_price == 0:
+        #     raise UserError(_('The Sale Price must be greater than zero (0)'))
+        # if self.uom_id.name == 'Unidades':
+        #     uom_price = 'Und ' + str(self.list_price)
+        # else:
+        #     uom_price = self._get_uom_price(self.uom_id, self.list_price)
 
         label = str(self.env.user.company_id.currency_id.symbol)
-        label += str(self.list_price) + '\n'
-        label += str(self.desc_tag) + '\n'
-        label += str(self.uom_id.name) + '\n'
-        label += 'Precio por cada ' + uom_price
+        # label += str(self.list_price) + '\n'
+        # label += str(self.desc_tag) + '\n'
+        # label += str(self.uom_id.name) + '\n'
+        # label += 'Precio por cada ' + uom_price
         self.product_label = label
 
     def _get_uom_price(self, uom, price):
