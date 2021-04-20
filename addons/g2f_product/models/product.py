@@ -86,7 +86,7 @@ class ProductTemplate(models.Model):
         uom_price = ''
         if self.list_price == 0:
             raise UserError(_('The Sale Price must be greater than zero (0)'))
-        if ('Unidades', 'Units') in self.uom_id.name:
+        if self.uom_id.name == 'Unidades' or self.uom_id.name == 'Units':
             uom_price = 'Und ' + str(self.list_price)
         else:
             uom_price = self._get_uom_price()
