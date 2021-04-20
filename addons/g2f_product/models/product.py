@@ -89,7 +89,7 @@ class ProductTemplate(models.Model):
         if self.uom_id.name == 'Unidades':
             uom_price = 'Und ' + str(self.list_price)
         else:
-            uom_price = self._get_uom_price(self.uom_id, self.list_price)
+            uom_price = self._get_uom_price()
 
         label = str(self.env.user.company_id.currency_id.symbol)
         label += str(self.list_price) + '\n'
@@ -99,14 +99,14 @@ class ProductTemplate(models.Model):
         label += self.barcode
         self.product_label = label
 
-    def _get_uom_price(self, uom, price):
-        ref_unid = self.env['uom.uom'].search([('category_id', '=', uom.category_id.id),
+    def _get_uom_price(self):
+        ref_unid = self.env['uom.uom'].search([('category_id', '=', self.uom_id.category_id.id),
                                                ('uom_type', '=', 'reference')])
         uom_price = 0
-        if uom.uom_type == 'bigger':
-            uom_price = uom.factor_inv / price
-        elif uom.uom_type == 'smaller':
-            uom_price = uom.factor_inv * price
+        if self.uom_id.uom_type == 'bigger':
+            uom_price = self.uom_id.factor_inv / self.list_price
+        elif self.uom_id.uom_type == 'smaller':
+            uom_price = self.uom_id.factor_inv * self.list_price / self.contents
         return ref_unid.name + ' ' + str(uom_price)
 
 
