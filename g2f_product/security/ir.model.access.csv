@@ -1,6 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_product_sector,product.sector,model_product_sector,base.group_user,1,1,1,1
-access_product_familia,product.familia,model_product_familia,base.group_user,1,1,1,1
-access_product_subfamilia,product.subfamilia,model_product_subfamilia,base.group_user,1,1,1,1
-access_product_categoria,product.categoria,model_product_categoria,base.group_user,1,1,1,1
-access_product_atributos,product.atributos,model_product_atributos,base.group_user,1,1,1,1
