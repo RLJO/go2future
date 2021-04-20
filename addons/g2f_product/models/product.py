@@ -94,8 +94,9 @@ class ProductTemplate(models.Model):
         label = str(self.env.user.company_id.currency_id.symbol)
         label += str(self.list_price) + '\n'
         label += str(self.desc_tag) + '\n'
-        label += str(self.uom_id.name) + '\n'
-        label += 'Precio por cada ' + uom_price
+        label += self.brand + ' ' + str(self.contents) + self.uom_id.name + '\n'
+        label += 'Precio por cada ' + uom_price + '\n'
+        label += self.barcode
         self.product_label = label
 
     def _get_uom_price(self, uom, price):
