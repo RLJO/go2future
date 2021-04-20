@@ -94,7 +94,9 @@ class ProductTemplate(models.Model):
         label = str(self.env.user.company_id.currency_id.symbol)
         label += str(self.list_price) + '\n'
         label += str(self.desc_tag) + '\n'
-        label += self.brand + ' ' + str(self.contents) + ' ' + self.uom_id.name + '\n'
+        label += self.brand + ' ' if self.brand else ''
+        label += str(self.contents) + ' ' if self.contents else ''
+        label += self.uom_id.name + '\n'
         label += 'Precio por cada ' + uom_price + '\n'
         label += self.barcode
         self.product_label = label
@@ -106,7 +108,7 @@ class ProductTemplate(models.Model):
         if self.uom_id.uom_type == 'bigger':
             uom_price = self.uom_id.factor_inv / self.list_price
         elif self.uom_id.uom_type == 'smaller':
-            uom_price = self.uom_id.factor_inv * self.list_price / self.contents
+            uom_price = self.uom_id.factor_inv * self.list_price / self.contents or 1
         return ref_unid.name + ' ' + str(uom_price)
 
 
