@@ -86,7 +86,7 @@ class ProductTemplate(models.Model):
         uom_price = ''
         if self.list_price == 0:
             raise UserError(_('The Sale Price must be greater than zero (0)'))
-        if self.uom_id.name == 'Unidades':
+        if ('Unidades', 'Units') in self.uom_id.name:
             uom_price = 'Und ' + str(self.list_price)
         else:
             uom_price = self._get_uom_price()
@@ -94,7 +94,7 @@ class ProductTemplate(models.Model):
         label = str(self.env.user.company_id.currency_id.symbol)
         label += str(self.list_price) + '\n'
         label += str(self.desc_tag) + '\n'
-        label += self.brand + ' ' + str(self.contents) + self.uom_id.name + '\n'
+        label += self.brand + ' ' + str(self.contents) + ' ' + self.uom_id.name + '\n'
         label += 'Precio por cada ' + uom_price + '\n'
         label += self.barcode
         self.product_label = label
