@@ -25,6 +25,7 @@ class ProductTemplate(models.Model):
     aptitud = fields.Integer('Lifetime fitness percentage', required=True, default=70)
     desc_tag = fields.Char('TAG short description', required=True)
     atributos_ids = fields.Many2many('product.atributos', 'product_atributos_rel', 'prod_id', 'atributos_id', string='Attributes')
+    product_label = fields.Text('Product Label', compute='_get_label')
 
     @api.depends('peso_bruto', 'cant_frente', 'cant_fondo', 'cant_altura')
     def _get_peso_estante(self):
@@ -79,6 +80,36 @@ class ProductTemplate(models.Model):
             raise UserError(_('The field (Number of units per height: %s) must be greater than zero',
                               vals['cant_altura']))
         return super(ProductTemplate, self).write(vals)
+
+    @api.depends('list_price', 'desc_tag', 'uom_id', 'brand', 'barcode')
+    def _get_label(self):
+        uom_price = ''
+        if self.list_price == 0:
+            raise UserError(_('The Sale Price must be greater than zero (0)'))
+        if self.uom_id.name == 'Unidades' or self.uom_id.name == 'Units':
+            uom_price = 'Und ' + str(self.list_price)
+        else:
+            uom_price = self._get_uom_price()
+
+        label = str(self.env.user.company_id.currency_id.symbol)
+        label += str(self.list_price) + '\n'
+        label += str(self.desc_tag) + '\n'
+        label += self.brand + ' ' if self.brand else ''
+        label += str(self.contents) + ' ' if self.contents else ''
+        label += self.uom_id.name + '\n'
+        label += 'Precio por cada ' + uom_price + '\n'
+        label += self.barcode or ''
+        self.product_label = label
+
+    def _get_uom_price(self):
+        ref_unid = self.env['uom.uom'].search([('category_id', '=', self.uom_id.category_id.id),
+                                               ('uom_type', '=', 'reference')])
+        uom_price = 0
+        if self.uom_id.uom_type == 'bigger':
+            uom_price = self.uom_id.factor_inv / self.list_price
+        elif self.uom_id.uom_type == 'smaller':
+            uom_price = self.uom_id.factor_inv * self.list_price / self.contents or 1
+        return ref_unid.name or '' + ' ' + str(uom_price) or ''
 
 
 class ProductSector(models.Model):

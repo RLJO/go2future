@@ -1,0 +1,106 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+    <record id="sale_order_inherit_from" model="ir.ui.view">
+        <field name="name">sale.order.form.inherit.sale</field>
+        <field name="model">sale.order</field>
+        <field name="priority">100</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//notebook/page[@name='other_information']//group[@name='sale_shipping']" position='replace'>
+                    <group name="sale_shipping" string="Delivery">
+                        <field name="incoterm" widget="selection" groups="sale_stock.group_display_incoterm"/>
+                        <field name="picking_policy" required="True"/>
+                        <label for="commitment_date" string="Delivery Date"/>
+                        <div class="o_row">
+                            <field name="commitment_date"/>
+                            <span class="text-muted" attrs="{'invisible': [('effective_date', '!=', False), ('commitment_date', '!=', False)]}">
+                                Expected:
+                                <field name="show_json_popover" invisible="1"/>
+                                <field string=" " name="json_popover" widget="stock_rescheduling_popover" attrs="{'invisible': [('show_json_popover', '=', False)]}"/>
+                                <field name="expected_date" widget="date"/>
+                            </span>
+                        </div>
+                        <field name="effective_date" attrs="{'invisible': [('effective_date', '=', False)]}"/>
+                    </group>
+                </xpath>
+                <xpath expr="//field[@name='payment_term_id']" position='after'>
+                    <field name="warehouse_id" options="{'no_create': True}" groups="stock.group_stock_multi_warehouses" force_save="1" required="True"/>
+                </xpath>
+                <xpath expr="//notebook/page[@name='order_lines']/field/tree/field[@name='name']" position='after'>
+                    <field name="seller" string="Vendor"/>
+                </xpath>
+                <xpath expr="//notebook" position="inside">
+                    <page name="marketplace_vendor" string="Marketplace Vendor %">
+                        <group>
+                            <field name="marketplace_vendor_line" widget="one2many" nolabel="1" readonly="1"
+                                   force_save="1">
+                                <tree>
+                                    <field name="name" readonly="1"
+                                   force_save="1"/>
+                                    <field name="product_id" readonly="1"
+                                   force_save="1"/>
+                                    <field name="sale_percentage" readonly="1"
+                                   force_save="1"/>
+                                    <field name="amount_sale_percentage" readonly="1"
+                                   force_save="1"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
+                            <field name="amount_marketplace_vendor" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            <field name="amount_marketplace" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                <label for="amount_total"/>
+                            </div>
+                            <field name="amount_total" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                        </group>
+                    </page>
+                </xpath>
+            </data>
+        </field>
+    </record>
+
+     <record id="view_marketplace_vendor_form" model="ir.ui.view">
+        <field name="name">marketplace.vendor.form</field>
+        <field name="model">marketplace.vendor</field>
+        <field name="arch" type="xml">
+            <form string="Marketplace Vendor">
+                <sheet>
+                    <group>
+                        <field name="sale_order" invisible="1"/>
+                        <field name="sale_order_line" invisible="1"/>
+                        <field name="name"/>
+                        <field name="product_id"/>
+                        <field name="sale_percentage"/>
+                        <field name="amount_sale_percentage"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_marketplace_vendor_form" model="ir.actions.act_window">
+            <field name="name">marketplace.vendor</field>
+            <field name="res_model">marketplace.vendor</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_marketplace_vendor_form"/>
+    </record>
+
+        <record id="view_move_form_custom" model="ir.ui.view">
+            <field name="name">account.move.form.custom</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//page//field[@name='partner_bank_id']" position='after'>
+                        <field name="warehouse_id"/>
+                        <field name="seller_id"/>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+    </data>
+</odoo>

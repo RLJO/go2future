@@ -1,0 +1,16 @@
+<odoo>
+  <data>
+    <record id="g2f_view_users_form_simple_modif" model="ir.ui.view">
+        <field name="name">g2f.res.users.preferences.form</field>
+        <field name="model">res.users</field>
+          <field name="inherit_id" ref="base.view_users_form_simple_modif"/>
+          <field name="arch" type="xml">
+              <button name="api_key_wizard" position="before">
+                  <br/>
+                  <label for="api_path"/>
+                  <field name="api_path"/>
+              </button>
+          </field>
+      </record>
+  </data>
+</odoo>

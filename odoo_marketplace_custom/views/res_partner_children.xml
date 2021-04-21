@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="res_partner_children_kanban" model="ir.ui.view">
+        <field name="name">res.partner.children.kanban</field>
+        <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <kanban create="false">
+                    <field name="id"/>
+                    <field name="name"/>
+                    <field name="warehouse_ids"/>
+                    <field name="journal_id"/>
+                    <field name="image_128"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click">
+                                <div class="o_kanban_image">
+                                    <img alt="Child Image" t-if="record.image_128.raw_value" t-att-src="kanban_image('res.partner', 'image_128', record.id.raw_value)"/>
+                                    <t t-if="!record.image_128.raw_value">
+                                        <img alt="Avatar" t-att-src="_s + &quot;/base/static/img/avatar_grey.png&quot;"/>
+                                    </t>
+                                </div>
+                                <div class="oe_kanban_details">
+                                    <field name="name"/>
+                                    <div>Bank: <t t-esc="record.journal_id.value"/></div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+    </record>
+
+</odoo>
