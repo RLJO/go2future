@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data noupdate="1">
+
+        <record model="marketplace.dashboard" id="children_marketplace">
+            <field name="name">Marketplace Children</field>
+            <field name="state">children</field>
+            <field name="color">2</field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="partner_view_marketplace_custom">
+            <field name="name">partner.view.marketplace.custom</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="odoo_marketplace.wk_seller_form_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='title']" position="after">
+                    <field name="has_children"/>
+                </xpath>
+                <xpath expr="//notebook" position="inside">
+                    <page string="Prisma">
+                        <group>
+                            <field name="warehouse_ids" attrs="{'required': [('has_children', '=', False), ('state', 'in', ['approved'])]}"/>
+                            <field name="journal_id" attrs="{'required': [('has_children', '=', False), ('state', 'in', ['approved'])]}"/>
+                        </group>
+                    </page>
+                    <page string="Childrens" attrs="{'invisible': [('has_children', '=', False)]}">
+                        <field name="res_partner_children" widget="one2many">
+                            <kanban>
+                                <field name="id"/>
+                                <field name="name"/>
+                                <field name="warehouse_id"/>
+                                <field name="journal_id"/>
+                                <field name="image_128"/>
+                                <templates>
+                                    <t t-name="kanban-box">
+                                        <div class="oe_kanban_global_click">
+                                            <div class="o_kanban_image">
+                                                <img alt="Child Image" t-if="record.image_128.raw_value" t-att-src="kanban_image('res.partner', 'image_128', record.id.raw_value)"/>
+                                                <t t-if="!record.image_128.raw_value">
+                                                    <img alt="Avatar" t-att-src="_s + &quot;/base/static/img/avatar_grey.png&quot;"/>
+                                                </t>
+                                            </div>
+                                            <div class="oe_kanban_details">
+                                                <field name="name"/>
+                                                <div>Bank: <t t-esc="record.journal_id.value"/></div>
+                                            </div>
+                                        </div>
+                                    </t>
+                                </templates>
+                            </kanban>
+                            <form name="reports_lines_form" string="Reports lines form">
+                                <sheet>
+                                    <field name="children_parent_id" invisible="1"/>
+                                    <field name="company_id" invisible="1"/>
+                                    <group col="12">
+                                        <group colspan="5">
+                                            <field name="name" required="1"/>
+                                            <label for="street" string="Address"/>
+                                            <div class="o_address_format" name="div_address">
+                                                <field name="street" placeholder="Street..." class="o_address_street"/>
+                                                <field name="street2" placeholder="Street 2..." class="o_address_street"/>
+                                                <!--field name="city" placeholder="City" class="o_address_city"/-->
+                                                <field name="state_id" class="o_address_state" placeholder="State" options="{'no_open': True, 'no_quick_create': True}" context="{'country_id': country_id, 'default_country_id': country_id, 'zip': zip}"/>
+                                                <field name="zip" placeholder="ZIP" class="o_address_zip"/>
+                                                <field name="country_id" placeholder="Country" class="o_address_country" options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"/>
+                                            </div>
+                                            <label for="vat" string="Identification Number"/>
+                                            <div>
+                                                <field name="l10n_latam_identification_type_id" options="{'no_open': True, 'no_create': True}" placeholder="Type" class="oe_inline" domain="country_id and ['|', ('country_id', '=', False), ('country_id', '=', country_id)] or []" required="True"/>
+                                                <span class="oe_read_only"> - </span>
+                                                <field name="vat" placeholder="Number" class="oe_inline"/>
+                                            </div>
+                                        </group>
+                                        <group colspan="5">
+                                            <field name="phone" widget="phone"/>
+                                            <field name="mobile" widget="phone"/>
+                                            <field name="website" widget="url" placeholder="e.g. https://www.odoo.com"/>
+
+                                            <field name="journal_id" required="1"/>
+                                        </group>
+                                        <group colspan="1">
+                                            <field name="image_1920" widget="image" class="oe_avatar" nolabel="1" options="{'image_preview': 'image_128'}"/>
+                                        </group>
+                                    </group>
+                                    <group>
+                                        <field name="warehouse_ids" required="1"/>
+                                    </group>
+                                </sheet>
+                            </form>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="inherit_wk_seller_custom" model="ir.ui.view">
+        <field name="name">marketplace.dashboard.inherit</field>
+        <field name="model">marketplace.dashboard</field>
+        <field name="inherit_id" ref="odoo_marketplace.wk_seller_product_template_kanban"/>
+        <field name="arch" type="xml">
+            <xpath expr='//field[@name="count_product_approved"]' position="after">
+                <field name="count_partner_children"/>
+            </xpath>
+            <xpath expr='//div[hasclass("container","o_kanban_card_content")]//div[hasclass("col-6","o_kanban_primary_left")]' position="inside">
+                <div t-if="record.state.raw_value == 'children'" style="color:rgb(162, 70, 137)">
+                    <center>
+                        <i class="fa fa-users fa-5x"/>
+                        <h3>Children</h3>
+                    </center>
+                </div>
+            </xpath>
+            <xpath expr='//div[hasclass("container","o_kanban_card_content")]//div[hasclass("col-6","o_kanban_primary_right")]' position="inside">
+                <div t-if="record.state.raw_value == 'children'">
+                    <a class="wk_kanban_button_box text-white" name="action_res_partner_children" type="object" style="background-color:#f0ad4e">
+                        <span class="oe_value"><t t-esc="record.count_partner_children.raw_value"/></span>
+                        <span class="o_label">Children</span>
+                    </a>
+                </div>
+            </xpath>
+        </field>
+        </record>
+
+    </data>
+</odoo>
