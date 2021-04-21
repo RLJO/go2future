@@ -84,3 +84,33 @@ class ResPartner(models.Model):
                                         'warehouse_id': product_owner_warehouse['warehouse_id'],
                                     })
 
+    def change_seller_group(self, set_to_group=None):
+        """ param: set_to_group should be string, value must be 'not_seller' or 'seller' only. """
+
+        if not set_to_group:
+            return
+        login_user_obj = self.env.user
+        if not login_user_obj.has_group('odoo_marketplace.marketplace_officer_group'):
+            _logger.info(_("~~~~~~~~~~You are not an autorized user to change seller account access. Please contact your administrator. "))
+            raise UserError(_("You are not an autorized user to change seller account access. Please contact your administrator. "))
+        for seller in self.filtered(lambda o: o.seller == True):
+            seller_user = self.env["res.users"].sudo().search([('partner_id', '=', seller.id)])
+            pending_seller_group_obj = self.env.ref('odoo_marketplace.marketplace_draft_seller_group')
+            seller_group_obj = self.env.ref('odoo_marketplace.marketplace_seller_group')
+            if set_to_group == "seller":
+                #First check seller user realy belongs to draft seller group(marketplace_draft_seller_group) or not
+                if seller_user.has_group("odoo_marketplace.marketplace_draft_seller_group"):
+                    # Remove seller user from draft seller group(marketplace_draft_seller_group)
+                    pending_seller_group_obj.sudo().write({"users": [(3, seller_user.id, 0)]})
+                    # Add seller user to seller group(marketplace_seller_group)
+                    seller_group_obj.sudo().write({"users": [(4, seller_user.id, 0)]})
+                else:
+                    _logger.info(_("~~~~~~~~~~Seller does not belongs to draft seller group. So you can't change seller group to seller group."))
+            elif set_to_group == "not_seller":
+                #First check seller user realy belongs to seller group(marketplace_seller_group) or not
+                if seller_user:
+                    if seller_user.has_group("odoo_marketplace.marketplace_seller_group"):
+                        # Remove seller user from seller group(marketplace_seller_group)
+                        seller_group_obj.write({"users": [(3, seller_user.id, 0)]})
+                        # Add seller user to draft seller group(marketplace_draft_seller_group)
+                        pending_seller_group_obj.write({"users": [(4, seller_user.id, 0)]})
