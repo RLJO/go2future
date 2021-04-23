@@ -16,16 +16,16 @@
                             <field name="categoria" options="{'no_create': True, 'no_open': True}"/>
                           </group>
                           <group string="Product dates">
-                            <field name="alto"/>
-                            <field name="ancho"/>
-                            <field name="profundidad"/>
-                            <field name="peso_bruto"/>
+                            <field name="alto" required="1"/>
+                            <field name="ancho" required="1"/>
+                            <field name="profundidad" required="1"/>
+                            <field name="peso_bruto" required="1"/>
                           </group>
                           <group string="Location">
                             <field name="layout"/>
-                            <field name="cant_frente"/>
-                            <field name="cant_fondo"/>
-                            <field name="cant_altura"/>
+                            <field name="cant_frente" required="1"/>
+                            <field name="cant_fondo" required="1"/>
+                            <field name="cant_altura" required="1"/>
                           </group>
                           <group string="Logistics">
                             <field name="gondola"/>
