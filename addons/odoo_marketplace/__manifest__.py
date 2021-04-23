@@ -42,7 +42,6 @@
                              'website_sale',
                              'stock_account',
                              'delivery',
-                             'g2f_product',
                             ],
   "data"                 :  [
                              'security/marketplace_security.xml',
