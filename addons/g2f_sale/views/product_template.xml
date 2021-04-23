@@ -125,7 +125,7 @@
             <xpath expr="//field[@name='categ_id']" position="before">
                 <field name="brand"/>
                 <field name="contents"/>
-                <field name="barcode" string="EAN 13"/>
+                <field name="barcode" string="EAN 13" required="1"/>
                 <field name="country_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,}"/>
                 <field name="useful_life" string="Useful life in days"/>
             </xpath>
@@ -169,7 +169,7 @@
                 </group>
             </xpath>
 
-
         </field>
     </record>
+
 </odoo>

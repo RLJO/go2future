@@ -43,7 +43,7 @@
                           </group>
                         </group>
                     </page>
-                    <page name="nutrition_facts" string="Nutrition Facts" groups="sales_team.group_sale_manager">
+                    <page name="nutrition_facts" string="Nutrition Facts" groups="base.group_user">
                         <group>
                             <field name="atributos_ids" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}"/>
                         </group>
