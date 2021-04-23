@@ -1,0 +1,57 @@
+<odoo>
+            <!--MARKETPLACE-UPDATE-->
+
+    <record id="go2f_product_marketplace_form_view" model="ir.ui.view" >
+        <field name="name">go2f.product.marketplace.form.inh</field>
+        <field name="model">product.template</field>
+        <field name="priority" eval="1"/>
+        <field name="inherit_id" ref="odoo_marketplace.wk_seller_product_template_form_view"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//notebook" position="inside">
+                <page name="catman" string="CatMan" groups="sales_team.group_sale_manager">
+                    <group>
+                      <group string="Marketing structure">
+                        <field name="sector" options="{'no_create': True, 'no_open': True}"/>
+                        <field name="familia" options="{'no_create': True, 'no_open': True}"/>
+                        <field name="subfamilia" options="{'no_create': True, 'no_open': True}"/>
+                        <field name="categoria" options="{'no_create': True, 'no_open': True}"/>
+                      </group>
+                      <group string="Product dates">
+                        <field name="alto"/>
+                        <field name="ancho"/>
+                        <field name="profundidad"/>
+                        <field name="peso_bruto"/>
+                      </group>
+                      <group string="Location">
+                        <field name="layout"/>
+                        <field name="cant_frente"/>
+                        <field name="cant_fondo"/>
+                        <field name="cant_altura"/>
+                      </group>
+                      <group string="Logistics">
+                        <field name="gondola"/>
+                        <label for="peso_estante"/>
+                        <div class="o_row" name="peso_estante">
+                          <field name="peso_estante"/>
+                          <span>g</span>
+                        </div>
+                        <label for="aptitud"/>
+                        <div class="o_row" name="aptitud">
+                          <field name="aptitud"/>
+                          <span>%</span>
+                        </div>
+                        <field name="desc_tag"/>
+                      </group>
+                    </group>
+                </page>
+                <page name="nutrition_facts" string="Nutrition Facts" groups="sales_team.group_sale_manager">
+                    <group>
+                        <field name="atributos_ids" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}"/>
+                    </group>
+                </page>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "g2f_product",
+    'name': "G2F Product",
 
     'summary': """
-        Short (1 phrase/line) summary of the module's purpose, used as
-        subtitle on modules listing or apps.openerp.com""",
+        Add catman and nutrition facts pages to product """,
 
     'description': """
-        Long description of module's purpose
+        Add catman and nutrition facts pages to product
     """,
 
-    'author': "My Company",
-    'website': "http://www.yourcompany.com",
+    'author': "Go 2 Future",
+    'website': "go2future.com.ar",
+    'contributors': ["Boris Silva <silvaboris@gmail.com>"],
 
     # Categories can be used to filter modules in modules listing
     # Check https://github.com/odoo/odoo/blob/13.0/odoo/addons/base/data/ir_module_category_data.xml
@@ -26,10 +26,7 @@
     'data': [
         'security/ir.model.access.csv',
         'views/product_view.xml',
-        # 'views/templates.xml',
+        'views/product_marketplace.xml',
     ],
-    # only loaded in demonstration mode
-    # 'demo': [
-    #     'demo/demo.xml',
-    # ],
+
 }
