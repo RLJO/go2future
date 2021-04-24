@@ -63,7 +63,7 @@
                 <field name="contents"/>
                 <field name="barcode" string="EAN 13" required="1"/>
                 <field name="country_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,}"/>
-                <field name="useful_life" string="Useful life in days"/>
+                <field name="useful_life" string="Vida útil en días"/>
                 <field name="uom_id" options="{'no_open':True, 'no_create_edit':True, 'no_create':True}" attrs="{'required': True }" domain="[('unit_for_sale', '=', True)]"/>
             </xpath>
 
@@ -80,10 +80,10 @@
                     <group string="Datos del Bulto">
                         <field name="units_per_package"/>
                         <field name="dun14" attrs="{'required': True}"/>
-                        <field name="width" string="Width (mm)" attrs="{'required': True}"/>
-                        <field name="height" string="Height (mm)" attrs="{'required': True}"/>
-                        <field name="depth" string="Depth (mm)" attrs="{'required': True}"/>
-                        <field name="weight" string="Weight of package (g)" attrs="{'required': True}"/>
+                        <field name="width" string="Ancho (mm)" attrs="{'required': True}"/>
+                        <field name="height" string="Altura (mm)" attrs="{'required': True}"/>
+                        <field name="depth" string="Profundidad (mm)" attrs="{'required': True}"/>
+                        <field name="weight" string="Peso del bulto (g)" attrs="{'required': True}"/>
                     </group>
                     <group string="Atributos">
                         <field name="vegan"/>
@@ -92,12 +92,12 @@
                         <field name="sugar_free"/>
                     </group>
                 </group>
-                <group string="Optional messages">
-                    <field name="optional_messages" nolabel="1" placeholder="Optional messages"/>
+                <group string="Mensajes opcionales">
+                    <field name="optional_messages" nolabel="1" placeholder="Mensajes opcionales para el cliente"/>
                 </group>
                 <br/>
-                <group string="Description">
-                    <field name="product_description" nolabel="1" placeholder="Description"/>
+                <group string="Descripción">
+                    <field name="product_description" nolabel="1" placeholder="Descripción del producto"/>
                 </group>
             </xpath>
 
