@@ -9,27 +9,27 @@
         <field name="arch" type="xml">
 
             <xpath expr="//notebook" position="inside">
-                <page name="catman" string="CatMan" groups="sales_team.group_sale_manager">
+                <page name="catman" string="CatMan" groups="odoo_marketplace.marketplace_manager_group">
                     <group>
-                      <group string="Marketing structure">
+                      <group string="Estructura mercadologica">
                         <field name="sector" options="{'no_create': True, 'no_open': True}"/>
                         <field name="familia" options="{'no_create': True, 'no_open': True}"/>
                         <field name="subfamilia" options="{'no_create': True, 'no_open': True}"/>
                         <field name="categoria" options="{'no_create': True, 'no_open': True}"/>
                       </group>
-                      <group string="Product dates">
+                      <group string="Datos del producto">
                         <field name="alto"/>
                         <field name="ancho"/>
                         <field name="profundidad"/>
                         <field name="peso_bruto"/>
                       </group>
-                      <group string="Location">
+                      <group string="Locación">
                         <field name="layout"/>
                         <field name="cant_frente"/>
                         <field name="cant_fondo"/>
                         <field name="cant_altura"/>
                       </group>
-                      <group string="Logistics">
+                      <group string="Logistica">
                         <field name="gondola"/>
                         <label for="peso_estante"/>
                         <div class="o_row" name="peso_estante">
@@ -45,7 +45,7 @@
                       </group>
                     </group>
                 </page>
-                <page name="nutrition_facts" string="Nutrition Facts" groups="sales_team.group_sale_manager">
+                <page name="nutrition_facts" string="Nutrition Facts">
                     <group>
                         <field name="atributos_ids" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}"/>
                     </group>
