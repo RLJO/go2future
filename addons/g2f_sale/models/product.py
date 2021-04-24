@@ -71,8 +71,7 @@ class ProductTemplate(models.Model):
     without_tacc = fields.Boolean(default=False, track_visibility='always')
     sugar_free = fields.Boolean(default=False, track_visibility='always')
     optional_messages = fields.Text(size=14, track_visibility='always')
-    product_description = fields.Char(required=True, size=35,
-                                      track_visibility='always')
+    product_description = fields.Char(size=35, track_visibility='always')
 
     _sql_constraints = [(
         'product_template_dun14_uniq',
