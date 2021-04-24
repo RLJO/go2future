@@ -58,16 +58,17 @@
                 <field name="internal_tax" widget="float" placeholder="Internal Taxes"/>
             </xpath>
 
-            <xpath expr="//field[@name='uom_id']" position="replace">
-                <field name="uom_id" options="{'no_open':True, 'no_create_edit':True, 'no_create':True}" attrs="{'required': True }" domain="[('unit_for_sale', '=', True)]"/>
-            </xpath>
-
             <xpath expr="//field[@name='categ_id']" position="before">
                 <field name="brand"/>
                 <field name="contents"/>
                 <field name="barcode" string="EAN 13" required="1"/>
                 <field name="country_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,}"/>
                 <field name="useful_life" string="Useful life in days"/>
+                <field name="uom_id" options="{'no_open':True, 'no_create_edit':True, 'no_create':True}" attrs="{'required': True }" domain="[('unit_for_sale', '=', True)]"/>
+            </xpath>
+
+            <xpath expr="//field[@name='uom_id']" position="replace">
+                <field name="uom_id" options="{'no_open':True, 'no_create_edit':True, 'no_create':True}" attrs="{'required': True }" domain="[('unit_for_sale', '=', True)]"/>
             </xpath>
 
             <!--xpath expr="//field[@name='uom_po_id']" position="attributes">
