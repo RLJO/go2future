@@ -27,29 +27,11 @@ class SaleOrderCart(http.Controller):
                     user_id)
             return dumps(response)
 
-        elif method == 'POST':
+        if method == 'POST':
             #  Agregar un prodcuto a una orden de venta
             
             response = sale_order.sudo()._add_products_from_controller(
                     user_id, product_id, action)
             if response:
                 return http.Response('CREATED', status=201)
-            else:
-                return http.Response('NOT FOUND', status=404)
-
-'''
-url :- http://localhost:8001/user_cart/
-request method:- POST
-request parameters :- {"user": 11, "product" : "kurkure", "quantity":2, "action" : "picked"}
-response :- status.HTTP_201_CREATED
-
-line_vals = {'product_id': 15, 'name':'test', 'product_uom_qty': 10,
-             'price_unit': 30000 }
-
-order_vals = {'partner_id': 57,
-              'validity_date': datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S'),
-              'order_line': [(0, 0, line_vals)]
-              }
-
-so = env['sale.order']
-x = so.create(order_vals)'''
+            return http.Response('NOT FOUND', status=404)

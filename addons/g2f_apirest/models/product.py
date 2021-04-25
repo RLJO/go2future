@@ -40,7 +40,6 @@ class ProductProduct(models.Model):
         response = self.parse_products(domain)
         return dumps(response)
 
-
     def parse_products(self, domain=None):
         '''Return products parse.'''
 

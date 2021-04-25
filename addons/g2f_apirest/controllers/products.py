@@ -98,28 +98,3 @@ class Product(http.Controller):
                 methods=['POST'], website=True, csrf=False)
     def update_gondola(self):
         return 'Ejecutar aqui un post a la API de los indios'
-
-    """
-    name
-    alternative_product_ids
-    categ_id
-    code
-    company_id
-    default_code(referencia interna)
-    description
-    description_purchase
-    display_name
-    image_128
-    image_256
-    image_512
-    image_1024
-    image_1920
-    image_variant_128
-    image_variant_256
-    image_variant_512
-    image_variant_1024
-    image_variant_1920
-    is_published
-    list_price(Precio de venta)
-    website_id
-    sale_ok"""
