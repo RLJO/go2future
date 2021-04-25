@@ -42,6 +42,11 @@ class SaleOrder(models.Model):
     def create_sale_order(self, partner_id):
         '''Create sale order.'''
 
+        # Si ya existe una orden Abierta para este usuario con estado draft
+        # no no crear la Orden de venta para que se use esta
+        if self._search_sale_order_by_partner(partner_id):
+            return True
+
         order_vals = {'partner_id': partner_id,
                 'validity_date': datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S'),
                 'order_line': []}
