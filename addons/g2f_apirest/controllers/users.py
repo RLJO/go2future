@@ -25,15 +25,15 @@ class ResUser(http.Controller):
         print(qr_code)
         if method == 'POST':
             print('Validar que el usuario exista o este activo')
-            if self._validate_user(login):
-                print('Hacer login en odoo')
-                # if self._validate_login(login, password):
+            user = self._validate_user(login)
+            if user:
                 response = {"status": "200", "message": "User enters store"}
+                
+                # Por ahora se crea aqui la orden de venta
+                sale_order = http.request.env['sale.order']
+                sale_order.sudo().create_sale_order(user.partner_id.id)
+
                 return dumps(response)
-                #else:
-                #    msg = _('Incorrect user or password!')
-                #    response = {'status': '400', 'messsage': msg}
-                #    return dumps(response)
             else:
                 msg = _('User dont exists!')
                 response = {'status': '400', 'messsage': msg}

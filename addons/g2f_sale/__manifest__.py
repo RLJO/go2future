@@ -10,7 +10,8 @@
     'category': 'Sales',
     'license': 'LGPL-3',
     'version': '12.0.1.0.0',
-    'depends': ['sale_management', 'purchase', 'stock', 'uom','odoo_marketplace'],
+    'depends': ['sale_management', 'purchase', 'stock', 'uom',
+                'odoo_marketplace', 'g2f_marketplace'],
     'data': [
         'views/product_template.xml',
         'views/product_template_marketplace.xml',

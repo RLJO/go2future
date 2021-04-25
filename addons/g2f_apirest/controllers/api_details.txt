@@ -1,0 +1,136 @@
+******************************************
+1)
+
+use case:- returns details of camera to ai_unit
+model/table :- cameras
+Curl => curl --location --request GET 'http://127.0.0.1:8000/camera_ports/?ai_unit=1' \
+--header 'Content-Type: application/json' \
+--data-raw '
+'
+
+url :- http://127.0.0.1:8000/camera_ports/?ai_unit=1
+request method:- GET
+request parameters :- ai_unit=1
+response :- 
+{
+    "data": [
+        {
+            "camera_name": 101,
+            "ai_unit": 1,
+            "device_url": "rtsp url",
+            "port_number": 5001
+        }
+    ]
+}
+
+******************************************
+2)
+
+use case:- returns list of all sub_zones to ai_unit
+model/table :- zones
+Curl => curl --location --request GET 'http://127.0.0.1:8000/get_zones/' \
+--header 'Content-Type: application/json' \
+--data-raw '
+'
+
+url :- http://127.0.0.1:8000/get_zones/
+request method:- GET
+request parameters :- 
+response :- 
+{
+    "data": [
+        {
+            "id": 2,
+            "zone_name": "zone1.1",
+            "bottom_right_x": "499.00",
+            "bottom_right_y": "299.00",
+            "bottom_left_x": "99.00",
+            "bottom_left_y": "299.00",
+            "top_right_x": "499.00",
+            "top_right_y": "699.00",
+            "top_left_x": "99.00",
+            "top_left_y": "699.00",
+            "parent_zone": 1,
+            "camera_id": 1
+        },
+        {
+            "id": 3,
+            "zone_name": "zone1.2",
+            "bottom_right_x": "499.00",
+            "bottom_right_y": "299.00",
+            "bottom_left_x": "99.00",
+            "bottom_left_y": "299.00",
+            "top_right_x": "499.00",
+            "top_right_y": "699.00",
+            "top_left_x": "99.00",
+            "top_left_y": "699.00",
+            "parent_zone": 1,
+            "camera_id": 1
+        }
+    ]
+}
+***************************************************
+3)
+
+use case:- send sensor data to RaspberryPi
+model/table :- sensors
+Curl => curl --location --request GET 'http://127.0.0.1:8000/get_sensor_cart_data/?pi_id=1' \
+--header 'Content-Type: application/json' \
+--data-raw '
+'
+
+url :- http://127.0.0.1:8000/get_sensor_cart_data/?pi_id=1
+request method:- GET
+request parameters :- pi_id=1
+response :- 
+{
+    "data": [
+        {
+            "sensor_id": 1,
+            "product_weight": 125,
+            "calibration_factor": 33.0,
+            "dt_pin": 13,
+            "sck_pin": 19
+        },
+        {
+            "sensor_id": 2,
+            "product_weight": 150,
+            "calibration_factor": 67.0,
+            "dt_pin": 5,
+            "sck_pin": 6
+        }
+    ]
+}
+
+
+**************************************************
+4)
+
+use case:- send weight change data to odoo (store incoming data into sensor_logs table)
+model/table :- sensors
+Curl => curl --location --request POST 'http://127.0.0.1:8000/get_sensor_cart_data/' \
+--header 'Content-Type: application/json' \
+--data-raw '[{"current_weight": 12, "change_weight": 5.5,"sensor_id": 1, "quantity": 1, "timestamp": "2021-3-31 18:21:37"},{"current_weight": 13, "change_weight": 5.6,"sensor_id": 2, "quantity": 2, "timestamp": "2021-3-31 18:21:38"}]'
+
+url :- http://127.0.0.1:8000/get_sensor_cart_data/
+request method:- POST
+request parameters :- [{"current_weight": 12, "change_weight": 5.5,"sensor_id": 1, "quantity": 1, "timestamp": "2021-3-31 18:21:37"},{"current_weight": 13, "change_weight": 5.6,"sensor_id": 2, "quantity": 2, "timestamp": "2021-3-31 18:21:38"}]
+response :- status=status.HTTP_201_CREATED
+
+*****************************************************
+5)
+
+#### VIRTUAL CART API (mongodb database) ####
+
+use case:- when customer picked or placed products
+model/table :- user_cart 
+Curl => curl --location --request POST 'http://localhost:8001/user_cart/' \
+--header 'Content-Type: application/json' \
+--data-raw '{"user": 11, "product" : "kurkure", "quantity":2, "action" : "picked"}'
+
+url :- http://localhost:8001/user_cart/
+request method:- POST
+request parameters :- {"user": 11, "product" : "kurkure", "quantity":2, "action" : "picked"}
+response :- status.HTTP_201_CREATED
+
+******************************************************

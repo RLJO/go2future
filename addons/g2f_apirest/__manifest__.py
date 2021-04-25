@@ -10,9 +10,8 @@
     'category': 'ecommerce',
     'license': 'LGPL-3',
     'version': '12.0.1.0.0',
-    'depends': ['website', 'website_sale'],
+    'depends': ['website', 'website_sale', 'l10n_ar'],
     'data': [
-        'views/store.xml',
         'views/res_partner_views.xml',
         'security/ir.model.access.csv',
     ],
