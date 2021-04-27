@@ -81,9 +81,8 @@ class ProductTemplate(models.Model):
                               vals['cant_altura']))
         return super(ProductTemplate, self).write(vals)
 
-    @api.depends('list_price', 'desc_tag', 'uom_id', 'brand', 'barcode')
+    @api.depends('list_price', 'desc_tag', 'uom_id', 'brand', 'barcode', 'contents')
     def _get_label(self):
-        uom_price = ''
         if self.list_price == 0:
             raise UserError(_('The Sale Price must be greater than zero (0)'))
         if self.uom_id.name == 'Unidades' or self.uom_id.name == 'Units':
@@ -93,7 +92,7 @@ class ProductTemplate(models.Model):
 
         label = str(self.env.user.company_id.currency_id.symbol)
         label += str(self.list_price) + '\n'
-        label += str(self.desc_tag) + '\n'
+        label += str(self.desc_tag) + '\n' or ''
         label += self.brand + ' ' if self.brand else ''
         label += str(self.contents) + ' ' if self.contents else ''
         label += self.uom_id.name + '\n'
@@ -109,7 +108,9 @@ class ProductTemplate(models.Model):
             uom_price = self.uom_id.factor_inv / self.list_price
         elif self.uom_id.uom_type == 'smaller':
             uom_price = self.uom_id.factor_inv * self.list_price / self.contents or 1
-        return ref_unid.name or '' + ' ' + str(uom_price) or ''
+        name = ref_unid.name or ''
+        price = str(round(uom_price, 6)) or ''
+        return name + ' ' + price
 
 
 class ProductSector(models.Model):
