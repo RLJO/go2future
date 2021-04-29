@@ -5,7 +5,7 @@
 
 import logging
 from odoo.exceptions import ValidationError
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -37,8 +37,8 @@ class ProductTemplate(models.Model):
                             ondelete={'product': 'set default'},
                             default='product'
                             )
-    brand = fields.Char(required=True, track_visibility='always')
-    contents = fields.Integer(required=True, track_visibility='always')
+    brand = fields.Char(string='Brand', required=True, track_visibility='always')
+    contents = fields.Integer('Contents', required=True, track_visibility='always')
     country_id = fields.Many2one('res.country',
                                  string='Origin Country',
                                  default=lambda self: self.env['res.country'].
@@ -46,9 +46,9 @@ class ProductTemplate(models.Model):
                                  required=True, track_visibility='always')
     useful_life = fields.Integer(required=True, string='useful life in days',
                                  track_visibility='always')
-    internal_tax = fields.Float(required=True, digits=(16, 2), default=0.0,
-                                track_visibility='always')
-    units_per_package = fields.Integer(required=True,
+    internal_tax = fields.Float('Internal Tax', required=True, digits=(16, 2),
+                                default=0.0, track_visibility='always')
+    units_per_package = fields.Integer('Units per Package', required=True,
                                        track_visibility='always')
     barcode = fields.Char(
         'Barcode', copy=False,
@@ -61,17 +61,22 @@ class ProductTemplate(models.Model):
                               digits='Product Price',
                               help="Price at which the product is sold to customers.",
                               track_visibility='always')
-    dun14 = fields.Char(required=True, size=14, track_visibility='always')
-    width = fields.Integer(required=True, track_visibility='always')
-    height = fields.Integer(required=True, track_visibility='always')
-    depth = fields.Integer(required=True, track_visibility='always')
-    weight = fields.Integer(required=True, track_visibility='always')
-    vegan = fields.Boolean(default=False, track_visibility='always')
-    organic = fields.Boolean(default=False, track_visibility='always')
-    without_tacc = fields.Boolean(default=False, track_visibility='always')
-    sugar_free = fields.Boolean(default=False, track_visibility='always')
-    optional_messages = fields.Text(size=14, track_visibility='always')
-    product_description = fields.Char(size=35, track_visibility='always')
+    dun14 = fields.Char('Dun14', required=True, size=14, track_visibility='always')
+    width = fields.Integer('Width', required=True, track_visibility='always')
+    height = fields.Integer('Height', required=True, track_visibility='always')
+    depth = fields.Integer('Depth', required=True, track_visibility='always')
+    weight = fields.Integer('Weight', required=True, track_visibility='always')
+    vegan = fields.Boolean('Vegan', default=False, track_visibility='always')
+    organic = fields.Boolean('Organic', default=False,
+                             track_visibility='always')
+    without_tacc = fields.Boolean('Without Tac', default=False,
+                                  track_visibility='always')
+    sugar_free = fields.Boolean('Sugar Free', default=False,
+                                track_visibility='always')
+    optional_messages = fields.Text('Optional Messages', size=14,
+                                    track_visibility='always')
+    product_description = fields.Char('Product description', size=35,
+                                      track_visibility='always')
 
     _sql_constraints = [(
         'product_template_dun14_uniq',
@@ -83,13 +88,13 @@ class ProductTemplate(models.Model):
     def _check_contents(self):
         for record in self:
             if record.contents <= 0:
-                raise ValidationError('Contents cannot be <= 0')
+                raise ValidationError(_('Contents cannot be <= 0'))
 
     @api.constrains('useful_life')
     def _check_length_useful_life(self):
         for record in self:
             if record.useful_life <= 0:
-                raise ValidationError('Useful life length cannot be <=0')
+                raise ValidationError(_('Useful life length cannot be <=0'))
 
     @api.constrains('units_per_package')
     def _check_length_units_per_package(self):
@@ -97,40 +102,40 @@ class ProductTemplate(models.Model):
             if record.units_per_package <= 0 or \
                     len(str(record.units_per_package)) > 3:
                 raise ValidationError(
-                    'Units per Package has be >0 and length char <= 3')
+                    _('Units per Package has be >0 and length char <= 3'))
 
     @api.constrains('dun14')
     def _check_length_dun14(self):
         for record in self:
             if len(record.dun14) != 14:
-                raise ValidationError('Dun14 length has be = 14')
+                raise ValidationError(_('Dun14 length has be = 14'))
 
     @api.constrains('barcode')
     def _check_length_barcode(self):
         for record in self:
             if len(record.barcode) != 13:
-                raise ValidationError('Barcode length has be = 13')
+                raise ValidationError(_('Barcode length has be = 13'))
 
     @api.constrains('width')
     def _check_width(self):
         for record in self:
             if record.width <= 0:
-                raise ValidationError('Width cannot be <= 0')
+                raise ValidationError(_('Width cannot be <= 0'))
 
     @api.constrains('height')
     def _check_height(self):
         for record in self:
             if record.height <= 0:
-                raise ValidationError('Height cannot be <= 0')
+                raise ValidationError(_('Height cannot be <= 0'))
 
     @api.constrains('depth')
     def _check_depth(self):
         for record in self:
             if record.depth <= 0:
-                raise ValidationError('depth cannot be <= 0')
+                raise ValidationError(_('depth cannot be <= 0'))
 
     @api.constrains('weight')
     def _check_weigth(self):
         for record in self:
             if record.weight <= 0:
-                raise ValidationError('weight cannot be <= 0')
+                raise ValidationError(_('weight cannot be <= 0'))

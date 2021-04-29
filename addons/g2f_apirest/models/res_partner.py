@@ -23,9 +23,9 @@ class ResPartner(models.Model):
         ('F', 'Female'),
         ('O', 'Other')]
 
-    lastname = fields.Char()
-    birthday = fields.Date()
-    gender = fields.Selection(GENDER)
+    lastname = fields.Char(string='Lastname')
+    birthday = fields.Date(string='Birtday')
+    gender = fields.Selection(GENDER, string='Gender')
 
     def age(self):
         age = 0
