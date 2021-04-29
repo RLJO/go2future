@@ -27,14 +27,15 @@ class SaleOrder(models.Model):
         list_sale = self._list_sale_order_cart(order)
         return list_sale
 
-    def _add_products_from_controller(self, user_id, product_id, action=None):
+    def _add_products_from_controller(self, user_id, product_id, quantity,
+                                      action=None):
         order = self._search_sale_order_by_partner(user_id)
         product = self._search_product_by_id(product_id)
         if action == 'picked':
-            self._add_product_cart(order, product)
+            self._add_product_cart(order, product, quantity)
             return True
         elif action == 'returned':
-            self._remove_product_cart(order, product)
+            self._remove_product_cart(order, product, quantity)
             return True
 
         return False
@@ -72,10 +73,10 @@ class SaleOrder(models.Model):
             ('product_id', '=', product_instance.id)
             ])
 
-    def _add_product_cart(self, order_instance, product_instance):
+    def _add_product_cart(self, order_instance, product_instance, quantity):
         '''Add products to cart.'''
 
-        quantity = 1
+        quantity = quantity
         product = self._product_in_sale_order(order_instance, product_instance)
         if product:
             quantity += product.product_uom_qty
@@ -98,13 +99,13 @@ class SaleOrder(models.Model):
             print(error)
         return False
 
-    def _remove_product_cart(self, order_instance, product_instance):
+    def _remove_product_cart(self, order_instance, product_instance, quantity):
         '''remove products from cart.'''
 
-        quantity = 0
+        quantity = quantity
         product = self._product_in_sale_order(order_instance, product_instance)
         if product:
-            quantity = product.product_uom_qty - 1
+            quantity = product.product_uom_qty - quantity
             product.write({'product_uom_qty': quantity})
             product._cr.commit()
             return True
