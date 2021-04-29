@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "MINIGO Rest API",
+    'name': "G2f MINIGO Rest API para vendedores",
 
     'summary': """
         Rest API para facturación de vendedores a clientes""",
@@ -10,7 +10,7 @@
     """,
 
     'author': "MiniGO",
-    'website': "http://www.yourcompany.com",
+    'website': "go2future.com.ar",
     'contributors': ["Boris Silva <silvaboris@gmail.com>"],
 
     # Categories can be used to filter modules in modules listing
