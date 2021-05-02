@@ -58,6 +58,11 @@
                 <field name="internal_tax" widget="float" placeholder="Internal Taxes"/>
             </xpath>
 
+            <!-- this is in: PAGE=Inventory Group=Weights -->
+            <xpath expr="//field[@name='uom_id']" position="replace">
+                <field name="uom_id" options="{'no_open':True, 'no_create_edit':True, 'no_create':True}" attrs="{'required': True }" domain="[('unit_for_sale', '=', True)]"/>
+            </xpath>
+
             <xpath expr="//field[@name='categ_id']" position="before">
                 <field name="brand"/>
                 <field name="contents"/>
@@ -67,13 +72,10 @@
                 <field name="uom_id" options="{'no_open':True, 'no_create_edit':True, 'no_create':True}" attrs="{'required': True }" domain="[('unit_for_sale', '=', True)]"/>
             </xpath>
 
-            <xpath expr="//field[@name='uom_id']" position="replace">
-                <field name="uom_id" options="{'no_open':True, 'no_create_edit':True, 'no_create':True}" attrs="{'required': True }" domain="[('unit_for_sale', '=', True)]"/>
-            </xpath>
 
-            <!--xpath expr="//field[@name='uom_po_id']" position="attributes">
+            <xpath expr="//field[@name='uom_po_id']" position="attributes">
                 <attribute name="groups">base.group_system</attribute>
-            </xpath-->
+            </xpath>
 
             <xpath expr="//separator" position="before">
                 <group id="package">
