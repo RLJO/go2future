@@ -5,12 +5,14 @@
         <field name="name">res.partner.children.kanban</field>
         <field name="model">res.partner</field>
             <field name="arch" type="xml">
-                <kanban create="false">
+                <kanban create="true">
                     <field name="id"/>
                     <field name="name"/>
                     <field name="warehouse_ids"/>
                     <field name="journal_id"/>
                     <field name="image_128"/>
+                    <field name="l10n_latam_identification_type_id"/>
+                    <field name="vat"/>
                     <templates>
                         <t t-name="kanban-box">
                             <div class="oe_kanban_global_click">
@@ -22,7 +24,10 @@
                                 </div>
                                 <div class="oe_kanban_details">
                                     <field name="name"/>
-                                    <div>Bank: <t t-esc="record.journal_id.value"/></div>
+                                    <div>Tipo de identificación:
+                                        <t t-esc="record.l10n_latam_identification_type_id.value"/></div>
+                                    <div>NIF:
+                                        <t t-esc="record.vat.value"/></div>
                                 </div>
                             </div>
                         </t>
@@ -30,5 +35,283 @@
                 </kanban>
             </field>
     </record>
+
+    <record id="res_partner_children_tree" model="ir.ui.view">
+        <field name="name">res.partner.children.tree</field>
+        <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <tree create="true">
+                    <field name="name"/>
+                </tree>
+            </field>
+    </record>
+
+    <record id="res_partner_children_form" model="ir.ui.view">
+        <field name="name">res.partner.children.form</field>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <form string="Product" create="1">
+                <header invisible="not context.get('default_seller')">
+                    <field name="state" widget="statusbar" statusbar_visible="new,pending,approved,denied"/>
+                </header>
+                <field name="type" invisible="1"/>
+                <sheet>
+                    <field name="image_1920" widget='image' class="oe_avatar" options='{"preview_image": "image_128"}'/>
+                    <div class="oe_title">
+                        <div class="oe_edit_only">
+                            <label for="name"/>
+                        </div>
+                        <h1>
+                            <field name="name" default_focus="1" placeholder="Name" required="1"/>
+                        </h1>
+                        <div class="o_row" groups="odoo_marketplace.marketplace_manager_group">
+                            <field name="children_parent_id" widget="res_partner_many2one"/>
+                        </div>
+                    </div>
+                    <group>
+                        <field name="parent_id" invisible="1"/>
+                        <field name="seller" invisible="1"/>
+                        <group>
+                            <label for="street" string="Address"/>
+                            <div>
+                                <field name="street" placeholder="Street..." required="1"/>
+                                <field name="street2" />
+                                <div class="address_format">
+                                    <field name="city" placeholder="City" style="width: 40%%" required="1"/>
+                                    <field name="state_id" class="oe_no_button" placeholder="State"
+                                           style="width: 37%%" options='{"no_open": True, "no_create": True}'/>
+                                    <field name="zip" placeholder="ZIP" style="width: 22%%" required="1"/>
+                                </div>
+                                <field name="country_id" placeholder="Country"
+                                       class="oe_no_button" options='{"no_open": True, "no_create": True}' required="1"/>
+                            </div>
+                            <field name="website" widget="url" placeholder="e.g. www.odoo.com"/>
+                            <label for="vat" string="Identification Number" required="1"/>
+                            <div>
+                                <field name="l10n_latam_identification_type_id"
+                                       options="{'no_open': True, 'no_create': True}"
+                                       placeholder="Type" class="oe_inline"
+                                       domain="country_id and ['|', ('country_id', '=', False), ('country_id', '=', country_id)] or []"
+                                       required="True"/>
+                                <span class="oe_read_only"> - </span>
+                                <field name="vat" placeholder="Number" class="oe_inline" required="1"/>
+                            </div>
+                        </group>
+                        <group>
+                            <field name="phone" placeholder="e.g. +3281813700" required="1"/>
+                            <field name="mobile" required="1"/>
+                            <field name="user_ids" invisible="1"/>
+                            <field name="email" widget="email" attrs="{'required': [('user_ids','!=', [])]}" required="1"/>
+                            <field name="title" options='{"no_open": True,"no_create": True}'/>
+                        </group>
+                    </group>
+                    <separator string="Marketplace Settings &amp; Details" groups="odoo_marketplace.marketplace_seller_group"/>
+                    <notebook groups="odoo_marketplace.marketplace_seller_group">
+                        <page string="General">
+                            <h2 style="margin-bottom: 0;padding: 0.25rem 16px;background-color: #e9ecef;font-size: 15px;font-weight: bold;"
+                                groups="odoo_marketplace.marketplace_officer_group"> Default Settings </h2>
+                            <br/>
+                            <div class="card card-header mb16" style="font-size: 14px;font-weight:bold;" attrs="{'invisible':[('set_seller_wise_settings','=',True)]}">
+                                <div>The default configuration settings can be checked from here
+                                    <button type="object" name="action_seller_globel_settings"
+                                            style="font-size: 14px;font-weight:bold;"
+                                            class="oe_link seller_globel_config" string="⇒ Click to view"/>
+                                </div>
+                            </div>
+                            <div groups="odoo_marketplace.marketplace_officer_group">
+                                <field name="set_seller_wise_settings" groups="odoo_marketplace.marketplace_officer_group" readonly="1"  help="Check if you want to override seller's default settings else default settings will apply."/>
+                                <label for="set_seller_wise_settings" string="Over-ride seller's default settings" class="oe_inline mr8" groups="odoo_marketplace.marketplace_officer_group"/>
+                            </div>
+                            <div class="mb16 seller_default_config" attrs="{'invisible':[('set_seller_wise_settings','=',False)]}">
+                                <group name="payment_terms" string="Payment Terms" groups="odoo_marketplace.marketplace_seller_group">
+                                    <label for="commission"/>
+                                    <div >
+                                        <field name="commission"
+                                               class="oe_inline"
+                                               attrs="{'readonly':[('set_seller_wise_settings','=',False)],'required':[('set_seller_wise_settings','!=',False)]}"
+                                               readonly="1"/> %
+                                    </div>
+                                </group>
+                                <group>
+                                    <field name="seller_payment_limit" string="Amount limit for seller payment request" attrs="{'readonly':[('set_seller_wise_settings','=',False)],'required':[('set_seller_wise_settings','!=',False)]}" readonly="1"/>
+                                </group>
+                                <group>
+                                    <label for="next_payment_request" string="Minimum gap for next payment request"/>
+                                    <div>
+                                        <field name="next_payment_request" string="Minimum gap for next payment request" class="oe_inline" attrs="{'readonly':[('set_seller_wise_settings','=',False)],'required':[('set_seller_wise_settings','!=',False)]}" readonly="1"/> Days
+                                    </div>
+                                </group>
+                                <group groups="odoo_marketplace.marketplace_officer_group">
+                                    <group name="approval_settings" string="Approval Settings">
+                                        <field name="auto_product_approve" attrs="{'readonly':[('set_seller_wise_settings','=',False)]}"/>
+                                        <field name="auto_approve_qty" attrs="{'readonly':[('set_seller_wise_settings','=',False)]}"/>
+                                    </group>
+                                    <group name="warehouse_location" string="Warehouse/Location">
+                                        <field name="location_id" attrs="{'readonly':[('set_seller_wise_settings','=',False)],'required':[('set_seller_wise_settings','!=',False)]}"/>
+                                        <field name="warehouse_id" attrs="{'readonly':[('set_seller_wise_settings','=',False)],'required':[('set_seller_wise_settings','!=',False)]}" options="{'no_create_edit': True}"/>
+                                    </group>
+                                </group>
+                            </div>
+                            <h2 style="margin-bottom: 0;padding: 0.25rem 16px;background-color: #e9ecef;font-size: 15px;font-weight: bold;"
+                                class="mt16" groups="odoo_marketplace.marketplace_officer_group"> Other Settings </h2>
+                            <group name="seller_wise_settings" groups="odoo_marketplace.marketplace_officer_group">
+                                <group name="seller_profile">
+                                    <label for="allow_product_variants" groups="odoo_marketplace.marketplace_officer_group"/>
+                                    <div groups="odoo_marketplace.marketplace_officer_group">
+                                        <field name="allow_product_variants" readonly="1"/>
+                                        <button name="enable_product_variant_group" string="Click to Allow" type="object" class="oe_link" attrs="{'invisible':[('allow_product_variants', '=', True)]}"/>
+                                        <button name="disable_product_variant_group" string="Click to Deny" type="object" class="oe_link" attrs="{'invisible':[('allow_product_variants', '=', False)]}"/>
+                                    </div>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Payment">
+                            <group>
+                                <field name="payment_method" widget="many2many_tags" options="{'no_create': True}" attrs="{'invisible':[('seller','=',False)]}" groups="odoo_marketplace.marketplace_seller_group"/>
+                            </group>
+                            <group col="4">
+                                <field name="total_mp_payment"/>
+                                <field name="paid_mp_payment"/>
+                                <field name="balance_mp_payment"/>
+                                <field name="seller_currency_id" groups="odoo_marketplace.marketplace_officer_group"/>
+                            </group>
+                        </page>
+                        <page string="Policies" name="policies">
+                            <field class="profile_or_shop_id" name="id" invisible="1"/>
+                            <group col="3" groups="odoo_marketplace.group_marketplace_seller_shop">
+                                <field name="seller_shop_id" readonly="1"/>
+                                <button name="%(odoo_marketplace.wk_seller_shop_action2)d" string="Create Your Shop" icon="fa-home fa-2x" class="btn-primary pull-right" type="action" attrs="{'invisible':[('seller_shop_id','!=',False)]}" style="font-weight:600" context="{'seller_id': id}"/>
+                            </group>
+                            <group>
+                                <field name="return_policy"/>
+                                <field name="shipping_policy"/>
+                            </group>
+                        </page>
+                        <page string="Fiscal Company Data" name="g2f_seller">
+                            <group col="4" colspan="2">
+                                <field name="industry_id" widget="many2one_tags" options="{'no_create_edit': True}"/><br/>
+                            </group>
+                            <group string="Datos Fiscales" col="4" colspan="2">
+                                <field name="l10n_ar_afip_responsibility_type_id"
+                                       string="AFIP Responsibility" options="{'no_open': True, 'no_create': True}"
+                                       attrs="{'readonly': [('parent_id','!=',False)]}" required="1"/>
+                                <field name="property_account_position_id" options="{'no_create': True, 'no_open': True}" required="1"/>
+                                <field name="is_exclution_iva" placeholder="Is Exclution IVA"/>
+                                <field name="is_permanent_exclution" placeholder="Is Permanent exclution"/>
+                                <field name="certificate_date_start" placeholder="certificate date start" required="1"/>
+                                <field name="certificate_date_end" placeholder="certificate date end" required="1"/>
+                                <field name="certificate_file" placeholder="Certificate Exclition file" required="1"/>
+                            </group>
+                            <group string="Ingresos Brutos" col="4" colspan="2">
+                                <field name="l10n_ar_gross_income_type" class="oe_inline"/>
+                                <field name="l10n_ar_gross_income_number" placeholder="Number..."
+                                       class="oe_inline" attrs="{'invisible': [('l10n_ar_gross_income_type', 'not in', ['multilateral', 'local'])], 'required': [('l10n_ar_gross_income_type', 'in', ['multilateral', 'local'])]}"/>
+                                <field name="registration_gross_income_file" placeholder="Certificate gross incoome file"/>
+                            </group>
+                        </page>
+                        <page string="Profile Page">
+                            <group>
+                                <div>
+                                    <separator string="Profile Image"/>
+                                </div>
+                                <h6 class="oe_inline oe_grey oe_right">
+                                    Profile image must be 180 x 180 px for perfect view.
+                                </h6>
+                            </group>
+                            <group>
+                                <div>
+                                    <field name="profile_image" widget="image" options="{'size': [180, 180]}"/>
+                                </div>
+                            </group>
+                            <group>
+                                <div>
+                                    <separator string="Profile Banner"/>
+                                </div>
+                                <h6 class="oe_inline oe_grey oe_right">
+                                    Banner image size must be 1298 x 400 px for perfect view.
+                                </h6>
+                            </group>
+                            <group>
+                                <div>
+                                    <field name="profile_banner" class="mp_shop_image" widget="image" options="{'size': [825, 250]}"/>
+                                </div>
+                            </group>
+                            <group>
+                                <div>
+                                    <separator string="Profile Message"/>
+                                </div>
+                                <h6 class="oe_inline oe_grey oe_right">
+                                    This message will display on your profile on web.
+                                </h6>
+                            </group>
+                            <group>
+                                <div>
+                                    <field name="profile_msg" placeholder="Write messger for yor profile..."/>
+                                </div>
+                            </group>
+                            <separator string="Social Web Info"/>
+                            <div class="oe_inline oe_grey oe_right">
+                                Add your social profile links below and publish it in your seller profile page. So that customers can directly visit your social profiles from your seller profile page.
+                            </div>
+                            <field name="social_media_link_ids">
+                                <tree editable="bottom">
+                                    <field name="social_media_id" placeholder="Social Media" options="{'no_create_edit':True}"/>
+                                    <field name="social_profile_id" placeholder="Your Id"/>
+                                    <field name="wk_website_published" invisible="1"/>
+                                    <field name="complete_url" widget="url"/>
+                                    <button name="toggle_website_published" string="UnPublish Now" type="object" class="o_link" attrs="{'invisible':[('wk_website_published', '=', False)]}"/>
+                                    <button name="toggle_website_published" string="Publish Now" type="object" class="o_link" attrs="{'invisible':[('wk_website_published', '=', True)]}"/>
+                                </tree>
+                            </field>
+                            </page>
+                        <page string="Prisma">
+                            <group>
+                                <field name="warehouse_ids_domain" invisible="1"/>
+                                <field name="warehouse_ids"
+                                       required="1"
+                                       domain="[('id', 'not in', warehouse_ids_domain)]"/>
+                            </group>
+                            <group col="4" colspan="2">
+                                <field name="bank_id"
+                                       options="{'no_create_edit': True}" required="1"/>
+                                <field name="acc_number"
+                                       required="1"/>
+                            </group>
+                        </page>
+                    </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+    </record>
+
+    <record id="res_partner_children_seller" model="ir.actions.act_window">
+        <field name="name">Children</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="view_ids" eval="[
+            (5, 0, 0),
+            (0, 0, {'view_mode': 'kanban', 'view_id': ref('odoo_marketplace_custom.res_partner_children_kanban')}),
+            (0, 0, {'view_mode': 'tree', 'view_id': ref('odoo_marketplace_custom.res_partner_children_tree')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('odoo_marketplace_custom.res_partner_children_form')})]"/>
+        <field name="domain">[('children_parent_id.id', 'in', '[get_partner_children()]')]</field>
+    </record>
+
+    <record id="res_partner_children_manager" model="ir.actions.act_window">
+        <field name="name">Seller Children</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="view_ids" eval="[
+            (5, 0, 0),
+            (0, 0, {'view_mode': 'kanban', 'view_id': ref('odoo_marketplace_custom.res_partner_children_kanban')}),
+            (0, 0, {'view_mode': 'tree', 'view_id': ref('odoo_marketplace_custom.res_partner_children_tree')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('odoo_marketplace_custom.res_partner_children_form')})]"/>
+        <field name="domain">[('children_parent_id.id', '>', 0)]</field>
+    </record>
+
+    <menuitem id="marketplace_children_manager_menu" name="Seller Children" action="res_partner_children_manager" parent="odoo_marketplace.wk_seller_dashboard_menu1" groups="odoo_marketplace.marketplace_officer_group" sequence="6"/>
+    <menuitem id="marketplace_children_seller_menu" name="Children" action="res_partner_children_seller" parent="odoo_marketplace.wk_seller_dashboard_menu1" groups="odoo_marketplace.marketplace_seller_group" sequence="7"/>
 
 </odoo>

@@ -9,23 +9,33 @@ class marketplace_dashboard(models.Model):
     _inherit = "marketplace.dashboard"
 
     def _get_partner_children(self):
+        login_user_obj = self.env.user
         for rec in self:
-            obj_children = self.env['res.partner'].sudo().search(
-                [('children_parent_id', '=', rec.env.user.partner_id.id)])
+            domain = [('children_parent_id', '=', rec.env.user.partner_id.id)]
+            if login_user_obj.has_group('odoo_marketplace.marketplace_manager_group'):
+                domain = [('children_parent_id', '!=', False)]
+            obj_children = self.env['res.partner'].sudo().search(domain)
             if obj_children:
                 rec.count_partner_children = len(obj_children)
             else:
                 rec.count_partner_children = 0
 
     def action_res_partner_children(self):
+        login_user_obj = self.env.user
+        domain = ('children_parent_id.id', '=', self.env.user.partner_id.id)
+        if login_user_obj.has_group('odoo_marketplace.marketplace_manager_group'):
+            domain = ('children_parent_id.id', '>', 0)
         return {
             'name': _('Children'),
             'type': 'ir.actions.act_window',
-            'view_mode': 'kanban',
             'res_model': 'res.partner',
-            'view_id': self.env.ref('odoo_marketplace_custom.res_partner_children_kanban').id,
+            'views': [
+                [self.env.ref('odoo_marketplace_custom.res_partner_children_kanban').id, 'kanban'],
+                [self.env.ref('odoo_marketplace_custom.res_partner_children_tree').id, 'tree'],
+                [self.env.ref('odoo_marketplace_custom.res_partner_children_form').id, 'form']
+            ],
             'domain': [
-                ('children_parent_id.id', '=', self.env.user.partner_id.id)
+                domain
             ]
         }
 
