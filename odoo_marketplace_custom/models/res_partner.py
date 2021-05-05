@@ -71,6 +71,9 @@ class ResPartner(models.Model):
             self.update_product_seller(self)
         return res
 
+    def update_seller(self):
+        self.update_product_seller(self)
+
     def update_product_seller(self, partner):
         product_template_env = self.env['product.template'].sudo()
         product_product_env = self.env['product.product'].sudo()
