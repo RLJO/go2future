@@ -26,6 +26,8 @@ class ProductTemplate(models.Model):
     desc_tag = fields.Char('TAG short description')
     atributos_ids = fields.Many2many('product.atributos', 'product_atributos_rel', 'prod_id', 'atributos_id', string='Attributes')
     product_label = fields.Text('Product Label', compute='_get_label')
+    uom_id = fields.Many2one('uom.uom', 'Unit of Measure', required=True,
+                             help="Default unit of measure used for all stock operations.")
 
     @api.depends('peso_bruto', 'cant_frente', 'cant_fondo', 'cant_altura')
     def _get_peso_estante(self):
