@@ -30,6 +30,23 @@
                 </page>
             </xpath>
 
+            <field name="available_amount" position="attributes">
+                <attribute name="groups">base.group_system</attribute>
+            </field>
+            <field name="available_amount" position="attributes">
+                <attribute name="groups">base.group_system</attribute>
+            </field>
+            <field name="available_amount" position="attributes">
+                <attribute name="groups">base.group_system</attribute>
+            </field>
+            <field name="available_amount" position="attributes">
+                <attribute name="groups">base.group_system</attribute>
+            </field>
+
+            <xpath expr="//form/header/button[1]" position="attributes">
+                <attribute name="groups">base.group_system</attribute>
+            </xpath>
+
         </field>
     </record>
 </odoo>
