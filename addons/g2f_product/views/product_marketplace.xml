@@ -12,10 +12,10 @@
                 <page name="catman" string="CatMan" groups="odoo_marketplace.marketplace_manager_group">
                     <group>
                       <group string="Estructura mercadologica">
-                        <field name="sector" options="{'no_create': True, 'no_open': True}" attrs="{'required': [('state', 'in', ('pending', 'approved'))]}"/>
-                        <field name="familia" options="{'no_create': True, 'no_open': True}" attrs="{'required': [('state', 'in', ('pending', 'approved'))]}"/>
-                        <field name="subfamilia" options="{'no_create': True, 'no_open': True}" attrs="{'required': [('state', 'in', ('pending', 'approved'))]}"/>
-                        <field name="categoria" options="{'no_create': True, 'no_open': True}" attrs="{'required': [('state', 'in', ('pending', 'approved'))]}"/>
+                        <field name="sector" options="{'no_create': True, 'no_open': True}" attrs="{'required': [('status', 'in', ('pending', 'approved'))]}"/>
+                        <field name="familia" options="{'no_create': True, 'no_open': True}" attrs="{'required': [('status', 'in', ('pending', 'approved'))]}"/>
+                        <field name="subfamilia" options="{'no_create': True, 'no_open': True}" attrs="{'required': [('status', 'in', ('pending', 'approved'))]}"/>
+                        <field name="categoria" options="{'no_create': True, 'no_open': True}" attrs="{'required': [('status', 'in', ('pending', 'approved'))]}"/>
                       </group>
                       <group string="Datos del producto">
                         <field name="alto"/>
@@ -24,13 +24,13 @@
                         <field name="peso_bruto"/>
                       </group>
                       <group string="Locación">
-                        <field name="layout" attrs="{'required': [('state', 'in', ('pending', 'approved'))]}"/>
+                        <field name="layout" attrs="{'required': [('status', 'in', ('pending', 'approved'))]}"/>
                         <field name="cant_frente"/>
                         <field name="cant_fondo"/>
                         <field name="cant_altura"/>
                       </group>
                       <group string="Logistica">
-                        <field name="gondola" attrs="{'required': [('state', 'in', ('pending', 'approved'))]}"/>
+                        <field name="gondola" attrs="{'required': [('status', 'in', ('pending', 'approved'))]}"/>
                         <label for="peso_estante"/>
                         <div class="o_row" name="peso_estante">
                           <field name="peso_estante"/>
@@ -41,7 +41,7 @@
                           <field name="aptitud"/>
                           <span>%</span>
                         </div>
-                        <field name="desc_tag" attrs="{'required': [('state', 'in', ('pending', 'approved'))]}"/>
+                        <field name="desc_tag" attrs="{'required': [('status', 'in', ('pending', 'approved'))]}"/>
                       </group>
                     </group>
                 </page>
