@@ -12,10 +12,10 @@
                 <page name="catman" string="CatMan" groups="odoo_marketplace.marketplace_manager_group">
                     <group>
                       <group string="Estructura mercadologica">
-                        <field name="sector" options="{'no_create': True, 'no_open': True}" attrs="{'required': [('state', 'in', ('pending', 'approved))]}"/>
-                        <field name="familia" options="{'no_create': True, 'no_open': True}" attrs="{'required': [('state', 'in', ('pending', 'approved))]}"/>
-                        <field name="subfamilia" options="{'no_create': True, 'no_open': True}" attrs="{'required': [('state', 'in', ('pending', 'approved))]}"/>
-                        <field name="categoria" options="{'no_create': True, 'no_open': True}" attrs="{'required': [('state', 'in', ('pending', 'approved))]}"/>
+                        <field name="sector" options="{'no_create': True, 'no_open': True}" attrs="{'required': [('state', 'in', ('pending', 'approved'))]}"/>
+                        <field name="familia" options="{'no_create': True, 'no_open': True}" attrs="{'required': [('state', 'in', ('pending', 'approved'))]}"/>
+                        <field name="subfamilia" options="{'no_create': True, 'no_open': True}" attrs="{'required': [('state', 'in', ('pending', 'approved'))]}"/>
+                        <field name="categoria" options="{'no_create': True, 'no_open': True}" attrs="{'required': [('state', 'in', ('pending', 'approved'))]}"/>
                       </group>
                       <group string="Datos del producto">
                         <field name="alto"/>
@@ -63,4 +63,15 @@
 
         </field>
     </record>
+
+    <!--<record id="go2f_mp_product_product_form_view" model="ir.ui.view" >
+        <field name="name">product.product.form</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="odoo_marketplace.mp_product_product_form_view"/>
+        <field name="arch" type="xml">
+            <field name="website_published" position="attributes">
+               <attribute name="groups">base.group_system</attribute>
+            </field>
+        </field>
+    </record>-->
 </odoo>
