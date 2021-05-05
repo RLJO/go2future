@@ -12,6 +12,7 @@
                         <button name="approve" string="Approve" type="object" states="pending" groups="odoo_marketplace.marketplace_officer_group" class="btn-primary"/>
                         <button name="%(odoo_marketplace.wk_seller_statsu_reason_wizard_action)d" string="Deny" type="action" states="pending,approved" groups="odoo_marketplace.marketplace_officer_group" />
                         <button name="set_to_pending" string="Request For Approval" type="object" states="new,denied" class="btn-primary"/>
+                        <button name="update_seller" string="Actualizar proveedor" type="object" states="new,approved" class="btn-primary"/>
                         <field name="state" widget="statusbar" statusbar_visible="new,pending,approved,denied"/>
                     </header>
                     <field name="type" invisible="1"/>
