@@ -64,7 +64,7 @@
         </field>
     </record>
 
-    <!--<record id="go2f_mp_product_product_form_view" model="ir.ui.view" >
+    <record id="go2f_mp_product_product_form_view" model="ir.ui.view" >
         <field name="name">product.product.form</field>
         <field name="model">product.product</field>
         <field name="inherit_id" ref="odoo_marketplace.mp_product_product_form_view"/>
@@ -73,5 +73,5 @@
                <attribute name="groups">base.group_system</attribute>
             </field>
         </field>
-    </record>-->
+    </record>
 </odoo>
