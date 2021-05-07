@@ -26,6 +26,12 @@ class ProductTemplate(models.Model):
     desc_tag = fields.Char('TAG short description')
     atributos_ids = fields.Many2many('product.atributos', 'product_atributos_rel', 'prod_id', 'atributos_id', string='Attributes')
     product_label = fields.Text('Product Label', compute='_get_label')
+    uom_id = fields.Many2one('uom.uom', 'Unit of Measure', required=True,
+                             help="Default unit of measure used for all stock operations.")
+    symbol = fields.Char(related='currency_id.symbol')
+    uom_price = fields.Char('Precio/Medida', compute='_get_label')
+    uom_name = fields.Char(related='uom_id.name')
+    barcode_label = fields.Char('Barcode')
 
     @api.depends('peso_bruto', 'cant_frente', 'cant_fondo', 'cant_altura')
     def _get_peso_estante(self):
@@ -86,30 +92,31 @@ class ProductTemplate(models.Model):
         if self.list_price == 0:
             raise UserError(_('The Sale Price must be greater than zero (0)'))
         if self.uom_id.name == 'Unidades' or self.uom_id.name == 'Units':
-            uom_price = 'Und ' + str(self.list_price)
+            self.uom_price = 'Und ' + str(self.list_price)
         else:
-            uom_price = self._get_uom_price()
+            self.uom_price = self._get_uom_price()
+        self.barcode_label = self.barcode
 
-        label = str(self.env.user.company_id.currency_id.symbol)
-        label += str(self.list_price) + '\n'
-        label += str(self.desc_tag) + '\n' or ''
-        label += self.brand + ' ' if self.brand else ''
-        label += str(self.contents) + ' ' if self.contents else ''
-        label += self.uom_id.name + '\n'
-        label += 'Precio por cada ' + uom_price + '\n'
-        label += self.barcode or ''
-        self.product_label = label
+        # label = str(self.env.user.company_id.currency_id.symbol)
+        # label += str(self.list_price) + '\n'
+        # label += str(self.desc_tag) + '\n' or ''
+        # label += self.brand + ' ' if self.brand else ''
+        # label += str(self.contents) + ' ' if self.contents else ''
+        # label += self.uom_id.name + '\n'
+        # label += 'Precio por cada ' + uom_price + '\n'
+        # label += self.barcode or ''
+        # self.product_label = label
 
     def _get_uom_price(self):
         ref_unid = self.env['uom.uom'].search([('category_id', '=', self.uom_id.category_id.id),
                                                ('uom_type', '=', 'reference')])
         uom_price = 0
         if self.uom_id.uom_type == 'bigger':
-            uom_price = self.uom_id.factor_inv / self.list_price
+            uom_price = self.list_price / self.uom_id.factor_inv
         elif self.uom_id.uom_type == 'smaller':
-            uom_price = self.uom_id.factor_inv * self.list_price / self.contents or 1
+            uom_price = self.uom_id.factor * self.list_price / self.contents or 1
         name = ref_unid.name or ''
-        price = str(round(uom_price, 6)) or ''
+        price = str(round(uom_price, 2)) or ''
         return name + ' ' + price
 
 
