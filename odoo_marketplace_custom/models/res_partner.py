@@ -11,8 +11,10 @@ class ResPartner(models.Model):
     has_children = fields.Boolean(string=_('Has children'), default=False)
     children_parent_id = fields.Many2one('res.partner', string=_("Marketplace Parent"))
     res_partner_children = fields.One2many('res.partner', 'children_parent_id')
-    warehouse_ids = fields.Many2many('stock.warehouse', 'res_partner_stock_warehouse_rel', 'partner_id', 'warehouse_id', string=_('Warehouse'))
-    warehouse_ids_domain = fields.Many2many('stock.warehouse', compute='_compute_warehouse_ids_domain', readonly=True, store=False)
+    warehouse_ids = fields.Many2many('stock.warehouse', 'res_partner_stock_warehouse_rel', 'partner_id', 'warehouse_id',
+                                     string=_('Warehouse'))
+    warehouse_ids_domain = fields.Many2many('stock.warehouse', compute='_compute_warehouse_ids_domain', readonly=False,
+                                            store=False)
     journal_id = fields.Many2one('account.journal', string=_('Bank'), domain='[("type", "=", "bank")]')
     bank_id = fields.Many2one('res.bank', string='Bank')
     acc_number = fields.Char('Account Number', required=True)
@@ -41,7 +43,14 @@ class ResPartner(models.Model):
 
     @api.onchange('warehouse_ids_domain')
     def _onchange_warehouse_ids_domain(self):
-        return {'domain': {'warehouse_ids': [('id', 'not in', self.warehouse_ids_domain.ids)]}}
+        domain = {
+            'domain': {
+                'warehouse_ids': [('id', 'not in', self.warehouse_ids_domain.ids)]
+            }
+        }
+        if not domain:
+            domain = False
+        return domain
 
     def approve(self):
         self.ensure_one()
