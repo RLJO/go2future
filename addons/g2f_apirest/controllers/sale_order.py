@@ -16,6 +16,7 @@ class SaleOrderCart(http.Controller):
 
         user_id = kw.get('user')
         product_id = kw.get('product')
+        quantity = kw.get('quantity')
         action = kw.get('action')
 
         sale_order = http.request.env['sale.order']
@@ -29,7 +30,7 @@ class SaleOrderCart(http.Controller):
         if method == 'POST':
             #  Agregar un prodcuto a una orden de venta
             response = sale_order.sudo()._add_products_from_controller(
-                user_id, product_id, action)
+                user_id, product_id, quantity, action)
             if response:
                 return http.Response('CREATED', status=201)
             return http.Response('NOT FOUND', status=404)
