@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api, _
+from odoo.exceptions import UserError
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -10,8 +11,46 @@ class ResPartner(models.Model):
     has_children = fields.Boolean(string=_('Has children'), default=False)
     children_parent_id = fields.Many2one('res.partner', string=_("Marketplace Parent"))
     res_partner_children = fields.One2many('res.partner', 'children_parent_id')
-    warehouse_ids = fields.Many2many('stock.warehouse', 'res_partner_stock_warehouse_rel', 'partner_id', 'warehouse_id', string=_('Warehouse'))
+    warehouse_ids = fields.Many2many('stock.warehouse', 'res_partner_stock_warehouse_rel', 'partner_id', 'warehouse_id',
+                                     string=_('Warehouse'))
+    warehouse_ids_domain = fields.Many2many('stock.warehouse', compute='_compute_warehouse_ids_domain', readonly=False,
+                                            store=False)
     journal_id = fields.Many2one('account.journal', string=_('Bank'), domain='[("type", "=", "bank")]')
+    bank_id = fields.Many2one('res.bank', string='Bank')
+    acc_number = fields.Char('Account Number', required=True)
+
+    def update_warehouse_ids_domain(self, partner):
+        warehouse_ids = []
+        warehouse_ids += [warehouse.ids[0] for warehouse in partner.warehouse_ids]
+        childrens = self.search([('children_parent_id', 'in', partner.ids)])
+        for children in childrens:
+            pass
+            warehouse_ids += [warehouse.id for warehouse in children.warehouse_ids]
+        warehouse_ids = list(dict.fromkeys(warehouse_ids))
+        return warehouse_ids
+
+    @api.depends('children_parent_id', 'warehouse_ids')
+    def _compute_warehouse_ids_domain(self):
+        used_ids = []
+        for record in self:
+            if not record.ids:
+                continue
+            parent = record
+            if parent.children_parent_id:
+                parent = self.sudo().browse(parent.ids[0]).children_parent_id
+            used_ids += record.update_warehouse_ids_domain(parent)
+            record.warehouse_ids_domain = [(6, 0, used_ids)]
+
+    @api.onchange('warehouse_ids_domain')
+    def _onchange_warehouse_ids_domain(self):
+        domain = {
+            'domain': {
+                'warehouse_ids': [('id', 'not in', self.warehouse_ids_domain.ids)]
+            }
+        }
+        if not domain:
+            domain = False
+        return domain
 
     def approve(self):
         self.ensure_one()
@@ -32,6 +71,7 @@ class ResPartner(models.Model):
         res = super(ResPartner, self).create(vals)
         if res:
             self.update_product_seller(res)
+            res.children_parent_id = res.write_uid.partner_id.id
         return res
 
     def write(self, vals):
@@ -39,6 +79,9 @@ class ResPartner(models.Model):
         if res:
             self.update_product_seller(self)
         return res
+
+    def update_seller(self):
+        self.update_product_seller(self)
 
     def update_product_seller(self, partner):
         product_template_env = self.env['product.template'].sudo()
