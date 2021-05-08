@@ -27,11 +27,11 @@ class ProductProduct(models.Model):
         '''Computed fields return image as string.'''
         self.image_128_parse = self.image_128.decode('ascii')
 
-    def get_product_by_code(self, code=''):
-        '''get product by code pased.'''
+    def get_product_by_code(self, barcode=''):
+        '''get product by barcode pased.'''
 
         domain = [
-            ('default_code', '=', code),
+            ('barcode', '=', barcode),
             ('active', '=', True),
             ('sale_ok', '=', True),
             ('is_published', '=', True)
