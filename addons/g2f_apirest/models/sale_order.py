@@ -8,6 +8,8 @@ from datetime import datetime
 from json import dumps
 import logging
 from odoo import models, fields, api, _
+from odoo.exceptions import MissingError
+
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -15,6 +17,16 @@ logging.basicConfig(
 
 _logger = logging.getLogger(__name__)
 
+
+def validate_product_exist(search_product_method):
+    """Decorator validate prodcut exist."""
+    def exceptions(*args, **kwargs):
+        """Search products."""
+        product = search_product_method(*args, **kwargs)
+        if not product:
+            raise MissingError(_("Product does not exist in Store."))
+        return product
+    return exceptions
 
 class SaleOrder(models.Model):
     '''Sale order model by Api Mobile.'''
@@ -27,10 +39,10 @@ class SaleOrder(models.Model):
         list_sale = self._list_sale_order_cart(order)
         return list_sale
 
-    def _add_products_from_controller(self, user_id, product_id, quantity,
+    def _add_products_from_controller(self, user_id, barcode, quantity,
                                       action=None):
         order = self._search_sale_order_by_partner(user_id)
-        product = self._search_product_by_id(product_id)
+        product = self._search_product_by_id(barcode)
         if action == 'picked':
             self._add_product_cart(order, product, quantity)
             return True
@@ -50,7 +62,8 @@ class SaleOrder(models.Model):
 
         order_vals = {'partner_id': partner_id,
                 'validity_date': datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S'),
-                'order_line': []}
+                'order_line': []
+                }
 
         new_order = self.create(order_vals)
         new_order._cr.commit()
@@ -64,8 +77,9 @@ class SaleOrder(models.Model):
             ('state', '=', state)])
         return order_sale
 
-    def _search_product_by_id(self, product_id=None):
-        return self.env['product.product'].search([('id', '=', product_id)])
+    @validate_product_exist
+    def _search_product_by_id(self, barcode=None):
+        return self.env['product.product'].search([('barcode', '=', barcode)])
 
     def _product_in_sale_order(self, order_instance, product_instance):
         return order_instance.order_line.search([

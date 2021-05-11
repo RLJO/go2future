@@ -74,10 +74,13 @@
 
             <xpath expr="//field[@name='sale_ok']" position="attributes">
                 <attribute name="invisible">1</attribute>
+                <field name="context">{'sale_ok': True}</field>
             </xpath>
+
 
             <xpath expr="//field[@name='purchase_ok']" position="attributes">
                 <attribute name="invisible">1</attribute>
+                <field name="context">{'purchase_ok': True}</field>
             </xpath>
 
             <xpath expr="//div[@name='options']" position="attributes">
