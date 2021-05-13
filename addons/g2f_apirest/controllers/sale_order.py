@@ -8,11 +8,11 @@ from odoo import http, _
 
 
 class SaleOrderCart(http.Controller):
-    @http.route(['/user_cart'], type='json', auth='public',
-            methods=['GET', 'PUT', 'POST', 'DELETE'], website=True, csrf=False)
+    @http.route(['/user_cart'], type='http', auth='public',
+            methods=['GET', 'POST'], website=True, csrf=False)
     def user_cart_from_vision(self, **kw):
         method = http.request.httprequest.method
-        kw = http.request.jsonrequest
+        # kw = http.request.jsonrequest
 
         user_id = kw.get('user')
         barcode = kw.get('product')
