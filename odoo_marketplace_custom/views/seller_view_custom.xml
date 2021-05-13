@@ -6,7 +6,7 @@
             <field name="name">seller.form</field>
             <field name="model">res.partner</field>
             <field name="arch" type="xml">
-                <form string="Product" create="1">
+                <form string="Product" create="0">
                     <header invisible="not context.get('default_seller')">
                         <button name="%(odoo_marketplace.wk_seller_payment_wizard_action)d" string="Request For Payment" type="action" states="approved" groups="odoo_marketplace.marketplace_seller_group" class="btn-primary"/>
                         <button name="approve" string="Approve" type="object" states="pending" groups="odoo_marketplace.marketplace_officer_group" class="btn-primary"/>
@@ -60,7 +60,7 @@
                                 <field name="name" default_focus="1" placeholder="Name" required="1"/>
                             </h1>
                             <div class="o_row">
-                                <field name="children_parent_id" widget="res_partner_many2one"  groups="odoo_marketplace.marketplace_seller_group"/>
+                                <field name="children_parent_id" widget="res_partner_many2one"  groups="odoo_marketplace.marketplace_manager_group"/>
                             </div>
                         </div>
                         <group>
@@ -115,8 +115,8 @@
                             </div>
                         </group>
                         <separator string="Marketplace Settings &amp; Details" groups="odoo_marketplace.marketplace_seller_group"/>
-                        <notebook groups="odoo_marketplace.marketplace_seller_group">
-                            <page string="General">
+                        <notebook>
+                            <page string="General" groups="odoo_marketplace.marketplace_seller_group">
                                 <h2 style="margin-bottom: 0;padding: 0.25rem 16px;background-color: #e9ecef;font-size: 15px;font-weight: bold;"
                                     groups="odoo_marketplace.marketplace_officer_group"> Default Settings </h2>
                                 <br/>
@@ -174,7 +174,7 @@
                                     </group>
                                 </group>
                             </page>
-                            <page string="Payment">
+                            <page string="Payment" groups="odoo_marketplace.marketplace_seller_group">
                                 <group>
                                     <field name="payment_method" widget="many2many_tags" options="{'no_create': True}" attrs="{'invisible':[('seller','=',False)]}" groups="odoo_marketplace.marketplace_seller_group"/>
                                 </group>
@@ -185,7 +185,7 @@
                                     <field name="seller_currency_id" groups="odoo_marketplace.marketplace_officer_group"/>
                                 </group>
                             </page>
-                            <page string="Policies" name="policies">
+                            <page string="Policies" name="policies" groups="odoo_marketplace.marketplace_seller_group">
                                 <field class="profile_or_shop_id" name="id" invisible="1"/>
                                 <group col="3" groups="odoo_marketplace.group_marketplace_seller_shop">
                                     <field name="seller_shop_id" readonly="1"/>
@@ -196,7 +196,7 @@
                                     <field name="shipping_policy"/>
                                 </group>
                             </page>
-                            <page string="Profile Page">
+                            <page string="Profile Page" groups="odoo_marketplace.marketplace_seller_group">
                                 <group>
                                     <div>
                                         <separator string="Profile Image"/>
@@ -261,7 +261,7 @@
                                 </group>
                                 <group col="4" colspan="2">
                                     <field name="bank_id" attrs="{'required': [('has_children', '=', False), ('state', 'in', ['approved'])]}"
-                                    options="{'no_create_edit': True}" required="1"/>
+                                    options="{'no_create_edit': True}"/>
                                     <field name="acc_number" attrs="{'required': [('has_children', '=', False), ('state', 'in', ['approved'])]}"
                                     required="1"/>
                                 </group>
@@ -341,9 +341,9 @@
                                             </group>
                                             <group>
                                                 <field name="warehouse_ids_domain" invisible="1"/>
-                                                <field name="warehouse_ids" readonly="0"/>
+                                                <field name="warehouse_ids" readonly="1"/>
                                             </group>
-                                            <notebook>
+                                            <!--notebook>
                                                 <page string="General">
                                                     <h2 style="margin-bottom: 0;padding: 0.25rem 16px;background-color: #e9ecef;font-size: 15px;font-weight: bold;"
                                                         groups="odoo_marketplace.marketplace_officer_group"> Default Settings </h2>
@@ -515,7 +515,7 @@
                                                         <field name="registration_gross_income_file" placeholder="Certificate gross incoome file"/>
                                                     </group>
                                                 </page>
-                                            </notebook>
+                                            </notebook-->
                                         </sheet>
                                     </form>
                                 </field>

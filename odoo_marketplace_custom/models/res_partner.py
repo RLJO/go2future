@@ -71,7 +71,8 @@ class ResPartner(models.Model):
         res = super(ResPartner, self).create(vals)
         if res:
             self.update_product_seller(res)
-            res.children_parent_id = res.write_uid.partner_id.id
+            if res.write_uid.partner_id.seller:
+                res.children_parent_id = res.write_uid.partner_id.id
         return res
 
     def write(self, vals):

@@ -65,7 +65,7 @@
                             <field name="name" default_focus="1" placeholder="Name" required="1"/>
                         </h1>
                         <div class="o_row" groups="odoo_marketplace.marketplace_manager_group">
-                            <field name="children_parent_id" widget="res_partner_many2one"/>
+                            <field name="children_parent_id" widget="res_partner_many2one" readonly="1" force_save="1"/>
                         </div>
                     </div>
                     <group>
@@ -106,7 +106,7 @@
                         </group>
                     </group>
                     <separator string="Marketplace Settings &amp; Details" groups="odoo_marketplace.marketplace_seller_group"/>
-                    <notebook groups="odoo_marketplace.marketplace_seller_group">
+                    <notebook>
                         <page string="General">
                             <h2 style="margin-bottom: 0;padding: 0.25rem 16px;background-color: #e9ecef;font-size: 15px;font-weight: bold;"
                                 groups="odoo_marketplace.marketplace_officer_group"> Default Settings </h2>

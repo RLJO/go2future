@@ -30,7 +30,7 @@
                 </page>
             </xpath>
 
-            <field name="available_amount" position="attributes">
+            <!--<field name="available_amount" position="attributes">
                 <attribute name="groups">base.group_system</attribute>
             </field>
             <field name="available_amount" position="attributes">
@@ -41,8 +41,10 @@
             </field>
             <field name="available_amount" position="attributes">
                 <attribute name="groups">base.group_system</attribute>
-            </field>
-
+            </field>-->
+            <button name="website_publish_button" position="attributes">
+                <attribute name="groups">base.group_system</attribute>
+            </button>
             <xpath expr="//form/header/button[1]" position="attributes">
                 <attribute name="groups">base.group_system</attribute>
             </xpath>
