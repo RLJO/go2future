@@ -13,8 +13,8 @@
     'depends': ['contacts', 'website', 'odoo_marketplace'],
     'data': [
         'security/ir.model.access.csv',
-        # 'views/seller_view.xml',
-        'views/group_seller_view.xml',
+        'views/seller_view.xml',
+        # 'views/group_seller_view.xml',
     ],
     'demo': [
     ],

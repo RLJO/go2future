@@ -2,6 +2,7 @@
     <record id="go2f_wk_seller_form_view" model="ir.ui.view" >
         <field name="name">go2f.seller.form</field>
         <field name="model">res.partner</field>
+        <field name="priority" eval="1"/>
         <field name="inherit_id" ref="odoo_marketplace.wk_seller_form_view"/>
         <field name="arch" type="xml">
             <button name="website_publish_button" position="attributes">
