@@ -102,6 +102,9 @@
                 </div>
             </field>
 
+            <button name="toggle_website_published" position="attributes">
+                <attribute name="groups">base.group_system</attribute>
+            </button>
         </field>
     </record>
 

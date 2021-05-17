@@ -5,6 +5,18 @@
         <field name="priority" eval="1"/>
         <field name="inherit_id" ref="odoo_marketplace.wk_seller_form_view"/>
         <field name="arch" type="xml">
+            <xpath expr="//form/sheet/div/button[1]" position="attributes">
+                <attribute name="groups">base.group_system</attribute>
+            </xpath>
+            <xpath expr="//form/sheet/div/button[2]" position="attributes">
+                <attribute name="groups">base.group_system</attribute>
+            </xpath>
+            <button name="action_avg_seller_review_fun" position="attributes">
+                <attribute name="groups">base.group_system</attribute>
+            </button>
+            <button name="action_active_recommendation_fun" position="attributes">
+                <attribute name="groups">base.group_system</attribute>
+            </button>
             <button name="website_publish_button" position="attributes">
                 <attribute name="groups">base.group_system</attribute>
             </button>
