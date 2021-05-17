@@ -1,39 +1,15 @@
 <odoo>
-    <record id="go2f_odoo_marketplace_seller_form_view" model="ir.ui.view" >
-        <field name="name">go2f_odoo_marketplace_seller_form_view</field>
+    <record id="go2f_wk_seller_form_view" model="ir.ui.view" >
+        <field name="name">go2f.seller.form</field>
         <field name="model">res.partner</field>
         <field name="priority" eval="1"/>
         <field name="inherit_id" ref="odoo_marketplace.wk_seller_form_view"/>
         <field name="arch" type="xml">
 
-            <xpath expr="//page[@name='policies']" position="after">
-                <page string="Fiscal Company Data" name="g2f_seller">
-                    <group col="4" colspan="2">
-                        <field name="industry_id" widget="many2one_tags" options="{'no_create_edit': True}"/><br/>
-                        <field name="l10n_latam_identification_type_id" options="{'no_open': True, 'no_create': True}" placeholder="Type" attrs="{'readonly': [('parent_id','!=',False)]}" class="oe_inline" domain="country_id and ['|', ('country_id', '=', False), ('country_id', '=', country_id)] or []" required="True"/>
-                        <field name="vat" placeholder="Number" class="oe_inline" attrs="{'readonly': [('parent_id','!=',False)]}"/>
-                    </group>
-                    <group string="Datos Fiscales" col="4" colspan="2">
-                        <field name="l10n_ar_afip_responsibility_type_id" string="AFIP Responsibility" options="{'no_open': True, 'no_create': True}" attrs="{'readonly': [('parent_id','!=',False)]}"/>
-                        <field name="property_account_position_id" options="{'no_create': True, 'no_open': True}"/>
-                        <field name="is_exclution_iva" placeholder="Is Exclution IVA"/>
-                        <field name="is_permanent_exclution" placeholder="Is Permanent exclution"/>
-                        <field name="certificate_date_start" placeholder="certificate date start"/>
-                        <field name="certificate_date_end" placeholder="certificate date end"/>
-                        <field name="certificate_file" placeholder="Certificate Exclition file"/>
-                    </group>
-                    <group string="Ingresos Brutos" col="4" colspan="2">
-                        <field name="l10n_ar_gross_income_type" class="oe_inline"/>
-                        <field name="l10n_ar_gross_income_number" placeholder="Number..." class="oe_inline" attrs="{'invisible': [('l10n_ar_gross_income_type', 'not in', ['multilateral', 'local'])], 'required': [('l10n_ar_gross_income_type', 'in', ['multilateral', 'local'])]}"/>
-                        <field name="registration_gross_income_file" placeholder="Certificate gross incoome file"/>
-                    </group>
-                </page>
-            </xpath>
-
-            <!--<field name="available_amount" position="attributes">
+            <field name="website_publish_button" position="attributes">
                 <attribute name="groups">base.group_system</attribute>
             </field>
-            <field name="available_amount" position="attributes">
+            <!--<field name="available_amount" position="attributes">
                 <attribute name="groups">base.group_system</attribute>
             </field>
             <field name="available_amount" position="attributes">
