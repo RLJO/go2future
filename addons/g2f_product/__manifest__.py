@@ -28,6 +28,7 @@
         'security/ir.model.access.csv',
         'views/product_view.xml',
         'views/product_marketplace.xml',
+        'views/group_seller_view.xml',
     ],
 
 }

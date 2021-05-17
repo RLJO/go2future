@@ -103,8 +103,12 @@
             </field>
 
             <button name="toggle_website_published" position="attributes">
-                <attribute name="groups">base.group_system</attribute>
+                <attribute name="groups">odoo_marketplace.marketplace_manager_group</attribute>
             </button>
+            <xpath expr="//div[@class='oe_title']" position="inside">
+                <field name="product_code" readonly="1"/>
+            </xpath>
+
         </field>
     </record>
 
