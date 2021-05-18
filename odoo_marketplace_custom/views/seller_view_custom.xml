@@ -610,7 +610,7 @@
             </field>
         </record>
 
-        <record id="go2f_odoo_form_view_custom" model="ir.ui.view" >
+        <record id="go2f_odoo_seller_form_view_custom" model="ir.ui.view" >
         <field name="name">go2f_odoo_marketplace_custom_form_view</field>
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="g2f_marketplace.go2f_odoo_marketplace_seller_form_view"/>
