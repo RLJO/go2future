@@ -11,5 +11,5 @@ class ResPartner(models.Model):
         self.ensure_one()
         if self.seller:
             self.state = "approved"
-            seq = self.env["ir.sequence"].next_by_code("product.code")
+            seq = self.env["ir.sequence"].next_by_code("seller_.code")
             self.sudo().write({"seller_code": seq})
