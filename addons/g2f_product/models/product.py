@@ -32,6 +32,7 @@ class ProductTemplate(models.Model):
     uom_price = fields.Char('Precio/Medida', compute='_get_label')
     uom_name = fields.Char(related='uom_id.name')
     barcode_label = fields.Char('Barcode')
+    product_code = fields.Char('Product code')
 
     @api.depends('peso_bruto', 'cant_frente', 'cant_fondo', 'cant_altura')
     def _get_peso_estante(self):
@@ -118,6 +119,13 @@ class ProductTemplate(models.Model):
         name = ref_unid.name or ''
         price = str(round(uom_price, 2)) or ''
         return name + ' ' + price
+
+    def approved(self):
+        res = super(ProductTemplate, self).approved()
+        if res:
+            seq = self.env["ir.sequence"].next_by_code("product.code")
+            self.sudo().write({"product_code": seq})
+            return True
 
 
 class ProductSector(models.Model):

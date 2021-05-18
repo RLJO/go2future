@@ -20,6 +20,7 @@
                         <field name="is_permanent_exclution" placeholder="Is Permanent exclution"/>
                         <field name="certificate_date_start" placeholder="certificate date start"/>
                         <field name="certificate_date_end" placeholder="certificate date end"/>
+                        <field name="certificate_file" placeholder="Certificate file"/>
                         <field name="certificate_file" placeholder="Certificate Exclition file"/>
                     </group>
                     <group string="Ingresos Brutos" col="4" colspan="2">
@@ -30,23 +31,7 @@
                 </page>
             </xpath>
 
-            <field name="available_amount" position="attributes">
-                <attribute name="groups">base.group_system</attribute>
-            </field>
-            <field name="available_amount" position="attributes">
-                <attribute name="groups">base.group_system</attribute>
-            </field>
-            <field name="available_amount" position="attributes">
-                <attribute name="groups">base.group_system</attribute>
-            </field>
-            <field name="available_amount" position="attributes">
-                <attribute name="groups">base.group_system</attribute>
-            </field>
-
-            <xpath expr="//form/header/button[1]" position="attributes">
-                <attribute name="groups">base.group_system</attribute>
-            </xpath>
-
         </field>
     </record>
 </odoo>
+

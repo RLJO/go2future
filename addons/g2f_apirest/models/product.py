@@ -34,7 +34,7 @@ class ProductProduct(models.Model):
             ('barcode', '=', barcode),
             ('active', '=', True),
             ('sale_ok', '=', True),
-            ('is_published', '=', True)
+            ('status', '=', 'approved')
         ]
 
         response = self.parse_products(domain)
@@ -43,22 +43,11 @@ class ProductProduct(models.Model):
     def parse_products(self, domain=None):
         '''Return products parse.'''
 
-        products = self.env['product.product']
-        response = products.search_read(domain,
-                                        ['name',
-                                         'alternative_product_ids',
-                                         'categ_id',
-                                         'code',
-                                         'company_id',
-                                         'default_code',
-                                         'description',
-                                         'description_purchase',
-                                         'display_name',
-                                         # 'image_128',
-                                         'image_128_parse',
-                                         # 'image_variant_128',
-                                         'is_published',
-                                         'list_price',
-                                         'website_id',
-                                         'sale_ok'])
+        response = self.search_read(
+                domain, 
+                ['name', 'alternative_product_ids', 'categ_id', 'code',
+                    'company_id', 'default_code', 'description',
+                    'description_purchase', 'display_name', 'image_128_parse',
+                    'is_published', 'list_price', 'website_id', 'sale_ok']
+                )
         return response

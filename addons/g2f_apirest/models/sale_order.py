@@ -52,6 +52,14 @@ class SaleOrder(models.Model):
 
         return False
 
+    def confirm_sale_order(self, login):
+        """Confirm sale order."""
+
+        user_instance = self.env['res.users'].search([('login', '=', login)])
+        order_instance = self._search_sale_order_by_partner(user_instance.partner_id.id)
+        order_instance.action_confirm()
+        return True
+
     def create_sale_order(self, partner_id):
         '''Create sale order.'''
 
@@ -62,7 +70,7 @@ class SaleOrder(models.Model):
 
         order_vals = {'partner_id': partner_id,
                 'validity_date': datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S'),
-                'order_line': []
+                'order_line': [],
                 }
 
         new_order = self.create(order_vals)
