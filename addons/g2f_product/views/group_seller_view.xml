@@ -21,9 +21,9 @@
                 <attribute name="groups">base.group_system</attribute>
             </button>
 
-            <!--<xpath expr="//div[@class='oe_title']" position="inside">
+            <xpath expr="//div[@class='oe_title']" position="inside">
                 <field name="seller_code" readonly="1"/>
-            </xpath>-->
+            </xpath>
         </field>
     </record>
 </odoo>
