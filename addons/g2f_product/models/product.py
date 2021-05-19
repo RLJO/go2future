@@ -123,8 +123,9 @@ class ProductTemplate(models.Model):
     def approved(self):
         res = super(ProductTemplate, self).approved()
         if res:
-            seq = self.env["ir.sequence"].next_by_code("product.code")
-            self.sudo().write({"product_code": seq})
+            if not self.product_code:
+                seq = self.env["ir.sequence"].next_by_code("product.code")
+                self.sudo().write({"product_code": seq})
             return True
 
 
