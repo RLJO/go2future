@@ -5,6 +5,10 @@
         <field name="inherit_id" ref="odoo_marketplace.wk_seller_form_view"/>
         <field name="arch" type="xml">
 
+            <xpath expr="//notebook/page" position="attributes">
+                <attribute name="name">general</attribute>
+                <attribute name="groups">base.group_erp_manager</attribute>
+            </xpath>
             <xpath expr="//page[@name='policies']" position="after">
                 <page string="Fiscal Company Data" name="g2f_seller">
                     <group col="4" colspan="2">
