@@ -12,6 +12,7 @@
     'version': '14.0.1.0.0',
     'depends': ['base','contacts', 'website', 'odoo_marketplace'],
     'data': [
+        'data/sequence.xml',
         'security/ir.model.access.csv',
         'views/seller_view.xml',
         'views/group_seller_view.xml',
