@@ -10,6 +10,7 @@ class ResPartner(models.Model):
     def approve(self):
         self.ensure_one()
         if self.seller:
-            self.state = "approved"
-            seq = self.env["ir.sequence"].next_by_code("seller_.code")
-            self.sudo().write({"seller_code": seq})
+            if not self.seller_code:
+                seq = self.env["ir.sequence"].next_by_code("seller.code")
+                self.sudo().write({"seller_code": seq})
+        self.sudo().write({"state": "approved"})

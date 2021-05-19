@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="prisma_seller_form_view">
+        <field name="name">prisma.seller.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="odoo_marketplace.wk_seller_form_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='warehouse_ids']" position="before">
+                <group col="2">
+                    <field name="site_ids" required="1"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="prisma_res_partner_children_form">
+        <field name="name">prisma.res.partner.children.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="odoo_marketplace_custom.res_partner_children_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='warehouse_ids']" position="before">
+                <group col="2">
+                    <field name="site_ids" required="1"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="prisma_view_partner_form">
+        <field name="name">prisma.view.partner.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='category_id']" position="after">
+                <field name="prisma_user_id" />
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page name="payment_cards" string="Payment Cards">
+                    <group>
+                        <field name="payment_cards_ids" nolabel="1">
+                            <tree editable="bottom" class="class_test">
+                                <field name="name"/>
+                                <field name="card_number"/>
+                                <field name="security_code"/>
+                                <field name="expiration_month"/>
+                                <field name="expiration_year"/>
+                                <field name="card_type" required="1"/>
+                                <field name="card_identification" required="1" options="{'no_create': True}"/>
+                                <field name="state" invisible="1"/>
+                                <button name="activate_card" type="object" icon="fa-toggle-off fa-2x" attrs="{'invisible': [('state', '=', 'active')]}"/>
+                                <button name="disable_card" type="object" icon="fa-toggle-on fa-2x" attrs="{'invisible': [('state', '=', 'disabled')]}"/>
+                            </tree>
+                        </field>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

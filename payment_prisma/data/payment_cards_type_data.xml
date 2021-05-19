@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data noupdate="1">
+
+        <record model="payment.cards.types" id="payment_cards_types_1">
+            <field name="name">Visa</field>
+            <field name="type">credit</field>
+            <field name="payment_method_id">1</field>
+        </record>
+
+        <record model="payment.cards.types" id="payment_cards_types_8">
+            <field name="name">Diners Club</field>
+            <field name="type">credit</field>
+            <field name="payment_method_id">8</field>
+        </record>
+
+        <record model="payment.cards.types" id="payment_cards_types_23">
+            <field name="name">Tarjeta Shopping</field>
+            <field name="type">credit</field>
+            <field name="payment_method_id">23</field>
+        </record>
+
+        <record model="payment.cards.types" id="payment_cards_types_24">
+            <field name="name">Tarjeta Naranja</field>
+            <field name="type">credit</field>
+            <field name="payment_method_id">24</field>
+        </record>
+
+        <record model="payment.cards.types" id="payment_cards_types_25">
+            <field name="name">PagoFacil</field>
+            <field name="type">credit</field>
+            <field name="payment_method_id">25</field>
+        </record>
+
+        <record model="payment.cards.types" id="payment_cards_types_26">
+            <field name="name">RapiPago</field>
+            <field name="type">credit</field>
+            <field name="payment_method_id">26</field>
+        </record>
+
+        <record model="payment.cards.types" id="payment_cards_types_29">
+            <field name="name">Italcred</field>
+            <field name="type">credit</field>
+            <field name="payment_method_id">29</field>
+        </record>
+
+        <record model="payment.cards.types" id="payment_cards_types_30">
+            <field name="name">ArgenCard</field>
+            <field name="type">credit</field>
+            <field name="payment_method_id">30</field>
+        </record>
+
+        <record model="payment.cards.types" id="payment_cards_types_34">
+            <field name="name">CoopePlus</field>
+            <field name="type">credit</field>
+            <field name="payment_method_id">34</field>
+        </record>
+
+        <record model="payment.cards.types" id="payment_cards_types_37">
+            <field name="name">Nexo</field>
+            <field name="type">credit</field>
+            <field name="payment_method_id">37</field>
+        </record>
+
+        <record model="payment.cards.types" id="payment_cards_types_38">
+            <field name="name">Credimás</field>
+            <field name="type">credit</field>
+            <field name="payment_method_id">38</field>
+        </record>
+
+        <record model="payment.cards.types" id="payment_cards_types_39">
+            <field name="name">Tarjeta Nevada</field>
+            <field name="type">credit</field>
+            <field name="payment_method_id">39</field>
+        </record>
+
+        <record model="payment.cards.types" id="payment_cards_types_42">
+            <field name="name">Nativa</field>
+            <field name="type">credit</field>
+            <field name="payment_method_id">42</field>
+        </record>
+
+        <record model="payment.cards.types" id="payment_cards_types_43">
+            <field name="name">Tarjeta Cencosud</field>
+            <field name="type">credit</field>
+            <field name="payment_method_id">43</field>
+        </record>
+
+        <record model="payment.cards.types" id="payment_cards_types_44">
+            <field name="name">Tarjeta Carrefour / Cetelem</field>
+            <field name="type">credit</field>
+            <field name="payment_method_id">44</field>
+        </record>
+
+        <record model="payment.cards.types" id="payment_cards_types_43">
+            <field name="name">Tarjeta Cencosud</field>
+            <field name="type">credit</field>
+            <field name="payment_method_id">43</field>
+        </record>
+
+        <record model="payment.cards.types" id="payment_cards_types_48">
+            <field name="name">Caja de Pagos</field>
+            <field name="type">credit</field>
+            <field name="payment_method_id">48</field>
+        </record>
+
+        <record model="payment.cards.types" id="payment_cards_types_50">
+            <field name="name">BBPS</field>
+            <field name="type">credit</field>
+            <field name="payment_method_id">50</field>
+        </record>
+
+        <record model="payment.cards.types" id="payment_cards_types_51">
+            <field name="name">Cobro Express</field>
+            <field name="type">credit</field>
+            <field name="payment_method_id">51</field>
+        </record>
+
+        <record model="payment.cards.types" id="payment_cards_types_52">
+            <field name="name">Qida</field>
+            <field name="type">credit</field>
+            <field name="payment_method_id">52</field>
+        </record>
+
+        <record model="payment.cards.types" id="payment_cards_types_55">
+            <field name="name">Patagonia 365</field>
+            <field name="type">credit</field>
+            <field name="payment_method_id">55</field>
+        </record>
+
+        <record model="payment.cards.types" id="payment_cards_types_56">
+            <field name="name">Tarjeta Club Día</field>
+            <field name="type">credit</field>
+            <field name="payment_method_id">56</field>
+        </record>
+
+        <record model="payment.cards.types" id="payment_cards_types_59">
+            <field name="name">Tuya</field>
+            <field name="type">credit</field>
+            <field name="payment_method_id">59</field>
+        </record>
+
+        <record model="payment.cards.types" id="payment_cards_types_60">
+            <field name="name">Distribution</field>
+            <field name="type">credit</field>
+            <field name="payment_method_id">60</field>
+        </record>
+
+        <record model="payment.cards.types" id="payment_cards_types_61">
+            <field name="name">Tarjeta La Anónima</field>
+            <field name="type">credit</field>
+            <field name="payment_method_id">61</field>
+        </record>
+
+        <record model="payment.cards.types" id="payment_cards_types_62">
+            <field name="name">CrediGuia</field>
+            <field name="type">credit</field>
+            <field name="payment_method_id">62</field>
+        </record>
+
+        <record model="payment.cards.types" id="payment_cards_types_63">
+            <field name="name">Cabal Prisma</field>
+            <field name="type">credit</field>
+            <field name="payment_method_id">63</field>
+        </record>
+
+        <record model="payment.cards.types" id="payment_cards_types_64">
+            <field name="name">Tarjeta SOL</field>
+            <field name="type">credit</field>
+            <field name="payment_method_id">64</field>
+        </record>
+
+        <record model="payment.cards.types" id="payment_cards_types_103">
+            <field name="name">Favacard</field>
+            <field name="type">credit</field>
+            <field name="payment_method_id">103</field>
+        </record>
+
+        <record model="payment.cards.types" id="payment_cards_types_104">
+            <field name="name">MasterCard Prisma</field>
+            <field name="type">credit</field>
+            <field name="payment_method_id">104</field>
+        </record>
+
+        <record model="payment.cards.types" id="payment_cards_types_31">
+            <field name="name">Visa Débito</field>
+            <field name="type">debit</field>
+            <field name="payment_method_id">31</field>
+        </record>
+
+        <record model="payment.cards.types" id="payment_cards_types_105">
+            <field name="name">MasterCard Debit Prisma</field>
+            <field name="type">debit</field>
+            <field name="payment_method_id">105</field>
+        </record>
+
+        <record model="payment.cards.types" id="payment_cards_types_106">
+            <field name="name">Maestro Prisma</field>
+            <field name="type">debit</field>
+            <field name="payment_method_id">106</field>
+        </record>
+
+        <record model="payment.cards.types" id="payment_cards_types_108">
+            <field name="name">Cabal Débito Prisma</field>
+            <field name="type">debit</field>
+            <field name="payment_method_id">108</field>
+        </record>
+
+    </data>
+</odoo>
