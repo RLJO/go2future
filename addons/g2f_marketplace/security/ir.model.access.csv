@@ -1,1 +1,2 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_bank_followers_draft_seller,bank_followers_draft_seller,base.model_res_bank,odoo_marketplace.marketplace_draft_seller_group,1,1,0,0
