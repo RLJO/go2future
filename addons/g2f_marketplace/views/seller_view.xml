@@ -23,9 +23,9 @@
                         <field name="certificate_file" placeholder="Certificate Exclition file"/>
                     </group>
                     <group string="Ingresos Brutos" col="4" colspan="2">
-                        <field name="l10n_ar_gross_income_type" class="oe_inline"/>
+                        <field name="l10n_ar_gross_income_type" class="oe_inline" required="1"/>
                         <field name="l10n_ar_gross_income_number" placeholder="Number..." class="oe_inline" attrs="{'invisible': [('l10n_ar_gross_income_type', 'not in', ['multilateral', 'local'])], 'required': [('l10n_ar_gross_income_type', 'in', ['multilateral', 'local'])]}"/>
-                        <field name="registration_gross_income_file" placeholder="Certificate gross incoome file"/>
+                        <field name="registration_gross_income_file" placeholder="Certificate gross incoome file" required="1"/>
                     </group>
                 </page>
             </xpath>
