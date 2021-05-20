@@ -105,6 +105,11 @@
                 <field name="product_code" readonly="1"/>
             </xpath>
 
+            <button name="send_to_draft" position="attributes">
+                <attribute name="invisible">[('status', 'in', ('pending','draft', False))]</attribute>
+            </button>
+
+
         </field>
     </record>
 
