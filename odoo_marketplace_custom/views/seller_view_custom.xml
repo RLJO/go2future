@@ -9,7 +9,7 @@
         <field name="arch" type="xml">
             <xpath expr="//div[@class='oe_title']" position="inside">
                 <div class="oe_edit_only">
-                    <label for="children_parent_id"/>
+                    <label for="children_parent_id" string="Vendedor padre"/>
                 </div>
                 <div class="o_row">
                     <field name="children_parent_id" widget="res_partner_many2one"  groups="odoo_marketplace.marketplace_manager_group"/>
@@ -61,7 +61,7 @@
 
             <!--Campo tiene hijos-->
             <xpath expr="//field[@name='title']" position="after">
-                <field name="has_children" attrs="{'invisible': [('children_parent_id', '!=', False)]}" />
+                <field name="has_children" string="Tiene vendedores hijos?" attrs="{'invisible': [('children_parent_id', '!=', False)]}" />
             </xpath>
             <!-- Modificaciones en el NOTEBOOK-->
             <xpath expr="//notebook" position="attributes">
