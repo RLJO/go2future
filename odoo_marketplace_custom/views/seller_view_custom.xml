@@ -70,7 +70,7 @@
             </xpath>
             <xpath expr="//page[1]" position="attributes">
                 <attribute name="name">contacto</attribute>
-                <attribute name="groups">odoo_marketplace.marketplace_seller_group</attribute>
+                <attribute name="groups">odoo_marketplace.marketplace_draft_seller_group</attribute>
                 <!-- RAD: @jendelcas solicito cambio de grupo  -->
             </xpath>
             <xpath expr="//page[2]" position="attributes">
@@ -83,10 +83,10 @@
             </xpath>
             <xpath expr="//page[4]" position="attributes">
                 <attribute name="name">policies</attribute>
-                <attribute name="groups">odoo_marketplace.marketplace_seller_group</attribute>
+                <attribute name="groups">odoo_marketplace.marketplace_draft_seller_group</attribute>
             </xpath>
             <xpath expr="//notebook" position="inside">
-                <page string="Información adicional" name="prisma" groups="odoo_marketplace.marketplace_seller_group">
+                <page string="Información adicional" name="prisma" groups="odoo_marketplace.marketplace_draft_seller_group">
                     <group>
                         <field name="warehouse_ids_domain" invisible="1"/>
                         <field name="warehouse_ids"
