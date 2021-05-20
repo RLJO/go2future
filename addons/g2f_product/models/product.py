@@ -23,7 +23,7 @@ class ProductTemplate(models.Model):
     gondola = fields.Char('Gondola position', size=14)
     peso_estante = fields.Integer('Total weight of the shelf', compute='_get_peso_estante')
     aptitud = fields.Integer('Lifetime fitness percentage', default=70)
-    desc_tag = fields.Char('TAG short description')
+    desc_tag = fields.Char('TAG short description', size=17)
     atributos_ids = fields.Many2many('product.atributos', 'product_atributos_rel', 'prod_id', 'atributos_id', string='Attributes')
     product_label = fields.Text('Product Label', compute='_get_label')
     uom_id = fields.Many2one('uom.uom', 'Unit of Measure', required=True,
@@ -97,16 +97,6 @@ class ProductTemplate(models.Model):
         else:
             self.uom_price = self._get_uom_price()
         self.barcode_label = self.barcode
-
-        # label = str(self.env.user.company_id.currency_id.symbol)
-        # label += str(self.list_price) + '\n'
-        # label += str(self.desc_tag) + '\n' or ''
-        # label += self.brand + ' ' if self.brand else ''
-        # label += str(self.contents) + ' ' if self.contents else ''
-        # label += self.uom_id.name + '\n'
-        # label += 'Precio por cada ' + uom_price + '\n'
-        # label += self.barcode or ''
-        # self.product_label = label
 
     def _get_uom_price(self):
         ref_unid = self.env['uom.uom'].search([('category_id', '=', self.uom_id.category_id.id),

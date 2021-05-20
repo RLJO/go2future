@@ -54,10 +54,6 @@
             <field name="image_1920" position="before">
                 <div class="oe_avatar">
                     <span> </span>
-                    <!--<div style="margin: 0px 0px 0px 10px; text-align:center; border:1px solid #c0c0c0;">
-&lt;!&ndash;                        <div style="text-align:center; border:1px solid #c0c0c0; font-size: 12px; font-weight: bold;">&ndash;&gt;
-                        <field name="product_label"/>
-                    </div>-->
                     <div style="
                         margin-right: 10px;
                         height: 200px;
@@ -72,7 +68,7 @@
                       <div style="
                         font-size: 36px;
                         margin: 5px;">
-                          <field name="list_price" readonly="1"/>
+                          <field name="lst_price" readonly="1"/>
                        </div>
                        <div style="
                         font-size: 18px;
