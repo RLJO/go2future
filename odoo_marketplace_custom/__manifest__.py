@@ -21,7 +21,7 @@
   "author":  "kelvis pernia / Andy Quijada",
   "description":  """Odoo Multi Vendor Marketplace custom""",
   "depends":  ['base', 'l10n_latam_base', 'sale', 'odoo_marketplace', 'marketplace_seller_wise_checkout',
-               'g2f_marketplace', ],
+               'g2f_marketplace'],
   "data":  ['data/marketplace_security_data.xml',
             'security/ir.model.access.csv',
             'views/res_partner_children.xml',

@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+marketplace_payment_acquirer_manager,marketplace_payment_acquirer_manager,model_marketplace_payment_acquirer,odoo_marketplace.marketplace_manager_group,1,1,1,1
+payment_cards_manager,payment_cards_manager,model_payment_cards,base.group_user,1,1,1,1
+payment_cards_types_manager,payment_cards_types_manager,model_payment_cards_types,base.group_user,1,1,1,1

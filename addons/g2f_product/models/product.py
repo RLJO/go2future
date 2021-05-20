@@ -23,7 +23,7 @@ class ProductTemplate(models.Model):
     gondola = fields.Char('Gondola position', size=14)
     peso_estante = fields.Integer('Total weight of the shelf', compute='_get_peso_estante')
     aptitud = fields.Integer('Lifetime fitness percentage', default=70)
-    desc_tag = fields.Char('TAG short description')
+    desc_tag = fields.Char('TAG short description', size=17)
     atributos_ids = fields.Many2many('product.atributos', 'product_atributos_rel', 'prod_id', 'atributos_id', string='Attributes')
     product_label = fields.Text('Product Label', compute='_get_label')
     uom_id = fields.Many2one('uom.uom', 'Unit of Measure', required=True,
@@ -32,6 +32,7 @@ class ProductTemplate(models.Model):
     uom_price = fields.Char('Precio/Medida', compute='_get_label')
     uom_name = fields.Char(related='uom_id.name')
     barcode_label = fields.Char('Barcode')
+    product_code = fields.Char('Product code')
 
     @api.depends('peso_bruto', 'cant_frente', 'cant_fondo', 'cant_altura')
     def _get_peso_estante(self):
@@ -97,16 +98,6 @@ class ProductTemplate(models.Model):
             self.uom_price = self._get_uom_price()
         self.barcode_label = self.barcode
 
-        # label = str(self.env.user.company_id.currency_id.symbol)
-        # label += str(self.list_price) + '\n'
-        # label += str(self.desc_tag) + '\n' or ''
-        # label += self.brand + ' ' if self.brand else ''
-        # label += str(self.contents) + ' ' if self.contents else ''
-        # label += self.uom_id.name + '\n'
-        # label += 'Precio por cada ' + uom_price + '\n'
-        # label += self.barcode or ''
-        # self.product_label = label
-
     def _get_uom_price(self):
         ref_unid = self.env['uom.uom'].search([('category_id', '=', self.uom_id.category_id.id),
                                                ('uom_type', '=', 'reference')])
@@ -118,6 +109,14 @@ class ProductTemplate(models.Model):
         name = ref_unid.name or ''
         price = str(round(uom_price, 2)) or ''
         return name + ' ' + price
+
+    def approved(self):
+        res = super(ProductTemplate, self).approved()
+        if res:
+            if not self.product_code:
+                seq = self.env["ir.sequence"].next_by_code("product.code")
+                self.sudo().write({"product_code": seq})
+            return True
 
 
 class ProductSector(models.Model):

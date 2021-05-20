@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data noupdate="1">
+
+        <record model="marketplace.payment.acquirer" id="marketplace_payment_acquirer_prisma">
+            <field name="name">Prisma</field>
+            <field name="sandbox_url">https://developers.decidir.com/api/v2</field>
+            <field name="production_url">https://live.decidir.com/api/v2</field>
+            <field name="public_key">fdd39b3b63244ebda43189b8dcf69b7d</field>
+            <field name="private_key">3cccb1af4f9c4882be3581270e7dc3d1</field>
+        </record>
+
+    </data>
+</odoo>

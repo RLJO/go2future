@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="marketplace_payment_acquirer_tree_view">
+        <field name="name">marketplace.payment.acquirer.tree.view</field>
+        <field name="model">marketplace.payment.acquirer</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="marketplace_payment_acquirer_form_view">
+        <field name="name">marketplace.payment.acquirer.form.view</field>
+        <field name="model">marketplace.payment.acquirer</field>
+        <field name="arch" type="xml">
+            <form>
+                <!--header>
+                    <field name="state" widget="statusbar" statusbar_visible="disabled,sandbox,production"/>
+                </header-->
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" type="object" name="change_state" icon="fa-edit">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value breadcrumb-item"><field name="state"/></span>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <div class="oe_edit_only">
+                            <label for="name"/>
+                        </div>
+                        <h1>
+                            <field name="name" default_focus="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="sandbox_url"/>
+                            <field name="production_url"/>
+                        </group>
+                        <group>
+                            <field name="public_key"/>
+                            <field name="private_key"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="marketplace_payment_acquirer_tree_action" model="ir.actions.act_window">
+        <field name="name">Payment Acqquirer</field>
+        <field name="res_model">marketplace.payment.acquirer</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="marketplace_payment_acquirer_tree_view"/>
+    </record>
+
+    <menuitem id="marketplace_paymnet_acquirer_menu"
+              name="Payment Acquirer"
+              parent="odoo_marketplace.wk_seller_dashboard_menu8"
+              action="marketplace_payment_acquirer_tree_action"
+              sequence="11"/>
+
+</odoo>

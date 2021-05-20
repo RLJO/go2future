@@ -61,7 +61,7 @@ class SellerPayment(models.Model):
     name = fields.Char(string="Record Reference",
                        default="NEW", translate=True, readonly=True, states={'draft': [('readonly', False)]}, copy=False)
     state = fields.Selection([("draft", "Draft"), ("requested", "Requested/Validated"),
-                              ("confirm", "Confirmed"), ("posted", "Paid"), ("canceled", "Cancelled")], default="draft", copy=False, track_visibility='onchange')
+                              ("confirm", "Confirmed"), ("posted", "Paid"), ("canceled", "Cancelled")], default="draft", copy=False, tracking=True)
     seller_id = fields.Many2one("res.partner", string="Seller", domain=[
                                 ('seller', '=', True)], required=True, readonly=True, states={'draft': [('readonly', False)]}, copy=False)
     payment_method = fields.Many2one("seller.payment.method", string="Payment Method",
@@ -81,12 +81,12 @@ class SellerPayment(models.Model):
     is_cashable = fields.Boolean(compute="_check_all_move_line_status", string="Cashable", search='_make_it_searchable',
                                  help="If all delivery releted to the order have been delivered then seller will be able to get payment.")
     company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.user.company_id.id, readonly=True)
-    invoice_currency_id = fields.Many2one('res.currency', string="Invoice Currency", compute="_set_invoice_currency", store=True, track_visibility='always')
-    currency_id = fields.Many2one("res.currency", string="Marketplace Currency", default=_get_mp_currency,track_visibility='always', required="1", readonly="1")
+    invoice_currency_id = fields.Many2one('res.currency', string="Invoice Currency", compute="_set_invoice_currency", store=True, tracking=True)
+    currency_id = fields.Many2one("res.currency", string="Marketplace Currency", default=_get_mp_currency, tracking=True, required="1", readonly="1")
     invoiced_amount = fields.Monetary(string='Seller Amount in seller Currency', currency_field='invoice_currency_id',
         readonly=True)
     invoice_line_ids = fields.Many2many("account.move.line", "seller_paymnet_invoice_line", "seller_payment", "account_invoice_line", "Invoice Lines", readonly="1")
-    seller_commission = fields.Float("Applied Commission", compute="_set_seller_commission", store=True, track_visibility='onchange', compute_sudo=True)
+    seller_commission = fields.Float("Applied Commission", compute="_set_seller_commission", store=True, tracking=True, compute_sudo=True)
 
     @api.model
     def _read_group_fill_results( self, domain, groupby, remaining_groupbys,

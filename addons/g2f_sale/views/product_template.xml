@@ -74,10 +74,13 @@
 
             <xpath expr="//field[@name='sale_ok']" position="attributes">
                 <attribute name="invisible">1</attribute>
+                <field name="context">{'sale_ok': True}</field>
             </xpath>
+
 
             <xpath expr="//field[@name='purchase_ok']" position="attributes">
                 <attribute name="invisible">1</attribute>
+                <field name="context">{'purchase_ok': True}</field>
             </xpath>
 
             <xpath expr="//div[@name='options']" position="attributes">
@@ -123,11 +126,11 @@
             </xpath>
 
             <xpath expr="//field[@name='categ_id']" position="before">
-                <field name="brand"/>
-                <field name="contents"/>
+                <field name="brand" required="1"/>
+                <field name="contents" required="1"/>
                 <field name="barcode" string="EAN 13" required="1"/>
                 <field name="country_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,}"/>
-                <field name="useful_life" string="Vida útil en días"/>
+                <field name="useful_life" string="Vida útil en días" required="1"/>
             </xpath>
 
             <xpath expr="//field[@name='taxes_id']" position="after">
