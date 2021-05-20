@@ -13,8 +13,9 @@
                 <page string="Fiscal Company Data" name="g2f_seller">
                     <group col="4" colspan="2">
                         <field name="industry_id" widget="many2one_tags" options="{'no_create_edit': True}"/><br/>
-                        <field name="l10n_latam_identification_type_id" options="{'no_open': True, 'no_create': True}" placeholder="Type" attrs="{'readonly': [('parent_id','!=',False)]}" class="oe_inline" domain="country_id and ['|', ('country_id', '=', False), ('country_id', '=', country_id)] or []" required="True"/>
-                        <field name="vat" placeholder="Number" class="oe_inline" attrs="{'readonly': [('parent_id','!=',False)]}"/>
+                        <!-- RAD: Campo de VAT se sube en otro modulo aqui se comenta-->
+                        <!--<field name="l10n_latam_identification_type_id" options="{'no_open': True, 'no_create': True}" placeholder="Type" attrs="{'readonly': [('parent_id','!=',False)]}" class="oe_inline" domain="country_id and ['|', ('country_id', '=', False), ('country_id', '=', country_id)] or []" required="True"/> -->
+                        <!-- <field name="vat" placeholder="Number" class="oe_inline" attrs="{'readonly': [('parent_id','!=',False)]}"/> -->
                     </group>
                     <group string="Datos Fiscales" col="4" colspan="2">
                         <field name="l10n_ar_afip_responsibility_type_id" string="AFIP Responsibility" options="{'no_open': True, 'no_create': True}" attrs="{'readonly': [('parent_id','!=',False)]}"/>
@@ -23,8 +24,10 @@
                         <field name="is_permanent_exclution" placeholder="Is Permanent exclution"/>
                         <field name="certificate_date_start" placeholder="certificate date start"/>
                         <field name="certificate_date_end" placeholder="certificate date end"/>
-                        <field name="certificate_file" placeholder="Certificate file"/>
-                        <field name="certificate_file" placeholder="Certificate Exclition file"/>
+                        <field name="certificate_file" placeholder="Certificate Exclution file" required="1"/>
+                        <!-- <field name="certificate_file_exc" placeholder="Certificate Exclution file" required="1"/>-->
+                        <!-- RAD: El campo certificate_file estaba dos veces en la misma vista por dos desarrolladores
+                                  Por peticion de @jendelcas cree otro campo sin embargo no creo que sea necesario-->
                     </group>
                     <group string="Ingresos Brutos" col="4" colspan="2">
                         <field name="l10n_ar_gross_income_type" class="oe_inline" required="1"/>

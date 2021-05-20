@@ -24,64 +24,41 @@ class ProductSupplierInfo(models.Model):
     _inherit = 'product.supplierinfo'
     _description = "Supplier Pricelist"
 
-    warehouse_id = fields.Many2one('stock.warehouse', 'stock.warehouse',
-                                   required=True)
+    warehouse_id = fields.Many2one('stock.warehouse', 'stock.warehouse', required=True)
 
 
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
     _check_company_auto = True
 
-    type = fields.Selection(selection_add=[('product', 'Storable Product')],
-                            tracking=True, track_visibility='always',
-                            ondelete={'product': 'set default'},
-                            default='product'
-                            )
-    brand = fields.Char(string='Brand', required=True, track_visibility='always')
-    contents = fields.Integer('Contents', required=True, track_visibility='always')
-    country_id = fields.Many2one('res.country',
-                                 string='Origin Country',
-                                 default=lambda self: self.env['res.country'].
-                                 search([('code', 'ilike', 'AR')]),
-                                 required=True, track_visibility='always')
-    useful_life = fields.Integer(required=True, string='useful life in days',
-                                 track_visibility='always')
-    internal_tax = fields.Float('Internal Tax', required=True, digits=(16, 2),
-                                default=0.0, track_visibility='always')
-    units_per_package = fields.Integer('Units per Package', required=True,
-                                       track_visibility='always')
-    barcode = fields.Char(
-        'Barcode', copy=False,
-        size=13,
-        help="EAN13 Number used for product identification.",
-        track_visibility='always'
-    )
+    type = fields.Selection(selection_add=[('product', 'Storable Product')], tracking=True,
+                            ondelete={'product': 'set default'}, default='product')
+    brand = fields.Char(string='Brand', tracking=True)
+    contents = fields.Integer('Contents', tracking=True)
+    country_id = fields.Many2one('res.country', string='Origin Country', default=lambda self: self.env['res.country'].
+                                 search([('code', 'ilike', 'AR')]), tracking=True)
+    useful_life = fields.Integer( string='useful life in days', tracking=True)
+    internal_tax = fields.Float('Internal Tax', digits=(16, 2), default=0.0, tracking=True)
+    units_per_package = fields.Integer('Units per Package', tracking=True)
+    barcode = fields.Char('Barcode', copy=False, size=13, tracking=True,
+                          help="EAN13 Number used for product identification.")
     # list_price: catalog price, user defined
-    list_price = fields.Float('Sales Price', default=1.0,
-                              digits='Product Price',
-                              help="Price at which the product is sold to customers.",
-                              track_visibility='always')
-    dun14 = fields.Char('Dun14', required=True, size=14, track_visibility='always')
-    width = fields.Integer('Width', required=True, track_visibility='always')
-    height = fields.Integer('Height', required=True, track_visibility='always')
-    depth = fields.Integer('Depth', required=True, track_visibility='always')
-    weight = fields.Integer('Weight', required=True, track_visibility='always')
-    vegan = fields.Boolean('Vegan', default=False, track_visibility='always')
-    organic = fields.Boolean('Organic', default=False,
-                             track_visibility='always')
-    without_tacc = fields.Boolean('Without Tac', default=False,
-                                  track_visibility='always')
-    sugar_free = fields.Boolean('Sugar Free', default=False,
-                                track_visibility='always')
-    optional_messages = fields.Text('Optional Messages', size=14,
-                                    track_visibility='always')
-    product_description = fields.Char('Product description', size=35,
-                                      track_visibility='always')
+    list_price = fields.Float('Sales Price', default=1.0, digits='Product Price', tracking=True,
+                              help="Price at which the product is sold to customers.")
+    dun14 = fields.Char('Dun14', size=14, tracking=True)
+    width = fields.Integer('Width', tracking=True)
+    height = fields.Integer('Height', tracking=True)
+    depth = fields.Integer('Depth', tracking=True)
+    weight = fields.Integer('Weight', tracking=True)
+    vegan = fields.Boolean('Vegan', default=False, tracking=True)
+    organic = fields.Boolean('Organic', default=False, tracking=True)
+    without_tacc = fields.Boolean('Without Tac', default=False, tracking=True)
+    sugar_free = fields.Boolean('Sugar Free', default=False, tracking=True)
+    optional_messages = fields.Text('Optional Messages', size=14, tracking=True)
+    product_description = fields.Char('Product description', size=35, tracking=True)
 
     _sql_constraints = [(
-        'product_template_dun14_uniq',
-        'UNIQUE (dun14, active)',
-        'Dun14 must be unique!'
+        'product_template_dun14_uniq', 'UNIQUE (dun14, active)', 'Dun14 must be unique!'
     )]
 
     @api.constrains('contents')
