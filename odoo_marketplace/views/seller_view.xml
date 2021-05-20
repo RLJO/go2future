@@ -87,7 +87,7 @@
                                 <field name="title" options='{"no_open": True,"no_create": True}'/>
                             </group>
                         </group>
-                        <group>
+                        <group name="url">
                             <label for="url" string="Profile Url"/>
                             <div>
                                 <field name="url" widget="url" style="width: 61%%" readonly="1"/>

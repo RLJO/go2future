@@ -28,8 +28,9 @@ class ResPartner(models.Model):
     is_permanent_exclution = fields.Boolean(default=False)
     certificate_date_start = fields.Date()
     certificate_date_end = fields.Date()
-    certificate_file = fields.Binary(string="Certificate Exclution File",
-                                     attachment=True)
+    certificate_file = fields.Binary(string="Certificate File", attachment=True)
+    #certificate_file_exc = fields.Binary(string="Certificate Exclution File", attachment=True)
+    ## El campo certificate_file_exc se crea por solicitud de @jendelcas hay otro campo igual en la vista
     regime_gross_income = fields.Selection(GROSS_INCOME)
     registration_number_gross_income = fields.Char(
         string='registration number in gross income tax')

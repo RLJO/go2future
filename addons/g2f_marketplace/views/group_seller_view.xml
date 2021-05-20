@@ -20,11 +20,16 @@
             <button name="website_publish_button" position="attributes">
                 <attribute name="groups">base.group_system</attribute>
             </button>
-
+            <!--  Campo seller_code  -->
             <xpath expr="//div[@class='oe_title']" position="inside">
-                <field name="seller_code" readonly="1"/>
+                <div class="oe_edit_only">
+                    <label for="seller_code"/>
+                </div>
+                <div class="o_row">
+                    <field name="seller_code" readonly="1"/>
+                </div>
             </xpath>
-
+            <!--  Page de Contactos  -->
             <xpath expr="//notebook/page[1]" position="before">
                 <page string="Contacts &amp; Addresses" name="contact_addresses" autofocus="autofocus">
                     <field name="user_id" invisible="1"/>

@@ -27,6 +27,7 @@ _logger = logging.getLogger(__name__)
 
 manager_fields = []
 
+
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
@@ -61,11 +62,12 @@ class ResPartner(models.Model):
 
     # Fields declaration
 
-    seller = fields.Boolean(string="Is a Seller", help="Check this box if the contact is marketplace seller.", copy=False, track_visibility='onchange')
+    seller = fields.Boolean(string="Is a Seller", help="Check this box if the contact is marketplace seller.",
+                            copy=False, tracking=True)
     payment_method = fields.Many2many("seller.payment.method", string="Payment Methods",
                                       help="It's you're accepted payment method, which will be used by admin during sending the payment.", default=_set_payment_method)
     state = fields.Selection([('new', 'New'), ('pending', 'Pending for Approval'), ('approved', 'Approved'), (
-        'denied', 'Denied')], string="Seller Status", default="new", copy=False, track_visibility='onchange')
+        'denied', 'Denied')], string="Seller Status", default="new", copy=False, tracking=True)
     attachment_ids = fields.One2many('ir.attachment', 'res_id', domain=lambda self: [
                                      ('res_model', '=', self._name)], auto_join=True, string='Attachments')
     displayed_image_id = fields.Many2one(
@@ -74,7 +76,7 @@ class ResPartner(models.Model):
     set_seller_wise_settings = fields.Boolean(
         string="Override default seller perameters", copy=False)
     commission = fields.Float(string="Default Sale Commission", default=lambda self: self.env['ir.default'].get(
-        'res.config.settings', 'mp_commission'), copy=False, track_visibility='onchange')
+        'res.config.settings', 'mp_commission'), copy=False, tracking=True)
     warehouse_id = fields.Many2one(
         "stock.warehouse", string="MP Default Warehouse", copy=False)
     location_id = fields.Many2one("stock.location", string="Default Location", domain="[('usage', '=', 'internal')]", default=lambda self: self.env[
@@ -82,9 +84,9 @@ class ResPartner(models.Model):
     auto_product_approve = fields.Boolean(string="Auto Product Approve", default=lambda self: self.env[
                                           'ir.default'].get('res.config.settings', 'mp_auto_product_approve'), copy=False)
     seller_payment_limit = fields.Integer(string="Seller Payment Limit", default=lambda self: self.env['ir.default'].get(
-        'res.config.settings', 'mp_seller_payment_limit'), copy=False, track_visibility='onchange')
+        'res.config.settings', 'mp_seller_payment_limit'), copy=False, tracking=True)
     next_payment_request = fields.Integer(string="Next Payment Request", default=lambda self: self.env['ir.default'].get(
-        'res.config.settings', 'mp_next_payment_request'), copy=False, track_visibility='onchange')
+        'res.config.settings', 'mp_next_payment_request'), copy=False, tracking=True)
     auto_approve_qty = fields.Boolean(string="Auto Quantity Approve", default=lambda self: self.env[
                                       'ir.default'].get('res.config.settings', 'mp_auto_approve_qty'), copy=False)
     total_mp_payment = fields.Monetary(
@@ -94,8 +96,8 @@ class ResPartner(models.Model):
     available_amount = fields.Monetary(string="Avalibale Amount", compute="_calculate_mp_related_payment", currency_field='seller_currency_id')
     cashable_amount = fields.Monetary(string="Cashable Amount", compute="_calculate_mp_related_payment", currency_field='seller_currency_id')
     seller_currency_id = fields.Many2one('res.currency', compute='_get_seller_currency', string="Marketplace Currency", readonly=True)
-    return_policy = fields.Html(string="Return Policy", Default="Seller return policy is not defined.", copy=False, translate=True)
-    shipping_policy = fields.Html(string="Shipping policy", Default="Seller shipping policy is not defined.", copy=False, translate=True)
+    return_policy = fields.Html(string="Return Policy", default="Seller return policy is not defined.", copy=False, translate=True)
+    shipping_policy = fields.Html(string="Shipping policy", default="Seller shipping policy is not defined.", copy=False, translate=True)
     profile_msg = fields.Html(string="Profile Message", copy=False, translate=True)
     profile_image = fields.Binary(string="Profile Image", copy=False)
     profile_banner = fields.Binary(string="Profile Banner", copy=False)

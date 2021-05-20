@@ -42,13 +42,13 @@ class ProductTemplate(models.Model):
         change_default=True, default=_get_default_category_id,
         required=True, help="Select category for the current product")
     status = fields.Selection([('draft', 'Draft'), ('pending', 'Pending'), (
-        'approved', 'Approved'), ('rejected', 'Rejected')], "Marketplace Status", default="draft", copy=False, track_visibility='onchange')
+        'approved', 'Approved'), ('rejected', 'Rejected')], "Marketplace Status", default="draft", copy=False, tracking=True)
     qty = fields.Float(string="Initial Quantity",
                        help="Initial quantity of the product which you want to update in warehouse for inventory purpose.", copy=False)
     template_id = fields.Many2one(
         "product.template", string="Product Template Id", copy=False)
     marketplace_seller_id = fields.Many2one(
-        "res.partner", string="Seller", default=lambda self: self.env.user.partner_id.id if self.env.user.partner_id and self.env.user.partner_id.seller else self.env['res.partner'], copy=False, track_visibility='onchange', help="If product has seller then it will consider as marketplace product else it will consider as simple product.")
+        "res.partner", string="Seller", default=lambda self: self.env.user.partner_id.id if self.env.user.partner_id and self.env.user.partner_id.seller else self.env['res.partner'], copy=False, tracking=True, help="If product has seller then it will consider as marketplace product else it will consider as simple product.")
     color = fields.Integer('Color Index')
     pending_qty_request = fields.Boolean(
         string="Request Pending", compute="_get_pending_qty_request")
