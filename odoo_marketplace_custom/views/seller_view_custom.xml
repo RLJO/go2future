@@ -227,7 +227,7 @@
             <xpath expr='//div[hasclass("container","o_kanban_card_content")]//div[hasclass("col-6","o_kanban_primary_left")]' position="inside">
                 <div t-if="record.state.raw_value == 'children'" style="color:rgb(162, 70, 137)">
                     <center>
-                        <i class="fa fa-users fa-5x"/>
+                        <i class="fa fa-users fa-5x" title="Children"/>
                         <h3>Children</h3>
                     </center>
                 </div>
