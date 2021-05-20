@@ -59,16 +59,6 @@
                 <attribute name="attrs">{'invisible':[('children_parent_id', '!=', False)]}</attribute>
             </xpath>
 
-<!--            <xpath expr="//label[@for='url']" position="attributes">-->
-<!--                <attribute name="attrs">{'invisible':[('children_parent_id', '!=', False)]}</attribute>-->
-<!--            </xpath>-->
-<!--            <xpath expr="//field[@name='url']" position="attributes">-->
-<!--                <attribute name="attrs">{'invisible':[('children_parent_id', '!=', False)]}</attribute>-->
-<!--            </xpath>-->
-<!--            <xpath expr="//field[@name='url_handler']" position="attributes">-->
-<!--                <attribute name="attrs">{'invisible':[('children_parent_id', '!=', False)]}</attribute>-->
-<!--            </xpath>-->
-
             <!--Campo tiene hijos-->
             <xpath expr="//field[@name='title']" position="after">
                 <field name="has_children" attrs="{'invisible': [('children_parent_id', '!=', False)]}" />
@@ -79,23 +69,24 @@
                 <attribute name="groups"></attribute>
             </xpath>
             <xpath expr="//page[1]" position="attributes">
-                <attribute name="name">general</attribute>
-                <attribute name="groups">base.group_erp_manager</attribute>
+                <attribute name="name">contacto</attribute>
+                <attribute name="groups">odoo_marketplace.marketplace_seller_group</attribute>
                 <!-- RAD: @jendelcas solicito cambio de grupo  -->
             </xpath>
             <xpath expr="//page[2]" position="attributes">
-                <attribute name="name">payment</attribute>
-                <attribute name="groups">odoo_marketplace.marketplace_seller_group</attribute>
+                <attribute name="name">general</attribute>
+                <attribute name="groups">odoo_marketplace.marketplace_manager_group</attribute>
             </xpath>
             <xpath expr="//page[3]" position="attributes">
-                <attribute name="groups">odoo_marketplace.marketplace_seller_group</attribute>
+                <attribute name="name">payment</attribute>
+                <attribute name="groups">base.group_system</attribute>
             </xpath>
             <xpath expr="//page[4]" position="attributes">
-                <attribute name="name">profile</attribute>
+                <attribute name="name">policies</attribute>
                 <attribute name="groups">odoo_marketplace.marketplace_seller_group</attribute>
             </xpath>
             <xpath expr="//notebook" position="inside">
-                <page string="Prisma" name="prisma" groups="odoo_marketplace.marketplace_seller_group">
+                <page string="Información adicional" name="prisma" groups="odoo_marketplace.marketplace_seller_group">
                     <group>
                         <field name="warehouse_ids_domain" invisible="1"/>
                         <field name="warehouse_ids"
@@ -110,7 +101,7 @@
                                required="1"/>
                     </group>
                 </page>
-                <page string="Childrens" name="childrens" attrs="{'invisible': [('has_children', '=', False)]}">
+                <page string="Información hijos" name="childrens" attrs="{'invisible': [('has_children', '=', False)]}">
                     <field name="res_partner_children" widget="one2many" context="{'default_warehouse_ids_domain': [(6, 0, [])]}">
                         <kanban>
                             <field name="id"/>
