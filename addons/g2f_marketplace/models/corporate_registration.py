@@ -41,7 +41,7 @@ class ResPartner(models.Model):
 
     @api.model
     def create(self, vals):
-        if vals.get('email') and not vals.get('vat'):
+        if vals.get('email') and not vals.get('vat') and vals.get('type') != 'contact':
             vals['vat'] = vals['email']
             vals['email'] = ''
         return super(ResPartner, self).create(vals)
