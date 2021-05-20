@@ -106,7 +106,7 @@
             </xpath>
 
             <button name="send_to_draft" position="attributes">
-                <attribute name="invisible">[('status', 'in', ('pending','draft', False))]</attribute>
+                <attribute name="attrs">{'invisible':[('status', 'in', ('pending','draft', False))]}</attribute>
             </button>
 
 
