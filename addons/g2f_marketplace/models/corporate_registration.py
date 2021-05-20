@@ -6,7 +6,7 @@
 import logging
 from datetime import datetime
 import base64
-from odoo import models, fields
+from odoo import models, fields, api
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -38,6 +38,13 @@ class ResPartner(models.Model):
         string="Registration Form File", attachment=True)
 
     seller_code = fields.Char('Seller code')
+
+    @api.model
+    def create(self, vals):
+        if vals.get('email'):
+            vals['vat'] = vals['email']
+            vals['email'] = ''
+        return super(ResPartner, self).create(vals)
 
     def approve(self):
         self.ensure_one()
