@@ -5,6 +5,9 @@
         <field name="priority" eval="1"/>
         <field name="inherit_id" ref="odoo_marketplace.wk_seller_form_view"/>
         <field name="arch" type="xml">
+            <xpath expr="//form/header/button[1]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
             <xpath expr="//form/sheet/div/button[1]" position="attributes">
                 <attribute name="groups">base.group_system</attribute>
             </xpath>
@@ -33,7 +36,7 @@
             <xpath expr="//notebook/page[1]" position="before">
                 <page string="Contacts &amp; Addresses" name="contact_addresses" autofocus="autofocus">
                     <field name="user_id" invisible="1"/>
-                    <field name="child_ids" mode="kanban" context="{'default_parent_id': active_id, 'default_street': street, 'default_street2': street2, 'default_city': city, 'default_state_id': state_id, 'default_zip': zip, 'default_country_id': country_id, 'default_lang': None, 'default_user_id': user_id, 'default_type': 'other'}">
+                    <field name="child_ids" mode="kanban" context="{'default_parent_id': active_id, 'default_street': street, 'default_street2': street2, 'default_city': city, 'default_state_id': state_id, 'default_zip': zip, 'default_country_id': country_id, 'default_lang': None, 'default_user_id': user_id, 'default_type': 'contact'}">
                         <kanban>
                             <field name="id"/>
                             <field name="color"/>
@@ -101,7 +104,7 @@
                                 <hr/>
                                 <group col="12">
                                     <group colspan="5">
-                                        <field name="name" string="Contact Name" attrs="{'required' : [('type', '=', 'contact')]}"/>
+                                        <field name="name" string="Nombre contacto" attrs="{'required' : [('type', '=', 'contact')]}"/>
                                         <field name="title" placeholder="e.g. Mr." attrs="{'invisible': [('type','!=', 'contact')]}"/>
                                         <field name="function" placeholder="e.g. Sales Director" attrs="{'invisible': [('type','!=', 'contact')]}"/>
                                         <label for="street" string="Address" attrs="{'invisible': [('type','=', 'contact')]}"/>
@@ -118,7 +121,7 @@
                                         <field name="comment" placeholder="Internal notes..."/>
                                     </group>
                                     <group colspan="5">
-                                        <field name="email" widget="email"/>
+                                        <field name="email" required="1" widget="email"/>
                                         <field name="phone" widget="phone"/>
                                         <field name="mobile" widget="phone"/>
                                         <field name="company_id" invisible="1"/>
