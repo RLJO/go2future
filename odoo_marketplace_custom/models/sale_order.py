@@ -74,12 +74,14 @@ class SaleOrder(models.Model):
                     'vendor': line.seller.id,
                     'total': total_vendor
                 })
-        self.sudo().marketplace_vendor_line_total.create({
-            'sale_order': self.id,
-            'name': 'MINIGO',
-            'vendor': False,
-            'total': count_amount
-        })
+        if self.marketplace_vendor_line_total:
+            self.sudo().marketplace_vendor_line_total.create({
+                'sale_order': self.id,
+                'name': self.company_id.partner_id.name,
+                'vendor': self.company_id.partner_id.id,
+                'total': count_amount,
+                'date': fields.Datetime.now(),
+            })
 
     def _invoice_lines_by_seller(self, order_lines):
         seller_lines = []
@@ -310,6 +312,7 @@ class MarketplaceVendorTotal(models.Model):
     _name = "marketplace.vendor.total"
 
     name = fields.Char('Vendedor')
+    date = fields.Datetime('Fecha', default=lambda self: fields.Datetime.now())
     sale_order = fields.Many2one('sale.order')
     vendor = fields.Many2one(
         'res.partner', 'Vendor',
