@@ -25,21 +25,25 @@ class SaleOrder(models.Model):
         sellers_positions = {}
         sellers = []
         position = 0
+        cont_amount_marketplace = 0
         for vendor_line in self.marketplace_vendor_line:
             if vendor_line.name.id not in sellers_positions:
                 sellers_positions[vendor_line.name.id] = position
                 sellers.append({
                     'site_id': vendor_line.name.site_ids,
                     'installments': 1,
-                    'amount': self.prisma_amount_format(vendor_line.amount_sale_percentage)
+                    'amount': self.prisma_amount_format(round(vendor_line.total_vendor, 2))
                 })
                 position += 1
             else:
-                sellers[sellers_positions[vendor_line.name.id]]['amount'] += self.prisma_amount_format(vendor_line.amount_sale_percentage)
+                sellers[sellers_positions[vendor_line.name.id]]['amount'] += self.prisma_amount_format(
+                    round(vendor_line.total_vendor, 2))
+            cont_amount_marketplace += self.prisma_amount_format(round(
+                vendor_line.amount_commission_amount_tax_company_total, 2))
         sellers.append({
             'site_id': self.company_id.site_ids,
             'installments': 1,
-            'amount': self.prisma_amount_format(self.amount_marketplace)
+            'amount': cont_amount_marketplace
         })
         return sellers
 
@@ -58,6 +62,8 @@ class SaleOrder(models.Model):
         return {}
 
     def get_prisma_payment_token(self):
+        self.site_transaction_id = False
+        self.transaction_status = False
         prisma_data = self.get_prisma_data()
         if prisma_data:
             partner = self.partner_id
