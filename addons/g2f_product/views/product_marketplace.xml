@@ -135,4 +135,29 @@
         </field>
     </record>
 
+    <record id="gtf_wk_seller_product_template_kanban_view" model="ir.ui.view">
+        <field name="name">G2F.Seller.Product.template.kanban</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="odoo_marketplace.wk_seller_product_template_kanban_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//t/div/div/div/div[@name='tags']/ul" position="inside">
+                <li t-if="record.product_code">
+                    Product code:
+                    <field name="product_code"/>
+                </li>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="go2f_wk_seller_product_template_tree_view" model="ir.ui.view">
+        <field name="name">go2f.seller.product.template.tree</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="odoo_marketplace.wk_seller_product_template_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree/field[@name='name']" position="after">
+                <field name="product_code"/>
+            </xpath>
+        </field>
+    </record>
+
 </odoo>

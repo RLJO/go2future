@@ -51,5 +51,44 @@
         </field>
     </record>
 
+    <record id="go2f_wk_seller_kanban_view" model="ir.ui.view" >
+        <field name="name">go2f_wk_seller_kanban_view</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="odoo_marketplace.wk_seller_kanban_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//kanban/field[@name='mobile']" position="after">
+                <field name="seller_code"/>
+            </xpath>
+            <xpath expr="//t/div/div/div/div[@name='tags']/ul" position="inside">
+                <li t-if="record.seller_code">
+                    <b>Seller code: </b>
+                    <field name="seller_code"/>
+                </li>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="go2f_wk_seller_tree_view" model="ir.ui.view">
+        <field name="name">go2f_sellers</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="odoo_marketplace.wk_seller_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree/field[@name='mobile']" position="after">
+                <field name="seller_code"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="go2f_view_partner_tree" model="ir.ui.view">
+        <field name="name">go2f.res.partner.tree</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="arch" type="xml">
+            <field name="display_name" position="after">
+                <field name="seller_code"/>
+            </field>
+        </field>
+    </record>
+
 </odoo>
 
