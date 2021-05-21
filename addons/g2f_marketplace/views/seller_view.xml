@@ -39,5 +39,17 @@
 
         </field>
     </record>
+
+    <record id="go2f_wk_seller_view_filter" model="ir.ui.view" >
+        <field name="name">G2F Sellers By Status</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="odoo_marketplace.wk_seller_view_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search/field[@name='mobile']" position="after">
+                <field name="seller_code"/>
+            </xpath>
+        </field>
+    </record>
+
 </odoo>
 

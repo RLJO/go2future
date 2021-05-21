@@ -123,4 +123,16 @@
             </field>
         </field>
     </record>
+
+    <record id="gtf_wk_product_template_seller_filter" model="ir.ui.view">
+        <field name="name">G2F Products</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="odoo_marketplace.wk_product_template_seller_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search/field[@name='name']" position="after">
+                <field name="product_code"/>
+            </xpath>
+        </field>
+    </record>
+
 </odoo>
