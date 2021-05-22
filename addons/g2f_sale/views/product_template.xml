@@ -94,7 +94,7 @@
 
             <xpath expr="//field[@name='name']" position="after">
                 <br/>
-                <field name="default_code" placeholder="Default Code" attrs="{'readonly': True}"/>
+                <field name="default_code" placeholder="Default Code" attrs="{'readonly': True, 'invisible': True}"/>
             </xpath>
 
             <xpath expr="//field[@name='default_code']" position="attributes">
