@@ -67,7 +67,6 @@ class Product(http.Controller):
         domain = [
             ('active', '=', True),
             ('sale_ok', '=', True),
-            ('is_published', '=', True),
             ('warehoue_id', '=', warehouse_id)]
         response = {"status": 200, "data": []}
 
