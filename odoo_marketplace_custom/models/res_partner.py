@@ -5,6 +5,7 @@ from odoo.exceptions import UserError
 import logging
 _logger = logging.getLogger(__name__)
 
+
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
@@ -17,7 +18,7 @@ class ResPartner(models.Model):
                                             store=False)
     journal_id = fields.Many2one('account.journal', string=_('Bank'), domain='[("type", "=", "bank")]')
     bank_id = fields.Many2one('res.bank', string='Bank')
-    acc_number = fields.Char('Account Number', required=True)
+    acc_number = fields.Char('Account Number')
 
     def update_warehouse_ids_domain(self, partner):
         warehouse_ids = []
@@ -71,8 +72,9 @@ class ResPartner(models.Model):
         res = super(ResPartner, self).create(vals)
         if res:
             self.update_product_seller(res)
-            if res.write_uid.partner_id.seller:
-                res.children_parent_id = res.write_uid.partner_id.id
+            if not 'type' in vals:
+                if res.write_uid.partner_id.seller:
+                    res.children_parent_id = res.write_uid.partner_id.id
         return res
 
     def write(self, vals):

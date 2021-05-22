@@ -6,19 +6,21 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-12 17:34+0000\n"
-"PO-Revision-Date: 2021-04-12 17:34+0000\n"
+"POT-Creation-Date: 2021-04-17 20:15+0000\n"
+"PO-Revision-Date: 2021-04-17 17:07-0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
+"Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
+"Language: es\n"
+"X-Generator: Poedit 2.4.2\n"
 
 #. module: g2f_product
 #: model:ir.model.constraint,message:g2f_product.constraint_product_atributos_name_uniq
 msgid "A tag with that name already exists!"
-msgstr ""
+msgstr "¡Ya existe una etiqueta con ese nombre!"
 
 #. module: g2f_product
 #: model:ir.model,name:g2f_product.model_product_atributos
@@ -30,7 +32,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2f_product.field_product_product__atributos_ids
 #: model:ir.model.fields,field_description:g2f_product.field_product_template__atributos_ids
 msgid "Attributes"
-msgstr ""
+msgstr "Atributos"
 
 #. module: g2f_product
 #: model_terms:ir.ui.view,arch_db:g2f_product.g2f_product_template_form_view
@@ -47,12 +49,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2f_product.field_product_product__categoria
 #: model:ir.model.fields,field_description:g2f_product.field_product_template__categoria
 msgid "Category"
-msgstr ""
+msgstr "Categoria"
 
 #. module: g2f_product
 #: model:ir.model.fields,field_description:g2f_product.field_product_categoria__nro
 msgid "Category Nbr."
-msgstr ""
+msgstr "Nro. Categoría."
 
 #. module: g2f_product
 #: model:ir.actions.act_window,name:g2f_product.product_categoria_action
@@ -65,7 +67,7 @@ msgstr ""
 #. module: g2f_product
 #: model:ir.model.fields.selection,name:g2f_product.selection__product_template__layout__c
 msgid "Cold"
-msgstr ""
+msgstr "Frío"
 
 #. module: g2f_product
 #: model:ir.model.fields,field_description:g2f_product.field_product_atributos__color
@@ -99,7 +101,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2f_product.field_product_sector__create_uid
 #: model:ir.model.fields,field_description:g2f_product.field_product_subfamilia__create_uid
 msgid "Created by"
-msgstr ""
+msgstr "Creado por"
 
 #. module: g2f_product
 #: model:ir.model.fields,field_description:g2f_product.field_product_atributos__create_date
@@ -108,13 +110,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2f_product.field_product_sector__create_date
 #: model:ir.model.fields,field_description:g2f_product.field_product_subfamilia__create_date
 msgid "Created on"
-msgstr ""
+msgstr "Creado en"
 
 #. module: g2f_product
 #: model:ir.model.fields,field_description:g2f_product.field_product_product__profundidad
 #: model:ir.model.fields,field_description:g2f_product.field_product_template__profundidad
 msgid "Depth (mm)"
-msgstr ""
+msgstr "Profundidad (mm)"
 
 #. module: g2f_product
 #: model:ir.model.fields,field_description:g2f_product.field_product_atributos__display_name
@@ -129,7 +131,7 @@ msgstr "Nombre mostrado"
 #. module: g2f_product
 #: model:ir.model.fields.selection,name:g2f_product.selection__product_template__layout__d
 msgid "Dry"
-msgstr ""
+msgstr "Seco"
 
 #. module: g2f_product
 #: model:ir.ui.menu,name:g2f_product.marketing_structure_menu
@@ -151,35 +153,35 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2f_product.field_product_subfamilia__familia
 #: model:ir.model.fields,field_description:g2f_product.field_product_template__familia
 msgid "Family"
-msgstr ""
+msgstr "Familia"
 
 #. module: g2f_product
 #: model:ir.model.fields,field_description:g2f_product.field_product_familia__nro
 msgid "Family Nbr."
-msgstr ""
+msgstr "Nro. Familia."
 
 #. module: g2f_product
 #: model:ir.model.fields.selection,name:g2f_product.selection__product_template__layout__f
 msgid "Frozen"
-msgstr ""
+msgstr "Frío"
 
 #. module: g2f_product
 #: model:ir.model.fields,field_description:g2f_product.field_product_product__gondola
 #: model:ir.model.fields,field_description:g2f_product.field_product_template__gondola
 msgid "Gondola position"
-msgstr ""
+msgstr "Posición de góndola"
 
 #. module: g2f_product
 #: model:ir.model.fields,field_description:g2f_product.field_product_product__peso_bruto
 #: model:ir.model.fields,field_description:g2f_product.field_product_template__peso_bruto
 msgid "Gross weight (g)"
-msgstr ""
+msgstr "Peso Bruto Unitario del producto (g)"
 
 #. module: g2f_product
 #: model:ir.model.fields,field_description:g2f_product.field_product_product__alto
 #: model:ir.model.fields,field_description:g2f_product.field_product_template__alto
 msgid "Height (mm)"
-msgstr ""
+msgstr "Alto (mm)"
 
 #. module: g2f_product
 #: model:ir.model.fields,field_description:g2f_product.field_product_atributos__id
@@ -208,7 +210,7 @@ msgstr "Última modificación el"
 #: model:ir.model.fields,field_description:g2f_product.field_product_sector__write_uid
 #: model:ir.model.fields,field_description:g2f_product.field_product_subfamilia__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Última actualización por"
 
 #. module: g2f_product
 #: model:ir.model.fields,field_description:g2f_product.field_product_atributos__write_date
@@ -217,7 +219,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2f_product.field_product_sector__write_date
 #: model:ir.model.fields,field_description:g2f_product.field_product_subfamilia__write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Última actualización el"
 
 #. module: g2f_product
 #: model:ir.model.fields,field_description:g2f_product.field_product_product__layout
@@ -229,40 +231,40 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2f_product.field_product_product__aptitud
 #: model:ir.model.fields,field_description:g2f_product.field_product_template__aptitud
 msgid "Lifetime fitness percentage"
-msgstr ""
+msgstr "Porcentaje de aptitud de vida útil"
 
 #. module: g2f_product
 #: model_terms:ir.ui.view,arch_db:g2f_product.g2f_product_template_form_view
 msgid "Location"
-msgstr ""
+msgstr "Ubicación"
 
 #. module: g2f_product
 #: model_terms:ir.ui.view,arch_db:g2f_product.g2f_product_template_form_view
 msgid "Logistics"
-msgstr ""
+msgstr "Logística"
 
 #. module: g2f_product
 #: model_terms:ir.ui.view,arch_db:g2f_product.g2f_product_template_form_view
 msgid "Marketing structure"
-msgstr ""
+msgstr "Estructura mercadológica"
 
 #. module: g2f_product
 #: model:ir.model.fields,field_description:g2f_product.field_product_product__cant_frente
 #: model:ir.model.fields,field_description:g2f_product.field_product_template__cant_frente
 msgid "Number of units per front"
-msgstr ""
+msgstr "Cantidad de und por frente"
 
 #. module: g2f_product
 #: model:ir.model.fields,field_description:g2f_product.field_product_product__cant_fondo
 #: model:ir.model.fields,field_description:g2f_product.field_product_template__cant_fondo
 msgid "Number of units per fund"
-msgstr ""
+msgstr "Cantidad de und por frente fondo"
 
 #. module: g2f_product
 #: model:ir.model.fields,field_description:g2f_product.field_product_product__cant_altura
 #: model:ir.model.fields,field_description:g2f_product.field_product_template__cant_altura
 msgid "Number of units per height"
-msgstr ""
+msgstr "Cantidad de und por frente altura"
 
 #. module: g2f_product
 #: model_terms:ir.ui.view,arch_db:g2f_product.g2f_product_template_form_view
@@ -277,7 +279,7 @@ msgstr "Plantilla de producto"
 #. module: g2f_product
 #: model_terms:ir.ui.view,arch_db:g2f_product.g2f_product_template_form_view
 msgid "Product dates"
-msgstr ""
+msgstr "Fechas del producto"
 
 #. module: g2f_product
 #: model:ir.actions.act_window,name:g2f_product.product_sector_action
@@ -295,7 +297,7 @@ msgstr ""
 #. module: g2f_product
 #: model:ir.model.fields,field_description:g2f_product.field_product_sector__nro
 msgid "Sector Nbr."
-msgstr ""
+msgstr "Nro. Sector."
 
 #. module: g2f_product
 #: model:ir.actions.act_window,name:g2f_product.product_subfamilia_action
@@ -312,51 +314,27 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2f_product.field_product_subfamilia__name
 #: model:ir.model.fields,field_description:g2f_product.field_product_template__subfamilia
 msgid "Subfamily"
-msgstr ""
+msgstr "Subfamilia"
 
 #. module: g2f_product
 #: model:ir.model.fields,field_description:g2f_product.field_product_subfamilia__nro
 msgid "Subfamily Nbr."
-msgstr ""
+msgstr "Nro. Subfamilia."
 
 #. module: g2f_product
 #: model:ir.model.fields,field_description:g2f_product.field_product_product__desc_tag
 #: model:ir.model.fields,field_description:g2f_product.field_product_template__desc_tag
 msgid "TAG short description"
-msgstr ""
-
-#. module: g2f_product
-#: code:addons/g2f_product/models/product.py:0
-#, python-format
-msgid "The field (Number of units per front: %s) must be greater than zero"
-msgstr ""
-
-#. module: g2f_product
-#: code:addons/g2f_product/models/product.py:0
-#, python-format
-msgid "The field (Number of units per fund: %s) must be greater than zero"
-msgstr ""
-
-#. module: g2f_product
-#: code:addons/g2f_product/models/product.py:0
-#, python-format
-msgid "The field (Number of units per height: %s) must be greater than zero"
-msgstr ""
-
-#. module: g2f_product
-#: code:addons/g2f_product/models/product.py:0
-#, python-format
-msgid "The field (Position in gondola: %s) must contain 14 characters"
-msgstr ""
+msgstr "Descripción corta del TAG"
 
 #. module: g2f_product
 #: model:ir.model.fields,field_description:g2f_product.field_product_product__peso_estante
 #: model:ir.model.fields,field_description:g2f_product.field_product_template__peso_estante
 msgid "Total weight of the shelf"
-msgstr ""
+msgstr "Peso total del producto exhibido (g)"
 
 #. module: g2f_product
 #: model:ir.model.fields,field_description:g2f_product.field_product_product__ancho
 #: model:ir.model.fields,field_description:g2f_product.field_product_template__ancho
 msgid "Width (mm)"
-msgstr ""
+msgstr "Ancho (mm)"

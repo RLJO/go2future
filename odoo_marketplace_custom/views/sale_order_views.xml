@@ -33,29 +33,31 @@
                 </xpath>
                 <xpath expr="//notebook" position="inside">
                     <page name="marketplace_vendor" string="Marketplace Vendor %">
-                        <group>
-                            <field name="marketplace_vendor_line" widget="one2many" nolabel="1" readonly="1"
-                                   force_save="1">
-                                <tree>
-                                    <field name="name" readonly="1"
-                                   force_save="1"/>
-                                    <field name="product_id" readonly="1"
-                                   force_save="1"/>
-                                    <field name="sale_percentage" readonly="1"
-                                   force_save="1"/>
-                                    <field name="amount_sale_percentage" readonly="1"
-                                   force_save="1"/>
-                                </tree>
-                            </field>
-                        </group>
-                        <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
-                            <field name="amount_marketplace_vendor" widget="monetary" options="{'currency_field': 'currency_id'}"/>
-                            <field name="amount_marketplace" widget="monetary" options="{'currency_field': 'currency_id'}"/>
-                            <div class="oe_subtotal_footer_separator oe_inline o_td_label">
-                                <label for="amount_total"/>
-                            </div>
-                            <field name="amount_total" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
-                        </group>
+                        <field name="marketplace_vendor_line" widget="section_and_note_one2many" create="0" options="{'no_create': True}"
+                        readonly="1"  force_save="1">
+                            <tree>
+                                <field name="name" readonly="1"  force_save="1"/>
+                                <field name="product_id" readonly="1"  force_save="1"/>
+                                <field name="price_unit" readonly="1"  force_save="1" widget="monetary" sum="PRECIO UNITARIO(B+I)"/>
+                                <field name="amount_tax" readonly="1" force_save="1" widget="monetary" sum="IMPUESTOS"/>
+                                <field name="price_subtotal" readonly="1" force_save="1" widget="monetary" sum="BASE"/>
+                                <field name="sale_percentage_vendor" readonly="1" force_save="1" sum="% VENDEDOR"/>
+                                <field name="sale_percentage_go" readonly="1" force_save="1" sum="% MINIGO"/>
+                                <field name="amount_commission" readonly="1" force_save="1" widget="monetary" sum="VALOR COMISION"/>
+                                <field name="amount_tax_company" readonly="1" force_save="1"/>
+                                <field name="amount_tax_company_total" readonly="1" widget="monetary" force_save="1" sum="VALOR IMPUESTO"/>
+                                <field name="amount_commission_amount_tax_company_total" widget="monetary"
+                                       readonly="1" force_save="1" sum="TOTAL COMISION + IMP MINIGO"/>
+                                <field name="total_vendor" readonly="1" force_save="1" widget="monetary" sum="TOTAL VENDEDOR"/>
+                            </tree>
+                        </field>
+                        <field name="marketplace_vendor_line_total" widget="section_and_note_one2many" create="0" options="{'no_create': True}"
+                        readonly="1"  force_save="1">
+                            <tree>
+                                <field name="name" readonly="1"  force_save="1"/>
+                                <field name="total" readonly="1"  force_save="1" widget="monetary" sum="TOTAL"/>
+                            </tree>
+                        </field>
                     </page>
                 </xpath>
             </data>
@@ -66,15 +68,23 @@
         <field name="name">marketplace.vendor.form</field>
         <field name="model">marketplace.vendor</field>
         <field name="arch" type="xml">
-            <form string="Marketplace Vendor">
+            <form string="Marketplace Vendor" create="0">
                 <sheet>
                     <group>
                         <field name="sale_order" invisible="1"/>
                         <field name="sale_order_line" invisible="1"/>
                         <field name="name"/>
                         <field name="product_id"/>
-                        <field name="sale_percentage"/>
-                        <field name="amount_sale_percentage"/>
+                        <field name="price_unit"/>
+                        <field name="amount_tax"/>
+                        <field name="price_subtotal"/>
+                        <field name="sale_percentage_vendor">%</field>
+                        <field name="sale_percentage_go">%</field>
+                        <field name="amount_commission"/>
+                        <!--field name="amount_tax_company">%</field>
+                        <field name="amount_tax_company_total"/>
+                        <field name="amount_commission_amount_tax_company_total"/>
+                        <field name="total_vendor"/-->
                     </group>
                 </sheet>
             </form>

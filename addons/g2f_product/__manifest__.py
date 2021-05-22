@@ -20,10 +20,11 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'product', 'g2f_sale'],
+    'depends': ['base', 'product', 'odoo_marketplace', 'g2f_sale'],
 
     # always loaded
     'data': [
+        'data/sequence.xml',
         'security/ir.model.access.csv',
         'views/product_view.xml',
         'views/product_marketplace.xml',

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="prisma_view_order_form">
+        <field name="name">prisma.view.order.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='marketplace_seller_id']" position="after">
+                <field name="payment_acquirer_id" options="{'no_create': True}"/>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page name="prisma_response" string="Prisma Response">
+                    <group>
+                        <group>
+                            <field name="site_transaction_id"/>
+                        </group>
+                        <group>
+                            <field name="transaction_status"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

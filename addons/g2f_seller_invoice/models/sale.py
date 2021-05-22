@@ -18,6 +18,7 @@ class SaleOrder(models.Model):
     # def write(self, vals):
     #     res = super(SaleOrder, self).write(vals)
     def action_confirm(self):
+        self.ensure_one()
         res = super(SaleOrder, self).action_confirm()
         if res:
             items = []

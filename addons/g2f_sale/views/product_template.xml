@@ -94,7 +94,7 @@
 
             <xpath expr="//field[@name='name']" position="after">
                 <br/>
-                <field name="default_code" placeholder="Default Code" attrs="{'readonly': True}"/>
+                <field name="default_code" placeholder="Default Code" attrs="{'readonly': True, 'invisible': True}"/>
             </xpath>
 
             <xpath expr="//field[@name='default_code']" position="attributes">
@@ -126,11 +126,11 @@
             </xpath>
 
             <xpath expr="//field[@name='categ_id']" position="before">
-                <field name="brand"/>
-                <field name="contents"/>
+                <field name="brand" required="1"/>
+                <field name="contents" required="1"/>
                 <field name="barcode" string="EAN 13" required="1"/>
                 <field name="country_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,}"/>
-                <field name="useful_life" string="Vida útil en días"/>
+                <field name="useful_life" string="Vida útil en días" required="1"/>
             </xpath>
 
             <xpath expr="//field[@name='taxes_id']" position="after">

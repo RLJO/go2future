@@ -45,7 +45,8 @@
                 </tree>
             </field>
     </record>
-
+<!-- RAD: Creo que es innecesario utilizar otra vista exactamente igual que la ya que existe de res.partner -->
+<!--    No la borre ni elimine para evitar perdidas en caso de que no sea posible -->
     <record id="res_partner_children_form" model="ir.ui.view">
         <field name="name">res.partner.children.form</field>
         <field name="model">res.partner</field>
@@ -295,8 +296,9 @@
             (5, 0, 0),
             (0, 0, {'view_mode': 'kanban', 'view_id': ref('odoo_marketplace_custom.res_partner_children_kanban')}),
             (0, 0, {'view_mode': 'tree', 'view_id': ref('odoo_marketplace_custom.res_partner_children_tree')}),
-            (0, 0, {'view_mode': 'form', 'view_id': ref('odoo_marketplace_custom.res_partner_children_form')})]"/>
+            (0, 0, {'view_mode': 'form', 'view_id': ref('odoo_marketplace.wk_seller_form_view')})]"/>
         <field name="domain">[('children_parent_id.id', 'in', '[get_partner_children()]')]</field>
+    <!-- RAD: modifique esto para dejar la misma vista ya existente es necesario evaluar si se deben ocultar campos -->
     </record>
 
     <record id="res_partner_children_manager" model="ir.actions.act_window">
@@ -307,8 +309,9 @@
             (5, 0, 0),
             (0, 0, {'view_mode': 'kanban', 'view_id': ref('odoo_marketplace_custom.res_partner_children_kanban')}),
             (0, 0, {'view_mode': 'tree', 'view_id': ref('odoo_marketplace_custom.res_partner_children_tree')}),
-            (0, 0, {'view_mode': 'form', 'view_id': ref('odoo_marketplace_custom.res_partner_children_form')})]"/>
+            (0, 0, {'view_mode': 'form', 'view_id': ref('odoo_marketplace.wk_seller_form_view')})]"/>
         <field name="domain">[('children_parent_id.id', '>', 0)]</field>
+    <!-- RAD: modifique esto para dejar la misma vista ya existente es necesario evaluar si se deben ocultar campos -->
     </record>
 
     <menuitem id="marketplace_children_manager_menu" name="Seller Children" action="res_partner_children_manager" parent="odoo_marketplace.wk_seller_dashboard_menu1" groups="odoo_marketplace.marketplace_officer_group" sequence="6"/>
