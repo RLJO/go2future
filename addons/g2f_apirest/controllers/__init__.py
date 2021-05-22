@@ -1,2 +1,2 @@
 from . import controllers
-from . import users, products, vision_system, sale_order
+from . import users, products, vision_system, sale_order, access_control

@@ -1,6 +1,7 @@
 # pylint: disable=broad-except
 
 from json import dumps
+import requests
 
 from odoo import http, _
 from odoo.addons.g2f_apirest.controllers.vision_system import VisionSystem
@@ -20,6 +21,8 @@ class ResUser(http.Controller):
         qr_code = kw.get('QRCode')
         latitude = kw.get('latitude')
         longitude = kw.get('longitude')
+        door_id = kw.get('door_id')
+        store_id = kw.get('store_id')
         fecha = kw.get('dateTime')
 
         print(qr_code)
@@ -29,15 +32,22 @@ class ResUser(http.Controller):
             if user:
                 response = {"status": "200", "message": "User enters store"}
                 
+                # Enviarle al sistema de control de acceso que el usaurio entro
+                url = "https://minigo001.ngrok.io"
+                params = {'storeId': store_id, 'doorId': door_id,
+                        'userid': login}
+                enter_store_response = requests.post(url, data=params)
+                # Aqui guardar la  respuesta en el model transsactions
+
                 # Por ahora se crea aqui la orden de venta
                 sale_order = http.request.env['sale.order']
                 sale_order.sudo().create_sale_order(user.partner_id.id)
 
                 return dumps(response)
-            else:
-                msg = _('User dont exists!')
-                response = {'status': '400', 'messsage': msg}
-                return dumps(response)
+
+            msg = _('User dont exists!')
+            response = {'status': '400', 'messsage': msg}
+            return dumps(response)
 
     @http.route(['/users'], type='json', auth='public',
                 methods=['GET', 'POST', 'PUT', 'DELETE'],
