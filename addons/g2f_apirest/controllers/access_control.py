@@ -18,10 +18,21 @@ class AccessControl(http.Controller):
 
         method = http.request.httprequest.method
         kw = http.request.jsonrequest
+        transaction = http.request.env['apirest.transaction']
 
+        login = kw.get('userId')
         code = kw.get('code')
         message = kw.get('message')
 
         if method == 'POST':
-            print('tomar el mensaje y guardarlo en el model transsactions para que lo vea la app mobile')
+            print('tomar el mensaje y guardarlo en el model transaction')
             print(code, message)
+            values = {'login': login,
+                      'code': code,
+                      'message': message,
+                      'from_app': 'message_from_access_control'}
+            transaction.sudo().create(values)
+            transaction._cr.commit()
+            return http.Response('OK', status=200)
+
+        return http.Response('NOT FOUND', status=404)
