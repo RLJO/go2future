@@ -57,16 +57,17 @@ class SaleOrder(models.Model):
             self.sudo().marketplace_vendor_line.create(vals)
             count_amount += amount_commission_amount_tax_company_total
             if self.marketplace_vendor_line_total:
+                vendor_exist = False
                 for rec in self.marketplace_vendor_line_total.filtered(lambda x: x.vendor == line.seller):
-                    if rec:
-                        rec.total += total_vendor
-                    else:
-                        self.sudo().marketplace_vendor_line_total.create({
-                            'sale_order': self.id,
-                            'name': line.seller.name,
-                            'vendor': line.seller.id,
-                            'total': total_vendor
-                        })
+                    rec.total += total_vendor
+                    vendor_exist = True
+                if not vendor_exist:
+                    self.sudo().marketplace_vendor_line_total.create({
+                        'sale_order': self.id,
+                        'name': line.seller.name,
+                        'vendor': line.seller.id,
+                        'total': total_vendor
+                    })
             else:
                 self.sudo().marketplace_vendor_line_total.create({
                     'sale_order': self.id,
@@ -103,6 +104,18 @@ class SaleOrder(models.Model):
         for partner_line in lines:
             seller_lines.append(self.env['sale.order.line'].browse(partner_line + down_payment_line))
         return seller_lines
+
+    def action_confirm(self):
+        res = super(SaleOrder, self).action_confirm()
+        if res:
+            for picking in self.picking_ids:
+                if picking.state in ['assigned']:
+                    for move in picking.move_lines.filtered(lambda m: m.state not in ['done', 'cancel']):
+                        for move_line in move.move_line_ids:
+                            move_line.qty_done = move_line.product_uom_qty
+                    picking.with_context(skip_immediate=True).button_validate()
+            moves = self._create_invoices()
+        return res
 
     def _get_invoice_grouping_keys(self):
         return ['company_id', 'seller_id', 'currency_id']

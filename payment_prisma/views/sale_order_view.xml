@@ -11,13 +11,70 @@
             </xpath>
             <xpath expr="//notebook" position="inside">
                 <page name="prisma_response" string="Prisma Response">
+                    <button name="update_payment" type="object" string="Update Payment" class="oe_highlight"/>
                     <group>
-                        <group>
-                            <field name="site_transaction_id"/>
-                        </group>
-                        <group>
-                            <field name="transaction_status"/>
-                        </group>
+                        <field name="payment_prisma_status_ids" nolabel="1">
+                            <tree>
+                                <field name="site_transaction_id"/>
+                                <field name="card_brand"/>
+                                <field name="amount"/>
+                                <field name="currency"/>
+                                <field name="status"/>
+                            </tree>
+                            <form>
+                                <sheet>
+                                    <group>
+                                        <group>
+                                            <field name="prisma_id"/>
+                                            <field name="site_transaction_id"/>
+                                            <field name="site_id"/>
+                                            <field name="prisma_id"/>
+                                            <field name="bin"/>
+                                            <field name="pan"/>
+                                            <field name="card_data"/>
+                                            <field name="token"/>
+                                            <field name="fraud_detection"/>
+                                            <field name="aggregate_data"/>
+                                            <field name="establishment_name"/>
+                                            <field name="confirmed"/>
+                                        </group>
+                                        <group>
+                                            <field name="date"/>
+                                            <field name="payment_method_id"/>
+                                            <field name="card_brand"/>
+                                            <field name="payment_type"/>
+                                            <field name="amount"/>
+                                            <field name="currency"/>
+                                            <field name="status"/>
+                                            <field name="customer"/>
+                                            <field name="customer_token"/>
+                                            <field name="installments"/>
+                                            <field name="first_installment_expiration_date"/>
+                                            <field name="spv"/>
+                                        </group>
+                                        <group string="Details">
+                                            <field name="sd_ticket"/>
+                                            <field name="sd_card_authorization_code"/>
+                                            <field name="sd_address_validation_code"/>
+                                            <field name="sd_error"/>
+                                        </group>
+                                    </group>
+                                    <group>
+                                        <field name="sub_payments_ids" nolabel="1">
+                                            <tree>
+                                                <field name="site_id"/>
+                                                <field name="subpayment_id"/>
+                                                <field name="installments"/>
+                                                <field name="amount"/>
+                                                <field name="ticket"/>
+                                                <field name="card_authorization_code"/>
+                                                <field name="status"/>
+                                            </tree>
+                                        </field>
+                                    </group>
+                                </sheet>
+                            </form>
+                        </field>
                     </group>
                 </page>
             </xpath>
