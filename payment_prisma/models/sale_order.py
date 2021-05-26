@@ -11,6 +11,7 @@ class SaleOrder(models.Model):
     payment_acquirer_id = fields.Many2one('marketplace.payment.acquirer')
     site_transaction_id = fields.Char(string=_('Transaction ID'), readonly=True, store=True)
     transaction_status = fields.Char(string=_('Transaction Status'), readonly=True, store=True)
+    payment_prisma_status_ids = fields.One2many(comodel_name='payment.prisma.status', inverse_name='sale_order_id', readonly=True, store=True)
 
     def prisma_amount_format(self, amount):
         amount_str = str(amount)
@@ -25,21 +26,25 @@ class SaleOrder(models.Model):
         sellers_positions = {}
         sellers = []
         position = 0
+        cont_amount_marketplace = 0
         for vendor_line in self.marketplace_vendor_line:
             if vendor_line.name.id not in sellers_positions:
                 sellers_positions[vendor_line.name.id] = position
                 sellers.append({
                     'site_id': vendor_line.name.site_ids,
                     'installments': 1,
-                    'amount': self.prisma_amount_format(vendor_line.amount_sale_percentage)
+                    'amount': self.prisma_amount_format(round(vendor_line.total_vendor, 2))
                 })
                 position += 1
             else:
-                sellers[sellers_positions[vendor_line.name.id]]['amount'] += self.prisma_amount_format(vendor_line.amount_sale_percentage)
+                sellers[sellers_positions[vendor_line.name.id]]['amount'] += self.prisma_amount_format(
+                    round(vendor_line.total_vendor, 2))
+            cont_amount_marketplace += self.prisma_amount_format(round(
+                vendor_line.amount_commission_amount_tax_company_total, 2))
         sellers.append({
             'site_id': self.company_id.site_ids,
             'installments': 1,
-            'amount': self.prisma_amount_format(self.amount_marketplace)
+            'amount': cont_amount_marketplace
         })
         return sellers
 
@@ -58,6 +63,8 @@ class SaleOrder(models.Model):
         return {}
 
     def get_prisma_payment_token(self):
+        self.site_transaction_id = False
+        self.transaction_status = False
         prisma_data = self.get_prisma_data()
         if prisma_data:
             partner = self.partner_id
@@ -129,10 +136,71 @@ class SaleOrder(models.Model):
             if payment_token:
                 payment_response = self.send_payment_prisma(payment_token)
                 if payment_response:
-                    self.site_transaction_id = payment_response['site_transaction_id']
-                    self.transaction_status = payment_response['status']
+                    data = self.get_payment_data(payment_response)
+                    self.env['payment.prisma.status'].create(data)
                     res = super(SaleOrder, self).action_confirm()
                     return res
         else:
             res = super(SaleOrder, self).action_confirm()
             return res
+
+    def get_payment_data(self, response):
+        data = {
+            'sale_order_id': self.ids[0],
+            'prisma_id': response['id'],
+            'site_transaction_id': response['site_transaction_id'],
+            'payment_method_id': response['payment_method_id'],
+            'card_brand': response['card_brand'],
+            'amount': response['amount'] / 100,
+            'currency': response['currency'],
+            'status': response['status'],
+            'sd_ticket': response['status_details']['ticket'] if response['status_details']['ticket'] else '',
+            'sd_card_authorization_code': response['status_details']['card_authorization_code'] if response['status_details']['card_authorization_code'] else '',
+            'sd_address_validation_code': response['status_details']['address_validation_code'] if response['status_details']['address_validation_code'] else '',
+            'sd_error': response['status_details']['error'] if response['status_details']['error'] else '',
+            'date': response['date'].replace('T', ' ').replace('Z', ''),
+            'customer': response['customer'] if response['customer'] else '',
+            'bin': response['bin'],
+            'installments': response['installments'] if response['installments'] else '',
+            'payment_type': response['payment_type'],
+            'site_id': response['site_id'],
+            'fraud_detection': response['fraud_detection'] if response['fraud_detection'] else '',
+            'aggregate_data': response['aggregate_data'] if response['aggregate_data'] else '',
+            'establishment_name': response['establishment_name'] if response['establishment_name'] else '',
+            'spv': response['spv'] if response['spv'] else '',
+            'confirmed': response['confirmed'] if response['confirmed'] else '',
+            'pan': response['pan'],
+            'customer_token': response['customer_token'] if response['customer_token'] else '',
+            'card_data': response['card_data'],
+            'token': response['token']
+        }
+        if response['first_installment_expiration_date']:
+            data['first_installment_expiration_date'] = response['first_installment_expiration_date'].replace('T',' ').replace('Z', '')
+        subpayment_list = []
+        for subpayment in response['sub_payments']:
+            subpayment['amount'] = subpayment['amount'] / 100
+            subpayment_list.append((0, 0, subpayment))
+        if subpayment_list:
+            data['sub_payments_ids'] = subpayment_list
+        return data
+
+    def update_payment(self):
+        prisma_data = self.get_prisma_data()
+        if prisma_data:
+            headers = {
+                'apikey': prisma_data['private_key'],
+                'content-type': 'application/json',
+                'cache-control': 'no-cache'
+            }
+            for status in self.payment_prisma_status_ids:
+                payment_id = status.prisma_id
+                payment_prisma_status_obj = status
+                for line in status.sub_payments_ids:
+                    line.unlink()
+            if payment_id:
+                response = requests.get(prisma_data['url'] + '/payments/' + payment_id, headers=headers)
+                if response.status_code == 200:
+                    response = response.json()
+                    data = self.get_payment_data(response)
+                    payment_prisma_status_obj.write(data)
+        return True

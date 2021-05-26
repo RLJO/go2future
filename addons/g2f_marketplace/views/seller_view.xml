@@ -10,7 +10,7 @@
                 <attribute name="groups">base.group_erp_manager</attribute>
             </xpath>
             <xpath expr="//page[@name='policies']" position="after">
-                <page string="Fiscal Company Data" name="g2f_seller">
+                <page string="Información fiscal" name="g2f_seller">
                     <group name="industry" string="Tipo de Industria" col="4" colspan="2">
                         <field name="industry_id" widget="many2one_tags" options="{'no_create_edit': True}"/><br/>
                         <!-- RAD: Campo de VAT se sube en otro modulo aqui se comenta-->
@@ -19,11 +19,11 @@
                     </group>
                     <group name="fiscal" string="Datos Fiscales" col="4" colspan="2">
                         <field name="l10n_ar_afip_responsibility_type_id" required="1" string="AFIP Responsibility" options="{'no_open': True, 'no_create': True}" attrs="{'readonly': [('parent_id','!=',False)]}"/>
-                        <field name="property_account_position_id" required="1" options="{'no_create': True, 'no_open': True}"/>
+                        <field name="property_account_position_id"  invisible="1" options="{'no_create': True, 'no_open': True}"/>
                         <field name="is_exclution_iva" placeholder="Is Exclution IVA"/>
                         <field name="is_permanent_exclution" placeholder="Is Permanent exclution"/>
-                        <field name="certificate_date_start" required="1" placeholder="certificate date start"/>
-                        <field name="certificate_date_end" required="1" placeholder="certificate date end"/>
+                        <field name="certificate_date_start" placeholder="certificate date start" attrs="{'required': [('is_exclution_iva', '=', True)]}"/>
+                        <field name="certificate_date_end" placeholder="certificate date end" attrs="{'required': [('is_exclution_iva', '=', True)]}"/>
                         <field name="certificate_file" placeholder="Certificate Exclution file" required="1"/>
                         <!-- <field name="certificate_file_exc" placeholder="Certificate Exclution file" required="1"/>-->
                         <!-- RAD: El campo certificate_file estaba dos veces en la misma vista por dos desarrolladores
@@ -37,6 +37,11 @@
                 </page>
             </xpath>
 
+            <xpath expr="//group/group" position="inside">
+                <field name="has_api"/>
+                <field name="api_path"  widget="url" placeholder="e.g. www.odoo.com" attrs="{'invisible': [('has_api','!=',True)]}"/>
+            </xpath>
+
         </field>
     </record>
 
@@ -46,8 +51,56 @@
         <field name="inherit_id" ref="odoo_marketplace.wk_seller_view_filter"/>
         <field name="arch" type="xml">
             <xpath expr="//search/field[@name='mobile']" position="after">
-                <field name="seller_code"/>
+                <field name="seller_code" string="Código vendedor"/>
             </xpath>
+        </field>
+    </record>
+
+    <record id="go2f_wk_seller_kanban_view" model="ir.ui.view" >
+        <field name="name">go2f_wk_seller_kanban_view</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="odoo_marketplace.wk_seller_kanban_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//kanban/field[@name='mobile']" position="after">
+                <field name="seller_code" string="Código vendedor"/>
+            </xpath>
+            <xpath expr="//t/div/div/div/div[@name='tags']/ul" position="inside">
+                <li t-if="record.seller_code">
+                    <b>Código vendedor: </b>
+                    <field name="seller_code" string="Código vendedor"/>
+                </li>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="go2f_wk_seller_tree_view" model="ir.ui.view">
+        <field name="name">go2f_sellers</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="odoo_marketplace.wk_seller_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree/field[@name='mobile']" position="after">
+                <field name="seller_code" string="Código vendedor"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="go2f_view_partner_tree" model="ir.ui.view">
+        <field name="name">go2f.res.partner.tree</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="arch" type="xml">
+            <field name="display_name" position="after">
+                <field name="seller_code" string="Código vendedor"/>
+            </field>
+            <xpath expr="//field[@name='user_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='activity_ids']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <field name="seller_code" position="after">
+                <field name="vat" string="CUIT"/>
+            </field>
         </field>
     </record>
 
