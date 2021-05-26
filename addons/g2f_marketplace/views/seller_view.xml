@@ -37,6 +37,11 @@
                 </page>
             </xpath>
 
+            <xpath expr="//group/group" position="inside">
+                <field name="has_api"/>
+                <field name="api_path"  widget="url" placeholder="e.g. www.odoo.com" attrs="{'invisible': [('has_api','!=',True)]}"/>
+            </xpath>
+
         </field>
     </record>
 
