@@ -11,8 +11,7 @@ class SaleOrder(models.Model):
     _inherit = "sale.order"
 
     marketplace_vendor_line = fields.One2many('marketplace.vendor', 'sale_order')
-    amount_marketplace_vendor = fields.Float(compute='_compute_amount_marketplace_vendor', string=_('Amount vendor'))
-    amount_marketplace = fields.Float(compute='_compute_amount_marketplace', string=_('Amount marketplace'))
+    marketplace_vendor_line_total = fields.One2many('marketplace.vendor.total', 'sale_order')
 
     @api.model
     def create(self, vals):
@@ -26,30 +25,64 @@ class SaleOrder(models.Model):
         return res
 
     def create_marketplace_vendor(self):
+        count_amount = 0
         for marketplace_vendor in self.marketplace_vendor_line:
             marketplace_vendor.unlink()
-        for line in self.order_line:
+        for marketplace_vendor_total in self.marketplace_vendor_line_total:
+            marketplace_vendor_total.unlink()
+        for line in self.sudo().order_line:
+            sale_percentage_go = (100 - line.seller.commission)
+            amount_commission = (line.price_subtotal * (sale_percentage_go/100))
+            amount_tax_company = line.company_id.sudo().account_sale_tax_id.amount
+            amount_tax_company_total = (amount_commission * (amount_tax_company/100))
+            amount_commission_amount_tax_company_total = amount_commission + amount_tax_company_total
             vals = {
                 'sale_order': self.id,
-                'name': line.seller.id,
-                'amount_sale': line.price_subtotal,
-                'sale_percentage': line.seller.commission,
                 'sale_order_line': line.id,
-                'product_id': line.product_id.id
+                'name': line.seller.id,
+                'product_template_id': line.product_template_id.id,
+                'product_id': line.product_id.id,
+                'price_unit': line.price_unit,
+                'amount_tax': line.price_tax,
+                'price_subtotal': line.price_subtotal,
+                'sale_percentage_vendor': line.seller.commission,
+                'sale_percentage_go': sale_percentage_go,
+                'amount_commission': amount_commission,
+                'amount_tax_company': line.company_id.sudo().account_sale_tax_id.amount,
+                'amount_tax_company_total': amount_tax_company_total,
+                'amount_commission_amount_tax_company_total': amount_commission_amount_tax_company_total,
+                'total_vendor': line.price_unit - amount_commission_amount_tax_company_total,
             }
-            self.marketplace_vendor_line.sudo().create(vals)
-
-    def _compute_amount_marketplace_vendor(self):
-        if self:
-            amount_sale_percentage = 0.0
-            for marketplace_vendor in self.marketplace_vendor_line:
-                amount_sale_percentage += marketplace_vendor.amount_sale_percentage
-            self.amount_marketplace_vendor = amount_sale_percentage
-        else:
-            self.amount_marketplace_vendor = 0.0
-
-    def _compute_amount_marketplace(self):
-        self.amount_marketplace = self.amount_total - self.amount_marketplace_vendor
+            total_vendor = line.price_unit - amount_commission_amount_tax_company_total
+            self.sudo().marketplace_vendor_line.create(vals)
+            count_amount += amount_commission_amount_tax_company_total
+            if self.marketplace_vendor_line_total:
+                vendor_exist = False
+                for rec in self.marketplace_vendor_line_total.filtered(lambda x: x.vendor == line.seller):
+                    rec.total += total_vendor
+                    vendor_exist = True
+                if not vendor_exist:
+                    self.sudo().marketplace_vendor_line_total.create({
+                        'sale_order': self.id,
+                        'name': line.seller.name,
+                        'vendor': line.seller.id,
+                        'total': total_vendor
+                    })
+            else:
+                self.sudo().marketplace_vendor_line_total.create({
+                    'sale_order': self.id,
+                    'name': line.seller.name,
+                    'vendor': line.seller.id,
+                    'total': total_vendor
+                })
+        if self.marketplace_vendor_line_total:
+            self.sudo().marketplace_vendor_line_total.create({
+                'sale_order': self.id,
+                'name': self.company_id.partner_id.name,
+                'vendor': self.company_id.partner_id.id,
+                'total': count_amount,
+                'date': fields.Datetime.now(),
+            })
 
     def _invoice_lines_by_seller(self, order_lines):
         seller_lines = []
@@ -71,6 +104,18 @@ class SaleOrder(models.Model):
         for partner_line in lines:
             seller_lines.append(self.env['sale.order.line'].browse(partner_line + down_payment_line))
         return seller_lines
+
+    def action_confirm(self):
+        res = super(SaleOrder, self).action_confirm()
+        if res:
+            for picking in self.picking_ids:
+                if picking.state in ['assigned']:
+                    for move in picking.move_lines.filtered(lambda m: m.state not in ['done', 'cancel']):
+                        for move_line in move.move_line_ids:
+                            move_line.qty_done = move_line.product_uom_qty
+                    picking.with_context(skip_immediate=True).button_validate()
+            moves = self._create_invoices()
+        return res
 
     def _get_invoice_grouping_keys(self):
         return ['company_id', 'seller_id', 'currency_id']
@@ -203,6 +248,7 @@ class SaleOrder(models.Model):
             )
         return moves
 
+
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
 
@@ -252,20 +298,37 @@ class MarketplaceVendor(models.Model):
         'res.partner', 'Vendor',
         ondelete='cascade',
         help=_("Vendor of this product"))
-    product_id = fields.Many2one('product.template', 'Template')
-    sale_percentage = fields.Float(related='name.commission', string=_('%'))
-    amount_sale = fields.Float(string=_("Amount"))
-    amount_sale_percentage = fields.Float(compute="_compute_amount_sale_percentage", string=_('Amount %'))
+    currency_id = fields.Many2one('res.currency', 'Currency', required=True,
+                                  default=lambda self: self.env.company.currency_id.id)
+    product_template_id = fields.Many2one('product.template', 'Template')
     product_id = fields.Many2one('product.product', string=_('Product'))
+    price_unit = fields.Monetary(string='PRECIO UNITARIO(B+I)', currency_field='currency_id')
+    amount_tax = fields.Float(string='IMPUESTOS')
+    price_subtotal = fields.Float(string='BASE',)
+    sale_percentage_vendor = fields.Float(related='name.commission', string=_('% VENDEDOR'))
+    sale_percentage_go = fields.Float(string=_('% MINIGO'))
+    amount_commission = fields.Float(string='VALOR COMISION')
+    amount_tax_company = fields.Float(string='IMP VENTA')
+    amount_tax_company_total = fields.Float(string='VALOR IMPUESTO')
+    amount_commission_amount_tax_company_total = fields.Float(string='TOTAL COMISION + IMPUESTOS MINIGO',)
+    total_vendor = fields.Float(string='TOTAL VENDEDOR')
 
-    def _compute_amount_sale_percentage(self):
-        if self:
-            for marketplace_vendor in self:
-                percentage = (marketplace_vendor.sale_percentage / 100)
-                marketplace_vendor.amount_sale_percentage = marketplace_vendor.amount_sale * percentage
 
 class AccountMove(models.Model):
     _inherit = 'account.move'
 
     warehouse_id = fields.Many2one('stock.warehouse', string=_("Warehouse"))
     seller_id = fields.Many2one('res.partner', string=_('Seller'))
+
+
+class MarketplaceVendorTotal(models.Model):
+    _name = "marketplace.vendor.total"
+
+    name = fields.Char('Vendedor')
+    date = fields.Datetime('Fecha', default=lambda self: fields.Datetime.now())
+    sale_order = fields.Many2one('sale.order')
+    vendor = fields.Many2one(
+        'res.partner', 'Vendor',
+        ondelete='cascade',
+        help=_("Vendor of this product"))
+    total = fields.Float(string='TOTAL VENDEDOR')
