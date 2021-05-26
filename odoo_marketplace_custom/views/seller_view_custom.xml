@@ -46,7 +46,7 @@
             </xpath>
             <!--Vat en campos principales-->
             <xpath expr="//field[@name='website']" position="after">
-                <label for="vat" string="Identification Number" required="1"/>
+                <label for="vat" string="Número de identificación" required="1"/>
                 <div>
                     <field name="l10n_latam_identification_type_id"
                            options="{'no_open': True, 'no_create': True}"
@@ -154,7 +154,7 @@
                                                    class="o_address_country"
                                                    options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}" required="1"/>
                                         </div>
-                                        <label for="vat" string="Identification Number"/>
+                                        <label for="vat" string="Número de identificación"/>
                                         <div>
                                             <field name="l10n_latam_identification_type_id"
                                                    options="{'no_open': True, 'no_create': True}"
