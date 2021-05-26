@@ -87,7 +87,7 @@
                                        class="oe_no_button" options='{"no_open": True, "no_create": True}' required="1"/>
                             </div>
                             <field name="website" widget="url" placeholder="e.g. www.odoo.com"/>
-                            <label for="vat" string="Identification Number" required="1"/>
+                            <label for="vat" string="Número de identificación" required="1"/>
                             <div>
                                 <field name="l10n_latam_identification_type_id"
                                        options="{'no_open': True, 'no_create': True}"
