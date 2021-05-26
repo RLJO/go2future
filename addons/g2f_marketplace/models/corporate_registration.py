@@ -38,10 +38,12 @@ class ResPartner(models.Model):
         string="Registration Form File", attachment=True)
 
     seller_code = fields.Char('Seller code')
+    has_api = fields.Boolean('¿El vendedor se conecta a una API MiniGO?')
+    api_path = fields.Char('API path')
 
     @api.model
     def create(self, vals):
-        if vals.get('email') and not vals.get('vat') and vals.get('type') != 'contact':
+        if vals.get('email') and not vals.get('vat') and vals.get('parent_id') == False:
             vals['vat'] = vals['email']
             vals['email'] = ''
         return super(ResPartner, self).create(vals)

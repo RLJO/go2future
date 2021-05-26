@@ -57,7 +57,7 @@ class SaleOrder(models.Model):
                 "items": items
             }
 
-            url = self.env.user.api_path  # "http://127.0.0.1:4000/orders"
+            url = self.marketplace_seller_id.api_path  # "http://dummy.minigo.store/orders"
             # token = company_id.api_token
             payload = json.dumps(data)
             headers = {

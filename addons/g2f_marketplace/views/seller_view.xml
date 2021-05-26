@@ -37,6 +37,11 @@
                 </page>
             </xpath>
 
+            <xpath expr="//group/group" position="inside">
+                <field name="has_api"/>
+                <field name="api_path"  widget="url" placeholder="e.g. www.odoo.com" attrs="{'invisible': [('has_api','!=',True)]}"/>
+            </xpath>
+
         </field>
     </record>
 
@@ -46,8 +51,56 @@
         <field name="inherit_id" ref="odoo_marketplace.wk_seller_view_filter"/>
         <field name="arch" type="xml">
             <xpath expr="//search/field[@name='mobile']" position="after">
-                <field name="seller_code"/>
+                <field name="seller_code" string="Código vendedor"/>
             </xpath>
+        </field>
+    </record>
+
+    <record id="go2f_wk_seller_kanban_view" model="ir.ui.view" >
+        <field name="name">go2f_wk_seller_kanban_view</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="odoo_marketplace.wk_seller_kanban_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//kanban/field[@name='mobile']" position="after">
+                <field name="seller_code" string="Código vendedor"/>
+            </xpath>
+            <xpath expr="//t/div/div/div/div[@name='tags']/ul" position="inside">
+                <li t-if="record.seller_code">
+                    <b>Código vendedor: </b>
+                    <field name="seller_code" string="Código vendedor"/>
+                </li>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="go2f_wk_seller_tree_view" model="ir.ui.view">
+        <field name="name">go2f_sellers</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="odoo_marketplace.wk_seller_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree/field[@name='mobile']" position="after">
+                <field name="seller_code" string="Código vendedor"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="go2f_view_partner_tree" model="ir.ui.view">
+        <field name="name">go2f.res.partner.tree</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="arch" type="xml">
+            <field name="display_name" position="after">
+                <field name="seller_code" string="Código vendedor"/>
+            </field>
+            <xpath expr="//field[@name='user_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='activity_ids']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <field name="seller_code" position="after">
+                <field name="vat" string="CUIT"/>
+            </field>
         </field>
     </record>
 

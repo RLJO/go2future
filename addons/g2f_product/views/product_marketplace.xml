@@ -102,7 +102,7 @@
                 <attribute name="groups">odoo_marketplace.marketplace_manager_group</attribute>
             </button>
             <xpath expr="//div[@class='oe_title']" position="inside">
-                <field name="product_code" readonly="1"/>
+                <field name="product_code" string="Código producto" readonly="1"/>
             </xpath>
 
             <button name="send_to_draft" position="attributes">
@@ -130,7 +130,43 @@
         <field name="inherit_id" ref="odoo_marketplace.wk_product_template_seller_filter"/>
         <field name="arch" type="xml">
             <xpath expr="//search/field[@name='name']" position="after">
-                <field name="product_code"/>
+                <field name="product_code" string="Código producto"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="gtf_wk_seller_product_template_kanban_view" model="ir.ui.view">
+        <field name="name">G2F.Seller.Product.template.kanban</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="odoo_marketplace.wk_seller_product_template_kanban_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//t/div/div/div/div[@name='tags']/ul" position="inside">
+                <li t-if="record.product_code">
+                    Código producto:
+                    <field name="product_code" string="Código producto"/>
+                </li>
+            </xpath>
+            <xpath expr="//t/div/div/div/div[@name='tags']/ul/li[6]" position="replace">
+                <li>
+                    <field name="lst_price" invisible="1"/>
+                </li>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="go2f_wk_seller_product_template_tree_view" model="ir.ui.view">
+        <field name="name">go2f.seller.product.template.tree</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="odoo_marketplace.wk_seller_product_template_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree/field[@name='name']" position="after">
+                <field name="product_code" string="Código producto"/>
+            </xpath>
+            <xpath expr="//field[@name='categ_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='type']" position="attributes">
+                <attribute name="invisible">1</attribute>
             </xpath>
         </field>
     </record>

@@ -24,7 +24,7 @@ class marketplace_dashboard(models.Model):
         login_user_obj = self.env.user
         domain = ('children_parent_id.id', '=', self.env.user.partner_id.id)
         if login_user_obj.has_group('odoo_marketplace.marketplace_manager_group'):
-            domain = ('children_parent_id.id', '>', 0)
+            domain = ('children_parent_id', '!=', False)
         return {
             'name': _('Children'),
             'type': 'ir.actions.act_window',

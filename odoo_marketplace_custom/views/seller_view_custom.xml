@@ -7,6 +7,9 @@
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="odoo_marketplace.wk_seller_form_view"/>
         <field name="arch" type="xml">
+             <xpath expr="//button[@name='set_to_pending']" position="after">
+                 <button name="update_seller" string="Actualizar proveedor" type="object" states="new,approved" class="btn-primary"/>
+            </xpath>
             <xpath expr="//div[@class='oe_title']" position="inside">
                 <div class="oe_edit_only">
                     <label for="children_parent_id" string="Vendedor padre"/>
@@ -87,14 +90,14 @@
             </xpath>
             <xpath expr="//notebook" position="inside">
                 <page string="Información adicional" name="prisma" groups="odoo_marketplace.marketplace_draft_seller_group">
-                    <group>
+                    <group name="locales" string="Locales que surte">
                         <field name="warehouse_ids_domain" invisible="1"/>
                         <field name="warehouse_ids"
                                attrs="{'required': [('has_children', '=', False), ('state', 'in', ['approved'])]}"
                                required="1"
                                domain="[('id', 'not in', warehouse_ids_domain)]"/>
                     </group>
-                    <group col="4" colspan="2">
+                    <group name="banco" string="Información para pagos" col="4" colspan="2">
                         <field name="bank_id" attrs="{'required': [('has_children', '=', False), ('state', 'in', ['approved'])]}"
                                options="{'no_create_edit': True}"/>
                         <field name="acc_number" attrs="{'required': [('has_children', '=', False), ('state', 'in', ['approved'])]}"
