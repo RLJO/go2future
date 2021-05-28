@@ -297,7 +297,7 @@
             (0, 0, {'view_mode': 'kanban', 'view_id': ref('odoo_marketplace_custom.res_partner_children_kanban')}),
             (0, 0, {'view_mode': 'tree', 'view_id': ref('odoo_marketplace_custom.res_partner_children_tree')}),
             (0, 0, {'view_mode': 'form', 'view_id': ref('odoo_marketplace.wk_seller_form_view')})]"/>
-        <field name="domain">[('children_parent_id.id', 'in', '[get_partner_children()]')]</field>
+        <field name="context">{'seller_create_children': True}</field>
     <!-- RAD: modifique esto para dejar la misma vista ya existente es necesario evaluar si se deben ocultar campos -->
     </record>
 

@@ -9,6 +9,23 @@ _logger = logging.getLogger(__name__)
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
+    @api.model
+    def default_get(self, fields):
+        if self.env.context.get('seller_create_children'):
+            partner_id = self.env.user.partner_id
+            self = self.with_context(
+                default_children_parent_id=partner_id.id,
+            )
+
+        defaults = super(ResPartner, self).default_get(fields)
+        return defaults
+
+    def search(self, args, **kwargs):
+        if self.env.context.get('seller_create_children'):
+            partner_id = self.env.user.partner_id
+            args += [('children_parent_id', '=', partner_id.id)]
+        return super(ResPartner, self).search(args, **kwargs)
+
     has_children = fields.Boolean(string=_('Has children'), default=False)
     children_parent_id = fields.Many2one('res.partner', string=_("Marketplace Parent"))
     res_partner_children = fields.One2many('res.partner', 'children_parent_id')
@@ -69,12 +86,10 @@ class ResPartner(models.Model):
 
     @api.model
     def create(self, vals):
+        if self.env.context.get('seller_create_children'):
+            if 'type' in vals:
+                vals.pop('type')
         res = super(ResPartner, self).create(vals)
-        if res:
-            self.update_product_seller(res)
-            if not 'type' in vals:
-                if res.write_uid.partner_id.seller:
-                    res.children_parent_id = res.write_uid.partner_id.id
         return res
 
     def write(self, vals):
