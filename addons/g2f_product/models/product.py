@@ -33,6 +33,7 @@ class ProductTemplate(models.Model):
     uom_name = fields.Char(related='uom_id.name')
     barcode_label = fields.Char('Barcode')
     product_code = fields.Char('Product code')
+    product_url = fields.Char(string='Url archivo 3D')
 
     @api.depends('peso_bruto', 'cant_frente', 'cant_fondo', 'cant_altura')
     def _get_peso_estante(self):

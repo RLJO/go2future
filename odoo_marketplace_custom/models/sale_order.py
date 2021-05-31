@@ -31,11 +31,21 @@ class SaleOrder(models.Model):
         for marketplace_vendor_total in self.marketplace_vendor_line_total:
             marketplace_vendor_total.unlink()
         for line in self.sudo().order_line:
+            tax_line = []
             sale_percentage_go = (100 - line.seller.commission)
             amount_commission = (line.price_subtotal * (sale_percentage_go/100))
             amount_tax_company = line.company_id.sudo().account_sale_tax_id.amount
             amount_tax_company_total = (amount_commission * (amount_tax_company/100))
             amount_commission_amount_tax_company_total = amount_commission + amount_tax_company_total
+            total_tax = 0
+            total_int = 0
+            for tax in line.tax_id:
+                tax_line.append((4, tax.id))
+                iva = tax.amount / 100
+                if tax.marketplace_type == 'iva':
+                    total_tax += line.price_subtotal * iva
+                if tax.marketplace_type == 'int':
+                    total_int += line.price_subtotal * iva
             vals = {
                 'sale_order': self.id,
                 'sale_order_line': line.id,
@@ -52,6 +62,11 @@ class SaleOrder(models.Model):
                 'amount_tax_company_total': amount_tax_company_total,
                 'amount_commission_amount_tax_company_total': amount_commission_amount_tax_company_total,
                 'total_vendor': line.price_unit - amount_commission_amount_tax_company_total,
+                'tax_id': tax_line,
+                'total_tax': total_tax,
+                'total_int': total_int,
+                'partner_id': self.partner_id.id
+
             }
             total_vendor = line.price_unit - amount_commission_amount_tax_company_total
             self.sudo().marketplace_vendor_line.create(vals)
@@ -294,6 +309,7 @@ class MarketplaceVendor(models.Model):
 
     sale_order = fields.Many2one('sale.order')
     sale_order_line = fields.Many2one('sale.order.line')
+    date = fields.Datetime('Fecha', default=lambda self: fields.Datetime.now())
     name = fields.Many2one(
         'res.partner', 'Vendor',
         ondelete='cascade',
@@ -301,9 +317,12 @@ class MarketplaceVendor(models.Model):
     currency_id = fields.Many2one('res.currency', 'Currency', required=True,
                                   default=lambda self: self.env.company.currency_id.id)
     product_template_id = fields.Many2one('product.template', 'Template')
-    product_id = fields.Many2one('product.product', string=_('Product'))
+    product_id = fields.Many2one('product.product', string=_('Producto'))
     price_unit = fields.Monetary(string='PRECIO UNITARIO(B+I)', currency_field='currency_id')
     amount_tax = fields.Float(string='IMPUESTOS')
+    tax_id = fields.Many2many('account.tax', string='IVA/INT')
+    total_tax = fields.Float(string='Total IVA')
+    total_int = fields.Float(string='Total INT')
     price_subtotal = fields.Float(string='BASE',)
     sale_percentage_vendor = fields.Float(related='name.commission', string=_('% VENDEDOR'))
     sale_percentage_go = fields.Float(string=_('% MINIGO'))
@@ -312,6 +331,8 @@ class MarketplaceVendor(models.Model):
     amount_tax_company_total = fields.Float(string='VALOR IMPUESTO')
     amount_commission_amount_tax_company_total = fields.Float(string='TOTAL COMISION + IMPUESTOS MINIGO',)
     total_vendor = fields.Float(string='TOTAL VENDEDOR')
+    partner_id = fields.Many2one('res.partner', 'Cliente',
+                                 required=False)
 
 
 class AccountMove(models.Model):
@@ -332,3 +353,10 @@ class MarketplaceVendorTotal(models.Model):
         ondelete='cascade',
         help=_("Vendor of this product"))
     total = fields.Float(string='TOTAL VENDEDOR')
+
+
+class AccountTax(models.Model):
+    """ Add fields used to define some brazilian taxes """
+    _inherit = 'account.tax'
+
+    marketplace_type = fields.Selection([('iva', 'IVA'), ('int', 'INT')], default='iva')
