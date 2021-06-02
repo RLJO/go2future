@@ -61,14 +61,14 @@ class SaleOrder(models.Model):
                 'amount_tax_company': line.company_id.sudo().account_sale_tax_id.amount,
                 'amount_tax_company_total': amount_tax_company_total,
                 'amount_commission_amount_tax_company_total': amount_commission_amount_tax_company_total,
-                'total_vendor': line.price_unit - amount_commission_amount_tax_company_total,
+                'total_vendor': (line.price_unit * line.product_uom_qty) - amount_commission_amount_tax_company_total,
                 'tax_id': tax_line,
                 'total_tax': total_tax,
                 'total_int': total_int,
                 'partner_id': self.partner_id.id
 
             }
-            total_vendor = line.price_unit - amount_commission_amount_tax_company_total
+            total_vendor = (line.price_unit * line.product_uom_qty) - amount_commission_amount_tax_company_total
             self.sudo().marketplace_vendor_line.create(vals)
             count_amount += amount_commission_amount_tax_company_total
             if self.marketplace_vendor_line_total:
