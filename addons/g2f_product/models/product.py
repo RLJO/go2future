@@ -93,7 +93,9 @@ class ProductTemplate(models.Model):
     def _get_label(self):
         if self.list_price == 0:
             raise UserError(_('The Sale Price must be greater than zero (0)'))
-        if self.uom_id.name == 'Unidades' or self.uom_id.name == 'Units':
+        u = ('Unidad', 'Unit', 'und')
+        if self.uom_id.category_id.name in u:
+        # if self.uom_id.category_id.name == 'Unidad' or self.uom_id.name == 'Unit':
             self.uom_price = 'Und ' + str(self.list_price)
         else:
             self.uom_price = self._get_uom_price()
