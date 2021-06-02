@@ -38,12 +38,14 @@ class ResPartner(models.Model):
         string="Registration Form File", attachment=True)
 
     seller_code = fields.Char('Seller code')
-    has_api = fields.Boolean('¿El vendedor se conecta a una API MiniGO?')
+    has_api = fields.Boolean(string='Facturación a traves de API de MiniGO?')
     api_path = fields.Char('API path')
+    estatutos_file = fields.Binary(string='Adjuntar estatutos', attachment=True)
+    modificaciones_file = fields.Binary(string='Adjuntar modificaciones', attachment=True)
 
     @api.model
     def create(self, vals):
-        if vals.get('email') and not vals.get('vat') and vals.get('type') != 'contact':
+        if vals.get('email') and not vals.get('vat') and vals.get('parent_id') == False:
             vals['vat'] = vals['email']
             vals['email'] = ''
         return super(ResPartner, self).create(vals)

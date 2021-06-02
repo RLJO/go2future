@@ -45,7 +45,7 @@
                       </group>
                     </group>
                 </page>
-                <page name="nutrition_facts" string="Nutrition Facts">
+                <page name="nutrition_facts" string="Nutrition Facts" groups="odoo_marketplace.marketplace_manager_group">
                     <group>
                         <field name="atributos_ids" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}"/>
                     </group>
@@ -102,7 +102,11 @@
                 <attribute name="groups">odoo_marketplace.marketplace_manager_group</attribute>
             </button>
             <xpath expr="//div[@class='oe_title']" position="inside">
-                <field name="product_code" string="Código producto" readonly="1"/>
+                <label for="product_code" string="Código producto"/>
+                <field name="product_code" readonly="1"/>
+                <br/>
+                <label for="product_url"/>
+                <field name="product_url" widget="url"/>
             </xpath>
 
             <button name="send_to_draft" position="attributes">

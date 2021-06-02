@@ -10,7 +10,7 @@
                 <attribute name="groups">base.group_erp_manager</attribute>
             </xpath>
             <xpath expr="//page[@name='policies']" position="after">
-                <page string="Fiscal Company Data" name="g2f_seller">
+                <page string="Información fiscal y legal" name="g2f_seller">
                     <group name="industry" string="Tipo de Industria" col="4" colspan="2">
                         <field name="industry_id" widget="many2one_tags" options="{'no_create_edit': True}"/><br/>
                         <!-- RAD: Campo de VAT se sube en otro modulo aqui se comenta-->
@@ -19,12 +19,12 @@
                     </group>
                     <group name="fiscal" string="Datos Fiscales" col="4" colspan="2">
                         <field name="l10n_ar_afip_responsibility_type_id" required="1" string="AFIP Responsibility" options="{'no_open': True, 'no_create': True}" attrs="{'readonly': [('parent_id','!=',False)]}"/>
-                        <field name="property_account_position_id" required="1" options="{'no_create': True, 'no_open': True}"/>
-                        <field name="is_exclution_iva" placeholder="Is Exclution IVA"/>
+                        <field name="property_account_position_id"  invisible="1" options="{'no_create': True, 'no_open': True}"/>
+                        <field name="is_exclution_iva" string="Posee certificado de exclusión de IVA?" placeholder="Is Exclution IVA"/>
                         <field name="is_permanent_exclution" placeholder="Is Permanent exclution"/>
-                        <field name="certificate_date_start" required="1" placeholder="certificate date start"/>
-                        <field name="certificate_date_end" required="1" placeholder="certificate date end"/>
-                        <field name="certificate_file" placeholder="Certificate Exclution file" required="1"/>
+                        <field name="certificate_date_start" placeholder="certificate date start" attrs="{'required': [('is_exclution_iva', '=', True)]}"/>
+                        <field name="certificate_date_end" placeholder="certificate date end" attrs="{'required': [('is_exclution_iva', '=', True)]}"/>
+                        <field name="certificate_file" placeholder="Certificate Exclution file" attrs="{'required': [('is_exclution_iva', '=', True)]}"/>
                         <!-- <field name="certificate_file_exc" placeholder="Certificate Exclution file" required="1"/>-->
                         <!-- RAD: El campo certificate_file estaba dos veces en la misma vista por dos desarrolladores
                                   Por peticion de @jendelcas cree otro campo sin embargo no creo que sea necesario-->
@@ -34,12 +34,16 @@
                         <field name="l10n_ar_gross_income_number" placeholder="Number..." class="oe_inline" attrs="{'invisible': [('l10n_ar_gross_income_type', 'not in', ['multilateral', 'local'])], 'required': [('l10n_ar_gross_income_type', 'in', ['multilateral', 'local'])]}"/>
                         <field name="registration_gross_income_file" placeholder="Certificate gross incoome file" required="1"/>
                     </group>
+                    <group name="legal" string="Información de Estatutos y Modificaciones" col="4" colspan="2">
+                        <field name="estatutos_file" required="1"/>
+                        <field name="modificaciones_file"/>
+                    </group>
                 </page>
             </xpath>
 
             <xpath expr="//group/group" position="inside">
                 <field name="has_api"/>
-                <field name="api_path"  widget="url" placeholder="e.g. www.odoo.com" attrs="{'invisible': [('has_api','!=',True)]}"/>
+                <field name="api_path"  widget="url" placeholder="Url para envio de solicitud de factura" attrs="{'invisible': [('has_api','!=',True)]}"/>
             </xpath>
 
         </field>

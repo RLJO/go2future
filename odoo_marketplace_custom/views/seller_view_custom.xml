@@ -12,7 +12,7 @@
             </xpath>
             <xpath expr="//div[@class='oe_title']" position="inside">
                 <div class="oe_edit_only">
-                    <label for="children_parent_id" string="Vendedor padre"/>
+                    <label for="children_parent_id" string="Vendedor padre" groups="odoo_marketplace.marketplace_manager_group"/>
                 </div>
                 <div class="o_row">
                     <field name="children_parent_id" widget="res_partner_many2one"  groups="odoo_marketplace.marketplace_manager_group"/>
@@ -46,7 +46,7 @@
             </xpath>
             <!--Vat en campos principales-->
             <xpath expr="//field[@name='website']" position="after">
-                <label for="vat" string="Identification Number" required="1"/>
+                <label for="vat" string="Número de identificación" required="1"/>
                 <div>
                     <field name="l10n_latam_identification_type_id"
                            options="{'no_open': True, 'no_create': True}"
@@ -59,7 +59,11 @@
             </xpath>
 
             <xpath expr="//group[@name='url']" position="attributes">
-                <attribute name="attrs">{'invisible':[('children_parent_id', '!=', False)]}</attribute>
+                <attribute name="attrs">{'invisible':[('children_parent_id', '!=', False)],'required':[('children_parent_id', '=', False)]}</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='url_handler']" position="replace">
+                <field name="url_handler" class="oe_edit_only profile_url" style="width: 38%%;padding-right:20px;" placeholder="Unique Seller Profile URL handler..." attrs="{'required':[('children_parent_id', '=', False)]}"/>
             </xpath>
 
             <!--Campo tiene hijos-->
@@ -105,7 +109,7 @@
                     </group>
                 </page>
                 <page string="Información hijos" name="childrens" attrs="{'invisible': [('has_children', '=', False)]}">
-                    <field name="res_partner_children" widget="one2many" context="{'default_warehouse_ids_domain': [(6, 0, [])]}">
+                    <field name="res_partner_children" widget="one2many" context="{'default_warehouse_ids_domain': [(6, 0, [])], 'seller_create_children': True}">
                         <kanban>
                             <field name="id"/>
                             <field name="name"/>
@@ -154,7 +158,7 @@
                                                    class="o_address_country"
                                                    options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}" required="1"/>
                                         </div>
-                                        <label for="vat" string="Identification Number"/>
+                                        <label for="vat" string="Número de identificación"/>
                                         <div>
                                             <field name="l10n_latam_identification_type_id"
                                                    options="{'no_open': True, 'no_create': True}"
@@ -232,6 +236,13 @@
                     <a class="wk_kanban_button_box text-white" name="action_res_partner_children" type="object" style="background-color:#f0ad4e">
                         <span class="oe_value"><t t-esc="record.count_partner_children.raw_value"/></span>
                         <span class="o_label">Children</span>
+                    </a>
+                </div>
+            </xpath>
+            <xpath expr='//div[hasclass("container","o_kanban_card_content")]//div[hasclass("col-6","o_kanban_primary_right")]//div[@t-if="record.state.raw_value ==&apos;payment&apos;"]' position="replace">
+                <div t-if="record.state.raw_value == 'payment'">
+                    <a class="wk_kanban_button_box text-white" name="action_marketplace_vendor_percentage" type="object" style="background-color:#f0ad4e">
+                        <span class="o_label">Pagos</span>
                     </a>
                 </div>
             </xpath>

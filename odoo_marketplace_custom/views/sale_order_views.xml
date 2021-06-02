@@ -1,102 +1,145 @@
 <?xml version="1.0"?>
 <odoo>
     <data>
-    <record id="sale_order_inherit_from" model="ir.ui.view">
-        <field name="name">sale.order.form.inherit.sale</field>
-        <field name="model">sale.order</field>
-        <field name="priority">100</field>
-        <field name="inherit_id" ref="sale.view_order_form"/>
-        <field name="arch" type="xml">
-            <data>
-                <xpath expr="//notebook/page[@name='other_information']//group[@name='sale_shipping']" position='replace'>
-                    <group name="sale_shipping" string="Delivery">
-                        <field name="incoterm" widget="selection" groups="sale_stock.group_display_incoterm"/>
-                        <field name="picking_policy" required="True"/>
-                        <label for="commitment_date" string="Delivery Date"/>
-                        <div class="o_row">
-                            <field name="commitment_date"/>
-                            <span class="text-muted" attrs="{'invisible': [('effective_date', '!=', False), ('commitment_date', '!=', False)]}">
-                                Expected:
-                                <field name="show_json_popover" invisible="1"/>
-                                <field string=" " name="json_popover" widget="stock_rescheduling_popover" attrs="{'invisible': [('show_json_popover', '=', False)]}"/>
-                                <field name="expected_date" widget="date"/>
-                            </span>
-                        </div>
-                        <field name="effective_date" attrs="{'invisible': [('effective_date', '=', False)]}"/>
-                    </group>
-                </xpath>
-                <xpath expr="//field[@name='payment_term_id']" position='after'>
-                    <field name="warehouse_id" options="{'no_create': True}" groups="stock.group_stock_multi_warehouses" force_save="1" required="True"/>
-                </xpath>
-                <xpath expr="//notebook/page[@name='order_lines']/field/tree/field[@name='name']" position='after'>
-                    <field name="seller" string="Vendor"/>
-                </xpath>
-                <xpath expr="//notebook" position="inside">
-                    <page name="marketplace_vendor" string="Marketplace Vendor %">
-                        <field name="marketplace_vendor_line" widget="section_and_note_one2many" create="0" options="{'no_create': True}"
-                        readonly="1"  force_save="1">
-                            <tree>
-                                <field name="name" readonly="1"  force_save="1"/>
-                                <field name="product_id" readonly="1"  force_save="1"/>
-                                <field name="price_unit" readonly="1"  force_save="1" widget="monetary" sum="PRECIO UNITARIO(B+I)"/>
-                                <field name="amount_tax" readonly="1" force_save="1" widget="monetary" sum="IMPUESTOS"/>
-                                <field name="price_subtotal" readonly="1" force_save="1" widget="monetary" sum="BASE"/>
-                                <field name="sale_percentage_vendor" readonly="1" force_save="1" sum="% VENDEDOR"/>
-                                <field name="sale_percentage_go" readonly="1" force_save="1" sum="% MINIGO"/>
-                                <field name="amount_commission" readonly="1" force_save="1" widget="monetary" sum="VALOR COMISION"/>
-                                <field name="amount_tax_company" readonly="1" force_save="1"/>
-                                <field name="amount_tax_company_total" readonly="1" widget="monetary" force_save="1" sum="VALOR IMPUESTO"/>
-                                <field name="amount_commission_amount_tax_company_total" widget="monetary"
-                                       readonly="1" force_save="1" sum="TOTAL COMISION + IMP MINIGO"/>
-                                <field name="total_vendor" readonly="1" force_save="1" widget="monetary" sum="TOTAL VENDEDOR"/>
-                            </tree>
-                        </field>
-                        <field name="marketplace_vendor_line_total" widget="section_and_note_one2many" create="0" options="{'no_create': True}"
-                        readonly="1"  force_save="1">
-                            <tree>
-                                <field name="name" readonly="1"  force_save="1"/>
-                                <field name="total" readonly="1"  force_save="1" widget="monetary" sum="TOTAL"/>
-                            </tree>
-                        </field>
-                    </page>
-                </xpath>
-            </data>
-        </field>
-    </record>
+        <record id="sale_order_inherit_from" model="ir.ui.view">
+            <field name="name">sale.order.form.inherit.sale</field>
+            <field name="model">sale.order</field>
+            <field name="priority">100</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//notebook/page[@name='other_information']//group[@name='sale_shipping']" position='replace'>
+                        <group name="sale_shipping" string="Delivery">
+                            <field name="incoterm" widget="selection" groups="sale_stock.group_display_incoterm"/>
+                            <field name="picking_policy" required="True"/>
+                            <label for="commitment_date" string="Delivery Date"/>
+                            <div class="o_row">
+                                <field name="commitment_date"/>
+                                <span class="text-muted" attrs="{'invisible': [('effective_date', '!=', False), ('commitment_date', '!=', False)]}">
+                                    Expected:
+                                    <field name="show_json_popover" invisible="1"/>
+                                    <field string=" " name="json_popover" widget="stock_rescheduling_popover" attrs="{'invisible': [('show_json_popover', '=', False)]}"/>
+                                    <field name="expected_date" widget="date"/>
+                                </span>
+                            </div>
+                            <field name="effective_date" attrs="{'invisible': [('effective_date', '=', False)]}"/>
+                        </group>
+                    </xpath>
+                    <xpath expr="//field[@name='payment_term_id']" position='after'>
+                        <field name="warehouse_id" options="{'no_create': True}" groups="stock.group_stock_multi_warehouses" force_save="1" required="True"/>
+                    </xpath>
+                    <xpath expr="//notebook/page[@name='order_lines']/field/tree/field[@name='name']" position='after'>
+                        <field name="seller" string="Vendor"/>
+                    </xpath>
+                    <xpath expr="//notebook" position="inside">
+                        <page name="marketplace_vendor" string="Marketplace Vendor %">
+                            <field name="marketplace_vendor_line" widget="section_and_note_one2many" create="0" options="{'no_create': True}"
+                            readonly="1"  force_save="1" editable="bottom">
+                                <tree>
+                                    <field name="date" force_save="1" />
+                                    <field name="partner_id" force_save="1" />
+                                    <field name="name" force_save="1"/>
+                                    <field name="product_id" force_save="1"/>
+                                    <field name="price_unit" force_save="1" widget="monetary" sum="PRECIO UNITARIO(B+I)"/>
+                                    <field name="amount_tax" force_save="1" widget="monetary" sum="IMPUESTOS" optional="show"/>
+                                    <field name="tax_id" force_save="1" widget="many2many_tags" optional="show"/>
+                                    <field name="total_tax" force_save="1" sum="% IVA Total" optional="show"/>
+                                    <field name="total_int" force_save="1" sum="% INT Total" optional="show"/>
+                                    <field name="price_subtotal" force_save="1" widget="monetary" sum="BASE" optional="show"/>
+                                    <field name="sale_percentage_vendor" readonly="1" force_save="1" sum="% VENDEDOR" optional="show"/>
+                                    <field name="sale_percentage_go" force_save="1" sum="% MINIGO" optional="show"/>
+                                    <field name="amount_commission" force_save="1" widget="monetary" sum="VALOR COMISION" optional="show"/>
+                                    <field name="amount_tax_company" force_save="1" optional="show"/>
+                                    <field name="amount_tax_company_total" widget="monetary" force_save="1" sum="VALOR IMPUESTO" optional="show"/>
+                                    <field name="amount_commission_amount_tax_company_total" widget="monetary"
+                                          force_save="1" sum="TOTAL COMISION + IMP MINIGO"/>
+                                    <field name="total_vendor" force_save="1" widget="monetary" sum="TOTAL VENDEDOR"/>
+                                </tree>
+                            </field>
+                            <field name="marketplace_vendor_line_total" widget="section_and_note_one2many" create="0" options="{'no_create': True}"
+                            readonly="1"  force_save="1">
+                                <tree>
+                                    <field name="name" readonly="1"  force_save="1"/>
+                                    <field name="total" readonly="1"  force_save="1" widget="monetary" sum="TOTAL"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </xpath>
+                </data>
+            </field>
+        </record>
 
-     <record id="view_marketplace_vendor_form" model="ir.ui.view">
+         <record id="view_marketplace_vendor_form" model="ir.ui.view">
+            <field name="name">marketplace.vendor.form</field>
+            <field name="model">marketplace.vendor</field>
+            <field name="arch" type="xml">
+                <form string="Marketplace Vendor" create="0">
+                    <sheet>
+                        <group>
+                            <field name="sale_order" invisible="0"/>
+                            <field name="sale_order_line" invisible="1"/>
+                            <field name="name" force_save="1"/>
+                            <field name="date" force_save="1" />
+                            <field name="partner_id" force_save="1" />
+                            <field name="name" force_save="1"/>
+                            <field name="product_id" force_save="1"/>
+                            <field name="price_unit" force_save="1" widget="monetary" sum="PRECIO UNITARIO(B+I)"/>
+                            <field name="amount_tax" force_save="1" widget="monetary" sum="IMPUESTOS" optional="show"/>
+                            <field name="tax_id" force_save="1" widget="many2many_tags" optional="show"/>
+                            <field name="total_tax" force_save="1" sum="% IVA Total" optional="show"/>
+                            <field name="total_int" force_save="1" sum="% INT Total" optional="show"/>
+                            <field name="price_subtotal" force_save="1" widget="monetary" sum="BASE" optional="show"/>
+                            <field name="sale_percentage_vendor" readonly="1" force_save="1" sum="% VENDEDOR" optional="show"/>
+                            <field name="sale_percentage_go" force_save="1" sum="% MINIGO" optional="show"/>
+                            <field name="amount_commission" force_save="1" widget="monetary" sum="VALOR COMISION" optional="show"/>
+                            <field name="amount_tax_company" force_save="1" optional="show"/>
+                            <field name="amount_tax_company_total" widget="monetary" force_save="1" sum="VALOR IMPUESTO" optional="show"/>
+                            <field name="amount_commission_amount_tax_company_total" widget="monetary"
+                                  force_save="1" sum="TOTAL COMISION + IMP MINIGO"/>
+                            <field name="total_vendor" force_save="1" widget="monetary" sum="TOTAL VENDEDOR"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_marketplace_vendor_tree_form" model="ir.ui.view">
         <field name="name">marketplace.vendor.form</field>
         <field name="model">marketplace.vendor</field>
         <field name="arch" type="xml">
-            <form string="Marketplace Vendor" create="0">
-                <sheet>
-                    <group>
-                        <field name="sale_order" invisible="1"/>
-                        <field name="sale_order_line" invisible="1"/>
-                        <field name="name"/>
-                        <field name="product_id"/>
-                        <field name="price_unit"/>
-                        <field name="amount_tax"/>
-                        <field name="price_subtotal"/>
-                        <field name="sale_percentage_vendor">%</field>
-                        <field name="sale_percentage_go">%</field>
-                        <field name="amount_commission"/>
-                        <!--field name="amount_tax_company">%</field>
-                        <field name="amount_tax_company_total"/>
-                        <field name="amount_commission_amount_tax_company_total"/>
-                        <field name="total_vendor"/-->
-                    </group>
-                </sheet>
-            </form>
+            <tree string="Marketplace Vendor"  default_order='date'>
+                <field name="sale_order"/>
+                <field name="sale_order_line" invisible="1"/>
+                <field name="date" />
+                <field name="name"/>
+                <field name="partner_id" />
+                <field name="product_id"/>
+                <field name="price_unit" widget="monetary" sum="PRECIO UNITARIO(B+I)"/>
+                <field name="amount_tax" widget="monetary" sum="IMPUESTOS" optional="show"/>
+                <field name="tax_id" widget="many2many_tags" optional="show"/>
+                <field name="total_tax" sum="% IVA Total" optional="show"/>
+                <field name="total_int" sum="% INT Total" optional="show"/>
+                <field name="price_subtotal"  widget="monetary" sum="BASE" optional="show"/>
+                <field name="sale_percentage_vendor" force_save="1" sum="% VENDEDOR" optional="show"/>
+                <field name="sale_percentage_go" sum="% MINIGO" optional="show"/>
+                <field name="amount_commission" widget="monetary" sum="VALOR COMISION" optional="show"/>
+                <field name="amount_tax_company" optional="show"/>
+                <field name="amount_tax_company_total" widget="monetary"  sum="VALOR IMPUESTO" optional="show"/>
+                <field name="amount_commission_amount_tax_company_total" widget="monetary"
+                      sum="TOTAL COMISION + IMP MINIGO"/>
+                <field name="total_vendor" widget="monetary" sum="TOTAL VENDEDOR"/>
+            </tree>
         </field>
-    </record>
+        </record>
 
-    <record id="action_marketplace_vendor_form" model="ir.actions.act_window">
-            <field name="name">marketplace.vendor</field>
-            <field name="res_model">marketplace.vendor</field>
-            <field name="view_mode">form</field>
-            <field name="view_id" ref="view_marketplace_vendor_form"/>
-    </record>
+        <record id="action_marketplace_vendor_form" model="ir.actions.act_window">
+                <field name="name">marketplace vendedor %</field>
+                <field name="res_model">marketplace.vendor</field>
+                <field name="view_mode">tree,kanban</field>
+        </record>
+
+        <menuitem id="marketplace_vendor_menu" name="marketplace vendedor %" action="action_marketplace_vendor_form" parent="odoo_marketplace.wk_seller_dashboard_menu1"/>
+        <menuitem id="marketplace_vendor_menu_sale" name="marketplace vendedor %" action="action_marketplace_vendor_form"  parent="sale.sale_menu_root"/>
 
         <record id="view_move_form_custom" model="ir.ui.view">
             <field name="name">account.move.form.custom</field>
@@ -109,6 +152,17 @@
                         <field name="seller_id"/>
                     </xpath>
                 </data>
+            </field>
+        </record>
+
+        <record id="view_account_tax_marketplace" model="ir.ui.view">
+            <field name="name">view.account.tax.marketplace</field>
+            <field name="model">account.tax</field>
+            <field name="inherit_id" ref="account.view_tax_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='analytic']" position="before">
+                    <field name="marketplace_type"/>
+                </xpath>
             </field>
         </record>
 

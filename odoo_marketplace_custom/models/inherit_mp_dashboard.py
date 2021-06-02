@@ -39,6 +39,21 @@ class marketplace_dashboard(models.Model):
             ]
         }
 
+    def action_marketplace_vendor_percentage(self):
+        login_user_obj = self.env.user
+        domain = ('partner_id.id', '=', self.env.user.partner_id.id)
+        if login_user_obj.has_group('odoo_marketplace.marketplace_manager_group'):
+            domain = ('partner_id', '!=', False)
+        return {
+            'name': _('Marketplace Vendedor %'),
+            'type': 'ir.actions.act_window',
+            'res_model': 'marketplace.vendor',
+            'view_mode': 'tree',
+            'domain': [
+                domain
+            ]
+        }
+
     state = fields.Selection(
         [('product', 'Product'), ('seller', 'Seller'), ('order', 'Order'), ('payment', 'Payment'), ('children', 'Children')])
     count_partner_children = fields.Integer(compute='_get_partner_children')

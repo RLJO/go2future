@@ -19,7 +19,7 @@
             <field name="inherit_id" ref="odoo_marketplace.wk_seller_product_template_form_view"/>
             <field name="arch" type="xml">
                 <xpath expr="//notebook" position="inside">
-                    <page string="Purchase" name="purchase">
+                    <page string="Ubicación" name="purchase" groups="odoo_marketplace.marketplace_manager_group">
                             <group name="purchase">
                                 <!--group string="Vendor Bills" name="bill"/-->
                             </group>

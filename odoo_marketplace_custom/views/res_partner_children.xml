@@ -87,7 +87,7 @@
                                        class="oe_no_button" options='{"no_open": True, "no_create": True}' required="1"/>
                             </div>
                             <field name="website" widget="url" placeholder="e.g. www.odoo.com"/>
-                            <label for="vat" string="Identification Number" required="1"/>
+                            <label for="vat" string="Número de identificación" required="1"/>
                             <div>
                                 <field name="l10n_latam_identification_type_id"
                                        options="{'no_open': True, 'no_create': True}"
@@ -297,7 +297,7 @@
             (0, 0, {'view_mode': 'kanban', 'view_id': ref('odoo_marketplace_custom.res_partner_children_kanban')}),
             (0, 0, {'view_mode': 'tree', 'view_id': ref('odoo_marketplace_custom.res_partner_children_tree')}),
             (0, 0, {'view_mode': 'form', 'view_id': ref('odoo_marketplace.wk_seller_form_view')})]"/>
-        <field name="domain">[('children_parent_id.id', 'in', '[get_partner_children()]')]</field>
+        <field name="context">{'seller_create_children': True}</field>
     <!-- RAD: modifique esto para dejar la misma vista ya existente es necesario evaluar si se deben ocultar campos -->
     </record>
 
