@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (c) 2019-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<odoo>
+	<data>
+		<template id="assets_frontend" name="website_ribbon_assets_frontend" inherit_id="website.assets_frontend">
+			<xpath expr="." position="inside">
+				<link rel="stylesheet" href="/dynamic_bundle_products/static/src/scss/dynamic_bundle_products.scss" />
+				<script type="text/javascript" src="/dynamic_bundle_products/static/src/js/dynamic_bundle_products.js"></script>
+			</xpath>
+		</template>
+
+		<template id="website_product_pack_ribbon_wrapper" inherit_id="website_sale.products_item" name="pack ribbon">
+			<xpath expr="//form//div[hasclass('o_wsale_product_information')]" position="after">
+				<div t-if="product.is_bundle" class="wk_pack_product_wrapper">
+					<div class="wk_pack_ribbon">Bundle</div>
+				</div>
+			</xpath>
+		</template>
+
+		<template id="website_product_pack_save_price" inherit_id="website_sale.product_price" name="pack_save_price">
+			<xpath expr="//div/h4[hasclass('css_non_editable_mode_hidden')]" position="after">
+				<input type="hidden" class="pack_id" name="pack_id" t-att-value="product.is_bundle" />
+				<t t-if="product.is_bundle == True">
+					<button type="button" class="btn_modal_pack btn btn-primary" data-toggle="modal" data-target="#open_products_modal">Customize Bundle
+					</button>
+					<t t-if="product.show_amount_saved_in_product_page() == True">
+						<t t-set="actual_price" t-value="product.get_actual_product_price(product.id)" />
+						<div class="wk_price_save_cart">
+							<span class="wk_span_save">Saved</span>
+							<span t-esc="actual_price" style="white-space: nowrap;" t-options="{'widget': 'monetary','from_currency': product.currency_id, 'display_currency': website.currency_id}" />
+						</div>
+					</t>
+				</t>
+				<div id="open_products_modal" class="modal fade" role="dialog">
+					<div class="modal-dialog modal-lg">
+						<div class="modal-content">
+							<div class="modal-header btn btn-info" style="padding:0px;">
+								<span class="header_text" style="margin-left:25%">Choose Variants For Your Bundle</span>
+								<button type="button" style="margin-right:5px;margin-top:5px;" class="btn btn-info pull-right fa fa-times" data-dismiss="modal"></button>
+							</div>
+							<div class="modal-body" style="padding:0px;">
+								<t t-foreach="product.wk_bundle_products" t-as="pack">
+									<div class="wk_modal_outer_div col-md-12" t-att-value="pack.template_id">
+										<div class="col-md-3" style="display:inline-block;">
+											<div class="image_div">
+												<a itemprop="url" t-att-href="keep('/shop/product/%s' % slug(pack.template_id))">
+													<span t-field="pack.template_id.image_256" t-options='{"widget": "image", "class": "img-rounded"}' />
+												</a>
+											</div>
+											<div>
+												<span>Unit Price</span>
+												<span t-esc="pack.template_id.list_price" class="wk_pack_product_unit_price" t-options="{'widget': 'monetary','from_currency': product.currency_id, 'display_currency': website.currency_id}" />
+												<div t-if="product.bundle_type == 'fixed_quantity'" class="pack_template_quantity" t-att-value="pack.product_quantity">
+													Quantity
+													<span style="margin-left:10px; color:#B71C1C;" t-esc="pack.product_quantity" />
+												</div>
+												<div t-if="product.bundle_type == 'variable_quantity' and pack.min_bundle_qty > 0" class="pack_min_quantity" t-att-value="pack.min_bundle_qty">
+													Min Quantity
+													<span style="margin-left:10px; color:#B71C1C;" t-esc="pack.min_bundle_qty" />
+												</div>
+												<div t-if="product.bundle_type == 'variable_quantity' and pack.max_bundle_qty > 0" class="pack_max_quantity" t-att-value="pack.max_bundle_qty">
+													Max Quantity
+													<span style="margin-left:10px; color:#B71C1C;" t-esc="pack.max_bundle_qty" />
+												</div>
+											</div>
+										</div>
+										<div class="variants_list col-md-8" style="display:inline-block;float:right">
+											<div class="wk_modal_text" t-att-name="pack.template_id.name">
+												<span style="display:block;color:black;margin-bottom:6px;margin-top:-10px; font-size:24px" t-esc="pack.template_id.name" />
+											</div>
+											<div label-default="label-default" class="radio" t-foreach="pack.variants" t-as="variant_id">
+												<div class="col-8 col-sm-8 col-md-6" style="display:inline-block;">
+													<input type="checkbox" name="product_id" class="pack_product_id" t-att-value="variant_id.id" t-att-data-lst_price="variant_id.lst_price" t-att-data-price="variant_id.price" />
+													<span t-esc="variant_id.name" />
+													<small t-if="variant_id.get_variant_attributes()">
+														<i>
+															(
+															<span t-esc="variant_id.get_variant_attributes()" style="color:#616161;" />
+															)
+														</i>
+													</small>
+												</div>
+												<div class="col-4 col-sm-4 col-md-6" style="display: inline-block;">
+													<label class="input-group">
+														<a t-attf-href="#" style="padding : 5px 10px;" class="btn-secondary input-group-addon js_add_cart_json" data-no-instant="">
+															<i class="fa fa-minus"></i>
+														</a>
+														<input type="text" class="js_quantity pack_variant_quantity form-control" value="0" style="height:30px; padding 1px;" />
+														<a t-attf-href="#" style="padding : 5px 10px;" class="btn-secondary input-group-addon float_left js_add_cart_json" data-no-instant="">
+															<i class="fa fa-plus"></i>
+														</a>
+													</label>
+												</div>
+											</div>
+										</div>
+									</div>
+								</t>
+							</div>
+							<div class="modal-footer">
+								<div style=" border-bottom: 1px solid #e5e5e5; margin-bottom:10px;" />
+								<button type="button" class="btn btn-info validate_pack" style="margin-right:20px;" t-att-value="product.id" t-att-bundle_type="product.bundle_type"> Add To Cart
+								</button>
+								<button type="button" class="btn btn-info" style="margin-left:5px;" data-dismiss="modal">Close</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</xpath>
+		</template>
+
+		<template id="ad_to_cart_inherited_bundle" inherit_id="website_sale.product" name="Cart_inherited_bundle">
+			<xpath expr="//a[@id='add_to_cart']" position="attributes">
+				<attribute name="t-if">not product.is_bundle</attribute>
+			</xpath>
+		</template>
+
+		<template id="ad_to_cart_shop_inherited_bundle" inherit_id="website_sale.products_add_to_cart" name="Cart_shop_inherited_bundle" priority="1000000">
+			<xpath expr="//a[hasclass('a-submit')]" position="attributes">
+				<attribute name="t-if">not product.is_bundle</attribute>
+			</xpath>
+		</template>
+
+
+	</data>
+</odoo>

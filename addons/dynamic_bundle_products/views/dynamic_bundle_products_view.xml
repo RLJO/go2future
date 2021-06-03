@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2019-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<odoo>
+	<data>
+		<record id="dynamic_bundle_form_view" model="ir.ui.view">
+			<field name="name">product.bundle.form.view</field>
+			<field name="model">product.bundle</field>
+			<field name="arch" type="xml">
+				<form string="Product PAck" version="7.0" class="oe_form_configuration">
+					<header></header>
+					<group>
+						<group>
+							<field name="template_id"/>
+							<field name="add_variants" attrs= "{'invisible':[('template_id','=', False)]}"/>
+						</group>
+						<group attrs="{'invisible':['|',('bundle_type','!=', 'fixed_quantity'),('template_id','=', False)]}">
+							<field name="product_quantity" attrs="{'required': [('bundle_type', '=', 'fixed_quantity')]}"/>
+						</group>
+						<group attrs="{'invisible':['|', ('bundle_type','!=', 'variable_quantity'),('template_id','=', False)]}">
+						<field name="min_bundle_qty" />
+						<field name="max_bundle_qty"/>
+
+						</group>
+						<field name="bundle_type" invisible="1"/>
+
+					</group>
+					<group attrs= "{'invisible':[('add_variants','!=', 'selected')]}">
+						<separator colspan="5" string="Select Variants"/>
+						<tree>
+							<field name="variants" nolabel="1" attrs="{'required':[('add_variants','=', 'selected')]}" domain="[('product_tmpl_id', '=', template_id)]"/>
+						</tree>
+					</group>
+				</form>
+			</field>
+		</record>
+		<record id="dynamic_bundle_inherited_product_template_kanban" model="ir.ui.view">
+			<field name="name">product.template.pack</field>
+			<field name="model">product.template</field>
+			<field name="inherit_id" ref="product.product_template_kanban_view" />
+			<field name="arch" type="xml">
+				  <xpath expr="//kanban" position="replace">
+					<kanban>
+						 <field name="id"/>
+						<field name="image_512"/>
+						<field name="lst_price"/>
+						<field name="product_variant_count"/>
+						<field name="product_variant_ids"/>
+						<field name="currency_id"/>
+					<templates>
+						<t t-name="kanban-box">
+							<div class="oe_kanban_global_click">
+							<div class="o_kanban_image">
+								<img t-att-src="kanban_image('product.template', 'image_512', record.id.raw_value)" alt="Image"/>
+							</div>
+							<div class="oe_kanban_details">
+								<strong class="o_kanban_record_title">
+									<field name="name"/>
+									<small t-if="record.default_code.value">[<field name="default_code"/>]</small>
+								</strong>
+								<div t-if="record.product_variant_count.value &gt; 1" groups="product.group_product_variant">
+									<strong>
+										<t t-esc="record.product_variant_count.value"/> Variants
+									</strong>
+								</div>
+								<div name="tags"/>
+								<ul>
+									<li>Price: <field name="lst_price" widget="monetary"></field></li>
+								</ul>
+								<div name="tags"/>
+							</div>
+						</div>
+						</t>
+					</templates>
+				</kanban>
+				</xpath>
+			</field>
+		</record>
+		<record id="dynamic_bundle_inherited_product_template_form" model="ir.ui.view">
+			<field name="name">product.product.pack</field>
+			<field name="model">product.template</field>
+			<field name="inherit_id" ref="product.product_template_form_view" />
+			<field name="arch" type="xml">
+				<xpath expr="//div[hasclass('oe_title')]/div[@name='options']" position="inside">
+					<div>
+						<field name="is_bundle"/>
+						<label for="is_bundle"/>
+					</div>
+				</xpath>
+				<notebook position='inside'>
+					<page string='Pack Products' attrs= "{'invisible':[('is_bundle','=', False)]}">
+						<field name="show_web_label" invisible="1"/>
+						<p attrs="{'invisible':[('show_web_label','=',False)]}">The price of the pack is greater than the individual product items. The Save label will not be visible on website.</p>
+						<group col="6">
+							<field name="pack_stock_management" attrs="{'required': [('is_bundle', '=', True)]}"/>
+							<field name="bundle_type" attrs="{'required': [('is_bundle', '=', True)]}"/>
+							<field name="bundle_products_price"/>
+						</group>
+						<field name="wk_bundle_products" context="{'default_bundle_type': bundle_type}">
+							<tree>
+								<field name="template_id"/>
+								<field name="product_quantity" attrs="{'required': [('bundle_type', '=', 'fixed_quantity')],'invisible':[('bundle_type','!=', 'fixed_quantity')]}"/>
+								<field name="min_bundle_qty" attrs="{'invisible':[('bundle_type','!=', 'variable_quantity')]}"/>
+								<field name="max_bundle_qty" attrs="{'invisible':[('bundle_type','!=', 'variable_quantity')]}"/>
+								<field name="add_variants" col='4'/>
+								<field name="price"/>
+								<field name="variants" widget="many2many_tags"/>
+								<field name="bundle_type" invisible="1"/>
+
+							</tree>
+						</field>
+					</page>
+				</notebook>
+			</field>
+		</record>
+		<record id="product_template_inherited_variants_repalce_form" model="ir.ui.view">
+			<field name="name">product.product.pack</field>
+			<field name="model">product.template</field>
+			<field name="inherit_id" ref="product.product_template_only_form_view" />
+			<field name="arch" type="xml">
+				<xpath expr="//notebook/page[@name='variants']" position="attributes">
+					<attribute name="attrs">{'invisible':[('is_bundle','=', True)]}</attribute>
+				</xpath>
+				<xpath expr="//notebook/page[@name='variants']" position="after">
+					<page string="Variants" name="wk_variants" attrs="{'invisible':[('is_bundle','=', False)]}">
+						<h1> You cannot create variants of the Pack </h1>
+					</page>
+				</xpath>
+			</field>
+		</record>
+		<record id="dynamic_bundle_inherited_view_sale_order_form" model="ir.ui.view">
+			<field name="name">sale.order</field>
+			<field name="model">sale.order</field>
+			<field name="inherit_id" ref="sale.view_order_form" />
+			<field name="arch" type="xml">
+				<xpath expr="//notebook/page/field[@name='order_line']" position="before"> 
+					<button name="dynamic_bundle_products.action_wk_product_pack_wizard" string="ADD PACK" type="action" attrs= "{'invisible':[('state','=', 'manual')]}" />
+			  	</xpath>
+				<xpath expr="//notebook/page/field[@name='order_line']/tree" position="inside">
+					<field name="wk_product_variants" invisible="1">
+						<tree editable="bottom">
+							<field name="quantity_in_pack"/>
+							<field name="variant_id"/>
+						</tree>
+					</field>
+				</xpath>
+			</field>
+		</record>
+		<record id="dynamic_bundle_inherited_product_template_search_view" model="ir.ui.view">
+			<field name="name">product.template.search</field>
+			<field name="model">product.template</field>
+			<field name="inherit_id" ref="product.product_template_search_view" />
+			<field name="arch" type="xml">
+				<xpath expr="//search/filter[@name='filter_to_sell']" position="after">
+					<filter string="Is a pack" name="is_a_pack" domain="[('is_bundle','=',1)]"/>
+				</xpath>
+			</field>
+		</record>
+		<record id="action_dynamic_bundle" model="ir.actions.act_window">
+			<field name="name">Bundle Products</field>
+			<field name="res_model">product.template</field>
+			<field name="domain">[('is_bundle', '=', True)]</field>
+			<field name="context">{'default_is_bundle':True}</field>
+			<field name="view_mode">kanban,tree,form</field>
+			<field name="view_id" ref="dynamic_bundle_inherited_product_template_kanban"/>
+		</record>
+		<menuitem id="menu_product_pack_core" name="Bundle Products" parent="website_sale.menu_catalog" sequence="4" groups="sales_team.group_sale_salesman" action="action_dynamic_bundle"/>
+
+	</data>
+</odoo>
