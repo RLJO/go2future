@@ -1,0 +1,165 @@
+.oe_product.wk_bundle_product .wk_pack_product_wrapper
+{
+	display: block;
+
+}
+.wk_pack_product_wrapper
+{ 
+	width: 80px;
+	height: 80px;
+	z-index: 5;
+	overflow: hidden;
+	position: absolute;
+}
+.oe_product .wk_pack_ribbon
+{
+	font: bold 15px Sans-Serif;
+	color: white;
+	text-align: center;
+	-webkit-transform: rotate(-45deg);
+	-moz-transform: rotate(-45deg);
+	-ms-transform: rotate(-45deg);
+	-o-transform: rotate(-45deg);
+	position: relative;
+	padding: 7px 0;
+	left: -37px;
+	top: 10px;
+	width: 137px;
+	cursor: default;
+	background-color:#c2185b;
+}
+
+.main_div_price_saved {
+	position:relative;
+	display:inline-block;
+	height: 35px;
+	width:75px;
+	top:20px;
+	text-align:center;
+	border-radius:20px;
+	background-color: #E91E63;
+	color:white;
+	font-size: 12px;
+	float:right;
+}
+.wk_span_save{
+display:block;
+}
+.wk_price_save_cart 
+{
+    font-size: 12px;
+    width: 90px;
+    display: inline-block;
+    background-color: #E91E63;
+    color: white;
+	text-align: center;
+	position: relative;
+    bottom: -5px;
+}
+.product_image_modal
+{
+	height:80%;
+	width:80%;
+}
+.wk_modal_outer_div
+{
+ display: block;
+ margin-top: 3%;
+ margin-bottom: 3%;
+}
+.wk_modal_outer_div .variants_list .radio .col-md-6:last-of-type{
+	padding: 0px;
+	width:100px;
+}
+.wk_modal_text{
+	font-size: 14px;
+	margin-top: 5px;
+	display:inline;
+}
+.wk_pack_product_unit_price{
+	white-space: nowrap;
+	color:#B71C1C;
+	margin-left:5px
+}
+.btn_modal_pack{
+
+	margin-bottom:5px;
+	
+}
+.image_div
+{
+	width:150px;
+	display:inline-block;
+
+}
+.wk_alert_message{
+	cursor:pointer;
+	opacity: 0.6;
+}
+.wk_alert_message1111{
+	opacity:0.4 !important;
+	background-color: red;
+	display: inline !important;
+}
+.variants_list{
+	vertical-align:center;
+	display: inline;
+}
+.header_text{
+	color:black;
+	font-size:30px;
+}
+
+.popover-content {
+    font-style: italic;
+}
+.popover-title {
+    color: white;
+    font-size: 20px;
+    text-align: center !important;
+    background-color: #2196F3;
+}
+@media only screen and (max-width: 768px) {
+	/* For mobile phones: */
+	#open_products_modal .image_div{
+		width:100%;
+	}
+	#open_products_modal .image_div img{ 
+		margin: auto;
+	}
+	.wk_modal_outer_div .col-md-3{
+		padding: 0px;
+		width: 100%;
+		margin-bottom: 15px;
+		text-align: center;
+	}
+	.wk_modal_outer_div .variants_list{
+		padding: 0px;
+		display: block !important;
+		float: none !important;
+	}
+	.wk_modal_outer_div .variants_list .wk_modal_text span{ margin-top: 0xp !important;}
+	.wk_modal_outer_div .variants_list .radio .col-xs-4{
+		padding: 0px;
+	}
+	.wk_modal_outer_div .variants_list .radio .col-xs-4 label{
+		padding: 0px;
+	}
+	.wk_modal_outer_div{
+		display: block;
+		margin-top: 10%;
+		margin-bottom: 10%;
+	}
+	.modal-footer{
+		border: none;
+	}
+	.modal-footer{
+		border: none;
+	}
+	.header_text{
+		color:black;
+		font-size:23px;
+		margin-left: 2px !important;
+	}
+	.modal-header button{ margin: 0px !important;}
+}

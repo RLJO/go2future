@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+product_pack_seller,seller_access_product_pack,marketplace_dynamic_bundle_products.model_product_bundle,odoo_marketplace.marketplace_seller_group,1,1,1,0
+product_pack_officer,officer_access_product_pack,marketplace_dynamic_bundle_products.model_product_bundle,odoo_marketplace.marketplace_officer_group,1,1,1,0
+product_pack_manager,manager_access_product_pack,marketplace_dynamic_bundle_products.model_product_bundle,odoo_marketplace.marketplace_manager_group,1,1,1,0
