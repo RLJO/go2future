@@ -37,6 +37,7 @@
                     <group name="legal" string="Información de Estatutos y Modificaciones" col="4" colspan="2">
                         <field name="estatutos_file" required="1"/>
                         <field name="modificaciones_file"/>
+                        <field name="autoridades_file"/>
                     </group>
                 </page>
             </xpath>

@@ -309,7 +309,7 @@
 										<field name="lst_price" widget='monetary' options="{'currency_field': 'currency_id'}" attrs="{'readonly': [('product_variant_count', '&gt;', 1)]}"/>
 										<field name="barcode" attrs="{'invisible': [('product_variant_count', '&gt;', 1)]}"/>
 										<field name="hs_code"/>
-										<field name="default_code" attrs="{'invisible': [('product_variant_count', '&gt;', 1)]}" groups="odoo_marketplace.marketplace_officer_group"/>
+										<field name="default_code" attrs="{'invisible': [('product_variant_count', '&gt;', 1)]}"/>
                                         <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
 									</group>
 								</group>
@@ -509,7 +509,7 @@
 										<field name="lst_price" widget='monetary' options="{'currency_field': 'currency_id'}" attrs="{'readonly': [('product_variant_count', '&gt;', 1)]}"/>
 										<field name="barcode" attrs="{'invisible': [('product_variant_count', '&gt;', 1)]}"/>
 										<field name="hs_code"/>
-										<field name="default_code" attrs="{'invisible': [('product_variant_count', '&gt;', 1)]}" groups="odoo_marketplace.marketplace_officer_group"/>
+										<field name="default_code" attrs="{'invisible': [('product_variant_count', '&gt;', 1)]}"/>
 									</group>
 								</group>
 								<separator string="Internal Notes" colspan="4" groups="odoo_marketplace.marketplace_officer_group"/>
