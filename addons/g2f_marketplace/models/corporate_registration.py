@@ -30,7 +30,7 @@ class ResPartner(models.Model):
     certificate_date_end = fields.Date()
     certificate_file = fields.Binary(string="Certificate File", attachment=True)
     #certificate_file_exc = fields.Binary(string="Certificate Exclution File", attachment=True)
-    ## El campo certificate_file_exc se crea por solicitud de @jendelcas hay otro campo igual en la vista
+    ## El campo certificate_file_exc se crea por solicitud de @jendelcas
     regime_gross_income = fields.Selection(GROSS_INCOME)
     registration_number_gross_income = fields.Char(
         string='registration number in gross income tax')
@@ -38,10 +38,15 @@ class ResPartner(models.Model):
         string="Registration Form File", attachment=True)
 
     seller_code = fields.Char('Seller code')
+    has_api = fields.Boolean(string='Facturación a traves de API de MiniGO?')
+    api_path = fields.Char('API path')
+    estatutos_file = fields.Binary(string='Adjuntar estatutos', attachment=True)
+    modificaciones_file = fields.Binary(string='Adjuntar modificaciones', attachment=True)
+    autoridades_file = fields.Binary(string='Adjuntar asignación de autoridades y artículo 60 inscrito', attachment=True)
 
     @api.model
     def create(self, vals):
-        if vals.get('email') and not vals.get('vat') and vals.get('type') != 'contact':
+        if vals.get('email') and not vals.get('vat') and vals.get('parent_id') == False:
             vals['vat'] = vals['email']
             vals['email'] = ''
         return super(ResPartner, self).create(vals)

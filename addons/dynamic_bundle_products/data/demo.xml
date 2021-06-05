@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<odoo>
+    <data noupdate="1">
+        <function model="ir.default" name="set" eval="('dynamic.bundle.products.config', 'amount_saved_in_product_page', True)" />
+
+        <record id="dynamic_product_attribute_value_4" model="product.attribute.value">
+            <field name="name">Red</field>
+            <field name="attribute_id" ref="product.product_attribute_2" />
+            <field name="sequence">3</field>
+        </record>
+
+        <record id="dynamic_product_bundle_template_1" model="product.bundle">
+            <field name="template_id" ref="product.product_product_11_product_template" />
+            <field name="product_quantity">4</field>
+            <field name="add_variants">all</field>
+            <field name="wk_product_template" ref="product.product_product_11_product_template" />
+        </record>
+
+        <record id="dynamic_product_bundle_template_2" model="product.bundle">
+            <field name="template_id" ref="product.product_product_13_product_template" />
+            <field name="product_quantity">2</field>
+            <field name="add_variants">all</field>
+            <field name="wk_product_template" ref="product.product_product_13_product_template" />
+        </record>
+
+        <record id="dynamic_product_bundle_template_3" model="product.bundle">
+            <field name="template_id" ref="product.product_product_4_product_template" />
+            <field name="product_quantity">1</field>
+            <field name="add_variants">all</field>
+            <field name="wk_product_template" ref="product.product_product_4_product_template" />
+        </record>
+
+        <record id="dynamic_bundle_template_1" model="product.template">
+            <field name="name">High Heel Shoes</field>
+            <field name="standard_price">300.0</field>
+            <field name="list_price">280.0</field>
+            <field name="type">product</field>
+            <field name="website_published">True</field>
+            <field name="is_bundle">True</field>
+            <field name="image_1920" type="base64" file="dynamic_bundle_products/static/description/Hills-2.png"></field>
+            <field name="wk_bundle_products" eval="[(6,0,[ref('dynamic_product_bundle_template_2')])]" />
+        </record>
+
+        <record id="dynamic_bundle_template_2" model="product.template">
+            <field name="name">Sneaker Shoes</field>
+            <field name="standard_price">150.0</field>
+            <field name="list_price">150.0</field>
+            <field name="type">product</field>
+            <field name="website_published">True</field>
+            <field name="image_1920" type="base64" file="dynamic_bundle_products/static/description/Shoes-2.png"></field>
+            <field name="is_bundle">True</field>
+            <field name="image_1920" type="base64" file="dynamic_bundle_products/static/description/Hills-2.png"></field>
+            <field name="wk_bundle_products" eval="[(6,0,[ref('dynamic_product_bundle_template_1')])]" />
+        </record>
+
+        <record id="dynamic_bundle_product_1" model="product.template">
+            <field name="name">Pack Of Shoes</field>
+            <field name="list_price">120.0</field>
+            <field name="is_bundle">True</field>
+            <field name="website_published">True</field>
+            <field name="image_1920" type="base64" file="dynamic_bundle_products/static/description/Shoes.png"></field>
+            <!-- <field name="website_style_ids" eval="[(6,0,[ref('style1')])]" /> -->
+            <field name="wk_bundle_products" eval="[(6,0,[ref('dynamic_product_bundle_template_3')])]" />
+        </record>
+    </data>
+</odoo>

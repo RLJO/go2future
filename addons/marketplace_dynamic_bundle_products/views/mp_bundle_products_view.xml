@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+    <data>
+
+		<record id="dynamic_bundle_inherit_wk_seller_product_template_tree_view" model="ir.ui.view">
+			<field name="name">seller.product.product.dynamic.bundle.tree</field>
+			<field name="model">product.product</field>
+            <field name="inherit_id" ref="odoo_marketplace.wk_seller_product_template_tree_view"/>
+			<field name="arch" type="xml">
+                <xpath expr="//tree/field[@name='type']" position="after">
+                    <field name="product_template_attribute_value_ids" widget="many2many_tags"/>
+                    <field name="lst_price"/>
+                </xpath>
+			</field>
+		</record>
+
+
+        <!-- Bundle Products Form View -->
+        <record model='ir.ui.view' id='inherit_wk_seller_product_template_form_view'>
+			<field name="name">product.template.form.inherit</field>
+			<field name="model">product.template</field>
+			<field name="type">form</field>
+			<field name="inherit_id" ref="odoo_marketplace.wk_seller_product_template_form_view"/>
+            <field name="arch"  type="xml">
+                <xpath expr="//form/sheet/div[2]/h3/field[@name='public_categ_ids']" position="after">
+                    <div class="oe_title" attrs="{'invisible':[('status','=','pending')]}">
+                        <field name="is_bundle"/>
+                        <label for="is_bundle" string="Is Product Pack"/>
+                    </div>
+               </xpath>
+               <notebook position='inside'>
+                   <page string='Pack Products' attrs= "{'invisible':[('is_bundle','=', False)]}">
+                       <field name="show_web_label" invisible="1"/>
+                       <p attrs="{'invisible':[('show_web_label','=',False)]}">The price of the pack is greater than the individual product items. The Save label will not be visible on website.</p>
+                       <group col="4">
+                           <field name="pack_stock_management" attrs="{'required': [('is_bundle', '=', True)]}"/>
+                           <field name="bundle_products_price"/>
+                       </group>
+                       <field name="wk_bundle_products" context="{'is_seller_bundle_product': 1}"
+                           attrs="{'invisible':[('marketplace_seller_id','=',False)]}">
+                           <tree>
+                               <field name="template_id" options="{'no_create_edit': True,'no_create':True,'no_open':True}"/>
+                               <field name="product_quantity"/>
+                               <field name="add_variants" col='4'/>
+                               <field name="price"/>
+                               <field name="variants" widget="many2many_tags"/>
+                           </tree>
+                           <form string="Product Pack" class="oe_form_configuration">
+                               <header></header>
+                               <group col="4">
+                                   <field name="template_id"
+                                       domain="[('status','=','approved'),('marketplace_seller_id','=',parent.marketplace_seller_id),('is_bundle','=',False)]"
+                                       context="{'form_view_ref': 'odoo_marketplace.wk_seller_product_template_form_view', 'tree_view_ref' : 'odoo_marketplace.wk_seller_product_template_tree_view'}"
+                                       options="{'no_create_edit': True,'no_create':True,'no_open':True}"
+                                       />
+                                   <field name="product_quantity"/>
+                                   <field name="add_variants" attrs= "{'invisible':[('template_id','=', False)]}"/>
+                               </group>
+                               <group attrs= "{'invisible':[('add_variants','=', 'all')]}">
+                                   <separator colspan="5" string="Select Variants"/>
+                                   <!-- <tree> -->
+                                       <field name="variants"
+                                           nolabel="1"
+                                           widget="many2many_tags"
+                                           options="{'no_create_edit': True,'no_create':True,'no_open':True}"
+                                           attrs="{'required':[('add_variants','=', 'selected')]}"
+                                           domain="[('product_tmpl_id', '=', template_id),('status','=','approved'),('marketplace_seller_id','=',parent.marketplace_seller_id)]"
+                                           context="{'tree_view_ref' : 'marketplace_dynamic_bundle_products.dynamic_bundle_inherit_wk_seller_product_template_tree_view',
+                                                'form_view_ref': 'odoo_marketplace.wk_seller_product_template_form_view',
+                                                'kanban_view_ref':'odoo_marketplace.mp_product_product_kanban_view'}"
+                                           />
+                                   <!-- </tree> -->
+                               </group>
+                           </form>
+                       </field>
+                   </page>
+               </notebook>
+               <xpath expr="//notebook//page[@name='variants']/field[@name='attribute_line_ids']" position="attributes">
+                   <attribute name="attrs">{'invisible':[('is_bundle','!=', False)]}</attribute>
+               </xpath>
+               <xpath expr="//notebook//page[@name='variants']/p[hasclass('oe_grey')]" position="attributes">
+                   <attribute name="attrs">{'invisible':[('is_bundle','!=', False)]}</attribute>
+               </xpath>
+               <xpath expr="//notebook//page[@name='variants']/p[hasclass('oe_grey')]" position="after">
+                   <h1> You cannot create variants of the Pack </h1>
+               </xpath>
+			</field>
+        </record>
+
+        <!-- Bundle Products Action -->
+        <record id="mp_bundle_products_action" model="ir.actions.act_window">
+            <field name="name">Marketplace Bundle Products</field>
+            <field name="res_model">product.template</field>
+            <field name="view_mode">form,tree,kanban</field>
+            <field name="context">{'default_is_bundle': 1,'search_default_by_marketplace_seller_id': 1}</field>
+            <field name="domain">[('is_bundle','=',True),('marketplace_seller_id','in',['get_marketplace_seller_id()'])]</field>
+            <field name="search_view_id" ref="odoo_marketplace.wk_product_template_seller_filter"/>
+        </record>
+
+        <record id="mp_bundle_products_action_for_kanban" model="ir.actions.act_window.view">
+                <field name="view_mode">kanban</field>
+                <field name="sequence">1</field>
+                <field name="view_id" ref="odoo_marketplace.wk_seller_product_template_kanban_view"/>
+                <field name="act_window_id" ref="marketplace_dynamic_bundle_products.mp_bundle_products_action"/>
+        </record>
+        <record id="mp_bundle_products_action_for_tree" model="ir.actions.act_window.view">
+                <field name="view_mode">tree</field>
+                <field name="sequence">2</field>
+                <field name="view_id" ref="odoo_marketplace.wk_seller_product_template_tree_view"/>
+                <field name="act_window_id" ref="marketplace_dynamic_bundle_products.mp_bundle_products_action"/>
+        </record>
+        <record id="mp_bundle_products_action_for_form" model="ir.actions.act_window.view">
+                <field name="view_mode">form</field>
+                <field name="sequence">3</field>
+                <field name="view_id" ref="odoo_marketplace.wk_seller_product_template_form_view"/>
+                <field name="act_window_id" ref="marketplace_dynamic_bundle_products.mp_bundle_products_action"/>
+        </record>
+
+        <!-- Inherit Actions for Product Variants, Approved Products, Non Approved Products and Create New Product Menu -->
+        <record id="odoo_marketplace.mp_product_product_action" model="ir.actions.act_window">
+			<field name="name">Product Variants</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">product.product</field>
+			<field name="domain">[('is_bundle','=',False),('status','=','approved'),('marketplace_seller_id','in',['get_marketplace_seller_id()'])]</field>
+			<field name="view_mode">kanban,tree,form</field>
+		</record>
+        <record id="odoo_marketplace.wk_seller_product_template_approved_products_action" model="ir.actions.act_window">
+            <field name="name">Seller Approved Products</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.template</field>
+            <field name="domain">[('is_bundle','=',False),('status','=','approved'),('marketplace_seller_id','in',['get_marketplace_seller_id()'])]</field>
+            <field name="view_mode">kanban,tree,form</field>
+        </record>
+        <record id="odoo_marketplace.wk_seller_product_template_action" model="ir.actions.act_window">
+            <field name="name">Seller Products</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.template</field>
+            <field name="domain">[('is_bundle','=',False),('status','!=','approved'),('marketplace_seller_id','in',['get_marketplace_seller_id()'])]</field>
+            <field name="view_mode">kanban,tree,form</field>
+        </record>
+        <record id="odoo_marketplace.wk_seller_new_product_create_action" model="ir.actions.act_window">
+            <field name="name">New Product</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.template</field>
+            <field name="view_mode">form</field>
+            <field name="context">{'default_is_bundle':0}</field>
+            <field name="view_id" ref="inherit_wk_seller_product_template_form_view"/>
+        </record>
+
+        <!-- Bundle Products Menu -->
+        <menuitem
+            id="mp_bundle_products_menu"
+            name="Bundle Products"
+            parent="odoo_marketplace.wk_seller_dashboard_menu2"
+            sequence="10"
+            action="mp_bundle_products_action"
+            groups="odoo_marketplace.marketplace_seller_group"
+            />
+    </data>
+</odoo>

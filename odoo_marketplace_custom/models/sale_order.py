@@ -31,11 +31,21 @@ class SaleOrder(models.Model):
         for marketplace_vendor_total in self.marketplace_vendor_line_total:
             marketplace_vendor_total.unlink()
         for line in self.sudo().order_line:
+            tax_line = []
             sale_percentage_go = (100 - line.seller.commission)
             amount_commission = (line.price_subtotal * (sale_percentage_go/100))
             amount_tax_company = line.company_id.sudo().account_sale_tax_id.amount
             amount_tax_company_total = (amount_commission * (amount_tax_company/100))
             amount_commission_amount_tax_company_total = amount_commission + amount_tax_company_total
+            total_tax = 0
+            total_int = 0
+            for tax in line.tax_id:
+                tax_line.append((4, tax.id))
+                iva = tax.amount / 100
+                if tax.marketplace_type == 'iva':
+                    total_tax += line.price_subtotal * iva
+                if tax.marketplace_type == 'int':
+                    total_int += line.price_subtotal * iva
             vals = {
                 'sale_order': self.id,
                 'sale_order_line': line.id,
@@ -51,22 +61,28 @@ class SaleOrder(models.Model):
                 'amount_tax_company': line.company_id.sudo().account_sale_tax_id.amount,
                 'amount_tax_company_total': amount_tax_company_total,
                 'amount_commission_amount_tax_company_total': amount_commission_amount_tax_company_total,
-                'total_vendor': line.price_unit - amount_commission_amount_tax_company_total,
+                'total_vendor': (line.price_unit * line.product_uom_qty) - amount_commission_amount_tax_company_total,
+                'tax_id': tax_line,
+                'total_tax': total_tax,
+                'total_int': total_int,
+                'partner_id': self.partner_id.id
+
             }
-            total_vendor = line.price_unit - amount_commission_amount_tax_company_total
+            total_vendor = (line.price_unit * line.product_uom_qty) - amount_commission_amount_tax_company_total
             self.sudo().marketplace_vendor_line.create(vals)
             count_amount += amount_commission_amount_tax_company_total
             if self.marketplace_vendor_line_total:
+                vendor_exist = False
                 for rec in self.marketplace_vendor_line_total.filtered(lambda x: x.vendor == line.seller):
-                    if rec:
-                        rec.total += total_vendor
-                    else:
-                        self.sudo().marketplace_vendor_line_total.create({
-                            'sale_order': self.id,
-                            'name': line.seller.name,
-                            'vendor': line.seller.id,
-                            'total': total_vendor
-                        })
+                    rec.total += total_vendor
+                    vendor_exist = True
+                if not vendor_exist:
+                    self.sudo().marketplace_vendor_line_total.create({
+                        'sale_order': self.id,
+                        'name': line.seller.name,
+                        'vendor': line.seller.id,
+                        'total': total_vendor
+                    })
             else:
                 self.sudo().marketplace_vendor_line_total.create({
                     'sale_order': self.id,
@@ -103,6 +119,18 @@ class SaleOrder(models.Model):
         for partner_line in lines:
             seller_lines.append(self.env['sale.order.line'].browse(partner_line + down_payment_line))
         return seller_lines
+
+    def action_confirm(self):
+        res = super(SaleOrder, self).action_confirm()
+        if res:
+            for picking in self.picking_ids:
+                if picking.state in ['assigned']:
+                    for move in picking.move_lines.filtered(lambda m: m.state not in ['done', 'cancel']):
+                        for move_line in move.move_line_ids:
+                            move_line.qty_done = move_line.product_uom_qty
+                    picking.with_context(skip_immediate=True).button_validate()
+            moves = self._create_invoices()
+        return res
 
     def _get_invoice_grouping_keys(self):
         return ['company_id', 'seller_id', 'currency_id']
@@ -281,6 +309,7 @@ class MarketplaceVendor(models.Model):
 
     sale_order = fields.Many2one('sale.order')
     sale_order_line = fields.Many2one('sale.order.line')
+    date = fields.Datetime('Fecha', default=lambda self: fields.Datetime.now())
     name = fields.Many2one(
         'res.partner', 'Vendor',
         ondelete='cascade',
@@ -288,9 +317,12 @@ class MarketplaceVendor(models.Model):
     currency_id = fields.Many2one('res.currency', 'Currency', required=True,
                                   default=lambda self: self.env.company.currency_id.id)
     product_template_id = fields.Many2one('product.template', 'Template')
-    product_id = fields.Many2one('product.product', string=_('Product'))
+    product_id = fields.Many2one('product.product', string=_('Producto'))
     price_unit = fields.Monetary(string='PRECIO UNITARIO(B+I)', currency_field='currency_id')
     amount_tax = fields.Float(string='IMPUESTOS')
+    tax_id = fields.Many2many('account.tax', string='IVA/INT')
+    total_tax = fields.Float(string='Total IVA')
+    total_int = fields.Float(string='Total INT')
     price_subtotal = fields.Float(string='BASE',)
     sale_percentage_vendor = fields.Float(related='name.commission', string=_('% VENDEDOR'))
     sale_percentage_go = fields.Float(string=_('% MINIGO'))
@@ -299,6 +331,8 @@ class MarketplaceVendor(models.Model):
     amount_tax_company_total = fields.Float(string='VALOR IMPUESTO')
     amount_commission_amount_tax_company_total = fields.Float(string='TOTAL COMISION + IMPUESTOS MINIGO',)
     total_vendor = fields.Float(string='TOTAL VENDEDOR')
+    partner_id = fields.Many2one('res.partner', 'Cliente',
+                                 required=False)
 
 
 class AccountMove(models.Model):
@@ -319,3 +353,10 @@ class MarketplaceVendorTotal(models.Model):
         ondelete='cascade',
         help=_("Vendor of this product"))
     total = fields.Float(string='TOTAL VENDEDOR')
+
+
+class AccountTax(models.Model):
+    """ Add fields used to define some brazilian taxes """
+    _inherit = 'account.tax'
+
+    marketplace_type = fields.Selection([('iva', 'IVA'), ('int', 'INT')], default='iva')

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE URL <https://store.webkul.com/license.html/> for full copyright and licensing details. -->
+<odoo>
+    <data noupdate="1">
+        <record id="wk_deals_dummy_pricelist" model="product.pricelist">
+            <field name="name">Deals Dummy Pricelist (Do not delete/update me)</field>
+            <field name="discount_policy">without_discount</field>
+            <field name="selectable">False</field>
+            <field name="sequence">1000</field>
+        </record>
+        <record id="menu_blog" model="website.menu">
+            <field name="name">Deals &amp; Offers</field>
+            <field name="url">/daily/deals</field>
+            <field name="parent_id" ref="website.main_menu"/>
+            <field name="sequence" type="int">40</field>
+        </record>
+    </data>
+</odoo>
