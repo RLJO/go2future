@@ -21,6 +21,7 @@ class AccessControl(http.Controller):
         transaction = http.request.env['apirest.transaction']
 
         login = kw.get('userId')
+        store_id = kw.get('storeCode')
         code = kw.get('code')
         message = kw.get('message')
 
@@ -33,6 +34,8 @@ class AccessControl(http.Controller):
                       'from_app': 'message_from_access_control'}
             transaction.sudo().create(values)
             transaction._cr.commit()
-            return http.Response('OK', status=200)
+            response = {'status': '200', 'message': 'OK'}
+            return dumps(response)
 
-        return http.Response('NOT FOUND', status=404)
+        response = {'status': '400', 'message': 'NOT FOUND'}
+        return dumps(response)

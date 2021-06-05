@@ -41,7 +41,11 @@ class ResStore(models.Model):
                            error_correction=qrcode.constants.ERROR_CORRECT_H,
                            box_size=10,
                            border=4)
-        info = [self.id, self.name]
+        # info = [self.id, self.name]
+        store_id = '10'
+        door_id = '1'
+
+        info = [store_id, door_id]
         qr.add_data(info)
         qr.make(fit=True)
         imagen = qr.make_image()

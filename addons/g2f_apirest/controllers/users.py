@@ -57,7 +57,7 @@ class ResUser(http.Controller):
             if user:
                 # Enviarle al sistema de control de acceso que el usaurio entro
                 url = "https://minigo001.ngrok.io"
-                params = {'storeId': store_id, 'doorId': door_id, 'userId': login}
+                params = {'storeCode': store_id, 'doorId': door_id, 'userId': login}
                 enter_store_response = requests.post(url, data=params)
                 # Segun entiendo la respuesta de control de acceso no se espera todavia
                 # Yo tengo un Endpoint que escuchara cuando control de acceso autorice o
