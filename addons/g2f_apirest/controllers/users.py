@@ -10,7 +10,7 @@ from odoo.addons.g2f_apirest.controllers.vision_system import VisionSystem
 
 class ResUser(http.Controller):
     @http.route(['/users/get_transaction'], type='json', auth='public',
-                methods=['POST'],
+                methods=['GET'],
                 website=True, csrf=False)
     def get_transaction(self, **kw):
         """Get all notifications send by acces control and vision_system."""
@@ -18,21 +18,14 @@ class ResUser(http.Controller):
         method = http.request.httprequest.method
         kw = http.request.jsonrequest
         login = kw.get('login')
-
-        if method != 'POST':
-            return http.Response('NOT FOUND', status=404)
-
+        store_id = kw.get('store_id')
         user = self._validate_user(login)
-        if user:
-            domain = [('login', '=', 'foxcarlos@gmail.com')]
-            transactions = http.request.env['apirest.transaction'].sudo().\
-                    search_read(
-                            domain,
-                            ['create_date', 'login']
-            )
-            for record in transactions:
-                record['create_date'] = str(record['create_date'])
+
+        if method == 'GET' and user:
+            transactions = user.sudo().get_transaction_by_user(login, store_id)
             return dumps(transactions)
+
+        return http.Response('NOT FOUND', status=404)
 
     @http.route(['/users/EnterStore'], type='json', auth='public',
                 methods=['POST'],
@@ -42,32 +35,19 @@ class ResUser(http.Controller):
         kw = http.request.jsonrequest
 
         login = kw.get('login')
-        password = kw.get('password')
-        qr_code = kw.get('QRCode')
-        latitude = kw.get('latitude')
-        longitude = kw.get('longitude')
         door_id = kw.get('door_id')
         store_id = kw.get('store_id')
-        fecha = kw.get('dateTime')
 
-        print(qr_code)
         if method == 'POST':
             print('Validar que el usuario exista o este activo')
             user = self._validate_user(login)
             if user:
                 # Enviarle al sistema de control de acceso que el usaurio entro
-                url = "https://minigo001.ngrok.io"
+                url = "https://minigo001.ngrok.io/api/Odoo/OpenDoor"
                 params = {'storeCode': store_id, 'doorId': door_id, 'userId': login}
                 enter_store_response = requests.post(url, data=params)
-                # Segun entiendo la respuesta de control de acceso no se espera todavia
-                # Yo tengo un Endpoint que escuchara cuando control de acceso autorice o
-                # deniegue la antrada, el endpoint es un POST: /get_message_access_control
 
-                # Por ahora se crea aqui la orden de venta
-                sale_order = http.request.env['sale.order']
-                sale_order.sudo().create_sale_order(user.partner_id.id)
-
-                response = {"status": "200", "message": "User enters store, wait for access control"}
+                response = {"status": "200", "message": "Wait for access control"}
                 return dumps(response)
 
             msg = _('User dont exists!')
