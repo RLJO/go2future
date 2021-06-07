@@ -10,7 +10,7 @@ from odoo.addons.g2f_apirest.controllers.vision_system import VisionSystem
 
 class ResUser(http.Controller):
     @http.route(['/users/get_transaction'], type='json', auth='public',
-                methods=['GET'],
+                methods=['POST'],
                 website=True, csrf=False)
     def get_transaction(self, **kw):
         """Get all notifications send by acces control and vision_system."""
@@ -20,9 +20,11 @@ class ResUser(http.Controller):
         login = kw.get('login')
         store_id = kw.get('store_id')
         user = self._validate_user(login)
+        transaction = http.request.env['apirest.transaction']
 
-        if method == 'GET' and user:
-            transactions = user.sudo().get_transaction_by_user(login, store_id)
+        if method == 'POST' and user:
+            transactions = transaction.sudo().get_transaction_by_user(login, store_id)
+            print(transactions)
             return dumps(transactions)
 
         return http.Response('NOT FOUND', status=404)
@@ -42,10 +44,11 @@ class ResUser(http.Controller):
             print('Validar que el usuario exista o este activo')
             user = self._validate_user(login)
             if user:
+                print(f'El ID del usuario es:{user.id}')
                 # Enviarle al sistema de control de acceso que el usaurio entro
-                url = "https://minigo001.ngrok.io/api/Odoo/OpenDoor"
-                params = {'storeCode': store_id, 'doorId': door_id, 'userId': login}
-                enter_store_response = requests.post(url, data=params)
+                # url = "https://minigo001.ngrok.io/api/Odoo/OpenDoor"
+                # params = {'storeCode': store_id, 'doorId': door_id, 'userId': login}
+                # enter_store_response = requests.post(url, data=params)
 
                 response = {"status": "200", "message": "Wait for access control"}
                 return dumps(response)

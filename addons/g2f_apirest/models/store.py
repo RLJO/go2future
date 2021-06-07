@@ -44,9 +44,8 @@ class ResStore(models.Model):
         # info = [self.id, self.name]
         store_id = '10'
         door_id = '1'
-
-        info = [store_id, door_id]
-        qr.add_data(info)
+        data = '{"store_id": "'+store_id+'", "door_id": "'+door_id+'"}'
+        qr.add_data(data)
         qr.make(fit=True)
         imagen = qr.make_image()
         imagen.save('codigo.png')

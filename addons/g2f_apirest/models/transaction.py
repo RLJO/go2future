@@ -37,7 +37,7 @@ class Transaction(models.Model):
             ['login', 'code', 'message', 'from_app']
         )
         self.mark_transaction_as_seen(domain)
-        return json.dump(trasaction_list)
+        return json.dumps(trasaction_list)
 
     def create_transaction(self, login='', store_id='', code='', message='', from_app=''):
         """Create transactions LOG."""
@@ -56,7 +56,7 @@ class Transaction(models.Model):
         """Mark transaction as seem."""
         if transaction_domain:
             transaction_instance = self.search(transaction_domain)
-            transaction = transaction_instance.write({'active': False})
-            transaction._cr.commit()
+            transaction_instance.write({'active': False})
+            transaction_instance._cr.commit()
             return True
         return False
