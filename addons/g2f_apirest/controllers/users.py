@@ -46,9 +46,10 @@ class ResUser(http.Controller):
             if user:
                 print(f'El ID del usuario es:{user.id}')
                 # Enviarle al sistema de control de acceso que el usaurio entro
-                # url = "https://minigo001.ngrok.io/api/Odoo/OpenDoor"
-                # params = {'storeCode': store_id, 'doorId': door_id, 'userId': login}
-                # enter_store_response = requests.post(url, data=params)
+                url = "http://minigo001.ngrok.io/api/Odoo/OpenDoor"
+                params = {"storeCode": int(store_id), "doorId": int(door_id), "userId": login}
+                enter_store_response = requests.post(url, json=params)
+                print(enter_store_response.text)
 
                 response = {"status": "200", "message": "Wait for access control"}
                 return dumps(response)

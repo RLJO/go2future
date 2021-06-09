@@ -22,20 +22,25 @@ class AccessControl(http.Controller):
 
         login = kw.get('userId')
         store_id = kw.get('storeCode')
+        door_id = kw.get('doorId')
         code = kw.get('code')
         message = kw.get('message')
 
         if method == 'POST':
-            if code == '1':
-                message = _('More than one person in the entrance hall')
-            elif code == '2':
-                message = _('Confirm that you want to enter the store?')
-            elif code == '3':
-                message = _('No quiere entrar?')
-            elif code == '4':
-                message = _('Now you can enter the store')
-            elif code == '5':
-                message = _('User already entered the store')
+            if code == 1:
+                # message = _('More than one person in the entrance hall')
+                pass
+            elif code == 2:
+                # message = _('Confirm that you want to enter the store?')
+                pass
+            elif code == 3:
+                # message = _('No quiere entrar?')
+                pass
+            elif code == 4:
+                # message = _('Now you can enter the store')
+                pass
+            elif code == 5:
+                # message = _('User already entered the store')
                 # Crear la sale order
                 sale_order = http.request.env['sale.order']
                 user = http.request.env['res.partner'].sudo().validate_user(login)
@@ -44,7 +49,8 @@ class AccessControl(http.Controller):
                 return http.Response('NOT FOUND', status=404)
 
             # tomar el mensaje y guardarlo en el model transaction
-            transaction.sudo().create_transaction(login, store_id, code, message, 'access_control')
+            # transaction.sudo().create_transaction(login, store_id, door_id, code, message, 'access_control')
+            print(login, message)
             # Le respondo a control de acceso que todo esta bien
             response = {'status': '200', 'message': 'OK'}
             return dumps(response)
@@ -61,13 +67,14 @@ class AccessControl(http.Controller):
         method = http.request.httprequest.method
         kw = http.request.jsonrequest
 
-        # Get params from app mobile
-        login = kw.get('userId')
-        store_id = kw.get('storeCode')
-        code = kw.get('code')
-        message = kw.get('message')
-
-        # Prepare send to Access control server
-        url = 'http://minigo001.ngrok.io/api/Odoo/ConfirmAtHall'
-
-
+        if method == 'POST':
+            # Get params from app mobile
+            login = kw.get('userId')
+            store_id = kw.get('storeCode')
+            was_confirmed = kw.get('WasConfirmed')
+    
+            # Prepare send to Access control server
+            url = 'http://minigo001.ngrok.io/api/Odoo/ConfirmAtHall'
+            params = {'storeCode': store_id, 'doorId': door_id, 'userId': login, WasConfirmed: was_confirmed}
+            send_access_store_response = requests.post(url, data=params)
+            print(send_access_store_response)
