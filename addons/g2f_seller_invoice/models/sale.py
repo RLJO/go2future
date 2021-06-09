@@ -15,9 +15,65 @@ _logger = logging.getLogger(__name__)
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
-    # def write(self, vals):
-    #     res = super(SaleOrder, self).write(vals)
-    def action_confirm(self):
+    def _create_invoices(self, grouped=False, final=False, date=None):
+        inv_id = super(SaleOrder, self)._create_invoices(grouped=False, final=False, date=None)
+        if inv_id:
+            invoice = self.env['account.move'].browse([inv_id])
+            items = []
+            date_order = str(invoice.date_order).split() if invoice.date_order else ''
+            consumer_address = invoice.partner_id.street + ', ' if invoice.partner_id.street else ''
+            consumer_address += invoice.partner_id.street2 + ', ' if invoice.partner_id.street2 else ''
+            consumer_address += invoice.partner_id.city + ', ' if invoice.partner_id.city else ''
+            consumer_address += invoice.partner_id.state_id.name + ', ' if invoice.partner_id.state_id.name else ''
+            consumer_address += 'CP: ' + invoice.partner_id.zip + ', ' if invoice.partner_id.zip else ''
+            consumer_address += invoice.partner_id.country_id.name if invoice.partner_id.country_id.name else ''
+
+            for line in invoice.invoice_line_ids:
+                product = line.name
+                barcode = line.product_id.barcode
+                quantity = line.product_uom_qty
+                unit_price = line.price_unit
+                subtotal = line.price_subtotal
+                api_path = line.seller.api_path
+                item = {
+                    "EAN13": barcode,
+                    "product": product,
+                    "quantity": quantity,
+                    "unit_price": unit_price,
+                    "subtotal": subtotal
+                }
+                items.append(item)
+
+            data = {
+                "id": self.id,
+                "name": self.partner_id.name,
+                "last_name": self.partner_id.name,
+                "consumer_address": consumer_address,
+                "dni": self.partner_id.vat,
+                "minigo_address": "Av. San Martin, Ciudad: Buenos Aires, CP: 1444, País: Argentina",
+                "date": date_order[0],
+                "time": date_order[1],
+                "items": items
+            }
+
+            # url = seller_id.api_path  # "http://dummy.minigo.store/orders"
+            # token = company_id.api_token
+            payload = json.dumps(data)
+            headers = {
+                'Content-Type': "application/json",
+                # 'Authorization': token,  # "Bearer WwfnXumP22Oknu80TyoifcWafS7RTWJSrPlGeFCM9D5pNfWcry",
+                'Cache-Control': "no-cache",
+            }
+            try:
+                response = requests.request("POST", api_path, data=payload, headers=headers)
+            except Exception as exc:
+                raise UserError(_("Error inesperado %s") % exc)
+
+            print(response.text)
+            print(payload)
+            _logger.warning('Json enviado: (%s).', payload)
+
+    def action_confirm_old(self):
         self.ensure_one()
         res = super(SaleOrder, self).action_confirm()
         if res:
