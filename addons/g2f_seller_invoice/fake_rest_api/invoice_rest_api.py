@@ -16,7 +16,7 @@ def getInvoices():
     return jsonify({'invoices': invoices})
 
 # Create Data Routes
-@app.route('/invoice', methods=['POST'])
+@app.route('/invoices', methods=['POST'])
 def addInvoices():
     new_invoice = {
 		"id": request.json['id'],

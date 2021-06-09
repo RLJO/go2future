@@ -20,7 +20,7 @@ class SaleOrder(models.Model):
         if inv_id:
             invoice = self.env['account.move'].browse([inv_id])
             items = []
-            date_order = str(invoice.date_order).split() if invoice.date_order else ''
+            date_order = str(invoice.invoice_date).split() if invoice.invoice_date else ''
             consumer_address = invoice.partner_id.street + ', ' if invoice.partner_id.street else ''
             consumer_address += invoice.partner_id.street2 + ', ' if invoice.partner_id.street2 else ''
             consumer_address += invoice.partner_id.city + ', ' if invoice.partner_id.city else ''
