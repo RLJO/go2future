@@ -68,7 +68,7 @@ class SaleOrder(models.Model):
                 response = requests.request("POST", api_path, data=payload, headers=headers)
             except Exception as exc:
                 raise UserError(_("Error inesperado %s") % exc)
-            raise UserError(_("Error inesperado %s") % "***********TEST***********")
+            # raise UserError(_("Error inesperado %s") % "***********TEST***********")
             print(response.text)
             print(payload)
             _logger.warning('Json enviado: (%s).', payload)
