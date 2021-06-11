@@ -20,6 +20,7 @@ class Transaction(models.Model):
 
     login = fields.Char()
     store_id = fields.Char()
+    door_id = fields.Char()
     code = fields.Char()
     message = fields.Char()
     from_app = fields.Char()
@@ -39,11 +40,12 @@ class Transaction(models.Model):
         self.mark_transaction_as_seen(domain)
         return json.dumps(trasaction_list)
 
-    def create_transaction(self, login='', store_id='', code='', message='', from_app=''):
+    def create_transaction(self, login='', store_id='', door_id='', code='', message='', from_app=''):
         """Create transactions LOG."""
 
         values = {'login': login,
                   'store_id': store_id,
+                  'door_id': door_id,
                   'code': code,
                   'message': message,
                   'from_app': from_app}
