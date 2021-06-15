@@ -23,12 +23,15 @@ def addInvoices():
 		"name": request.json['name'],
 		"last_name": request.json['last_name'],
 		"consumer_address": request.json['consumer_address'],
-		"dni_cuit": request.json['dni'],
+		"doc_type": request.json['doc_type'],
+		"doc_nbr": request.json['doc_nbr'],
+		"minigo_code": request.json['minigo_code'],
 		"minigo_address": request.json['minigo_address'],
+		"origin": request.json['origin'],
 		"date": request.json['date'],
 		"time": request.json['time'],
 		"items": request.json['items']
-	}    
+	}
     invoices.append(new_invoice)
     return jsonify({'invoices': invoices})
 
