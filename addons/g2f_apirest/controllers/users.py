@@ -85,6 +85,16 @@ class ResUser(http.Controller):
         name = kw.get('name')
         lastname = kw.get('lastname')
 
+        # Aqui se toman los datos de la tarjeta de credito
+        # name
+        # card_number
+        # security_code
+        # expiration_month
+        # expiration_year
+        # card_type
+        # card_identification
+        # state
+
         user = self._validate_user(login)
         if not user:
             msg = _('User does not exist!')
@@ -111,6 +121,7 @@ class ResUser(http.Controller):
         birthday = params.get('birthday')
         gender = params.get('gender')
         phone = params.get('phone')
+        business_name = params.get('business_name')
         address = params.get('address')
 
         user = http.request.env['res.users']
