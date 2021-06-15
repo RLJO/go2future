@@ -298,39 +298,39 @@ class SaleOrder(models.Model):
                 }
                 items.append(item)
 
-                data = {
-                    "id": invoice.id,
-                    "name": first_name,
-                    "last_name": last_name,
-                    "consumer_address": self._get_address(self.partner_id),
-                    "doc_type": invoice.partner_id.l10n_latam_identification_type_id.name,
-                    "doc_nbr": invoice.partner_id.vat,
-                    "minigo_code": invoice.warehouse_id.code,
-                    "minigo_address": self._get_address(self.warehouse_id.partner_id),
-                    "origin": self.name,
-                    "date": inv_date,
-                    "time": inv_time,
-                    "items": items
-                }
+            data = {
+                "id": invoice.id,
+                "name": first_name,
+                "last_name": last_name,
+                "consumer_address": self._get_address(self.partner_id),
+                "doc_type": invoice.partner_id.l10n_latam_identification_type_id.name,
+                "doc_nbr": invoice.partner_id.vat,
+                "minigo_code": invoice.warehouse_id.code,
+                "minigo_address": self._get_address(self.warehouse_id.partner_id),
+                "origin": self.name,
+                "date": inv_date,
+                "time": inv_time,
+                "items": items
+            }
 
-                # url = seller_id.api_path  # "http://dummy.minigo.store/orders"
-                # token = company_id.api_token
-                payload = json.dumps(data)
-                headers = {
-                    'Content-Type': "application/json",
-                    # 'Authorization': token,  # "Bearer WwfnXumP22Oknu80TyoifcWafS7RTWJSrPlGeFCM9D5pNfWcry",
-                    'Cache-Control': "no-cache",
-                }
-                try:
-                    response = requests.request("POST", api_path, data=payload, headers=headers)
-                except Exception as exc:
-                    raise UserError(_("Error inesperado %s") % exc)
-                if response.status_code != 200:
-                    raise UserError(_("Error en API %s") % response.text)
-                print(response.text)
-                print(payload)
-                _logger.warning('Json enviado: (%s).', payload)
-            return True
+            # url = seller_id.api_path  # "http://dummy.minigo.store/orders"
+            # token = company_id.api_token
+            payload = json.dumps(data)
+            headers = {
+                'Content-Type': "application/json",
+                # 'Authorization': token,  # "Bearer WwfnXumP22Oknu80TyoifcWafS7RTWJSrPlGeFCM9D5pNfWcry",
+                'Cache-Control': "no-cache",
+            }
+            try:
+                response = requests.request("POST", api_path, data=payload, headers=headers)
+            except Exception as exc:
+                raise UserError(_("Error inesperado %s") % exc)
+            if response.status_code != 200:
+                raise UserError(_("Error en API %s") % response.text)
+            print(response.text)
+            print(payload)
+            _logger.warning('Json enviado: (%s).', payload)
+        return True
 
     def _get_address(self, partner_id):
         address = partner_id.street + ', ' if partner_id.street else ''
