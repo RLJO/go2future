@@ -273,37 +273,41 @@ class SaleOrder(models.Model):
             # date_order = str(invoice.invoice_date).split() if invoice.invoice_date else ''
             inv_date = time.strftime("%d/%m/%y")
             inv_time = time.strftime("%H:%M:%S")
-
-            consumer_address = invoice.partner_id.street + ', ' if invoice.partner_id.street else ''
-            consumer_address += invoice.partner_id.street2 + ', ' if invoice.partner_id.street2 else ''
-            consumer_address += invoice.partner_id.city + ', ' if invoice.partner_id.city else ''
-            consumer_address += invoice.partner_id.state_id.name + ', ' if invoice.partner_id.state_id.name else ''
-            consumer_address += 'CP: ' + invoice.partner_id.zip + ', ' if invoice.partner_id.zip else ''
-            consumer_address += invoice.partner_id.country_id.name if invoice.partner_id.country_id.name else ''
+            api_path = invoice.seller_id.api_path
+            name = invoice.partner_id.name.split()
+            first_name = ''
+            last_name = ''
+            if len(name) == 2:
+                first_name = name[0]
+                last_name = name[1]
+            if len(name) >= 3:
+                first_name = name[0] + ' ' + name[1]
+                last_name = name[2]
+                if len(name) == 4:
+                    last_name += ' ' + name[3]
 
             for line in invoice.invoice_line_ids:
-                product = line.name
-                barcode = line.product_id.barcode
-                quantity = line.quantity
-                unit_price = line.price_unit
-                subtotal = line.price_subtotal
-                api_path = line.product_id.marketplace_seller_id.api_path
+
                 item = {
-                    "EAN13": barcode,
-                    "product": product,
-                    "quantity": quantity,
-                    "unit_price": unit_price,
-                    "subtotal": subtotal
+                    "EAN13": line.product_id.barcode,
+                    "product": line.name,
+                    "sku_code": line.product_id.default_code,
+                    "quantity": line.quantity,
+                    "unit_price": line.quantity,
+                    "subtotal": line.price_subtotal
                 }
                 items.append(item)
 
             data = {
-                "id": self.id,
-                "name": self.partner_id.name,
-                "last_name": self.partner_id.name,
-                "consumer_address": consumer_address,
-                "dni": self.partner_id.vat,
-                "minigo_address": "Av. San Martin, Ciudad: Buenos Aires, CP: 1444, País: Argentina",
+                "id": invoice.id,
+                "name": first_name,
+                "last_name": last_name,
+                "consumer_address": self._get_address(self.partner_id),
+                "doc_type": invoice.partner_id.l10n_latam_identification_type_id.name,
+                "doc_nbr": invoice.partner_id.vat,
+                "minigo_code": invoice.warehouse_id.code,
+                "minigo_address": self._get_address(self.warehouse_id.partner_id),
+                "origin": self.name,
                 "date": inv_date,
                 "time": inv_time,
                 "items": items
@@ -326,7 +330,16 @@ class SaleOrder(models.Model):
             print(response.text)
             print(payload)
             _logger.warning('Json enviado: (%s).', payload)
-            return True
+        return True
+
+    def _get_address(self, partner_id):
+        address = partner_id.street + ', ' if partner_id.street else ''
+        address += partner_id.street2 + ', ' if partner_id.street2 else ''
+        address += partner_id.city + ', ' if partner_id.city else ''
+        address += partner_id.state_id.name + ', ' if partner_id.state_id.name else ''
+        address += 'CP: ' + partner_id.zip + ', ' if partner_id.zip else ''
+        address += partner_id.country_id.name if partner_id.country_id.name else ''
+        return address
 
 
 class SaleOrderLine(models.Model):
