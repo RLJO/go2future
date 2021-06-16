@@ -31,16 +31,19 @@ class Transaction(models.Model):
         """return transaction list by user passed."""
 
         domain = [('login', '=', login),
-                  ('store_id', '=', store_id)
+                  ('store_id', '=', store_id),
+                  ('active', '=', True)
                   ]
         trasaction_list = self.search_read(
             domain,
             ['login', 'code', 'message', 'from_app']
         )
-        self.mark_transaction_as_seen(domain)
+        if trasaction_list:
+            self.mark_transaction_as_seen(domain)
         return json.dumps(trasaction_list)
 
-    def create_transaction(self, login='', store_id='', door_id='', code='', message='', from_app=''):
+    def create_transaction(self, login='', store_id='', door_id='', code='',
+                           message='', from_app=''):
         """Create transactions LOG."""
 
         values = {'login': login,

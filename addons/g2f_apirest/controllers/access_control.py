@@ -27,21 +27,12 @@ class AccessControl(http.Controller):
         message = kw.get('message')
 
         if method == 'POST':
-            if code == 1:
-                pass
-            elif code == 2:
-                pass
-            elif code == 3:
-                # message = _('User already entered the store')
+            if code == 7:
                 # Crear la sale order
                 # sale_order = http.request.env['sale.order']
                 # user = http.request.env['res.partner'].sudo().validate_user(login)
                 # sale_order.sudo().create_sale_order(user.partner_id.id)
                 pass
-            elif code == 4:
-                pass
-            else:
-                return http.Response('NOT FOUND', status=404)
 
             # tomar el mensaje y guardarlo en el model transaction
             transaction.sudo().create_transaction(login, store_id, door_id, code, message, 'access_control')
@@ -65,12 +56,14 @@ class AccessControl(http.Controller):
         if method == 'POST':
             # Get params from app mobile
             login = kw.get('login')
-            store_id = kw.get('store_id')
-            door_id = kw.get('door_id')
+            store_id = kw.get('store_id') or 1
+            door_id = kw.get('door_id') or 0
             was_confirmed = kw.get('was_confirmed')
     
             # Prepare send to Access control server
-            url = 'http://minigo001.ngrok.io/api/Odoo/ConfirmAtHall'
-            params = {'storeCode': int(store_id), 'doorId': int(door_id), 'userId': login, WasConfirmed: was_confirmed}
-            send_access_store_response = requests.post(url, data=params)
+            # url = 'http://minigo001.ngrok.io/api/Odoo/ConfirmAtHall'
+            url = 'https://7a9d66bfece2.ngrok.io/api/Odoo/ConfirmAtHall'
+            params = {"storeCode": int(store_id), "doorId": int(door_id),
+                      "userId": login, "WasConfirmed": was_confirmed}
+            send_access_store_response = requests.post(url, json=params)
             print(send_access_store_response)
