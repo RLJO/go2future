@@ -293,7 +293,7 @@ class SaleOrder(models.Model):
                     "product": line.name,
                     "sku_code": line.product_id.default_code,
                     "quantity": line.quantity,
-                    "unit_price": line.quantity,
+                    "unit_price": line.price_unit,
                     "subtotal": line.price_subtotal
                 }
                 items.append(item)
