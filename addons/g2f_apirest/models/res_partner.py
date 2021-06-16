@@ -35,3 +35,7 @@ class ResPartner(models.Model):
                 age_rest = (today - record.birthday)
                 age = round(age_rest.days/365)
         return age
+
+    def validate_user(self, login=''):
+        user = self.search([('login', '=', login)])
+        return user or None

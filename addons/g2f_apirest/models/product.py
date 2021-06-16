@@ -41,7 +41,7 @@ class ProductProduct(models.Model):
         return dumps(response)
 
     def parse_products(self, domain=None):
-        '''Return products parse.'''
+        '''Return  products parse.'''
 
         response = self.search_read(
                 domain, 

@@ -4,6 +4,7 @@
 # pylint: disable=broad-except
 
 import logging
+import json
 from odoo import models, fields
 
 logging.basicConfig(
@@ -18,14 +19,49 @@ class Transaction(models.Model):
     _description = 'transaction messages'
 
     login = fields.Char()
+    store_id = fields.Char()
+    door_id = fields.Char()
     code = fields.Char()
     message = fields.Char()
     from_app = fields.Char()
     datetime = fields.Datetime('Scheduled Date', default=fields.Datetime.now)
     active = fields.Boolean(default=True)
 
-    def get_transaction_by_user(self, login):
+    def get_transaction_by_user(self, login='', store_id=''):
         """return transaction list by user passed."""
 
-        domain = [('login', '=', login)]
-        trasaction_list = self.search_read(domain)
+        domain = [('login', '=', login),
+                  ('store_id', '=', store_id),
+                  ('active', '=', True)
+                  ]
+        trasaction_list = self.search_read(
+            domain,
+            ['login', 'code', 'message', 'from_app']
+        )
+        if trasaction_list:
+            self.mark_transaction_as_seen(domain)
+        return json.dumps(trasaction_list)
+
+    def create_transaction(self, login='', store_id='', door_id='', code='',
+                           message='', from_app=''):
+        """Create transactions LOG."""
+
+        values = {'login': login,
+                  'store_id': store_id,
+                  'door_id': door_id,
+                  'code': code,
+                  'message': message,
+                  'from_app': from_app}
+
+        transaction_instance = self.create(values)
+        transaction_instance._cr.commit()
+        return True
+
+    def mark_transaction_as_seen(self, transaction_domain):
+        """Mark transaction as seem."""
+        if transaction_domain:
+            transaction_instance = self.search(transaction_domain)
+            transaction_instance.write({'active': False})
+            transaction_instance._cr.commit()
+            return True
+        return False
