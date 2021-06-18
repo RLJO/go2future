@@ -20,7 +20,9 @@ class SaleOrder(models.Model):
         amount_str = str(amount)
         amount_str_split = amount_str.split('.')
         if len(amount_str_split) > 1:
-            amount_formated = amount_str_split[0] + amount_str_split[1].zfill(2)
+            if len(amount_str_split[1]) == 1:
+                amount_str_split[1] += '0'
+            amount_formated = amount_str_split[0] + amount_str_split[1]
         else:
             amount_formated = amount
         return int(amount_formated)
