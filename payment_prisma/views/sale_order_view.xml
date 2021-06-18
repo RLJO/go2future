@@ -76,6 +76,10 @@
                             </form>
                         </field>
                     </group>
+                    <group>
+                        <field name="site_transaction_id"/>
+                        <field name="transaction_status"/>
+                    </group>
                 </page>
             </xpath>
         </field>

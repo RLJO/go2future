@@ -18,6 +18,11 @@ class AccountMove(models.Model):
 
     @api.model
     def invoice_confirm(self, vals):
+        if len(vals) < 8:
+            err_msg = "Falta un campo requerido ('einvoice', 'date_einvoice', " \
+                      "'cae_number', 'ei_qr_code', 'ei_barcode', 'ei_xml_file', 'ei_pdf')"
+            return {'FAILED': 400, 'DESCRIPTION': err_msg}
+
         inv_obj = self.env['account.move']
         inv_id = inv_obj.search([('id', '=', vals['id']), ('state', '=', 'draft')])
         err_msg = 'No se encontró factura borrador con el id: %s' % vals['id']
@@ -32,7 +37,7 @@ class AccountMove(models.Model):
                 'ei_xml_file': vals['ei_xml_file'],
                 'ei_pdf': vals['ei_pdf']
             })
-            # inv_id.action_post()
+            inv_id.action_post()
             res = {'AUTHORIZED': 200}
         return res
 
