@@ -28,6 +28,7 @@ def validate_product_exist(search_product_method):
         return product
     return exceptions
 
+
 class SaleOrder(models.Model):
     '''Sale order model by Api Mobile.'''
 
@@ -46,7 +47,7 @@ class SaleOrder(models.Model):
         if action == 'picked':
             self._add_product_cart(order, product, quantity)
             return True
-        elif action == 'returned':
+        elif action == 'placed':
             self._remove_product_cart(order, product, quantity)
             return True
 
