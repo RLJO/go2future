@@ -29,10 +29,9 @@ class AccessControl(http.Controller):
         if method == 'POST':
             if code == 7:
                 # Crear la sale order
-                # sale_order = http.request.env['sale.order']
-                # user = http.request.env['res.partner'].sudo().validate_user(login)
-                # sale_order.sudo().create_sale_order(user.partner_id.id)
-                pass
+                sale_order = http.request.env['sale.order']
+                user = http.request.env['res.partner'].sudo().validate_user(login)
+                sale_order.sudo().create_sale_order(user.partner_id.id)
 
             # tomar el mensaje y guardarlo en el model transaction
             transaction.sudo().create_transaction(login, store_id, door_id, code, message, 'access_control')
