@@ -48,8 +48,7 @@ class ResUser(http.Controller):
             if user:
                 print(f'El ID del usuario es:{user.id}')
                 # Enviarle al sistema de control de acceso que el usaurio entro
-                # url = "http://minigo001.ngrok.io/api/Odoo/OpenDoor"
-                url = "https://7a9d66bfece2.ngrok.io/api/Odoo/OpenDoor"
+                url = "http://minigo001.ngrok.io/api/Odoo/OpenDoor"
                 params = {"storeCode": int(store_id), "doorId": int(door_id), "userId": login}
                 try:
                     # enter_store_response = requests.post(url, json=params)

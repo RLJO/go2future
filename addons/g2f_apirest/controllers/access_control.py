@@ -60,8 +60,7 @@ class AccessControl(http.Controller):
             was_confirmed = kw.get('was_confirmed')
     
             # Prepare send to Access control server
-            # url = 'http://minigo001.ngrok.io/api/Odoo/ConfirmAtHall'
-            url = 'https://7a9d66bfece2.ngrok.io/api/Odoo/ConfirmAtHall'
+            url = 'http://minigo001.ngrok.io/api/Odoo/ConfirmAtHall'
             params = {"storeCode": int(store_id), "doorId": int(door_id),
                       "userId": login, "WasConfirmed": was_confirmed}
             send_access_store_response = requests.post(url, json=params)
