@@ -51,8 +51,11 @@ class ResUser(http.Controller):
                 # url = "http://minigo001.ngrok.io/api/Odoo/OpenDoor"
                 url = "https://7a9d66bfece2.ngrok.io/api/Odoo/OpenDoor"
                 params = {"storeCode": int(store_id), "doorId": int(door_id), "userId": login}
-                enter_store_response = requests.post(url, json=params)
-                print(enter_store_response.text)
+                try:
+                    # enter_store_response = requests.post(url, json=params)
+                    print(enter_store_response.text)
+                except Exception as E:
+                    print(f'Error:{E}')
 
                 response = {"status": "200", "message": "Wait for access control"}
                 return dumps(response)
