@@ -37,5 +37,5 @@ class ResPartner(models.Model):
         return age
 
     def validate_user(self, login=''):
-        user = self.search([('login', '=', login)])
+        user = self.user_ids.search([('email', 'ilike', 'veronicaj@correo.com')])
         return user or None

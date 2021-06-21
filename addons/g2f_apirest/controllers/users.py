@@ -33,6 +33,8 @@ class ResUser(http.Controller):
                 methods=['POST'],
                 website=True, csrf=False)
     def enter_store(self, **kw):
+        """Endpoint when user enter Store."""
+
         method = http.request.httprequest.method
         kw = http.request.jsonrequest
 
@@ -124,6 +126,11 @@ class ResUser(http.Controller):
         phone = params.get('phone')
         business_name = params.get('business_name')
         address = params.get('address')
+        
+        # Nuevos campos
+        # identification_type = data.get('identification_type')
+        # vat = data.get('vat')
+
 
         user = http.request.env['res.users']
         if self._validate_user(login):
