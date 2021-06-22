@@ -36,7 +36,7 @@ class SaleOrderCart(http.Controller):
             return http.Response('NOT FOUND', status=404)
 
     @http.route(['/sale_order_cart'], type='json', auth='public',
-                methods=['GET'], website=True, csrf=False)
+                methods=['POST'], website=True, csrf=False)
     def sale_order_cart(self, **kw):
         '''Get sale order.'''
 
