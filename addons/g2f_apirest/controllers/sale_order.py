@@ -8,11 +8,11 @@ from odoo import http, _
 
 
 class SaleOrderCart(http.Controller):
-    @http.route(['/user_cart'], type='http', auth='public',
+    @http.route(['/user_cart'], type='json', auth='public',
             methods=['GET', 'POST'], website=True, csrf=False)
     def user_cart_from_vision(self, **kw):
         method = http.request.httprequest.method
-        # kw = http.request.jsonrequest
+        kw = http.request.jsonrequest
 
         user_id = kw.get('user')
         barcode = kw.get('product')
@@ -35,11 +35,12 @@ class SaleOrderCart(http.Controller):
                 return http.Response('CREATED', status=201)
             return http.Response('NOT FOUND', status=404)
 
-    @http.route(['/sale_order_cart'], type='http', auth='public',
+    @http.route(['/sale_order_cart'], type='json', auth='public',
                 methods=['GET'], website=True, csrf=False)
     def sale_order_cart(self, **kw):
         '''Get sale order.'''
 
+        kw = http.request.jsonrequest
         print(kw)
         method = http.request.httprequest.method
         user_id = kw.get('user')
