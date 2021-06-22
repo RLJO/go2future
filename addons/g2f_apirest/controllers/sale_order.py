@@ -43,7 +43,7 @@ class SaleOrderCart(http.Controller):
         kw = http.request.jsonrequest
         print(kw)
         method = http.request.httprequest.method
-        user_id = kw.get('user')
+        user_id = kw.get('login')
 
         sale_order = http.request.env['sale.order']
 
