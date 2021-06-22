@@ -127,9 +127,13 @@ class SaleOrder(models.Model):
 
         quantity = quantity
         product = self._product_in_sale_order(order_instance, product_instance)
-        if product:
+        if product.product_uom_qty > 1:
             quantity = product.product_uom_qty - quantity
             product.write({'product_uom_qty': quantity})
+            product._cr.commit()
+            return True
+        elif product.product_uom_qty == 1:
+            product.unlink()
             product._cr.commit()
             return True
         return False
