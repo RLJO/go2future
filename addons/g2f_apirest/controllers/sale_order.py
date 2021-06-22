@@ -47,7 +47,7 @@ class SaleOrderCart(http.Controller):
 
         sale_order = http.request.env['sale.order']
 
-        if method == 'GET':
+        if method == 'POST':
             # Obtener lista de productos de orden de venta abierta
             response = sale_order.sudo()._get_sale_order_from_controller(
                 user_id)
