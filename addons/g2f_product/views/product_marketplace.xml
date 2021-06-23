@@ -84,7 +84,10 @@
                            </div>
                            <div style="
                             font-size: 18px;">
-                                <field name="uom_name" readonly="1"/>
+                                <span>
+                                    <field name="contents" readonly="1"/>
+                                    <field name="uom_name" readonly="1"/>
+                                </span>
                            </div>
                            <div style="
                             font-size: 18px;">
