@@ -13,13 +13,8 @@ class ProductTemplate(models.Model):
 
     @api.model
     def get_product_widget(self, vals):
-        # domain = [('type', '=', 'product')]
         data = {"dataList": []}
-        # if vals:
-        #     domain = [
-        #         ('default_code', '=', vals['sku']),
-        #         ('type', '=', 'product')
-        #     ]
+        pricelist = self.env['product.pricelist.item']
         location_id = self.env['stock.location'].search([('id', '=', vals['location'])])
         quant = self.env['stock.quant']
         quant_ids = quant.search([('location_id', '=', location_id.id)]) if location_id else False
@@ -27,6 +22,7 @@ class ProductTemplate(models.Model):
             second_line = line.product_id.brand + ' ' if line.product_id.brand else ''
             second_line += str(line.product_id.contents) + ' ' if line.product_id.contents else ''
             second_line += line.product_id.uom_id.name
+            deals = pricelist.search([('product_tmpl_id', '=', 'line.product_id.id')])
             head = {
                 "ARTICLE_ID": line.product_id.default_code,
                 "ITEM_STOCK": line.quantity,
@@ -39,14 +35,10 @@ class ProductTemplate(models.Model):
                 "ITEM_REFERENCE_PRICE": line.product_id.uom_price.split()[1],
                 "ITEM_REFERENCE_PRICE_MEASUREMENT": line.product_id.uom_price.split()[0],
 
-                # "data": {
-                    # "ARTICLE_ID": line.product_id.default_code,
-                    # "ITEM_FIRST_LINE": line.product_id.desc_tag,
-                    # "ITEM_SECOND_LINE": second_line,
-                    # "SALE_PRICE": str(line.product_id.list_price),
-                    # "LITER_PRICE": "0",
-                    # "WEIGHT_UNIT": "0"
-                # }
+                "OFFER": {
+                    "SALE_PRICE": deals.discounted_price,
+                    "SALE_PERCENT": deals.percent_price
+                }
             }
             data["dataList"].append(head)
         if not quant_ids:
