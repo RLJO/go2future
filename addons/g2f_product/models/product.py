@@ -24,6 +24,7 @@ class ProductTemplate(models.Model):
     peso_estante = fields.Integer('Total weight of the shelf', compute='_get_peso_estante')
     aptitud = fields.Integer('Lifetime fitness percentage', default=70)
     desc_tag = fields.Char('TAG short description', size=17)
+    desc_tag_2 = fields.Char('TAG short description 2', size=17)
     atributos_ids = fields.Many2many('product.atributos', 'product_atributos_rel', 'prod_id', 'atributos_id', string='Attributes')
     product_label = fields.Text('Product Label', compute='_get_label')
     uom_id = fields.Many2one('uom.uom', 'Unit of Measure', required=True,

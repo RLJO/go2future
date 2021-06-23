@@ -49,9 +49,9 @@ class ProductTemplate(models.Model):
 
 
 # class ProductTemplate(http.Controller):
-#     @http.route(['/update_gondola'], type='http', auth='public',
+#     @http.route(['/product/list'], type='http', auth='public',
 #                 methods=['POST'], website=True, csrf=False)
-#     def update_gondola(self):
+#     def get_product_data_list(self):
 #         return 'Ejecutar aqui un post a la API de los indios'
 
     #curl --location --request GET 'http://127.0.0.1:8075/camera_ports/?ai_unit=1' --header 'Content-Type: application/json' --data-raw

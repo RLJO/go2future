@@ -54,47 +54,48 @@
             <field name="image_1920" position="before">
                 <div class="oe_avatar">
                     <span> </span>
-                    <div style="
-                        margin-right: 10px;
-                        height: 200px;
-                        width: 200px;
-                        margin: 0px;
-                        text-align:center;
-                        border:2px solid #c0c0c0;
-                        font-family: Arial, Helvetica, sans-serif;
-                        font-weight: bold;
-                        background-color: black;
-                        color: white;">
-                      <div style="
-                        font-size: 36px;
-                        margin: 5px;">
-                          <field name="lst_price" readonly="1"/>
-                       </div>
-                       <div style="
-                        font-size: 18px;
-                        margin: 5px;">
-                            <field name="desc_tag" readonly="1"/>
-                       </div>
-                       <div style="
-                        font-size: 18px;
-                        margin: 5px;">
-                           <field name="brand" readonly="1"/>
-                           <span style="color: black;">/</span>
-                           <field name="contents" readonly="1"/>
-                           <span style="color: black;">/</span>
-                           <span><field name="uom_name" readonly="1"/></span>
-                       </div>
-                       <div style="
-                        font-size: 12px;
-                        margin: 5px;">
-                            <span>Precio por cada </span><field name="uom_price" readonly="1"/>
-                       </div>
-                       <div style="
-                        font-size: 14px;
-                        margin: 5px;">
-                           <field name="barcode_label" readonly="1"/>
-                       </div>
-                    </div>
+                        <div style="
+                            margin-right: 10px;
+                            height: 230px;
+                            width: 230px;
+                            margin: 0px;
+                            text-align:center;
+                            border:2px solid #c0c0c0;
+                            font-family: Arial, Helvetica, sans-serif;
+                            font-weight: bold;
+                            background-color: black;
+                            color: white;">
+                          <div style="
+                            font-size: 36px;">
+                              <field name="lst_price" readonly="1"/>
+                           </div>
+                           <div style="
+                            font-size: 12px;">
+                                <span>Precio por cada </span><field name="uom_price" readonly="1"/>
+                           </div>
+                           <div style="
+                            font-size: 18px;">
+                                <field name="desc_tag" readonly="1"/>
+                           </div>
+                           <div style="
+                            font-size: 18px;">
+                                <field name="desc_tag_2" readonly="1"/>
+                           </div>
+                           <div style="
+                            font-size: 18px;">
+                                <field name="uom_name" readonly="1"/>
+                           </div>
+                           <div style="
+                            font-size: 18px;">
+                               <field name="brand" readonly="1"/>
+                           </div>
+
+                           <!--<div style="
+                            font-size: 14px;
+                            margin: 5px;">
+                               <field name="barcode_label" readonly="1"/>
+                           </div>-->
+                        </div>
                 </div>
             </field>
 
