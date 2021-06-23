@@ -22,7 +22,7 @@ class ProductTemplate(models.Model):
             second_line = line.product_id.brand + ' ' if line.product_id.brand else ''
             second_line += str(line.product_id.contents) + ' ' if line.product_id.contents else ''
             second_line += line.product_id.uom_id.name
-            deals = pricelist.search([('product_tmpl_id', '=', 'line.product_id.id')])
+            deals = pricelist.search([('product_tmpl_id', '=', line.product_id.id)])
             head = {
                 "ARTICLE_ID": line.product_id.default_code,
                 "ITEM_STOCK": line.quantity,
