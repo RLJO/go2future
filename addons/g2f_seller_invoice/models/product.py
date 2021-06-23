@@ -12,6 +12,48 @@ class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
     @api.model
+    def get_product_widget(self, vals):
+        # domain = [('type', '=', 'product')]
+        data = {"dataList": []}
+        # if vals:
+        #     domain = [
+        #         ('default_code', '=', vals['sku']),
+        #         ('type', '=', 'product')
+        #     ]
+        location_id = self.env['stock.location'].search([('id', '=', vals['location'])])
+        quant = self.env['stock.quant']
+        quant_ids = quant.search([('location_id', '=', location_id.id)]) if location_id else False
+        for line in quant_ids:
+            second_line = line.product_id.brand + ' ' if line.product_id.brand else ''
+            second_line += str(line.product_id.contents) + ' ' if line.product_id.contents else ''
+            second_line += line.product_id.uom_id.name
+            head = {
+                "ARTICLE_ID": line.product_id.default_code,
+                "ITEM_STOCK": line.quantity,
+                "ITEM_FIRST_LINE": line.product_id.desc_tag,
+                "ITEM_SECOND_LINE": line.product_id.desc_tag_2,
+                "ITEM_BRAND": line.product_id.brand,
+                "ITEM_VOLUME": line.product_id.contents,
+                "ITEM_VOLUME_MEASUREMENT": line.product_id.uom_id.name,
+                "ITEM_PRICE": str(line.product_id.list_price),
+                "ITEM_REFERENCE_PRICE": line.product_id.uom_price.split()[1],
+                "ITEM_REFERENCE_PRICE_MEASUREMENT": line.product_id.uom_price.split()[0],
+
+                # "data": {
+                    # "ARTICLE_ID": line.product_id.default_code,
+                    # "ITEM_FIRST_LINE": line.product_id.desc_tag,
+                    # "ITEM_SECOND_LINE": second_line,
+                    # "SALE_PRICE": str(line.product_id.list_price),
+                    # "LITER_PRICE": "0",
+                    # "WEIGHT_UNIT": "0"
+                # }
+            }
+            data["dataList"].append(head)
+        if not quant_ids:
+            data = 'No se encontró Minigo registrado con el id: %s' % vals['location']
+        return data
+
+    @api.model
     def get_product_data(self, vals):
         domain = [('type', '=', 'product')]
         data = {"dataList": []}

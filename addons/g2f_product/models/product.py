@@ -92,15 +92,16 @@ class ProductTemplate(models.Model):
 
     @api.depends('list_price', 'desc_tag', 'uom_id', 'brand', 'barcode', 'contents')
     def _get_label(self):
-        if self.list_price == 0:
-            raise UserError(_('The Sale Price must be greater than zero (0)'))
-        u = ('Unidad', 'Unit', 'und')
-        if self.uom_id.category_id.name in u:
-        # if self.uom_id.category_id.name == 'Unidad' or self.uom_id.name == 'Unit':
-            self.uom_price = 'Und ' + str(self.list_price)
-        else:
-            self.uom_price = self._get_uom_price()
-        self.barcode_label = self.barcode
+        for this in self:
+            if this.list_price == 0:
+                raise UserError(_('The Sale Price must be greater than zero (0)'))
+            u = ('Unidad', 'Unit', 'und')
+            if this.uom_id.category_id.name in u:
+            # if self.uom_id.category_id.name == 'Unidad' or self.uom_id.name == 'Unit':
+                this.uom_price = 'Und ' + str(this.list_price)
+            else:
+                this.uom_price = this._get_uom_price()
+            this.barcode_label = this.barcode
 
     def _get_uom_price(self):
         ref_unid = self.env['uom.uom'].search([('category_id', '=', self.uom_id.category_id.id),
