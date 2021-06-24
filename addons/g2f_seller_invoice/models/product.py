@@ -13,7 +13,7 @@ class ProductTemplate(models.Model):
 
     @api.model
     def get_product_widget(self, vals):
-        data = {"dataList": []}
+        data = {"data": []}
         pricelist = self.env['product.pricelist.item']
         location_id = self.env['stock.location'].search([('id', '=', vals['location'])])
         quant = self.env['stock.quant']
@@ -22,7 +22,16 @@ class ProductTemplate(models.Model):
             second_line = line.product_id.brand + ' ' if line.product_id.brand else ''
             second_line += str(line.product_id.contents) + ' ' if line.product_id.contents else ''
             second_line += line.product_id.uom_id.name
-            deals = pricelist.search([('product_tmpl_id', '=', line.product_id.id)])
+            deals = pricelist.search([
+                ('product_tmpl_id', '=', line.product_id.id),
+                ('website_deals_m2o.state', '=', 'validated')
+            ])
+            if deals:
+                discounted_price = deals.discounted_price
+                percent_price = deals.percent_price
+            else:
+                discounted_price = 0.0
+                percent_price = 0.0
             head = {
                 "ARTICLE_ID": line.product_id.default_code,
                 "ITEM_STOCK": line.quantity,
@@ -36,11 +45,11 @@ class ProductTemplate(models.Model):
                 "ITEM_REFERENCE_PRICE_MEASUREMENT": line.product_id.uom_price.split()[0],
 
                 "OFFER": {
-                    "SALE_PRICE": deals.discounted_price,
-                    "SALE_PERCENT": deals.percent_price
+                    "SALE_PRICE": discounted_price,
+                    "SALE_PERCENT": percent_price
                 }
             }
-            data["dataList"].append(head)
+            data["data"].append(head)
         if not quant_ids:
             data = 'No se encontró Minigo registrado con el id: %s' % vals['location']
         return data
