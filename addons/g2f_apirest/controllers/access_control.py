@@ -2,9 +2,10 @@
 
 import requests
 from json import dumps
+from urllib.parse import urljoin
 
 from odoo import http, _
-# from odoo.exceptions import ValidationError, UserError
+from odoo.exceptions import ValidationError, UserError
 
 
 class AccessControl(http.Controller):
@@ -59,9 +60,16 @@ class AccessControl(http.Controller):
             door_id = kw.get('door_id') or 0
             was_confirmed = kw.get('was_confirmed')
     
-            # Prepare send to Access control server
-            url = 'http://minigo001.ngrok.io/api/Odoo/ConfirmAtHall'
+            config_parameter = http.request.env['ir.config_parameter'].sudo().search([
+                ('key', 'ilike', 'web.base.access.control.url')
+            ])
+            if not config_parameter:
+                raise ValidationError(_('web.base.access.control.url dont exist in ir.config_parameter.'))
+
+            # Prepare url endpoint and send to Access control server
+            base_url = config_parameter.value
+            endpoint = 'api/Odoo/ConfirmAtHall'
             params = {"storeCode": int(store_id), "doorId": int(door_id),
                       "userId": login, "WasConfirmed": was_confirmed}
-            send_access_store_response = requests.post(url, json=params)
+            send_access_store_response = requests.post(urljoin(base_url, endpoint), json=params)
             print(send_access_store_response)
