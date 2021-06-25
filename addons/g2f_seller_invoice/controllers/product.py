@@ -6,7 +6,22 @@ from odoo.exceptions import UserError
 from json import dumps
 import requests
 from odoo import http, _
+import json
+import logging
+_logger = logging.getLogger(__name__)
 
+
+class Product(http.Controller):
+    @http.route('/product/widget/', type='json', auth="none", methods=['POST'], cors="*", csrf=False)
+    def listoner(self, **kw):
+        vals = {}
+        code = kw.get('code')
+        product_tmpl = http.request.env['product.template']
+        response = product_tmpl.sudo()._get_product_widget(code)
+        print(http.request.params)
+        print(response)
+        # return json.dumps({"result": "Success"})
+        return response
 
 # class ProductTemplate(models.Model):
 #     _inherit = 'product.template'
@@ -49,9 +64,12 @@ from odoo import http, _
 
 
 class ProductTemplate(http.Controller):
-    @http.route(['/product_list'], type='http', auth='public',
+    @http.route(['/product/widget'], type='http', auth='public',
                 methods=['POST'], csrf=False)
-    def get_product_data_list(self, **kw):
+    def get_product_widget(self, **kw):
+        code = kw.get('code')
+        print(http.request.params)
+        print(code)
         return 'Respuesta esperada...'
 
     #curl --location --request GET 'http://127.0.0.1:8075/camera_ports/?ai_unit=1' --header 'Content-Type: application/json' --data-raw
