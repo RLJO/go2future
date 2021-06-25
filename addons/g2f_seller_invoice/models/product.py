@@ -12,10 +12,10 @@ class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
     @api.model
-    def get_product_widget(self, vals):
+    def _get_product_widget(self, code):
         data = {"data": []}
         pricelist = self.env['product.pricelist.item']
-        location_ids = self.env['stock.location'].search([('location_id.name', '=', vals['code'])])
+        location_ids = self.env['stock.location'].search([('location_id.name', '=', code)])
         quant = self.env['stock.quant']
         quant_ids = quant.search([('location_id', 'in', location_ids.ids)], order='location_id')
         for line in quant_ids:
@@ -44,7 +44,7 @@ class ProductTemplate(models.Model):
                 "ITEM_PRICE": str(line.product_id.list_price),
                 "ITEM_REFERENCE_PRICE": line.product_id.uom_price.split()[1],
                 "ITEM_REFERENCE_PRICE_MEASUREMENT": line.product_id.uom_price.split()[0],
-                "ITEM_LOCATION": vals['code'] + '/' + line.location_id.name,
+                "ITEM_LOCATION": code + '/' + line.location_id.name,
 
                 "OFFER": {
                     "SALE_PRICE": discounted_price,
@@ -53,7 +53,7 @@ class ProductTemplate(models.Model):
             }
             data["data"].append(head)
         if not quant_ids:
-            data = 'No se encontró Minigo registrado con el id: %s' % vals['code']
+            data = 'No se encontró Minigo registrado con el id: %s' % code
         return data
 
     # def get_deals(self, product_id):
