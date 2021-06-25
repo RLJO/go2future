@@ -15,9 +15,9 @@ class ProductTemplate(models.Model):
     def get_product_widget(self, vals):
         data = {"data": []}
         pricelist = self.env['product.pricelist.item']
-        location_id = self.env['stock.location'].search([('id', '=', vals['location'])])
+        location_ids = self.env['stock.location'].search([('location_id.name', '=', vals['code'])])
         quant = self.env['stock.quant']
-        quant_ids = quant.search([('location_id', '=', location_id.id)]) if location_id else False
+        quant_ids = quant.search([('location_id', 'in', location_ids.ids)])
         for line in quant_ids:
             second_line = line.product_id.brand + ' ' if line.product_id.brand else ''
             second_line += str(line.product_id.contents) + ' ' if line.product_id.contents else ''
@@ -33,7 +33,7 @@ class ProductTemplate(models.Model):
                 discounted_price = 0.0
                 percent_price = 0.0
             head = {
-                "ARTICLE_ID": line.product_id.default_code,
+                "ARTICLE_ID": line.product_id.barcode,
                 "ITEM_STOCK": line.quantity,
                 "ITEM_FIRST_LINE": line.product_id.desc_tag,
                 "ITEM_SECOND_LINE": line.product_id.desc_tag_2,
@@ -51,7 +51,7 @@ class ProductTemplate(models.Model):
             }
             data["data"].append(head)
         if not quant_ids:
-            data = 'No se encontró Minigo registrado con el id: %s' % vals['location']
+            data = 'No se encontró Minigo registrado con el id: %s' % vals['code']
         return data
 
     @api.model
