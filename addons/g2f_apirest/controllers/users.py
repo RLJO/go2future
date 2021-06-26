@@ -30,6 +30,17 @@ class ResUser(http.Controller):
 
         return http.Response('NOT FOUND', status=404)
 
+
+    @http.route(['/users/DocumentTypes'], type='http', auth='public',
+                methods=['GET'],
+                website=True, csrf=False)
+    def document_type_list(self, **kw):
+        """Endpoint return document_type_list for app moblie."""
+
+        method = http.request.httprequest.method
+        res_partner = http.request.env['res.partner']
+        return dumps(res_partner.sudo().list_identification_type())
+
     @http.route(['/users/EnterStore'], type='json', auth='public',
                 methods=['POST'],
                 website=True, csrf=False)
@@ -137,13 +148,12 @@ class ResUser(http.Controller):
         mobile = params.get('mobile')
         business_name = params.get('business_name')
         address = params.get('address')
-        
-        # Nuevos campos
-        # identification_type = data.get('identification_type')
-        # vat = data.get('vat')
+        identification_type = data.get('identification_type')
+        vat = data.get('vat')
 
         user = http.request.env['res.users']
-        if self._validate_user(login):
+        if res_partner.sudo().validate_user(login) or \
+                res_partner.sudo().document_exist(identification_type, vat):
             msg = _('User already exists!')
             response = {'status': '400', 'message': msg}
             return dumps(response)

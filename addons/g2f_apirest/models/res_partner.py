@@ -59,3 +59,24 @@ class ResPartner(models.Model):
         ])
         return document or None
 
+    def search_identification_type(self, identification_type):
+        """Search identification_type and return objects instance.
+
+        Parameters:
+        identification_type: str
+        """
+
+        identification_type = self.env['l10n_latam.identification.type'].search([
+            ('name', 'ilike', identification_type),
+            ('active', '=', True)
+        ])
+        return identification_type or None
+
+    def list_identification_type(self):
+        """ Return identification_type list objects instance."""
+
+        identification_type_list = self.env['l10n_latam.identification.type'].search([
+            ('active', '=', True)
+        ])
+        return [identification.name for identification in identification_type_list]
+
