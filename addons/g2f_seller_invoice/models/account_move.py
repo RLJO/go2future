@@ -17,7 +17,7 @@ class AccountMove(models.Model):
     ei_pdf = fields.Binary('PDF invoice')
 
     @api.model
-    def invoice_confirm(self, vals):
+    def _invoice_confirm(self, vals):
         if len(vals) < 8:
             err_msg = "Falta un campo requerido ('einvoice', 'date_einvoice', " \
                       "'cae_number', 'ei_qr_code', 'ei_barcode', 'ei_xml_file', 'ei_pdf')"
