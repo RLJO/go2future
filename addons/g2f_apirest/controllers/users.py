@@ -2,10 +2,11 @@
 
 from json import dumps
 import requests
+from urllib.parse import urljoin
 
 from odoo import http, _
 from odoo.addons.g2f_apirest.controllers.vision_system import VisionSystem
-# from odoo.exceptions import ValidationError, UserError
+from odoo.exceptions import ValidationError, UserError
 
 
 class ResUser(http.Controller):
@@ -48,10 +49,19 @@ class ResUser(http.Controller):
             if user:
                 print(f'El ID del usuario es:{user.id}')
                 # Enviarle al sistema de control de acceso que el usaurio entro
-                url = "http://minigo001.ngrok.io/api/Odoo/OpenDoor"
+
+                config_parameter = http.request.env['ir.config_parameter'].sudo().search([
+                    ('key', 'ilike', 'web.base.access.control.url')
+                ])
+                if not config_parameter:
+                    raise ValidationError(_('web.base.access.control.url dont exist in ir.config_parameter.'))
+
+                # Prepare url endpoint and send to Access control server
+                base_url = config_parameter.value
+                endpoint = "api/Odoo/OpenDoor"
                 params = {"storeCode": int(store_id), "doorId": int(door_id), "userId": login}
                 try:
-                    # enter_store_response = requests.post(url, json=params)
+                    enter_store_response = requests.post(urljoin(base_url, endpoint), json=params)
                     print(enter_store_response.text)
                 except Exception as E:
                     print(f'Error:{E}')
