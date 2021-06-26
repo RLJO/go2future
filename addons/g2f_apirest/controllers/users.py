@@ -77,8 +77,11 @@ class ResUser(http.Controller):
                 methods=['GET', 'POST', 'PUT', 'DELETE'],
                 website=True, csrf=False)
     def res_user(self, **kw):
+        """Endpoint for register and update data User from app mobile."""
+
         method = http.request.httprequest.method
         kw = http.request.jsonrequest
+        res_partner = http.request.env['res.partner']
 
         if method == 'POST':
             print('Crear usuario')
@@ -89,10 +92,6 @@ class ResUser(http.Controller):
             print('Modificar Usuario')
             response = self.update_user(kw)
             return response
-        if method == 'GET':
-            print('Listar, Obtener Usuario')
-        if method == 'DELETE':
-            print('Eliminar usuario')
         return False
 
     def update_user(self, kw):
@@ -135,14 +134,13 @@ class ResUser(http.Controller):
         lastname = params.get('lastname')
         birthday = params.get('birthday')
         gender = params.get('gender')
-        phone = params.get('phone')
+        mobile = params.get('mobile')
         business_name = params.get('business_name')
         address = params.get('address')
         
         # Nuevos campos
         # identification_type = data.get('identification_type')
         # vat = data.get('vat')
-
 
         user = http.request.env['res.users']
         if self._validate_user(login):
@@ -161,14 +159,11 @@ class ResUser(http.Controller):
             user._cr.commit()
 
             # Update data in respartner
-            data = {'birthday': birthday, 'gender': gender, 'phone': phone,
+            data = {'birthday': birthday, 'gender': gender, 'mobile': mobile,
                     'street': address}
             self._update_res_partner(login, data)
 
             response = {'status': '200', 'message': 'ok'}
-
-            # Send data to Vision System
-            # VisionSystem.customer_entry(new_user)
 
         except Exception as error_excp:
             msg = _(error_excp)
