@@ -37,5 +37,25 @@ class ResPartner(models.Model):
         return age
 
     def validate_user(self, login=''):
+        """ Validate if email exist.
+
+        Parameters:
+        email: str"""
+
         user = self.user_ids.search([('email', 'ilike', login)])
         return user or None
+
+    def document_exist(self, identification_type, document):
+        """validate if exist document and identification_type.
+
+        Parameters:
+        identification_type: str
+        document: str"""
+
+        document = self.search([
+            ('l10n_latam_identification_type_id.name', 'ilike', identification_type),
+            ('vat', '=', document),
+            ('active', '=', True)
+        ])
+        return document or None
+
