@@ -80,3 +80,15 @@ class ResPartner(models.Model):
         ])
         return [identification.name for identification in identification_type_list]
 
+    def search_country_info(self, country=''):
+        domain = [('name', 'ilike', country)] if country else []
+        countries = []
+        country = self.env['res.country'].search(domain)
+        for country in country:
+            countries.append({country.name: [{'state': state.name, 'code': state.code} for state in country.state_ids],
+                              'code': country.code,
+                              'currency': country.currency_id.name,
+                              'phone_code': country.phone_code,
+                              })
+        return countries
+

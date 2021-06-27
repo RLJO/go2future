@@ -31,6 +31,17 @@ class ResUser(http.Controller):
         return http.Response('NOT FOUND', status=404)
 
 
+    @http.route(['/users/Countries'], type='http', auth='public',
+                methods=['GET'],
+                website=True, csrf=False)
+    def countries_list(self, **kw):
+        """Endpoint return Countries list for app moblie."""
+
+        method = http.request.httprequest.method
+        country = kw.get('country')
+        res_partner = http.request.env['res.partner']
+        return dumps(res_partner.sudo().search_country_info(country))
+
     @http.route(['/users/DocumentTypes'], type='http', auth='public',
                 methods=['GET'],
                 website=True, csrf=False)
