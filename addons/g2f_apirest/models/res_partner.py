@@ -81,6 +81,11 @@ class ResPartner(models.Model):
         return [identification.name for identification in identification_type_list]
 
     def search_country_info(self, country=''):
+        """Search countries or country from app mobile.
+
+        Parameters:
+            country: str"""
+
         domain = [('name', 'ilike', country)] if country else []
         countries = []
         country = self.env['res.country'].search(domain)
