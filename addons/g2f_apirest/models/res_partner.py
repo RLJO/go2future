@@ -59,6 +59,27 @@ class ResPartner(models.Model):
         ])
         return document or None
 
+    def search_country_state_by_name(self, country_name='', state_name=''):
+        """Search ID from Country and State.
+
+        Parameter:
+            country_name: str
+            state_name: str"""
+
+        country_id, state_id = None, None
+
+        if country_name and state_name:
+            domain_country = [('name', 'ilike', country_name)]
+            domain_state = [('name', 'ilike', state_name)]
+
+            country = self.env['res.country'].search(domain_country)
+            state = self.env['res.country.state'].search(domain_state)
+
+            country_id = country.id if country else None
+            state_id = state.id if state else None
+
+        return country_id, state_id
+
     def search_identification_type(self, identification_type):
         """Search identification_type and return objects instance.
 

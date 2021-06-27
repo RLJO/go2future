@@ -103,17 +103,19 @@ class ResUser(http.Controller):
 
         method = http.request.httprequest.method
         kw = http.request.jsonrequest
-        res_partner = http.request.env['res.partner']
+        self.res_partner = http.request.env['res.partner']
 
         if method == 'POST':
             print('Crear usuario')
             response = self.register(kw)
             print(response)
             return response
+
         if method == 'PUT':
             print('Modificar Usuario')
             response = self.update_user(kw)
             return response
+        
         return False
 
     def update_user(self, kw):
@@ -159,15 +161,23 @@ class ResUser(http.Controller):
         mobile = params.get('mobile')
         business_name = params.get('business_name')
         address = params.get('address')
-        identification_type = data.get('identification_type')
-        vat = data.get('vat')
+        identification_type = params.get('identification_type')
+        vat = params.get('vat')
+        country = params.get('country')
+        country_state = params.get('country_state')
+        state_city = params.get('state_city')
 
         user = http.request.env['res.users']
-        if res_partner.sudo().validate_user(login) or \
-                res_partner.sudo().document_exist(identification_type, vat):
+        if self.res_partner.sudo().validate_user(login) or \
+                self.res_partner.sudo().document_exist(identification_type, vat):
             msg = _('User already exists!')
             response = {'status': '400', 'message': msg}
             return dumps(response)
+
+        search_identification_type = self.res_partner.sudo().search_identification_type(identification_type)
+        identification_type_ = search_identification_type.id if search_identification_type else None
+
+        country_id, state_id = self.res_partner.search_country_state_by_name(country, country_state)
 
         try:
             new_user = user.sudo().create({
@@ -181,7 +191,9 @@ class ResUser(http.Controller):
 
             # Update data in respartner
             data = {'birthday': birthday, 'gender': gender, 'mobile': mobile,
-                    'street': address}
+                    'street': address, 'l10n_latam_identification_type_id': identification_type_,
+                    'vat': vat, 'country_id': country_id, 'state_id': state_id,
+                    'city': state_city}
             self._update_res_partner(login, data)
 
             response = {'status': '200', 'message': 'ok'}
