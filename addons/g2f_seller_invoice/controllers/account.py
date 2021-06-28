@@ -22,7 +22,7 @@ class Account(http.Controller):
 
 
 class TestKey(http.Controller):
-    @http.route('/test/key/', type='json', auth="api_key", methods=['POST'], cors="*", csrf=False)
+    @http.route('/test/key/', type='json', auth="user", methods=['POST'], cors="*", csrf=False)
     def test_api_key(self, **kw):
         print(http.request.params)
         res = {'AUTHORIZED': 200}
