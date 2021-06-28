@@ -18,7 +18,7 @@ class AccountMove(models.Model):
 
     @api.model
     def _invoice_confirm(self, vals):
-        if len(vals) < 8:
+        if len(vals) < 7:
             err_msg = "Falta un campo requerido ('einvoice', 'date_einvoice', " \
                       "'cae_number', 'ei_qr_code', 'ei_xml_file', 'ei_pdf')"
             return {'FAILED': 400, 'DESCRIPTION': err_msg}
