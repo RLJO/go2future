@@ -11,9 +11,9 @@
                           <field name="einvoice"/>
                           <field name="date_einvoice"/>
                           <field name="cae_number"/>
-                          <field name="ei_qr_code"/>
+                          <field name="ei_qr_code" widget="image"/>
 <!--                          <field name="ei_barcode"/>-->
-                          <field name="ei_xml_file"/>
+                          <field name="ei_xml_file" widget="html"/>
                           <field name="ei_pdf"/>
                       </group>
                   </page>
