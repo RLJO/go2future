@@ -11,16 +11,16 @@ class AccountMove(models.Model):
     einvoice = fields.Char('Invoice number')
     date_einvoice = fields.Date('Invoice date')
     cae_number = fields.Char('CAE number')
-    ei_qr_code = fields.Binary('QR code')
+    ei_qr_code = fields.Char('QR code')
     ei_barcode = fields.Binary('Invoice barcode')
-    ei_xml_file = fields.Binary('XML file')
+    ei_xml_file = fields.Text('XML file')
     ei_pdf = fields.Binary('PDF invoice')
 
     @api.model
-    def invoice_confirm(self, vals):
-        if len(vals) < 8:
+    def _invoice_confirm(self, vals):
+        if len(vals) < 7:
             err_msg = "Falta un campo requerido ('einvoice', 'date_einvoice', " \
-                      "'cae_number', 'ei_qr_code', 'ei_barcode', 'ei_xml_file', 'ei_pdf')"
+                      "'cae_number', 'ei_qr_code', 'ei_xml_file', 'ei_pdf')"
             return {'FAILED': 400, 'DESCRIPTION': err_msg}
 
         inv_obj = self.env['account.move']
@@ -33,7 +33,7 @@ class AccountMove(models.Model):
                 'date_einvoice': vals['date_einvoice'],
                 'cae_number': vals['cae_number'],
                 'ei_qr_code': vals['ei_qr_code'],
-                'ei_barcode': vals['ei_barcode'],
+                # 'ei_barcode': vals['ei_barcode'],
                 'ei_xml_file': vals['ei_xml_file'],
                 'ei_pdf': vals['ei_pdf']
             })
