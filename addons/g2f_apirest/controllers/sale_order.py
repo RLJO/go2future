@@ -8,6 +8,22 @@ from odoo import http, _
 
 
 class SaleOrderCart(http.Controller):
+    @http.route(['/user_cart'], type='http', auth='public',
+            methods=['GET'], website=True, csrf=False)
+    def get_user_cart_from_vision(self, **kw):
+        method = http.request.httprequest.method
+
+        user_id = kw.get('user_id')
+
+        sale_order = http.request.env['sale.order']
+
+        if method == 'GET':
+            # Obtener lista de productos de orden de venta abierta
+            response = sale_order.sudo()._get_sale_order_from_controller(
+                user_id)
+            return dumps(response)
+
+
     @http.route(['/user_cart'], type='json', auth='public',
             methods=['GET', 'POST'], website=True, csrf=False)
     def user_cart_from_vision(self, **kw):
