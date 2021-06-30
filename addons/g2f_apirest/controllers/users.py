@@ -2,10 +2,11 @@
 
 from json import dumps
 import requests
+from urllib.parse import urljoin
 
 from odoo import http, _
 from odoo.addons.g2f_apirest.controllers.vision_system import VisionSystem
-# from odoo.exceptions import ValidationError, UserError
+from odoo.exceptions import ValidationError, UserError
 
 
 class ResUser(http.Controller):
@@ -18,56 +19,76 @@ class ResUser(http.Controller):
         method = http.request.httprequest.method
         kw = http.request.jsonrequest
         login = kw.get('login')
-
-        if method != 'POST':
-            return http.Response('NOT FOUND', status=404)
-
+        store_id = kw.get('store_id')
         user = self._validate_user(login)
-        if user:
-            domain = [('login', '=', 'foxcarlos@gmail.com')]
-            transactions = http.request.env['apirest.transaction'].sudo().\
-                    search_read(
-                            domain,
-                            ['create_date', 'login']
-            )
-            for record in transactions:
-                record['create_date'] = str(record['create_date'])
+        transaction = http.request.env['apirest.transaction']
+
+        if method == 'POST' and user:
+            transactions = transaction.sudo().get_transaction_by_user(login, store_id)
+            print(transactions)
             return dumps(transactions)
+
+        return http.Response('NOT FOUND', status=404)
+
+
+    @http.route(['/users/Countries'], type='http', auth='public',
+                methods=['GET'],
+                website=True, csrf=False)
+    def countries_list(self, **kw):
+        """Endpoint return Countries list for app moblie."""
+
+        method = http.request.httprequest.method
+        country = kw.get('country')
+        res_partner = http.request.env['res.partner']
+        return dumps(res_partner.sudo().search_country_info(country))
+
+    @http.route(['/users/DocumentTypes'], type='http', auth='public',
+                methods=['GET'],
+                website=True, csrf=False)
+    def document_type_list(self, **kw):
+        """Endpoint return document_type_list for app moblie."""
+
+        method = http.request.httprequest.method
+        res_partner = http.request.env['res.partner']
+        return dumps(res_partner.sudo().list_identification_type())
 
     @http.route(['/users/EnterStore'], type='json', auth='public',
                 methods=['POST'],
                 website=True, csrf=False)
     def enter_store(self, **kw):
+        """Endpoint when user enter Store."""
+
         method = http.request.httprequest.method
         kw = http.request.jsonrequest
 
         login = kw.get('login')
-        password = kw.get('password')
-        qr_code = kw.get('QRCode')
-        latitude = kw.get('latitude')
-        longitude = kw.get('longitude')
         door_id = kw.get('door_id')
         store_id = kw.get('store_id')
-        fecha = kw.get('dateTime')
 
-        print(qr_code)
         if method == 'POST':
             print('Validar que el usuario exista o este activo')
             user = self._validate_user(login)
             if user:
+                print(f'El ID del usuario es:{user.id}')
                 # Enviarle al sistema de control de acceso que el usaurio entro
-                url = "https://minigo001.ngrok.io"
-                params = {'storeId': store_id, 'doorId': door_id, 'userId': login}
-                enter_store_response = requests.post(url, data=params)
-                # Segun entiendo la respuesta de control de acceso no se espera todavia
-                # Yo tengo un Endpoint que escuchara cuando control de acceso autorice o
-                # deniegue la antrada, el endpoint es un POST: /get_message_access_control
 
-                # Por ahora se crea aqui la orden de venta
-                sale_order = http.request.env['sale.order']
-                sale_order.sudo().create_sale_order(user.partner_id.id)
+                config_parameter = http.request.env['ir.config_parameter'].sudo().search([
+                    ('key', 'ilike', 'web.base.access.control.url')
+                ])
+                if not config_parameter:
+                    raise ValidationError(_('web.base.access.control.url dont exist in ir.config_parameter.'))
 
-                response = {"status": "200", "message": "User enters store, wait for access control"}
+                # Prepare url endpoint and send to Access control server
+                base_url = config_parameter.value
+                endpoint = "api/Odoo/OpenDoor"
+                params = {"storeCode": int(store_id), "doorId": int(door_id), "userId": login}
+                try:
+                    enter_store_response = requests.post(urljoin(base_url, endpoint), json=params)
+                    print(enter_store_response.text)
+                except Exception as E:
+                    print(f'Error:{E}')
+
+                response = {"status": "200", "message": "Wait for access control"}
                 return dumps(response)
 
             msg = _('User dont exists!')
@@ -78,28 +99,39 @@ class ResUser(http.Controller):
                 methods=['GET', 'POST', 'PUT', 'DELETE'],
                 website=True, csrf=False)
     def res_user(self, **kw):
+        """Endpoint for register and update data User from app mobile."""
+
         method = http.request.httprequest.method
         kw = http.request.jsonrequest
+        self.res_partner = http.request.env['res.partner']
 
         if method == 'POST':
             print('Crear usuario')
             response = self.register(kw)
             print(response)
             return response
+
         if method == 'PUT':
             print('Modificar Usuario')
             response = self.update_user(kw)
             return response
-        if method == 'GET':
-            print('Listar, Obtener Usuario')
-        if method == 'DELETE':
-            print('Eliminar usuario')
+        
         return False
 
     def update_user(self, kw):
         login = kw.get('login')
         name = kw.get('name')
         lastname = kw.get('lastname')
+
+        # Aqui se toman los datos de la tarjeta de credito
+        # name
+        # card_number
+        # security_code
+        # expiration_month
+        # expiration_year
+        # card_type
+        # card_identification
+        # state
 
         user = self._validate_user(login)
         if not user:
@@ -126,14 +158,26 @@ class ResUser(http.Controller):
         lastname = params.get('lastname')
         birthday = params.get('birthday')
         gender = params.get('gender')
-        phone = params.get('phone')
+        mobile = params.get('mobile')
+        business_name = params.get('business_name')
         address = params.get('address')
+        identification_type = params.get('identification_type')
+        vat = params.get('vat')
+        country = params.get('country')
+        country_state = params.get('country_state')
+        state_city = params.get('state_city')
 
         user = http.request.env['res.users']
-        if self._validate_user(login):
+        if self.res_partner.sudo().validate_user(login) or \
+                self.res_partner.sudo().document_exist(identification_type, vat):
             msg = _('User already exists!')
             response = {'status': '400', 'message': msg}
             return dumps(response)
+
+        search_identification_type = self.res_partner.sudo().search_identification_type(identification_type)
+        identification_type_ = search_identification_type.id if search_identification_type else None
+
+        country_id, state_id = self.res_partner.search_country_state_by_name(country, country_state)
 
         try:
             new_user = user.sudo().create({
@@ -146,14 +190,13 @@ class ResUser(http.Controller):
             user._cr.commit()
 
             # Update data in respartner
-            data = {'birthday': birthday, 'gender': gender, 'phone': phone,
-                    'street': address}
+            data = {'birthday': birthday, 'gender': gender, 'mobile': mobile,
+                    'street': address, 'l10n_latam_identification_type_id': identification_type_,
+                    'vat': vat, 'country_id': country_id, 'state_id': state_id,
+                    'city': state_city}
             self._update_res_partner(login, data)
 
             response = {'status': '200', 'message': 'ok'}
-
-            # Send data to Vision System
-            # VisionSystem.customer_entry(new_user)
 
         except Exception as error_excp:
             msg = _(error_excp)

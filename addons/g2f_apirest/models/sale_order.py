@@ -28,6 +28,7 @@ def validate_product_exist(search_product_method):
         return product
     return exceptions
 
+
 class SaleOrder(models.Model):
     '''Sale order model by Api Mobile.'''
 
@@ -46,7 +47,7 @@ class SaleOrder(models.Model):
         if action == 'picked':
             self._add_product_cart(order, product, quantity)
             return True
-        elif action == 'returned':
+        elif action == 'placed':
             self._remove_product_cart(order, product, quantity)
             return True
 
@@ -126,9 +127,13 @@ class SaleOrder(models.Model):
 
         quantity = quantity
         product = self._product_in_sale_order(order_instance, product_instance)
-        if product:
+        if product.product_uom_qty > 1:
             quantity = product.product_uom_qty - quantity
             product.write({'product_uom_qty': quantity})
+            product._cr.commit()
+            return True
+        elif product.product_uom_qty == 1:
+            product.unlink()
             product._cr.commit()
             return True
         return False

@@ -30,17 +30,18 @@ class Product(http.Controller):
             print('Eliminar Productos')
         return False
 
-    @http.route(['/products/get_product_details/<int:warehouse_id>'], type='http', auth='public',
+    @http.route(['/products/get_product_details/'], type='json', auth='public',
                 methods=['GET'],
                 website=True, csrf=False)
     def product_all(self, **kw):
         method = http.request.httprequest.method
+        kw = http.request.jsonrequest
         print(kw)
-        warehouse_id = kw.get('warehouse_id')
+        store_code = kw.get('store_code')
 
         if method == 'GET':
             print('Listar, Obtener Productos')
-            product_list = self.get_product_list(warehouse_id)
+            product_list = self.get_product_list(store_code)
             print(product_list)
             return product_list
 
@@ -58,16 +59,18 @@ class Product(http.Controller):
 
         return dumps(response)
 
-    def get_product_list(self, warehouse_id):
+    def get_product_list(self, warehouse_code):
         """Get product list."""
         # Considerar filtrar por ultima fecha de actualizacion del Producto
         # Considerar devolver los campos que ellos necesiten
 
         products = http.request.env['product.product']
         domain = [
+            ('seller_ids.warehouse_id.code', '=', warehouse_code),
             ('active', '=', True),
-            ('sale_ok', '=', True),
-            ('warehoue_id', '=', warehouse_id)]
+            ('sale_ok', '=', True)
+        ]
+
         response = {"status": 200, "data": []}
 
         response["data"] = products.sudo().parse_products(domain)

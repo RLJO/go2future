@@ -56,6 +56,16 @@
             </xpath>
 
             <xpath expr="//field[@name='lst_price']" position="after">
+                <button name="open_pricelist_rules" icon="fa-arrow-right" type="object"
+                        groups="product.group_product_pricelist" class="oe_inline">
+                    <field name="pricelist_item_count" attrs="{'invisible': [('pricelist_item_count', '=', 0)]}"/>
+                    <span attrs="{'invisible': [('pricelist_item_count', '=', 1)]}">
+                        Normas de precio
+                    </span>
+                    <span attrs="{'invisible': [('pricelist_item_count', '!=', 1)]}">
+                        Normas de precio
+                    </span>
+                </button>
                 <field name="taxes_id" widget="many2many_tags" options="{'no_create': True}" attrs="{'required': True }"/>
                 <field name="internal_tax" widget="float" placeholder="Internal Taxes" invisible="1"/>
             </xpath>

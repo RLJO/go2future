@@ -3,7 +3,10 @@
 from odoo import _, fields, models
 from odoo.exceptions import ValidationError
 import json
+import logging
 import requests
+
+_logger = logging.getLogger(__name__)
 
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
@@ -17,7 +20,9 @@ class SaleOrder(models.Model):
         amount_str = str(amount)
         amount_str_split = amount_str.split('.')
         if len(amount_str_split) > 1:
-            amount_formated = amount_str_split[0] + amount_str_split[1].zfill(2)
+            if len(amount_str_split[1]) == 1:
+                amount_str_split[1] += '0'
+            amount_formated = amount_str_split[0] + amount_str_split[1]
         else:
             amount_formated = amount
         return int(amount_formated)
@@ -87,10 +92,16 @@ class SaleOrder(models.Model):
                     'number': partner.vat
                 }
             }
-            response = requests.post(prisma_data['url'] + '/tokens', json=data, headers=headers)
+            try:
+                response = requests.post(prisma_data['url'] + '/tokens', json=data, headers=headers)
+            except Exception as e:
+                _logger.warning(_('Se encontro el siguiente error al intentar procesar la solicitud:\n%s') % (e))
+                raise ValidationError(_('Se encontro el siguiente error al intentar procesar la solicitud:\n%s') % (e))
             if response.status_code == 201:
+                _logger.warning(_('Token generado exitosamente'))
                 return response.json()
             else:
+                _logger.warning(_('Código de error %s, %s') % (response.status_code, response.text))
                 self.site_transaction_id = response.text
                 self.transaction_status = response.status_code
         return False
@@ -120,10 +131,16 @@ class SaleOrder(models.Model):
                 'payment_type': 'distributed',
                 'sub_payments': sellers
             }
-            response = requests.post(prisma_data['url'] + '/payments', json=data, headers=headers)
+            try:
+                response = requests.post(prisma_data['url'] + '/payments', json=data, headers=headers)
+            except Exception as e:
+                _logger.warning(_('Se encontro el siguiente error al intentar procesar la solicitud:\n%s') % (e))
+                raise ValidationError(_('Se encontro el siguiente error al intentar procesar la solicitud:\n%s') % (e))
             if response.status_code == 201:
+                _logger.warning(_('Envio de datos de pago satisfactorio'))
                 return response.json()
             else:
+                _logger.warning(_('Código de error %s, %s') % (response.status_code, response.text))
                 self.site_transaction_id = response.text
                 self.transaction_status = response.status_code
         return False
@@ -198,9 +215,21 @@ class SaleOrder(models.Model):
                 for line in status.sub_payments_ids:
                     line.unlink()
             if payment_id:
-                response = requests.get(prisma_data['url'] + '/payments/' + payment_id, headers=headers)
+                try:
+                    response = requests.get(prisma_data['url'] + '/payments/' + payment_id, headers=headers)
+                except Exception as e:
+                    _logger.warning(_('Se encontro el siguiente error al intentar procesar la solicitud:\n%s') % (e))
+                    raise ValidationError(_('Se encontro el siguiente error al intentar procesar la solicitud:\n%s') % (e))
+                self.site_transaction_id = ''
+                self.transaction_status = ''
                 if response.status_code == 200:
                     response = response.json()
+                    _logger.warning(_('Consulta de datos de pago satisfactorio'))
                     data = self.get_payment_data(response)
                     payment_prisma_status_obj.write(data)
+                else:
+                    response = response.json()
+                    _logger.warning(_('Código de error %s, %s') % (response.status_code, response.text))
+                    self.site_transaction_id = response.text
+                    self.transaction_status = response.status_code
         return True

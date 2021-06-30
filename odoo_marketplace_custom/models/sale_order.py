@@ -3,6 +3,9 @@
 from itertools import groupby
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError, AccessError
+import time
+import requests
+import json
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -128,7 +131,7 @@ class SaleOrder(models.Model):
                     for move in picking.move_lines.filtered(lambda m: m.state not in ['done', 'cancel']):
                         for move_line in move.move_line_ids:
                             move_line.qty_done = move_line.product_uom_qty
-                    picking.with_context(skip_immediate=True).button_validate()
+                    picking.with_context(skip_immediate=True, skip_backorder=True, skip_sms=True).button_validate()
             moves = self._create_invoices()
         return res
 
@@ -261,7 +264,84 @@ class SaleOrder(models.Model):
                 values={'self': move, 'origin': move.line_ids.mapped('sale_line_ids.order_id')},
                 subtype_id=self.env.ref('mail.mt_note').id
             )
-        return moves
+        if self.send_api_data(moves):
+            return moves
+
+    def send_api_data(self, moves):
+        for invoice in moves:
+            items = []
+            # date_order = str(invoice.invoice_date).split() if invoice.invoice_date else ''
+            inv_date = time.strftime("%d/%m/%y")
+            inv_time = time.strftime("%H:%M:%S")
+            api_path = invoice.seller_id.api_path
+            api_key = invoice.seller_id.api_key
+            name = invoice.partner_id.name.split()
+            first_name = ''
+            last_name = ''
+            if len(name) == 2:
+                first_name = name[0]
+                last_name = name[1]
+            if len(name) >= 3:
+                first_name = name[0] + ' ' + name[1]
+                last_name = name[2]
+                if len(name) == 4:
+                    last_name += ' ' + name[3]
+
+            for line in invoice.invoice_line_ids:
+
+                item = {
+                    "EAN13": line.product_id.barcode,
+                    "product": line.name,
+                    "sku_code": line.product_id.default_code,
+                    "quantity": line.quantity,
+                    "unit_price": line.price_unit,
+                    "subtotal": line.price_subtotal
+                }
+                items.append(item)
+
+            data = {
+                "id": invoice.id,
+                "name": first_name,
+                "last_name": last_name,
+                "consumer_address": self._get_address(self.partner_id),
+                "doc_type": invoice.partner_id.l10n_latam_identification_type_id.name,
+                "doc_nbr": invoice.partner_id.vat,
+                "minigo_code": invoice.warehouse_id.code,
+                "minigo_address": self._get_address(self.warehouse_id.partner_id),
+                "origin": self.name,
+                "date": inv_date,
+                "time": inv_time,
+                "items": items
+            }
+
+            # url = seller_id.api_path  # "http://dummy.minigo.store/orders"
+            # token = company_id.api_token
+            payload = json.dumps(data)
+            headers = {
+                'Content-Type': "application/json",
+                # 'Authorization': token,  # "Bearer WwfnXumP22Oknu80TyoifcWafS7RTWJSrPlGeFCM9D5pNfWcry",
+                # 'Authorization': "bearer " + api_key,
+                'Cache-Control': "no-cache",
+            }
+            try:
+                response = requests.request("POST", api_path, data=payload, headers=headers)
+            except Exception as exc:
+                raise UserError(_("Error inesperado %s") % exc)
+            if response.status_code != 200:
+                raise UserError(_("Error en API %s") % response.text)
+            print(response.text)
+            print(payload)
+            _logger.warning('Json enviado: (%s).', payload)
+        return True
+
+    def _get_address(self, partner_id):
+        address = partner_id.street + ', ' if partner_id.street else ''
+        address += partner_id.street2 + ', ' if partner_id.street2 else ''
+        address += partner_id.city + ', ' if partner_id.city else ''
+        address += partner_id.state_id.name + ', ' if partner_id.state_id.name else ''
+        address += 'CP: ' + partner_id.zip + ', ' if partner_id.zip else ''
+        address += partner_id.country_id.name if partner_id.country_id.name else ''
+        return address
 
 
 class SaleOrderLine(models.Model):

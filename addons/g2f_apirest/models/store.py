@@ -36,13 +36,23 @@ class ResStore(models.Model):
                                  ondelete='restrict')
     active = fields.Boolean(default=True)
 
-    def create_qr(self):
+    def create_qr(self, store_id, door_id):
+        """Create QR Code to Store.
+
+        Parameters:
+            store_id: str,
+            door_id: str
+        """
+
         qr = qrcode.QRCode(version=1,
                            error_correction=qrcode.constants.ERROR_CORRECT_H,
                            box_size=10,
                            border=4)
-        info = [self.id, self.name]
-        qr.add_data(info)
+        # info = [self.id, self.name]
+        # store_id = '1'
+        # door_id = '1'
+        data = '{"store_id": "'+store_id+'", "door_id": "'+door_id+'"}'
+        qr.add_data(data)
         qr.make(fit=True)
         imagen = qr.make_image()
         imagen.save('codigo.png')
