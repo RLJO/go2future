@@ -274,6 +274,7 @@ class SaleOrder(models.Model):
             inv_date = time.strftime("%d/%m/%y")
             inv_time = time.strftime("%H:%M:%S")
             api_path = invoice.seller_id.api_path
+            api_key = invoice.seller_id.api_key
             name = invoice.partner_id.name.split()
             first_name = ''
             last_name = ''
@@ -319,6 +320,7 @@ class SaleOrder(models.Model):
             headers = {
                 'Content-Type': "application/json",
                 # 'Authorization': token,  # "Bearer WwfnXumP22Oknu80TyoifcWafS7RTWJSrPlGeFCM9D5pNfWcry",
+                # 'Authorization': "bearer " + api_key,
                 'Cache-Control': "no-cache",
             }
             try:
