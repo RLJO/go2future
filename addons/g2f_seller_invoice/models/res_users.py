@@ -9,3 +9,4 @@ class ResUsers(models.Model):
     _inherit = 'res.users'
 
     api_path = fields.Char('API path')
+    api_key = fields.Char('API Key')

@@ -131,7 +131,7 @@ class SaleOrder(models.Model):
                     for move in picking.move_lines.filtered(lambda m: m.state not in ['done', 'cancel']):
                         for move_line in move.move_line_ids:
                             move_line.qty_done = move_line.product_uom_qty
-                    picking.with_context(skip_immediate=True).button_validate()
+                    picking.with_context(skip_immediate=True, skip_backorder=True, skip_sms=True).button_validate()
             moves = self._create_invoices()
         return res
 
@@ -274,6 +274,7 @@ class SaleOrder(models.Model):
             inv_date = time.strftime("%d/%m/%y")
             inv_time = time.strftime("%H:%M:%S")
             api_path = invoice.seller_id.api_path
+            api_key = invoice.seller_id.api_key
             name = invoice.partner_id.name.split()
             first_name = ''
             last_name = ''
@@ -319,6 +320,7 @@ class SaleOrder(models.Model):
             headers = {
                 'Content-Type': "application/json",
                 # 'Authorization': token,  # "Bearer WwfnXumP22Oknu80TyoifcWafS7RTWJSrPlGeFCM9D5pNfWcry",
+                # 'Authorization': "bearer " + api_key,
                 'Cache-Control': "no-cache",
             }
             try:
