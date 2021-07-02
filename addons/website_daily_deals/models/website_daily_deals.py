@@ -25,7 +25,7 @@ class WebsiteDeals(models.Model):
 		return deal_pricelist
 
 	name = fields.Char(string = 'Name', required=True)
-	title = fields.Char(string = 'Title', required=True, help="title of the deal to show in website",default="Get a heavy discount on this season")
+	title = fields.Char(string = 'Title', required=True, help="title of the deal to show in website",default="Obtenga un gran descuento en esta temporada")
 	show_title = fields.Boolean('Show Title In Website', help="the title will be displayed in the website and it is displayed only if 'What to Display in Website = Products Only'")
 	description = fields.Text(string = 'Description' , help="description of the deal to show in website")
 	state = fields.Selection([('draft','Draft'),('validated','In Progress'),('expired','Expired'),('cancel','Cancelled')],'State', default='draft')
