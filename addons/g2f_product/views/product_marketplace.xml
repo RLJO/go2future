@@ -42,7 +42,7 @@
                           <span>%</span>
                         </div>
                         <field name="desc_tag" attrs="{'required': [('status', 'in', ('pending', 'approved'))]}"/>
-                        <field name="desc_tag_2" attrs="{'required': [('status', 'in', ('pending', 'approved'))]}"/>
+                        <field name="desc_tag_2" string="Descripción 2 corta del TAG"/>
                       </group>
                     </group>
                 </page>
