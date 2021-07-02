@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="wk_seller_form_view_fe_custom" model="ir.ui.view" >
+            <field name="name">seller.form.fe.custom</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="odoo_marketplace.wk_seller_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='has_api']" position="replace">
+                    <t/>
+                </xpath>
+                <xpath expr="//field[@name='api_path']" position="replace">
+                    <t/>
+                </xpath>
+                <xpath expr="//notebook" position="inside">
+                    <page string="Facturación">
+                        <group>
+                            <group>
+                                <field name="electronic_invoice_type"/>
+                                <field name="fe_journal_id" attrs="{'invisible': [('electronic_invoice_type', 'not in', ['afip', 'no_afip'])], 'required': [('electronic_invoice_type', 'in', ['afip', 'no_afip'])]}"/>
+                                <div attrs="{'invisible': [('electronic_invoice_type','!=', 'afip')]}">
+                                    <span class="o_form_label">AFIP Web Services</span>
+                                    <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." groups="base.group_multi_company"/>
+                                    <div class="content-group">
+                                        <div class="mt16">
+                                            <field name="l10n_ar_afip_ws_environment" class="o_light_label"  widget="radio"/>
+                                        </div>
+                                    </div>
+                                    <div class="content-group">
+                                        <div class="mt16" groups="base.group_no_one">
+                                            <label for="l10n_ar_afip_ws_key" class="o_light_label"/>
+                                            <field name="l10n_ar_afip_ws_key_fname" invisible="1" force_save="1"/>
+                                            <field name="l10n_ar_afip_ws_key" widget="binary" class="oe_inline" filename="l10n_ar_afip_ws_key_fname"/>
+                                        </div>
+                                        <div class="mt16">
+                                            <label for="l10n_ar_afip_ws_crt" class="o_light_label"/>
+                                            <field name="l10n_ar_afip_ws_crt_fname" invisible="1" force_save="1"/>
+                                            <field name="l10n_ar_afip_ws_crt" widget="binary" class="oe_inline" filename="l10n_ar_afip_ws_crt_fname" help="Here need to upload the file with the Certificate that you download from AFIP"/>
+                                            <span attrs="{'invisible': [('l10n_ar_afip_ws_crt','!=', False)]}"> or</span>
+                                            <button name="l10n_ar_action_create_certificate_request" type="object" class="oe_link oe_inline" string="⇒ Generate Request" attrs="{'invisible': [('l10n_ar_afip_ws_crt','!=', False)]}" help="Click here to create a Resquest Certificate file. This file need to be uploaded to your AFIP Portal in order to ask AFIP for a certificate"/>
+                                        </div>
+                                        <div class="mt16">
+                                            <button name="l10n_ar_connection_test" type="object" class="oe_link oe_inline" string="⇒ Test Connections"/>
+                                        </div>
+                                        <div class="mt16" attrs="{'invisible': [('l10n_ar_afip_ws_crt','=', False)]}">
+                                            <button name="l10n_ar_action_create_certificate_request" type="object" class="oe_link oe_inline" string="Generate Renewal Request"/>
+                                        </div>
+                                        <div class="mt16" id="get_afip_certificate">
+                                            <a href="http://www.afip.gob.ar/ws/WSAA/wsaa_obtener_certificado_produccion.pdf" target="_blank">
+                                                How to get certificate for production?
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <field name="api_path"  widget="url" placeholder="Url para envio de solicitud de factura" attrs="{'invisible': [('electronic_invoice_type', 'not in', ['seller_api'])], 'required': [('electronic_invoice_type', 'in', ['seller_api'])]}"/>
+                            </group>
+                            <group>
+                                <field name="invoices_note"/>
+                            </group>
+                        </group>
+                        <group/>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>
