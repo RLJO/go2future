@@ -163,7 +163,7 @@ msgstr "Nro. Familia."
 #. module: g2f_product
 #: model:ir.model.fields.selection,name:g2f_product.selection__product_template__layout__f
 msgid "Frozen"
-msgstr "Frío"
+msgstr "Congelado"
 
 #. module: g2f_product
 #: model:ir.model.fields,field_description:g2f_product.field_product_product__gondola

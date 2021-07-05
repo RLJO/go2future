@@ -185,9 +185,13 @@ class SaleOrder(models.Model):
                     )
                     invoice_item_sequence += 1
                     seller_id = line.seller.id
+                    electronic_invoice_type = line.seller.electronic_invoice_type
+                    narration = line.seller.invoices_note
 
                 invoice_vals['seller_id'] = seller_id
                 invoice_vals['warehouse_id'] = order.warehouse_id.id
+                invoice_vals['electronic_invoice_type'] = electronic_invoice_type
+                invoice_vals['narration'] = narration or ''
                 invoice_vals['invoice_line_ids'] = invoice_line_vals
                 invoice_vals_list.append(invoice_vals)
 
@@ -269,6 +273,8 @@ class SaleOrder(models.Model):
 
     def send_api_data(self, moves):
         for invoice in moves:
+            if invoice.seller_id.electronic_invoice_type not in ['seller_api']:
+                continue
             items = []
             # date_order = str(invoice.invoice_date).split() if invoice.invoice_date else ''
             inv_date = time.strftime("%d/%m/%y")
