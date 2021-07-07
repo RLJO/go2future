@@ -80,6 +80,11 @@
             <field name="model">product.template</field>
             <field name="inherit_id" ref="product.product_template_search_view"/>
             <field name="arch" type="xml">
+				<filter name="services" position="before">
+					<field name="marketplace_seller_id" string="Seller" filter_domain="[('marketplace_seller_id', 'ilike', self)]"/>
+                	<filter string="Seller" name="seller" domain="[('id','=','marketplace_seller_id')]"/>
+					<separator/>
+                </filter>
                 <filter name="type" position="before">
                     <filter string="Seller" name="type" context="{'group_by': 'marketplace_seller_id'}"/>
                 </filter>
