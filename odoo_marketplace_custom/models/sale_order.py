@@ -185,9 +185,13 @@ class SaleOrder(models.Model):
                     )
                     invoice_item_sequence += 1
                     seller_id = line.seller.id
+                    electronic_invoice_type = line.seller.electronic_invoice_type
+                    narration = line.seller.invoices_note
 
                 invoice_vals['seller_id'] = seller_id
                 invoice_vals['warehouse_id'] = order.warehouse_id.id
+                invoice_vals['electronic_invoice_type'] = electronic_invoice_type
+                invoice_vals['narration'] = narration or ''
                 invoice_vals['invoice_line_ids'] = invoice_line_vals
                 invoice_vals_list.append(invoice_vals)
 
@@ -269,12 +273,14 @@ class SaleOrder(models.Model):
 
     def send_api_data(self, moves):
         for invoice in moves:
+            if invoice.seller_id.electronic_invoice_type not in ['seller_api']:
+                continue
             items = []
             # date_order = str(invoice.invoice_date).split() if invoice.invoice_date else ''
             inv_date = time.strftime("%d/%m/%y")
             inv_time = time.strftime("%H:%M:%S")
             api_path = invoice.seller_id.api_path
-            api_key = invoice.seller_id.api_key
+            # api_key = invoice.seller_id.api_key
             name = invoice.partner_id.name.split()
             first_name = ''
             last_name = ''
@@ -389,6 +395,10 @@ class MarketplaceVendor(models.Model):
 
     sale_order = fields.Many2one('sale.order')
     sale_order_line = fields.Many2one('sale.order.line')
+    move_id = fields.Many2one(
+        comodel_name='account.move',
+        string='Journal Entry',  readonly=True,
+        check_company=True)
     date = fields.Datetime('Fecha', default=lambda self: fields.Datetime.now())
     name = fields.Many2one(
         'res.partner', 'Vendor',
