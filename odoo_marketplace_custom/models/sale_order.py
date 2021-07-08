@@ -395,6 +395,10 @@ class MarketplaceVendor(models.Model):
 
     sale_order = fields.Many2one('sale.order')
     sale_order_line = fields.Many2one('sale.order.line')
+    move_id = fields.Many2one(
+        comodel_name='account.move',
+        string='Journal Entry',  readonly=True,
+        check_company=True)
     date = fields.Datetime('Fecha', default=lambda self: fields.Datetime.now())
     name = fields.Many2one(
         'res.partner', 'Vendor',
