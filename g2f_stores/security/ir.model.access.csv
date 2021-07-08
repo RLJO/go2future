@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_g2f_store_camera,g2f_stores.store_camera,g2f_stores.model_store_camera,base.group_user,1,1,1,1
+access_g2f_store_raspi,g2f_stores.store_raspi,g2f_stores.model_store_raspi,base.group_user,1,1,1,1
+access_g2f_store_sensor,g2f_stores.store_sensor,g2f_stores.model_store_sensor,base.group_user,1,1,1,1
+access_g2f_store_door,g2f_stores.store_door,g2f_stores.model_store_door,base.group_user,1,1,1,1
+access_g2f_store_camera_zone,g2f_stores.camera_zone,g2f_stores.model_camera_zone,base.group_user,1,1,1,1
