@@ -185,9 +185,13 @@ class SaleOrder(models.Model):
                     )
                     invoice_item_sequence += 1
                     seller_id = line.seller.id
+                    electronic_invoice_type = line.seller.electronic_invoice_type
+                    narration = line.seller.invoices_note
 
                 invoice_vals['seller_id'] = seller_id
                 invoice_vals['warehouse_id'] = order.warehouse_id.id
+                invoice_vals['electronic_invoice_type'] = electronic_invoice_type
+                invoice_vals['narration'] = narration or ''
                 invoice_vals['invoice_line_ids'] = invoice_line_vals
                 invoice_vals_list.append(invoice_vals)
 
@@ -264,75 +268,77 @@ class SaleOrder(models.Model):
                 values={'self': move, 'origin': move.line_ids.mapped('sale_line_ids.order_id')},
                 subtype_id=self.env.ref('mail.mt_note').id
             )
-        if self.send_api_data(moves):
-            return moves
-
-    def send_api_data(self, moves):
-        for invoice in moves:
-            items = []
-            # date_order = str(invoice.invoice_date).split() if invoice.invoice_date else ''
-            inv_date = time.strftime("%d/%m/%y")
-            inv_time = time.strftime("%H:%M:%S")
-            api_path = invoice.seller_id.api_path
-            api_key = invoice.seller_id.api_key
-            name = invoice.partner_id.name.split()
-            first_name = ''
-            last_name = ''
-            if len(name) == 2:
-                first_name = name[0]
-                last_name = name[1]
-            if len(name) >= 3:
-                first_name = name[0] + ' ' + name[1]
-                last_name = name[2]
-                if len(name) == 4:
-                    last_name += ' ' + name[3]
-
-            for line in invoice.invoice_line_ids:
-
-                item = {
-                    "EAN13": line.product_id.barcode,
-                    "product": line.name,
-                    "sku_code": line.product_id.default_code,
-                    "quantity": line.quantity,
-                    "unit_price": line.price_unit,
-                    "subtotal": line.price_subtotal
-                }
-                items.append(item)
-
-            data = {
-                "id": invoice.id,
-                "name": first_name,
-                "last_name": last_name,
-                "consumer_address": self._get_address(self.partner_id),
-                "doc_type": invoice.partner_id.l10n_latam_identification_type_id.name,
-                "doc_nbr": invoice.partner_id.vat,
-                "minigo_code": invoice.warehouse_id.code,
-                "minigo_address": self._get_address(self.warehouse_id.partner_id),
-                "origin": self.name,
-                "date": inv_date,
-                "time": inv_time,
-                "items": items
-            }
-
-            # url = seller_id.api_path  # "http://dummy.minigo.store/orders"
-            # token = company_id.api_token
-            payload = json.dumps(data)
-            headers = {
-                'Content-Type': "application/json",
-                # 'Authorization': token,  # "Bearer WwfnXumP22Oknu80TyoifcWafS7RTWJSrPlGeFCM9D5pNfWcry",
-                # 'Authorization': "bearer " + api_key,
-                'Cache-Control': "no-cache",
-            }
-            try:
-                response = requests.request("POST", api_path, data=payload, headers=headers)
-            except Exception as exc:
-                raise UserError(_("Error inesperado %s") % exc)
-            if response.status_code != 200:
-                raise UserError(_("Error en API %s") % response.text)
-            print(response.text)
-            print(payload)
-            _logger.warning('Json enviado: (%s).', payload)
-        return True
+        # if self.send_api_data(moves):
+        return moves
+    #
+    # def send_api_data(self, moves):
+    #     for invoice in moves:
+    #         if invoice.seller_id.electronic_invoice_type not in ['seller_api']:
+    #             continue
+    #         items = []
+    #         # date_order = str(invoice.invoice_date).split() if invoice.invoice_date else ''
+    #         inv_date = time.strftime("%d/%m/%y")
+    #         inv_time = time.strftime("%H:%M:%S")
+    #         api_path = invoice.seller_id.api_path
+    #         # api_key = invoice.seller_id.api_key
+    #         name = invoice.partner_id.name.split()
+    #         first_name = ''
+    #         last_name = ''
+    #         if len(name) == 2:
+    #             first_name = name[0]
+    #             last_name = name[1]
+    #         if len(name) >= 3:
+    #             first_name = name[0] + ' ' + name[1]
+    #             last_name = name[2]
+    #             if len(name) == 4:
+    #                 last_name += ' ' + name[3]
+    #
+    #         for line in invoice.invoice_line_ids:
+    #
+    #             item = {
+    #                 "EAN13": line.product_id.barcode,
+    #                 "product": line.name,
+    #                 "sku_code": line.product_id.default_code,
+    #                 "quantity": line.quantity,
+    #                 "unit_price": line.price_unit,
+    #                 "subtotal": line.price_subtotal
+    #             }
+    #             items.append(item)
+    #
+    #         data = {
+    #             "id": invoice.id,
+    #             "name": first_name,
+    #             "last_name": last_name,
+    #             "consumer_address": self._get_address(self.partner_id),
+    #             "doc_type": invoice.partner_id.l10n_latam_identification_type_id.name,
+    #             "doc_nbr": invoice.partner_id.vat,
+    #             "minigo_code": invoice.warehouse_id.code,
+    #             "minigo_address": self._get_address(self.warehouse_id.partner_id),
+    #             "origin": self.name,
+    #             "date": inv_date,
+    #             "time": inv_time,
+    #             "items": items
+    #         }
+    #
+    #         # url = seller_id.api_path  # "http://dummy.minigo.store/orders"
+    #         # token = company_id.api_token
+    #         payload = json.dumps(data)
+    #         headers = {
+    #             'Content-Type': "application/json",
+    #             # 'Authorization': token,  # "Bearer WwfnXumP22Oknu80TyoifcWafS7RTWJSrPlGeFCM9D5pNfWcry",
+    #             # 'Authorization': "bearer " + api_key,
+    #             'Cache-Control': "no-cache",
+    #         }
+    #         try:
+    #             response = requests.request("POST", api_path, data=payload, headers=headers)
+    #         except Exception as exc:
+    #             raise UserError(_("Error inesperado %s") % exc)
+    #         if response.status_code != 200:
+    #             raise UserError(_("Error en API %s") % response.text)
+    #         print(response.text)
+    #         print(payload)
+    #         _logger.warning('Json enviado: (%s).', payload)
+    #     return True
 
     def _get_address(self, partner_id):
         address = partner_id.street + ', ' if partner_id.street else ''
@@ -389,6 +395,10 @@ class MarketplaceVendor(models.Model):
 
     sale_order = fields.Many2one('sale.order')
     sale_order_line = fields.Many2one('sale.order.line')
+    move_id = fields.Many2one(
+        comodel_name='account.move',
+        string='Journal Entry',  readonly=True,
+        check_company=True)
     date = fields.Datetime('Fecha', default=lambda self: fields.Datetime.now())
     name = fields.Many2one(
         'res.partner', 'Vendor',

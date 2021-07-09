@@ -87,11 +87,11 @@ class ProductTemplate(models.Model):
             if len(record.dun14) != 14:
                 raise ValidationError(_('Dun14 length has be = 14'))
 
-    @api.constrains('barcode')
-    def _check_length_barcode(self):
-        for record in self:
-            if len(record.barcode) != 13:
-                raise ValidationError(_('Barcode length has be = 13'))
+    # @api.constrains('barcode')
+    # def _check_length_barcode(self):
+    #     for record in self:
+    #         if len(record.barcode) != 13:
+    #             raise ValidationError(_('Barcode length has be = 13'))
 
     @api.constrains('width')
     def _check_width(self):

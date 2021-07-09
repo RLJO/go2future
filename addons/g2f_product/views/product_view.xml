@@ -40,7 +40,7 @@
                               <span>%</span>
                             </div>
                             <field name="desc_tag"/>
-                            <field name="desc_tag_2"/>
+                            <field name="desc_tag_2" string="Descripción 2 corta del TAG"/>
                           </group>
                         </group>
                     </page>
@@ -284,6 +284,22 @@
                 </p>
             </field>
         </record>
+
+        <!--<record id="wk_product_template_search_form_view" model="ir.ui.view">
+            <field name="name">wk.product.template.search.form</field>
+            <field name="model">product.template</field>
+            <field name="mode">primary</field>
+            <field name="inherit_id" ref="product.product_template_search_view"/>
+            <field name="arch" type="xml">
+                <filter name="services" position="replace"/>
+                <xpath expr="//group/filter[@name='type']" position="before">
+                    &lt;!&ndash;<field name="marketplace_seller_id" context="{'seller': self}" filter_domain="[]"/>
+                    <separator/>
+                    <filter name="seller" string="Seller" domain="[]"/>&ndash;&gt;
+                    <filter string="Seller" name="seller" context="{'group_by': 'marketplace_seller_id'}"/>
+                </xpath>
+            </field>
+        </record>-->
 
         <menuitem id="marketing_structure_menu" parent="sale.menu_sale_config" name="Estructura mercadológica" groups=""/>
         <menuitem id="product_sector_menu" action="product_sector_action" parent="marketing_structure_menu" sequence="1" name="Sector" groups=""/>

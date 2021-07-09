@@ -160,8 +160,8 @@
                                                 <field name="qty_invoiced" invisible="context.get('hide_sale')"/>
                                             </div>
                                             <field name="price_unit"/>
-                                            <label for="discount" groups="sale.group_discount_per_so_line"/>
-                                            <div name="discount" groups="sale.group_discount_per_so_line">
+                                            <label for="discount"/>
+                                            <div name="discount">
                                                 <field name="discount" class="oe_inline"/> %%
                                             </div>
                                         </group>
@@ -211,8 +211,8 @@
                                     <field name="tax_id" widget="many2many_tags" domain="[('type_tax_use','=','sale'),('company_id','=',parent.company_id)]"
                                         readonly="1" invisible="1"/>
                                     <field name="discount" readonly="1"/>
-                                    <field name="price_subtotal" widget="monetary" readonly="1" groups="sale.group_show_price_subtotal"/>
-                                    <field name="price_total" widget="monetary" readonly="1" groups="sale.group_show_price_total"/>
+                                    <field name="price_subtotal" widget="monetary" readonly="1"/>
+                                    <field name="price_total" widget="monetary" readonly="1"/>
                                     <field name="state" invisible="1"/>
                                     <field name="invoice_status" invisible="1"/>
                                     <field name="customer_lead" invisible="1"/>
