@@ -4,9 +4,12 @@
 # pylint: disable=broad-except
 # -
 
+import base64
 from datetime import datetime
 import logging
 from odoo import models, fields
+from odoo.modules.module import get_module_resource
+
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -18,6 +21,11 @@ _logger = logging.getLogger(__name__)
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
+    def _default_image(self):
+        image_path = get_module_resource('g2f_apirest', 'static/src/img', 'default_image.png')
+        return base64.b64encode(open(image_path, 'rb').read())
+
+
     GENDER = [
         ('M', 'Male'),
         ('F', 'Female'),
@@ -26,6 +34,8 @@ class ResPartner(models.Model):
     lastname = fields.Char(string='Lastname')
     birthday = fields.Date(string='Birtday')
     gender = fields.Selection(GENDER, string='Gender')
+    document_obverse = fields.Image(default=_default_image)
+    document_reverse = fields.Image(default=_default_image)
 
     def age(self):
         age = 0
@@ -70,9 +80,9 @@ class ResPartner(models.Model):
 
         if country_name and state_name:
             domain_country = [('name', 'ilike', country_name)]
-            domain_state = [('name', 'ilike', state_name)]
-
             country = self.env['res.country'].search(domain_country)
+
+            domain_state = [('name', 'ilike', state_name), ('country_id', '=', country.id)]
             state = self.env['res.country.state'].search(domain_state)
 
             country_id = country.id if country else None
@@ -117,4 +127,12 @@ class ResPartner(models.Model):
                               'phone_code': country.phone_code,
                               })
         return countries
+
+    def create_payment_card(self, vals):
+        """Create new card credit to res.partner."""
+
+        payment_cards = self.env['payment.cards']
+        payment_cards.create(vals)
+        payment_cards._cr.commit()
+
 
