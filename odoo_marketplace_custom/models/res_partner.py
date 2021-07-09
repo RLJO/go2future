@@ -37,6 +37,7 @@ class ResPartner(models.Model):
     bank_id = fields.Many2one('res.bank', string='Bank')
     acc_number = fields.Char('Account Number')
     invoices_note = fields.Char(string=_('Invoices note'))
+    email_commission = fields.Char('email_commission')
 
     def update_warehouse_ids_domain(self, partner):
         warehouse_ids = []

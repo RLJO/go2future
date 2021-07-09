@@ -107,27 +107,28 @@
         <field name="name">marketplace.vendor.form</field>
         <field name="model">marketplace.vendor</field>
         <field name="arch" type="xml">
-            <tree string="Marketplace Vendor"  default_order='date'>
-                <field name="sale_order"/>
+            <tree string="Marketplace Vendor" editable="bottom" default_order='date' delete="false">
+                <field name="sale_order" class="btn-primary" readonly="1"/>
+                <field name="move_id" class="btn-primary" string="Factura" readonly="1"/>
                 <field name="sale_order_line" invisible="1"/>
-                <field name="date" />
-                <field name="name"/>
-                <field name="partner_id" />
-                <field name="product_id"/>
-                <field name="price_unit" widget="monetary" sum="PRECIO UNITARIO(B+I)"/>
-                <field name="amount_tax" widget="monetary" sum="IMPUESTOS" optional="show"/>
-                <field name="tax_id" widget="many2many_tags" optional="show"/>
-                <field name="total_tax" sum="% IVA Total" optional="show"/>
-                <field name="total_int" sum="% INT Total" optional="show"/>
-                <field name="price_subtotal"  widget="monetary" sum="BASE" optional="show"/>
-                <field name="sale_percentage_vendor" force_save="1" sum="% VENDEDOR" optional="show"/>
-                <field name="sale_percentage_go" sum="% MINIGO" optional="show"/>
-                <field name="amount_commission" widget="monetary" sum="VALOR COMISION" optional="show"/>
-                <field name="amount_tax_company" optional="show"/>
-                <field name="amount_tax_company_total" widget="monetary"  sum="VALOR IMPUESTO" optional="show"/>
+                <field name="date" readonly="1"/>
+                <field name="name" readonly="1"/>
+                <field name="partner_id" readonly="1"/>
+                <field name="product_id" readonly="1"/>
+                <field name="price_unit" widget="monetary" sum="PRECIO UNITARIO(B+I)" readonly="1"/>
+                <field name="amount_tax" widget="monetary" sum="IMPUESTOS" optional="show" readonly="1"/>
+                <field name="tax_id" widget="many2many_tags" optional="show" readonly="1"/>
+                <field name="total_tax" sum="% IVA Total" optional="show" readonly="1"/>
+                <field name="total_int" sum="% INT Total" optional="show" readonly="1"/>
+                <field name="price_subtotal"  widget="monetary" sum="BASE" optional="show" readonly="1"/>
+                <field name="sale_percentage_vendor" force_save="1" sum="% VENDEDOR" optional="show" readonly="1"/>
+                <field name="sale_percentage_go" sum="% MINIGO" optional="show" readonly="1"/>
+                <field name="amount_commission" widget="monetary" sum="VALOR COMISION" optional="show" readonly="1"/>
+                <field name="amount_tax_company" optional="show" readonly="1"/>
+                <field name="amount_tax_company_total" widget="monetary"  sum="VALOR IMPUESTO" optional="show" readonly="1"/>
                 <field name="amount_commission_amount_tax_company_total" widget="monetary"
-                      sum="TOTAL COMISION + IMP MINIGO"/>
-                <field name="total_vendor" widget="monetary" sum="TOTAL VENDEDOR"/>
+                      sum="TOTAL COMISION + IMP MINIGO" readonly="1"/>
+                <field name="total_vendor" widget="monetary" sum="TOTAL VENDEDOR" readonly="1"/>
             </tree>
         </field>
         </record>
