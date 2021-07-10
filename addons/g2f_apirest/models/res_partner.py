@@ -128,6 +128,14 @@ class ResPartner(models.Model):
                               })
         return countries
 
+    def get_payment_card(self):
+        """Get Payment Card data from unser passed in instance self from controllers."""
+
+        return self.payment_cards_ids.search_read([], ['id', 'name', 'card_number',
+                                                       'security_code', 'expiration_month',
+                                                       'expiration_year', 'card_type',
+                                                       'card_identification', 'state'])
+
     def create_payment_card(self, vals):
         """Create new card credit to res.partner."""
 

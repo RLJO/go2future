@@ -86,20 +86,29 @@ class ResUser(http.Controller):
                 'expiration_year': expiration_year, 'card_type': card_type,
                 'card_identification': card_identification, 'state': state}
 
-        # Agergar una TDC
-        if method == 'POST':
-            user = self._validate_user(login)
-            if user:
-                # crear aqui la TDC
-                vals.update({'partner_id': user.partner_id.id})
-                user.partner_id.create_payment_card(vals)
-
-                response = {"status": "200", "message": "OK"}
-                return dumps(response)
-
+        user = self._validate_user(login)
+        if not user:
             msg = _('User dont exists!')
             response = {'status': '400', 'messsage': msg}
             return dumps(response)
+
+        # Le agrega el partner a los parametros para enviar la solicitud
+        vals.update({'partner_id': user.partner_id.id})
+
+        if method == 'POST':
+            user.partner_id.create_payment_card(vals)
+            response = {"status": "200", "message": "OK"}
+            return dumps(response)
+
+        if method == 'PUT':
+            user.partner_id.update_payment_card(vals)
+            response = {"status": "200", "message": "OK"}
+            return dumps(response)
+
+        if method == 'GET':
+            response = user.partner_id.get_payment_card()
+            return dumps(response)
+
 
     @http.route(['/users/EnterStore'], type='json', auth='public',
                 methods=['POST'],
