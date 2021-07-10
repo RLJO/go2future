@@ -63,7 +63,7 @@ class ResUser(http.Controller):
         return dumps(list(res_partner.sudo().payment_cards_type_list()))
 
     @http.route(['/users/payment_cards'], type='json', auth='public',
-                methods=['POST', 'PUT', 'GET', 'DELETE'],
+                methods=['POST', 'PUT', 'PATCH', 'GET', 'DELETE'],
                 website=True, csrf=False)
     def payment_cards(self, **kw):
         """Endpoint when user create new TDC."""
@@ -72,6 +72,7 @@ class ResUser(http.Controller):
         kw = http.request.jsonrequest
 
         login = kw.get('login')
+        card_id = kw.get('id')
         card_name = kw.get('name')
         card_number = kw.get('card_number')
         security_code = kw.get('security_code')
@@ -79,7 +80,7 @@ class ResUser(http.Controller):
         expiration_year = kw.get('expiration_year')
         card_type = kw.get('card_type')
         card_identification = kw.get('card_identification')
-        state = kw.get('state')
+        state = kw.get('state') or 'disabled'
 
         vals = {'name': card_name, 'card_number': card_number,
                 'security_code': security_code, 'expiration_month': expiration_month,
@@ -97,12 +98,13 @@ class ResUser(http.Controller):
 
         if method == 'POST':
             user.partner_id.create_payment_card(vals)
-            response = {"status": "200", "message": "OK"}
+            response = {"status": "201", "message": "OK"}
             return dumps(response)
 
-        if method == 'PUT':
-            user.partner_id.update_payment_card(vals)
-            response = {"status": "200", "message": "OK"}
+        if method == 'PATCH':
+            kw.pop('login')
+            user.partner_id.update_payment_card(kw)
+            response = {"status": "201", "message": "OK"}
             return dumps(response)
 
         if method == 'GET':

@@ -143,6 +143,13 @@ class ResPartner(models.Model):
         payment_cards.create(vals)
         payment_cards._cr.commit()
 
+    def update_payment_card(self, vals):
+        """Update card credit to res.partner."""
+
+        payment_card = self.payment_cards_ids.search([('id', '=', vals.get('id'))])
+        payment_card.write(vals)
+        payment_card._cr.commit()
+
     def payment_cards_type_list(self):
         """Get payment_cards_type_list and return a generators list."""
 
