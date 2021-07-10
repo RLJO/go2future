@@ -135,4 +135,8 @@ class ResPartner(models.Model):
         payment_cards.create(vals)
         payment_cards._cr.commit()
 
+    def payment_cards_type_list(self):
+        """Get payment_cards_type_list and return a generators list."""
+
+        return ((f.name, f.payment_method_id) for f in self.env['payment.cards.types'].search([]))
 

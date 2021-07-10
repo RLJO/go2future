@@ -60,7 +60,7 @@ class ResUser(http.Controller):
 
         method = http.request.httprequest.method
         res_partner = http.request.env['res.partner']
-        return dumps([(f.name, f.payment_method_id) for f in http.request.env['payment.cards.types'].sudo().search([])])
+        return dumps(list(res_partner.sudo().payment_cards_type_list()))
 
     @http.route(['/users/payment_cards'], type='json', auth='public',
                 methods=['POST', 'PUT', 'GET', 'DELETE'],
