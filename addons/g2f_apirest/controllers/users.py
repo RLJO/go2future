@@ -101,6 +101,12 @@ class ResUser(http.Controller):
             response = {"status": "201", "message": "OK"}
             return dumps(response)
 
+        if method == 'DELETE':
+            kw.pop('login')
+            user.partner_id.delete_payment_card(kw)
+            response = {"status": "201", "message": "OK"}
+            return dumps(response)
+
         if method == 'PATCH':
             kw.pop('login')
             user.partner_id.update_payment_card(kw)

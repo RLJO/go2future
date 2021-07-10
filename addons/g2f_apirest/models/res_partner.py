@@ -150,6 +150,13 @@ class ResPartner(models.Model):
         payment_card.write(vals)
         payment_card._cr.commit()
 
+    def delete_payment_card(self, vals):
+        """Delete card credit to res.partner."""
+
+        payment_card = self.payment_cards_ids.search([('id', '=', vals.get('id'))])
+        payment_card.unlink()
+        payment_card._cr.commit()
+
     def payment_cards_type_list(self):
         """Get payment_cards_type_list and return a generators list."""
 
