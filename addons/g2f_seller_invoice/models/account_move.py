@@ -15,6 +15,7 @@ class AccountMove(models.Model):
     ei_barcode = fields.Binary('Invoice barcode')
     ei_xml_file = fields.Text('XML file')
     ei_pdf = fields.Binary('PDF invoice')
+    seller_respond = fields.Text('Seller respond')
 
     @api.model
     def _invoice_confirm(self, vals):

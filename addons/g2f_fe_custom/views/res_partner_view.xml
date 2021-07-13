@@ -53,7 +53,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <field name="api_path"  widget="url" placeholder="Url para envio de solicitud de factura" attrs="{'invisible': [('electronic_invoice_type', 'not in', ['seller_api'])], 'required': [('electronic_invoice_type', 'in', ['seller_api'])]}"/>
+                                <field name="seller_api_path" widget="url" placeholder="Url para envio de solicitud de factura" attrs="{'invisible': [('electronic_invoice_type', 'not in', ['seller_api'])], 'required': [('electronic_invoice_type', 'in', ['seller_api'])]}"/>
+                                <field name="seller_api_key" placeholder="Token para envio de solicitud de factura" attrs="{'invisible': [('electronic_invoice_type', 'not in', ['seller_api'])], 'required': [('electronic_invoice_type', 'in', ['seller_api'])]}"/>
                             </group>
                             <group>
                                 <field name="invoices_note"/>

@@ -5,8 +5,8 @@ from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 
 
-class ResUsers(models.Model):
-    _inherit = 'res.users'
+class ResPartner(models.Model):
+    _inherit = 'res.partner'
 
-    api_path = fields.Char('API path')
-    api_key = fields.Char('API Key')
+    seller_api_path = fields.Char(string='Seller API path')
+    seller_api_key = fields.Char(string='Seller API Key')

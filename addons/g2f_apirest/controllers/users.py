@@ -52,6 +52,72 @@ class ResUser(http.Controller):
         res_partner = http.request.env['res.partner']
         return dumps(res_partner.sudo().list_identification_type())
 
+    @http.route(['/users/payment_cards_types'], type='http', auth='public',
+                methods=['GET'],
+                website=True, csrf=False)
+    def payment_cards_type_list(self, **kw):
+        """Endpoint return payment_cards_type_list for app moblie."""
+
+        method = http.request.httprequest.method
+        res_partner = http.request.env['res.partner']
+        return dumps(list(res_partner.sudo().payment_cards_type_list()))
+
+    @http.route(['/users/payment_cards'], type='json', auth='public',
+                methods=['POST', 'PUT', 'PATCH', 'GET', 'DELETE'],
+                website=True, csrf=False)
+    def payment_cards(self, **kw):
+        """Endpoint when user create new TDC."""
+
+        method = http.request.httprequest.method
+        kw = http.request.jsonrequest
+
+        login = kw.get('login')
+        card_id = kw.get('id')
+        card_name = kw.get('name')
+        card_number = kw.get('card_number')
+        security_code = kw.get('security_code')
+        expiration_month = kw.get('expiration_month')
+        expiration_year = kw.get('expiration_year')
+        card_type = kw.get('card_type')
+        card_identification = kw.get('card_identification')
+        state = kw.get('state') or 'disabled'
+
+        vals = {'name': card_name, 'card_number': card_number,
+                'security_code': security_code, 'expiration_month': expiration_month,
+                'expiration_year': expiration_year, 'card_type': card_type,
+                'card_identification': card_identification, 'state': state}
+
+        user = self._validate_user(login)
+        if not user:
+            msg = _('User dont exists!')
+            response = {'status': '400', 'messsage': msg}
+            return dumps(response)
+
+        # Le agrega el partner a los parametros para enviar la solicitud
+        vals.update({'partner_id': user.partner_id.id})
+
+        if method == 'POST':
+            user.partner_id.create_payment_card(vals)
+            response = {"status": "201", "message": "OK"}
+            return dumps(response)
+
+        if method == 'DELETE':
+            kw.pop('login')
+            user.partner_id.delete_payment_card(kw)
+            response = {"status": "201", "message": "OK"}
+            return dumps(response)
+
+        if method == 'PATCH':
+            kw.pop('login')
+            user.partner_id.update_payment_card(kw)
+            response = {"status": "201", "message": "OK"}
+            return dumps(response)
+
+        if method == 'GET':
+            response = user.partner_id.get_payment_card()
+            return dumps(response)
+
+
     @http.route(['/users/EnterStore'], type='json', auth='public',
                 methods=['POST'],
                 website=True, csrf=False)
@@ -123,15 +189,6 @@ class ResUser(http.Controller):
         name = kw.get('name')
         lastname = kw.get('lastname')
 
-        # Aqui se toman los datos de la tarjeta de credito
-        # name
-        # card_number
-        # security_code
-        # expiration_month
-        # expiration_year
-        # card_type
-        # card_identification
-        # state
 
         user = self._validate_user(login)
         if not user:
@@ -166,6 +223,10 @@ class ResUser(http.Controller):
         country = params.get('country')
         country_state = params.get('country_state')
         state_city = params.get('state_city')
+        image_1920 = params.get('image_1920')
+        document_obverse = params.get('document_obverse')
+        document_reverse = params.get('document_reverse')
+
 
         user = http.request.env['res.users']
         if self.res_partner.sudo().validate_user(login) or \
@@ -193,7 +254,9 @@ class ResUser(http.Controller):
             data = {'birthday': birthday, 'gender': gender, 'mobile': mobile,
                     'street': address, 'l10n_latam_identification_type_id': identification_type_,
                     'vat': vat, 'country_id': country_id, 'state_id': state_id,
-                    'city': state_city}
+                    'city': state_city, 'l10n_ar_afip_responsibility_type_id': 5,
+                    'image_1920': image_1920, 'document_obverse': document_obverse,
+                    'document_reverse': document_reverse, 'lang': 'es_AR'}
             self._update_res_partner(login, data)
 
             response = {'status': '200', 'message': 'ok'}
