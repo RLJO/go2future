@@ -21,7 +21,8 @@ class AccountMove(models.Model):
         ('seller_api', _('API Seller')),
         ('afip', _('AFIP')),
         ('no_afip', _('No AFIP'))
-    ], string=_('Invoicing Type'), force_save=True)
+    ], string=_('Invoicing Type'), force_save=True, default='afip')
+    company_invoicing = fields.Boolean(string=_('¿Facturación propia?'), default=False)
 
     def l10n_ar_verify_on_afip(self):
         for inv in self:
@@ -274,7 +275,7 @@ class AccountMove(models.Model):
         validated = error_invoice = self.env['account.move']
         for inv in sale_ar_edi_invoices:
 
-            if inv.electronic_invoice_type not in ['afip']:
+            if not inv.company_invoicing and inv.electronic_invoice_type not in ['afip']:
                 validated += inv._post_data()
                 continue
 
@@ -283,7 +284,11 @@ class AccountMove(models.Model):
                 validated += inv._post_data()
                 continue
 
-            client, auth, transport = inv.seller_id._l10n_ar_get_connection(inv.journal_id.l10n_ar_afip_ws)._get_client(return_transport=True)
+            if inv.company_invoicing:
+                client, auth, transport = inv.company_id._l10n_ar_get_connection(inv.journal_id.l10n_ar_afip_ws)._get_client(return_transport=True)
+                inv.electronic_invoice_type = 'afip'
+            else:
+                client, auth, transport = inv.seller_id._l10n_ar_get_connection(inv.journal_id.l10n_ar_afip_ws)._get_client(return_transport=True)
             validated += inv._post_data()
             return_info = inv._l10n_ar_do_afip_ws_request_cae(client, auth, transport)
             if return_info:

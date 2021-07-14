@@ -10,6 +10,9 @@
                 <xpath expr="//field[@name='seller_id']" position="after">
                     <field name="electronic_invoice_type" readonly="1"/>
                 </xpath>
+                <xpath expr="//field[@name='invoice_date']/.." position="inside">
+                    <field name="company_invoicing"/>
+                </xpath>
             </field>
         </record>
 
