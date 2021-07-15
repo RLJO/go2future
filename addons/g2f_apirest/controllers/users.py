@@ -62,8 +62,29 @@ class ResUser(http.Controller):
         res_partner = http.request.env['res.partner']
         return dumps(list(res_partner.sudo().payment_cards_type_list()))
 
+    @http.route(['/users/payment_cards'], type='http', auth='public',
+                methods=['GET'],
+                website=True, csrf=False)
+    def get_payment_cards(self, **kw):
+        """Endpoint when user get list TDC."""
+
+        method = http.request.httprequest.method
+
+        login = kw.get('login') 
+        user = self._validate_user(login)
+
+        if not user:
+            msg = _('User dont exists!')
+            response = {'status': '400', 'messsage': msg}
+            return dumps(response)
+ 
+        if method == 'GET':
+            response = user.partner_id.get_payment_card()
+            return dumps(response)
+ 
+
     @http.route(['/users/payment_cards'], type='json', auth='public',
-                methods=['POST', 'PUT', 'PATCH', 'GET', 'DELETE'],
+                methods=['POST', 'PUT', 'PATCH', 'DELETE'],
                 website=True, csrf=False)
     def payment_cards(self, **kw):
         """Endpoint when user create new TDC."""
@@ -112,11 +133,6 @@ class ResUser(http.Controller):
             user.partner_id.update_payment_card(kw)
             response = {"status": "201", "message": "OK"}
             return dumps(response)
-
-        if method == 'GET':
-            response = user.partner_id.get_payment_card()
-            return dumps(response)
-
 
     @http.route(['/users/EnterStore'], type='json', auth='public',
                 methods=['POST'],
