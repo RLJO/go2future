@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="store_door_form_view" model="ir.ui.view">
+            <field name="name">g2f_stores.store_door.form</field>
+            <field name="model">store.door</field>
+            <field name="arch" type="xml">
+                <form string="Puertas">
+                    <sheet>
+                        <group>
+                            <group name="data" string="Datos Puerta">
+                                <field name="name"/>
+                                <field name="store_id"/>
+                                <field name="code"/>
+                            </group>
+                            <group name="qr" string="Codigo QR">
+                                <field name="qrcode"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="store_door_tree_view" model="ir.ui.view">
+            <field name="name">g2f_stores.store_door.tree</field>
+            <field name="model">store.door</field>
+            <field name="arch" type="xml">
+                <tree string="Puertas">
+                    <field name="name"/>
+                    <field name="code"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="store_door_search_view" model="ir.ui.view">
+            <field name="name">g2f_stores.store_door.search</field>
+            <field name="model">store.door</field>
+            <field name="arch" type="xml">
+                <search string="Puertas">
+                    <field name="name"/>
+                    <field name="store_id" string="Tienda"/>
+                    <group expand="1" string="Group By">
+                        <filter string="Tienda" name="store_id" context="{'group_by':'store_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+<!--        <record id="store_door_act_window" model="ir.actions.act_window">-->
+<!--            <field name="name">Puertas</field>-->
+<!--            <field name="type">ir.actions.act_window</field>-->
+<!--            <field name="res_model">store.door</field>-->
+<!--            <field name="view_type">form</field>-->
+<!--            <field name="view_mode">tree,form</field>-->
+<!--            <field name="help" type="html">-->
+<!--                <p class="oe_view_nocontent_create">-->
+<!--                    There is no examples click here to add new Puertas.-->
+<!--                </p>-->
+<!--            </field>-->
+<!--        </record>-->
+
+<!--        <menuitem name="Puertas" id="store_door_menu" parent="your_root_menu" action="store_door_act_window"/>-->
+
+    </data>
+</odoo>

@@ -24,7 +24,7 @@ class SaleOrderCart(http.Controller):
             return dumps(response)
 
 
-    @http.route(['/user_cart'], type='json', auth='public',
+    @http.route(['/cart_update'], type='json', auth='public',
             methods=['GET', 'POST'], website=True, csrf=False)
     def user_cart_from_vision(self, **kw):
         method = http.request.httprequest.method
