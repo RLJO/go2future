@@ -59,21 +59,16 @@ class Product(http.Controller):
 
         return dumps(response)
 
-    def get_product_list(self, warehouse_code):
+    def get_product_list(self, location_code):
         """Get product list."""
-        # Considerar filtrar por ultima fecha de actualizacion del Producto
-        # Considerar devolver los campos que ellos necesiten
-
-        products = http.request.env['product.product']
-        domain = [
-            ('seller_ids.warehouse_id.code', '=', warehouse_code),
-            ('active', '=', True),
-            ('sale_ok', '=', True)
-        ]
 
         response = {"status": 200, "data": []}
 
-        response["data"] = products.sudo().parse_products(domain)
+        products = http.request.env['product.product']
+        get_products = products.sudo().search_product_by_location_code(location_code)
+        product_list_id = [p.id for p in get_products]
+        domain = [('id', 'in', product_list_id)]
+        response["data"] = products.sudo().search_read(domain, ['id', 'name', 'weight'])
         return dumps(response['data'])
 
     @http.route(['/update_gondola'], type='http', auth='public',
