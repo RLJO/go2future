@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="product_store_form_view" model="ir.ui.view">
+            <field name="name">product.store.form</field>
+            <field name="model">product.store</field>
+            <field name="arch" type="xml">
+                <form string="Products in store">
+                    <sheet>
+                        <group>
+                            <div class="oe_title">
+                                <h1>
+                                    <label for="product_id" class="oe_edit_only"/>
+                                    <field name="product_id"/>
+                                </h1>
+                            </div>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="gondola_id"/>
+                                <field name="line"/>
+                                <field name="shelf_id"/>
+                                <field name="weight_total_prod"/>
+                            </group>
+                            <group>
+                                <field name="ini_position"/>
+                                <field name="end_position"/>
+                                <field name="und_front"/>
+                                <field name="und_fund"/>
+                                <field name="und_high"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="product_store_tree_view" model="ir.ui.view">
+            <field name="name">product.store.tree</field>
+            <field name="model">product.store</field>
+            <field name="arch" type="xml">
+                <tree string="Products in store">
+                    <field name="product_id"/>
+                    <field name="gondola_id"/>
+                    <field name="line"/>
+                    <field name="shelf_id"/>
+                    <field name="weight_total_prod"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="product_store_search_view" model="ir.ui.view">
+            <field name="name">product.store.search</field>
+            <field name="model">product.store</field>
+            <field name="arch" type="xml">
+                <search string="Product in store">
+                    <field name="store_id"/>
+                    <group expand="1" string="Group By">
+                        <filter string="Tienda" name="store_id" domain="[]" context="{'group_by':'store_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="product_store_act_window" model="ir.actions.act_window">
+            <field name="name">Product in store</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.store</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    There is no examples click here to add new Product in store.
+                </p>
+            </field>
+        </record>
+
+        <menuitem name="Productos en Tienda" id="product_store_menu" parent="g2f_stores_config" action="product_store_act_window"/>
+
+    </data>
+</odoo>
