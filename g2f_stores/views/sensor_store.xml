@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="store_sensor_form_view" model="ir.ui.view">
+            <field name="name">store.sensor.form</field>
+            <field name="model">store.sensor</field>
+            <field name="arch" type="xml">
+                <form string="ModelTitle">
+                    <sheet>
+                        <group>
+                            <group name="info" string="Información">
+                                <field name="name" size="1"/>
+                                <field name="zone_id" />
+                                <field name="pi_id" readonly="1"/>
+                                <field name="store_id" readonly="1"/>
+                            </group>
+                            <group name="config" string="Configurar Sensor">
+                                <field name="product_weight"/>
+                                <field name="calibration_factor"/>
+                                <field name="dt_pin"/>
+                                <field name="sck_pin"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="store_sensor_tree_view" model="ir.ui.view">
+            <field name="name">store.sensor.tree</field>
+            <field name="model">store.sensor</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" size="1"/>
+                    <field name="pi_id"/>
+                    <field name="zone_id"/>
+                    <field name="store_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="store_sensor_search_view" model="ir.ui.view">
+            <field name="name">store.sensor.search</field>
+            <field name="model">store.sensor</field>
+            <field name="arch" type="xml">
+                <search string="ModelTitle">
+                    <field name="pi_id"/>
+                    <field name="zone_id"/>
+                    <field name="store_id"/>
+                    <group expand="1" string="Group By">
+                        <filter string="Tienda" name="store_id" domain="[]" context="{'group_by':'store_id'}"/>
+                        <filter string="Zona" name="zone_id" domain="[]" context="{'group_by':'zone_id'}"/>
+                        <filter string="Pi" name="pi_id" domain="[]" context="{'group_by':'pi_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="store_sensor_act_window" model="ir.actions.act_window">
+            <field name="name">ModelTitle</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">store.sensor</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    There is no examples click here to add new ModelTitle.
+                </p>
+            </field>
+        </record>
+
+<!--        <menuitem name="ModelTitle" id="store_sensor_menu" parent="your_root_menu" action="store_sensor_act_window"/>-->
+
+    </data>
+</odoo>

@@ -6,112 +6,42 @@
             <field name="model">stock.warehouse</field>
             <field name="inherit_id" ref="stock.view_warehouse"/>
             <field name="arch" type="xml">
+                <xpath expr="//field[@name='code']" position="after">
+                    <field name="direccion_local"/>
+                </xpath>
+                <xpath expr="//field[@name='code']" position="attributes">
+                    <attribute name="string">Código</attribute>
+                </xpath>
+                <xpath expr="//field[@name='partner_id']" position="attributes">
+                    <attribute name="string">Compañía</attribute>
+                </xpath>
                 <xpath expr="//notebook" position="inside">
                     <page name="tiendas" string="Configuracion de Tienda">
-                        <group>
-                            <group name="store" string="Datos tienda">
-                                <field name="direccion_local"/>
-                            </group>
-                            <group name="api_url" string="Connf API">
-                                <field name="vision_url"/>
-                                <field name="access_control_url"/>
-                                <field name="plano_url"/>
-                            </group>
+                        <group name="api_url" string="Connf API">
+                            <field name="vision_url"/>
+                            <field name="access_control_url"/>
+                            <field name="plano_url"/>
                         </group>
                     </page>
                     <page name="config_door" string="Control de Accesos">
                         <group name="doors" string="Puertas">
-                            <field name="door_ids" nolabel="1">
-                                <tree>
-                                    <field name="name"  string="ID Puerta"/>
-                                    <field name="code" readonly="1" string="Valor QR"/>
-                                    <field name="qrcode" widget="image"/>
-                                </tree>
-                                <form>
-                                    <group>
-                                        <group>
-                                            <field name="name"  string="ID Puerta"/>
-                                            <field name="code" readonly="1" string="Valor QR"/>
-                                            <field name="store_id" readonly="1"/>
-                                        </group>
-                                        <group>
-                                            <field name="qrcode" widget="image" readonly="1"/>
-                                        </group>
-                                    </group>
-                                </form>
-                            </field>
+                            <field name="door_ids" nolabel="1"/>
                         </group>
                     </page>
                     <page name="config_vision" string="Vision">
                         <group name="cameras" string="Camaras">
-                            <field name="cameras_ids" nolabel="1">
-                                <tree>
-                                    <field name="name"/>
-                                    <field name="device_url"/>
-                                    <field name="port_number"/>
-                                    <field name="ai_unit"/>
-                                </tree>
-                                <form>
-                                    <group>
-                                        <group>
-                                            <field name="name"/>
-                                            <field name="device_url" default="https://"/>
-                                            <field name="port_number"/>
-                                        </group>
-                                        <group>
-                                            <field name="ai_unit"/>
-                                            <field name="store_id" readonly="1"/>
-                                        </group>
-                                    </group>
-                                </form>
-                            </field>
+                            <field name="cameras_ids" nolabel="1"/>
                         </group>
                     </page>
                     <page name="config_sensor" string="Sensores">
                         <group name="raspi" string="Raspberrys">
-                            <field name="raspi_ids" nolabel="1">
-                                <tree>
-                                    <field name="name"/>
-                                    <field name="ip_add"/>
-                                    <field name="sensor_ids"/>
-                                </tree>
-                                <form>
-                                    <group>
-                                        <group>
-                                            <field name="name"/>
-                                            <field name="ip_add"/>
-                                            <field name="store_id" readonly="1"/>
-                                        </group>
-                                        <group>
-                                            <field name="sensor_ids">
-                                                <tree>
-                                                    <field name="name"/>
-                                                    <field name="product_weight"/>
-                                                    <field name="calibration_factor"/>
-                                                    <field name="dt_pin"/>
-                                                    <field name="sck_pin"/>
-                                                    <field name="pi_id"/>
-                                                    <field name="zone_id"/>
-                                                    <field name="store_id"/>
-                                                </tree>
-                                                <form>
-                                                    <field name="name"/>
-                                                    <field name="product_weight"/>
-                                                    <field name="calibration_factor"/>
-                                                    <field name="dt_pin"/>
-                                                    <field name="sck_pin"/>
-                                                    <field name="zone_id" />
-                                                    <field name="pi_id" readonly="1"/>
-                                                    <field name="store_id" readonly="1"/>
-                                                </form>
-                                            </field>
-                                        </group>
-                                    </group>
-                                </form>
-                            </field>
+                            <field name="raspi_ids" nolabel="1"/>
                         </group>
                     </page>
                     <page name="config_plano" string="Planogrametría">
+                        <group name="plano" string="Planogrametria">
+                            <field name="product_plano_ids" nolabel="1"/>
+                        </group>
                     </page>
                 </xpath>
             </field>

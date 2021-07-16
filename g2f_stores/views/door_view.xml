@@ -11,11 +11,12 @@
                         <group>
                             <group name="data" string="Datos Puerta">
                                 <field name="name"/>
-                                <field name="store_id"/>
+                                <field name="type"/>
                                 <field name="code"/>
+                                <field name="store_id" readonly="1"/>
                             </group>
                             <group name="qr" string="Codigo QR">
-                                <field name="qrcode"/>
+                                <field name="qrcode" widget="image"/>
                             </group>
                         </group>
                     </sheet>
@@ -28,8 +29,10 @@
             <field name="model">store.door</field>
             <field name="arch" type="xml">
                 <tree string="Puertas">
-                    <field name="name"/>
-                    <field name="code"/>
+                    <field name="name"  string="ID Puerta"/>
+                    <field name="code" readonly="1" string="Valor QR"/>
+                    <field name="type"/>
+                    <field name="qrcode" widget="image"/>
                 </tree>
             </field>
         </record>
@@ -48,18 +51,17 @@
             </field>
         </record>
 
-<!--        <record id="store_door_act_window" model="ir.actions.act_window">-->
-<!--            <field name="name">Puertas</field>-->
-<!--            <field name="type">ir.actions.act_window</field>-->
-<!--            <field name="res_model">store.door</field>-->
-<!--            <field name="view_type">form</field>-->
-<!--            <field name="view_mode">tree,form</field>-->
-<!--            <field name="help" type="html">-->
-<!--                <p class="oe_view_nocontent_create">-->
-<!--                    There is no examples click here to add new Puertas.-->
-<!--                </p>-->
-<!--            </field>-->
-<!--        </record>-->
+        <record id="store_door_act_window" model="ir.actions.act_window">
+            <field name="name">Puertas de tienda</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">store.door</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Please click here to add new Door in the store.
+                </p>
+            </field>
+        </record>
 
 <!--        <menuitem name="Puertas" id="store_door_menu" parent="your_root_menu" action="store_door_act_window"/>-->
 
