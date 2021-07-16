@@ -81,7 +81,7 @@
             </field>
         </record>
 
-<!--        <menuitem name="Raspberry" id="camera_zone_menu" parent="your_root_menu" action="camera_zone_act_window"/>-->
+        <menuitem name="Zonas de Camaras" id="camera_zone_menu" parent="g2f_stores_config" action="camera_zone_act_window"/>
 
     </data>
 </odoo>

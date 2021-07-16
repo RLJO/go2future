@@ -75,7 +75,7 @@
             </field>
         </record>
 
-<!--        <menuitem name="Product in store" id="product_store_menu" parent="your_root_menu" action="product_store_act_window"/>-->
+        <menuitem name="Productos en Tienda" id="product_store_menu" parent="g2f_stores_config" action="product_store_act_window"/>
 
     </data>
 </odoo>

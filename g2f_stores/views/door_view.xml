@@ -63,7 +63,7 @@
             </field>
         </record>
 
-<!--        <menuitem name="Puertas" id="store_door_menu" parent="your_root_menu" action="store_door_act_window"/>-->
+        <menuitem name="Puertas" id="store_door_menu" parent="g2f_stores_config" action="store_door_act_window"/>
 
     </data>
 </odoo>

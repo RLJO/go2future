@@ -70,7 +70,7 @@
             </field>
         </record>
 
-<!--        <menuitem name="Cameras" id="store.camera_menu" parent="your_root_menu" action="store.camera_act_window"/>-->
+        <menuitem name="Cameras" id="store_camera_menu" parent="g2f_stores_config" action="store_camera_act_window"/>
 
     </data>
 </odoo>

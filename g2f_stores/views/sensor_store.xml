@@ -69,7 +69,7 @@
             </field>
         </record>
 
-<!--        <menuitem name="ModelTitle" id="store_sensor_menu" parent="your_root_menu" action="store_sensor_act_window"/>-->
+        <menuitem name="Estantes - Sensores" id="store_sensor_menu" parent="g2f_stores_config" action="store_sensor_act_window"/>
 
     </data>
 </odoo>
