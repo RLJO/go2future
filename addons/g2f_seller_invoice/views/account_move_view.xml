@@ -8,13 +8,16 @@
               <xpath expr="//notebook" position="inside">
                   <page name="einvoice" string="Electronic Invoice">
                       <group>
-                          <field name="einvoice"/>
-                          <field name="date_einvoice"/>
-                          <field name="cae_number"/>
-                          <field name="ei_qr_code" widget="url"/>
+                          <field name="einvoice" readonly="1"/>
+                          <field name="date_einvoice" readonly="1"/>
+                          <field name="cae_number" readonly="1"/>
+                          <field name="ei_qr_code" widget="url" readonly="1"/>
 <!--                          <field name="ei_barcode"/>-->
-                          <field name="ei_xml_file" widget="ace" options="{'mode': 'xml'}"/>
-                          <field name="ei_pdf"/>
+                          <field name="ei_xml_file" widget="ace" options="{'mode': 'xml'}" readonly="1"/>
+                          <field name="ei_pdf" readonly="1"/>
+                      </group>
+                      <group>
+                          <field name="seller_respond" readonly="1"/>
                       </group>
                   </page>
               </xpath>

@@ -185,9 +185,13 @@ class SaleOrder(models.Model):
                     )
                     invoice_item_sequence += 1
                     seller_id = line.seller.id
+                    electronic_invoice_type = line.seller.electronic_invoice_type
+                    narration = line.seller.invoices_note
 
                 invoice_vals['seller_id'] = seller_id
                 invoice_vals['warehouse_id'] = order.warehouse_id.id
+                invoice_vals['electronic_invoice_type'] = electronic_invoice_type
+                invoice_vals['narration'] = narration or ''
                 invoice_vals['invoice_line_ids'] = invoice_line_vals
                 invoice_vals_list.append(invoice_vals)
 
@@ -264,17 +268,22 @@ class SaleOrder(models.Model):
                 values={'self': move, 'origin': move.line_ids.mapped('sale_line_ids.order_id')},
                 subtype_id=self.env.ref('mail.mt_note').id
             )
-        if self.send_api_data(moves):
-            return moves
+        self.send_api_data(moves)
+        return moves
 
     def send_api_data(self, moves):
+        # https://apitest.5hispanos.com.ar/api/invoices
+        # eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjE2eXJwNy95ZE5ZT1psTTJ5RVFnaEE9PSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiJEaWxvcGV6IiwibWlWYWxvciI6IjNKUGpMTXhQek5sTEhyMG1oRUxWZXJSYkZJUUNNazdzbFNFc2pJbzd1L1k9IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoic3VwZXJ1IiwianRpIjoibVpiVU5UZGFSRTFKV24rWFF4OStMaDhRVGNZQWZLRm9tY3FQekRuZzFERjd6aTNjaHI3c2RzcTI0ZXk2R21KQyIsImV4cCI6MTYyNTk1MTMxOH0.OQJXsTj4VLp46Kja038LfoaOq0yJ5dojV5RVCdQBNAg
+
         for invoice in moves:
+            if invoice.seller_id.electronic_invoice_type not in ['seller_api']:
+                continue
             items = []
             # date_order = str(invoice.invoice_date).split() if invoice.invoice_date else ''
             inv_date = time.strftime("%d/%m/%y")
             inv_time = time.strftime("%H:%M:%S")
-            api_path = invoice.seller_id.api_path
-            api_key = invoice.seller_id.api_key
+            api_path = invoice.seller_id.seller_api_path
+            api_key = invoice.seller_id.seller_api_key
             name = invoice.partner_id.name.split()
             first_name = ''
             last_name = ''
@@ -288,7 +297,6 @@ class SaleOrder(models.Model):
                     last_name += ' ' + name[3]
 
             for line in invoice.invoice_line_ids:
-
                 item = {
                     "EAN13": line.product_id.barcode,
                     "product": line.name,
@@ -315,23 +323,27 @@ class SaleOrder(models.Model):
             }
 
             # url = seller_id.api_path  # "http://dummy.minigo.store/orders"
-            # token = company_id.api_token
             payload = json.dumps(data)
             headers = {
                 'Content-Type': "application/json",
-                # 'Authorization': token,  # "Bearer WwfnXumP22Oknu80TyoifcWafS7RTWJSrPlGeFCM9D5pNfWcry",
-                # 'Authorization': "bearer " + api_key,
+                'Authorization': "Bearer " + api_key,
                 'Cache-Control': "no-cache",
             }
             try:
                 response = requests.request("POST", api_path, data=payload, headers=headers)
             except Exception as exc:
+                _logger.warning('Json enviado: (%s).', payload)
+                _logger.warning('Respuesta Vendedor: (%s).', response.text)
                 raise UserError(_("Error inesperado %s") % exc)
             if response.status_code != 200:
+                _logger.warning('Json enviado: (%s).', payload)
+                _logger.warning('Respuesta Vendedor: (%s).', response.text)
                 raise UserError(_("Error en API %s") % response.text)
-            print(response.text)
             print(payload)
+            print(response.text)
             _logger.warning('Json enviado: (%s).', payload)
+            _logger.warning('Respuesta Vendedor: (%s).', response.text)
+            invoice.seller_respond = response.text
         return True
 
     def _get_address(self, partner_id):
@@ -389,6 +401,10 @@ class MarketplaceVendor(models.Model):
 
     sale_order = fields.Many2one('sale.order')
     sale_order_line = fields.Many2one('sale.order.line')
+    move_id = fields.Many2one(
+        comodel_name='account.move',
+        string='Journal Entry',  readonly=True,
+        check_company=True)
     date = fields.Datetime('Fecha', default=lambda self: fields.Datetime.now())
     name = fields.Many2one(
         'res.partner', 'Vendor',
