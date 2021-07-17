@@ -19,6 +19,7 @@ class StockWarehouse(models.Model):
     cameras_ids = fields.One2many('store.camera', inverse_name='store_id', string='Cámaras')
     camera_zone_ids = fields.One2many('store.camera', inverse_name='store_id', string='Zonas de Cámaras')
     raspi_ids = fields.One2many('store.raspi', inverse_name='store_id', string='Raspberry Pi')
+    product_plano_ids = fields.One2many('product.store', inverse_name='store_id', string='Productos Plano')
 
 
 class StoreDoor(models.Model):
@@ -29,16 +30,18 @@ class StoreDoor(models.Model):
     store_id = fields.Many2one('stock.warehouse', string='Tienda')
     qrcode = fields.Binary(string='QR', attachment=False, store=True, readonly=True, compute='_compute_qrcode')
     code = fields.Char(string="Valor QR")
+    type = fields.Selection(string="Tipo", selection=[('in', 'Entrada'), ('out', 'Salida'), ('staff', 'Staff')])
 
-    @api.depends('store_id', 'name')
+    @api.depends('store_id', 'name', 'type')
     def _compute_qrcode(self):
-        if self.name:
-            qr = "{'store_id:'" + str(self.store_id.id)+", 'door_id':'"+str(self.name)+"'}"
-            data = io.BytesIO()
-            import qrcode
-            qrcode.make(qr.encode(), box_size=4).save(data, optimise=True, format='PNG')
-            self.code = qr
-            self.qrcode = base64.b64encode(data.getvalue()).decode()
+        for obj in self:
+            if obj.name:
+                qr = "{'store_id:'" + str(obj.store_id.id)+", 'door_id':'"+str(obj.name)+", type:"+str(obj.type)+"'}"
+                data = io.BytesIO()
+                import qrcode
+                qrcode.make(qr.encode(), box_size=4).save(data, optimise=True, format='PNG')
+                obj.code = qr
+                obj.qrcode = base64.b64encode(data.getvalue()).decode()
 
     _sql_constraints = [('unique_store_door_name', 'UNIQUE(name, store_id)',
             "Ya existe una puerta con el mismo Código en la tienda!")]
@@ -53,6 +56,8 @@ class StoreCamera(models.Model):
     device_url = fields.Char(string="URL Dispositivo")
     port_number = fields.Integer(string="Puerto")
     store_id = fields.Many2one('stock.warehouse', string='Tienda')
+    zone_ids = fields.One2many('camera.zone', inverse_name='camera_id', string='Zonas')
+    camera_image = fields.Binary(string='Imagen de Camara', attachment=False)
 
 
 class CameraZone(models.Model):
@@ -62,14 +67,15 @@ class CameraZone(models.Model):
     name = fields.Char(string="Nombre")
     parent_id = fields.Many2one('camera.zone', string='Zona Padre')
     camera_id = fields.Many2one('store.camera', string='Camara')
-    bottom_right_x = fields.Float(string='Punto ')
-    bottom_right_y = fields.Float(string='Punto ')
-    bottom_left_x = fields.Float(string='Punto ')
-    bottom_left_y = fields.Float(string='Punto ')
-    top_right_x = fields.Float(string='Punto ')
-    top_right_y = fields.Float(string='Punto ')
-    top_left_x = fields.Float(string='Punto ')
-    top_left_y = fields.Float(string='Punto ')
+    camera_image_zone = fields.Binary(string='Imagen de Camara', related='camera_id.camera_image', store=True)
+    bottom_right_x = fields.Float(string='Punto x abajo derecho')
+    bottom_right_y = fields.Float(string='Punto y abajo derecho')
+    bottom_left_x = fields.Float(string='Punto x abajo izquierdo')
+    bottom_left_y = fields.Float(string='Punto y abajo izquierdo')
+    top_right_x = fields.Float(string='Punto x arriba derecho')
+    top_right_y = fields.Float(string='Punto y arriba derecho')
+    top_left_x = fields.Float(string='Punto x arriba izquierdo')
+    top_left_y = fields.Float(string='Punto y arriba izquierdo')
     store_id = fields.Many2one('stock.warehouse', string='Tienda')
 
     @api.constrains('parent_id')
@@ -101,3 +107,25 @@ class StoreSensor(models.Model):
     pi_id = fields.Many2one('store.raspi', string='Raspberry PI')
     store_id = fields.Many2one('stock.warehouse', string='Tienda', related="pi_id.store_id", store=True)
 
+
+class ProductStore(models.Model):
+    _name = 'product.store'
+    _description = 'Product in Store'
+
+    product_id = fields.Many2one('product.template', string='Producto')
+    gondola = fields.Char(string='Gondola')
+    gondola_id = fields.Many2one('store.raspi', string='Gondola')
+    line = fields.Char(string='Linea')
+    shelf = fields.Char(string='Estante')
+    shelf_id = fields.Many2one('store.sensor', string='Estante')
+    ini_position = fields.Char(string='Posición Inicial')
+    end_position = fields.Char(string='Posición Final')
+    und_front = fields.Integer(string='Unidades Frente')
+    und_fund = fields.Integer(string='Unidades Fondo')
+    und_high = fields.Integer(string='Unidades Alto')
+    weight_total_prod = fields.Float(string='Peso total Product', compute='_compute_total_weight')
+    store_id = fields.Many2one('stock.warehouse', string='Tienda')
+
+    @api.depends('ini_position')
+    def _compute_total_weight(self):
+        self.weight_total_prod = self.weight_total_prod * self.und_front

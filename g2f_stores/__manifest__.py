@@ -26,6 +26,12 @@
     'data': [
         'security/ir.model.access.csv',
         'views/views.xml',
+        'views/door_view.xml',
+        'views/camera_view.xml',
+        'views/sensor_store.xml',
+        'views/raspi_views.xml',
+        'views/zone_camera_view.xml',
+        'views/plano_product_view.xml',
         'views/templates.xml',
     ],
     # only loaded in demonstration mode

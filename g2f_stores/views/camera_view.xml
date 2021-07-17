@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="store_camera_form_view" model="ir.ui.view">
+            <field name="name">store.camera.form</field>
+            <field name="model">store.camera</field>
+            <field name="arch" type="xml">
+                <form string="Cameras">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="device_url" default="https://"/>
+                                <field name="port_number"/>
+                            </group>
+                            <group>
+                                <field name="ai_unit"/>
+                                <field name="store_id" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="camera_image" widget="image"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="zone_ids"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="store_camera_tree_view" model="ir.ui.view">
+            <field name="name">store.camera.tree</field>
+            <field name="model">store.camera</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="device_url"/>
+                    <field name="port_number"/>
+                    <field name="ai_unit"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="store_camera_search_view" model="ir.ui.view">
+            <field name="name">store.camera.search</field>
+            <field name="model">store.camera</field>
+            <field name="arch" type="xml">
+                <search string="Cameras">
+                    <field name="name"/>
+                    <field name="store_id" string="Tienda"/>
+                    <group expand="1" string="Group By">
+                        <filter string="Tienda" name="store_id" context="{'group_by':'store_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="store_camera_act_window" model="ir.actions.act_window">
+            <field name="name">Cameras</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">store.camera</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    There is no examples click here to add new Cameras.
+                </p>
+            </field>
+        </record>
+
+        <menuitem name="Cameras" id="store_camera_menu" parent="g2f_stores_config" action="store_camera_act_window"/>
+
+    </data>
+</odoo>

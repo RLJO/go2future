@@ -131,6 +131,9 @@ class ResPartner(models.Model):
     def get_payment_card(self):
         """Get Payment Card data from unser passed in instance self from controllers."""
 
+        # self.payment_cards_ids.search_read([('partner_id', '=', self.id)])
+        # lista = [t.id, t.name, t.card_number, t.security_code, t.expiration_month, t.expiration_year, t.card_type, t.card_identification, t.state for t in self.payment_cards_ids]
+
         return self.payment_cards_ids.search_read([], ['id', 'name', 'card_number',
                                                        'security_code', 'expiration_month',
                                                        'expiration_year', 'card_type',

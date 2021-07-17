@@ -24,7 +24,7 @@ class ProductTemplate(models.Model):
             second_line += line.product_id.uom_id.name
             deals = pricelist.search([
                 ('product_tmpl_id', '=', line.product_id.product_tmpl_id.id),
-                ('website_deals_m2o.state', '=', 'validated')
+                # ('website_deals_m2o.state', '=', 'validated')
             ])
             # discounted_price, percent_price = self.get_deals(line)
             if deals:

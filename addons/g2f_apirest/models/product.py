@@ -46,8 +46,21 @@ class ProductProduct(models.Model):
         response = self.search_read(
                 domain, 
                 ['name', 'alternative_product_ids', 'categ_id', 'code',
-                    'company_id', 'default_code', 'description',
+                    'company_id', 'default_code', 'description', 'weight',
                     'description_purchase', 'display_name', 'image_128_parse',
                     'is_published', 'list_price', 'website_id', 'sale_ok']
                 )
         return response
+
+    def search_product_by_location_code(self, location_code):
+        """Buscar productos ubicados en un determinada tienda pasada como parametro."""
+
+        stock_location = self.env['stock.location'].search([('name', 'ilike', location_code)])
+        lista_ubicaciones = [location.id for location in stock_location.child_ids]
+        stock_quant_list = self.env['stock.quant'].search([('location_id', 'in', lista_ubicaciones)])
+        product_ids = [stock.product_id.id for stock in stock_quant_list]
+
+        product_list = self.search([('id', 'in', product_ids)])
+        print(product_list)
+        return product_list
+
