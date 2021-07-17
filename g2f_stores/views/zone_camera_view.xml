@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="camera_zone_form_view" model="ir.ui.view">
+            <field name="name">camera.zone.form</field>
+            <field name="model">camera.zone</field>
+            <field name="arch" type="xml">
+                <form string="Zona">
+                    <sheet>
+                        <group name="info" string="Información">
+                            <field name="name"/>
+                            <field name="parent_id"/>
+                            <field name="camera_id" readonly="1"/>
+                            <field name="store_id" readonly="1"/>
+                        </group>
+                        <group name="sensors" string="Puntos">
+                            <group name="top_left" string="Arriba izq.">
+                                <field name="top_left_x"/>
+                                <field name="top_left_y"/>
+                            </group>
+                            <group name="top_right" string="Arriba der.">
+                                <field name="top_right_x"/>
+                                <field name="top_right_y"/>
+                            </group>
+                            <group name="bottom_left" string="Abajo izq.">
+                                <field name="bottom_left_x"/>
+                                <field name="bottom_left_y"/>
+                            </group>
+                            <group name="bottom_right" string="Abajo der.">
+                                <field name="bottom_right_x"/>
+                                <field name="bottom_right_y"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="camera_image_zone" widget="image"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="camera_zone_tree_view" model="ir.ui.view">
+            <field name="name">camera.zone.tree</field>
+            <field name="model">camera.zone</field>
+            <field name="arch" type="xml">
+                <tree string="Zona">
+                    <field name="name"/>
+                    <field name="parent_id"/>
+                    <field name="camera_id" readonly="1"/>
+                    <field name="store_id" readonly="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="camera_zone_search_view" model="ir.ui.view">
+            <field name="name">camera.zone.search</field>
+            <field name="model">camera.zone</field>
+            <field name="arch" type="xml">
+                <search string="Zona">
+                    <field name="store_id"/>
+                    <field name="camera_id"/>
+                    <field name="parent_id"/>
+                    <group expand="1" string="Group By">
+                        <filter string="Tienda" name="store_id" domain="[]" context="{'group_by':'store_id'}"/>
+                        <filter string="Camara" name="camera_id" domain="[]" context="{'group_by':'camera_id'}"/>
+                        <filter string="Zona Padre" name="parent_id" domain="[]" context="{'group_by':'parent_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="camera_zone_act_window" model="ir.actions.act_window">
+            <field name="name">Zonas de Camara</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">camera.zone</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    There is no examples click here to add new Raspberry.
+                </p>
+            </field>
+        </record>
+
+        <menuitem name="Zonas de Camaras" id="camera_zone_menu" parent="g2f_stores_config" action="camera_zone_act_window"/>
+
+    </data>
+</odoo>
