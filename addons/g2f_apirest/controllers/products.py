@@ -71,6 +71,23 @@ class Product(http.Controller):
         response["data"] = products.sudo().search_read(domain, ['id', 'name', 'weight'])
         return dumps(response['data'])
 
+    @http.route(['/weight_sensor_data/'], type='http', auth='public',
+             methods=['GET'], website=True, csrf=False)
+    def get_weigth_sensor_data(self, **kw):
+        method = http.request.httprequest.method
+        print(kw)
+
+        product = http.request.env['product.product']
+        weight_sensor_id = kw.get('weight_sensor_id')
+        response = {"status": 200, "data": []}
+
+        if method == 'GET':
+            print('Obtener Productos que estan ubicados dentro de un determinado sensor en una tienda')
+            product_list = product.sudo().search_products_by_weight_sensor_id(weight_sensor_id)
+            response["data"] = [{f'{p.id}': p.qty_available} for p in product_list]
+
+            return dumps(response)
+
     @http.route(['/update_gondola'], type='http', auth='public',
                 methods=['POST'], website=True, csrf=False)
     def update_gondola(self):
