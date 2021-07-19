@@ -70,7 +70,7 @@ class ProductProduct(models.Model):
            Parameter: sensor_id
         """
 
-        domain = [('id', '=', sensor_id)]
+        domain = [('name', '=', sensor_id)]
         store_sensor = self.env['store.sensor'].search(domain)
         if not store_sensor:
             return []
