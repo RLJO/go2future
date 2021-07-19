@@ -30,10 +30,13 @@ def addInvoices():
 		"origin": request.json['origin'],
 		"date": request.json['date'],
 		"time": request.json['time'],
+		"seller": request.json['seller'],
+		"amount_untaxed": request.json['amount_untaxed'],
+		"amount_tax": request.json['amount_tax'],
+		"amount_total": request.json['amount_total'],
 		"items": request.json['items']
 	}
-    invoices.append(new_invoice)
-    return jsonify({'invoices': invoices})
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=4000)

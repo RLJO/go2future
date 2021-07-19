@@ -297,12 +297,19 @@ class SaleOrder(models.Model):
                     last_name += ' ' + name[3]
 
             for line in invoice.invoice_line_ids:
+                for tax in line.tax_ids:
+                    tax_items = {
+                        "name": tax.name,
+                        "amount": tax.amount
+                    }
                 item = {
                     "EAN13": line.product_id.barcode,
                     "product": line.name,
                     "sku_code": line.product_id.default_code,
                     "quantity": line.quantity,
                     "unit_price": line.price_unit,
+                    "discount": line.discount,
+                    "tax": tax_items,
                     "subtotal": line.price_subtotal
                 }
                 items.append(item)
@@ -319,6 +326,10 @@ class SaleOrder(models.Model):
                 "origin": self.name,
                 "date": inv_date,
                 "time": inv_time,
+                "seller": invoice.seller_id.id,
+                "amount_untaxed": invoice.amount_untaxed,
+                "amount_tax": invoice.amount_tax,
+                "amount_total": invoice.amount_total,
                 "items": items
             }
 
