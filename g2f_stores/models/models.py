@@ -128,4 +128,5 @@ class ProductStore(models.Model):
 
     @api.depends('ini_position')
     def _compute_total_weight(self):
-        self.weight_total_prod = self.weight_total_prod * self.und_front
+        for prod in self:
+            prod.weight_total_prod = prod.weight_total_prod * prod.und_front

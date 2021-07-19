@@ -64,3 +64,18 @@ class ProductProduct(models.Model):
         print(product_list)
         return product_list
 
+    def search_products_by_weight_sensor_id(self, sensor_id):
+        """Permite buscar productos segun el senson de peso donde estan ubicados.
+
+           Parameter: sensor_id
+        """
+
+        domain = [('id', '=', sensor_id)]
+        store_sensor = self.env['store.sensor'].search(domain)
+        if not store_sensor:
+            return []
+        stock_location_name = store_sensor.store_id.view_location_id.name
+        print(stock_location_name)
+        response = self.search_product_by_location_code(stock_location_name)
+        return response
+
