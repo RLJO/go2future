@@ -42,15 +42,11 @@ class AccountMove(models.Model):
             res = {'AUTHORIZED': 200}
         return res
 
-    # def action_post(self):
-    #     inv_obj = self.env['account.move']
-    #     inv_id = inv_obj.search([('id', '=', 1), ('state', '=', 'draft')])
-    #     res = 'No se encontró factura borrador con el id: %s' % 1
-    #     if inv_id:
-    #         inv_id.sudo().write({
-    #             'einvoice': 'F001',
-    #             'cae_number': '111222333'
-    #         })
-    #         # inv_id.action_post()
-    #         res = 200
-    #     return res
+    def _get_address(self, partner_id):
+        address = partner_id.street + ', ' if partner_id.street else ''
+        address += partner_id.street2 + ', ' if partner_id.street2 else ''
+        address += partner_id.city + ', ' if partner_id.city else ''
+        address += partner_id.state_id.name + ', ' if partner_id.state_id.name else ''
+        address += 'CP: ' + partner_id.zip + ', ' if partner_id.zip else ''
+        address += partner_id.country_id.name if partner_id.country_id.name else ''
+        return address
