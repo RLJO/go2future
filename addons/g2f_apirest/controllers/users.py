@@ -321,10 +321,16 @@ class ResUser(http.Controller):
         return dumps({'status': '200', 'messsage': 'ok', 'data': user_data})
 
     def _get_data_user(self, email):
-        user = http.request.env['res.users'].sudo().search_read(
-            [('login', 'ilike', email)], ['login', 'name', 'lastname'])
+        user = http.request.env['res.users'].sudo().search([('login', 'ilike', email)])
+        res_partner = user.partner_id.search_read(
+                [('id', '=', user.partner_id.id)],
+                ['name', 'lastname', 'birthday',  'street', 'city', 'state_id', 'country_id',
+                 'phone', 'mobile', 'l10n_latam_identification_type_id', 'vat', 
+                 'l10n_ar_afip_responsibility_type_id', 'gender',]
+                )
+        res_partner[0]['birthday'] = res_partner[0].get('birthday').strftime('%Y-%m-%d')
 
-        return user[0] if user else ''
+        return res_partner[0] if res_partner else ''
 
     def _validate_login(self, login, password):
         user = http.request.env['res.users'].sudo().search(
