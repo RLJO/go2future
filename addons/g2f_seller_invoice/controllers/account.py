@@ -22,7 +22,7 @@ class Account(http.Controller):
         return response
 
     @http.route('/invoice/search/', type='json', auth="public", methods=['POST'], cors="*", csrf=False)
-    def invoice_confirm(self, **kw):
+    def invoice_search(self, **kw):
         res = []
         account = http.request.env['account.move']
         moves = account.sudo().search([
