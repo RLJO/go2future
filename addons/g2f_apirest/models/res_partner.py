@@ -147,6 +147,11 @@ class ResPartner(models.Model):
     def update_payment_card(self, vals):
         """Update card credit to res.partner."""
 
+        if vals.get('state') == 'active':
+            for tdc in self.payment_cards_ids:
+                tdc.state = 'disabled'
+            self.payment_cards_ids._cr.commit()
+
         payment_card = self.payment_cards_ids.search([('id', '=', vals.get('id'))])
         payment_card.write(vals)
         payment_card._cr.commit()

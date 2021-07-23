@@ -34,6 +34,8 @@ class SaleOrder(models.Model):
         for marketplace_vendor_total in self.marketplace_vendor_line_total:
             marketplace_vendor_total.unlink()
         for line in self.sudo().order_line:
+            discount = 0
+            price_unit = 0
             tax_line = []
             sale_percentage_go = (100 - line.seller.commission)
             amount_commission = (line.price_subtotal * (sale_percentage_go/100))
@@ -49,6 +51,11 @@ class SaleOrder(models.Model):
                     total_tax += line.price_subtotal * iva
                 if tax.marketplace_type == 'int':
                     total_int += line.price_subtotal * iva
+            if line.discount:
+                discount = line.discount / 100
+                price_unit = (line.price_unit - (line.price_unit * discount))
+            else:
+                price_unit = line.price_unit
             vals = {
                 'sale_order': self.id,
                 'sale_order_line': line.id,
@@ -64,14 +71,14 @@ class SaleOrder(models.Model):
                 'amount_tax_company': line.company_id.sudo().account_sale_tax_id.amount,
                 'amount_tax_company_total': amount_tax_company_total,
                 'amount_commission_amount_tax_company_total': amount_commission_amount_tax_company_total,
-                'total_vendor': (line.price_unit * line.product_uom_qty) - amount_commission_amount_tax_company_total,
+                'total_vendor': (price_unit * line.product_uom_qty) - amount_commission_amount_tax_company_total,
                 'tax_id': tax_line,
                 'total_tax': total_tax,
                 'total_int': total_int,
                 'partner_id': self.partner_id.id
 
             }
-            total_vendor = (line.price_unit * line.product_uom_qty) - amount_commission_amount_tax_company_total
+            total_vendor = (price_unit * line.product_uom_qty) - amount_commission_amount_tax_company_total
             self.sudo().marketplace_vendor_line.create(vals)
             count_amount += amount_commission_amount_tax_company_total
             if self.marketplace_vendor_line_total:
@@ -297,12 +304,19 @@ class SaleOrder(models.Model):
                     last_name += ' ' + name[3]
 
             for line in invoice.invoice_line_ids:
+                for tax in line.tax_ids:
+                    tax_items = {
+                        "name": tax.name,
+                        "amount": tax.amount
+                    }
                 item = {
                     "EAN13": line.product_id.barcode,
                     "product": line.name,
                     "sku_code": line.product_id.default_code,
                     "quantity": line.quantity,
                     "unit_price": line.price_unit,
+                    "discount": line.discount,
+                    "tax": tax_items,
                     "subtotal": line.price_subtotal
                 }
                 items.append(item)
@@ -319,6 +333,10 @@ class SaleOrder(models.Model):
                 "origin": self.name,
                 "date": inv_date,
                 "time": inv_time,
+                "seller": invoice.seller_id.id,
+                "amount_untaxed": invoice.amount_untaxed,
+                "amount_tax": invoice.amount_tax,
+                "amount_total": invoice.amount_total,
                 "items": items
             }
 
