@@ -28,11 +28,11 @@ class Account(http.Controller):
         res = []
         account = http.request.env['account.move']
         seller = http.request.env['res.partner']
-        seller_id = seller.sudo().search([('vat', '=', kw.get('cuit'))])
+        seller_ids = seller.sudo().search([('vat', '=', kw.get('cuit'))])
         domain = [
             ('move_type', '=', 'out_invoice'),
             ('state', '=', 'posted'),
-            ('seller_id', '=', seller_id.id)
+            ('seller_id', 'in', seller_ids.ids)
         ]
         if kw.get('start_date'):
             domain.append(('invoice_date', '>=', kw.get('start_date')))
