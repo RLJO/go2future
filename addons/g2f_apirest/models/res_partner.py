@@ -36,6 +36,7 @@ class ResPartner(models.Model):
     gender = fields.Selection(GENDER, string='Gender')
     document_obverse = fields.Image(default=_default_image)
     document_reverse = fields.Image(default=_default_image)
+    user_avatar = fields.Image(default=_default_image)
 
     def age(self):
         age = 0
