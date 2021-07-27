@@ -22,18 +22,26 @@ class Account(http.Controller):
         return response
 
     @http.route('/invoice/search/', type='json', auth="public", methods=['POST'], cors="*", csrf=False)
-    def invoice_confirm(self, **kw):
+    def invoice_search(self, **kw):
+        if not kw.get('cuit'):
+            return {'Error': 'No se recibio CUIT del vendedor'}
         res = []
         account = http.request.env['account.move']
-        moves = account.sudo().search([
+        seller = http.request.env['res.partner']
+        seller_ids = seller.sudo().search([('vat', '=', kw.get('cuit'))])
+        domain = [
+            ('move_type', '=', 'out_invoice'),
             ('state', '=', 'posted'),
-            ('invoice_date', '>=', kw['start_date']),
-            ('invoice_date', '<=', kw['end_date'])
-        ])
+            ('seller_id', 'in', seller_ids.ids)
+        ]
+        if kw.get('start_date'):
+            domain.append(('invoice_date', '>=', kw.get('start_date')))
+        if kw.get('end_date'):
+            domain.append(('invoice_date', '<=', kw.get('end_date')))
+
+        moves = account.sudo().search(domain)
         for invoice in moves:
             items = []
-            inv_date = time.strftime("%d/%m/%y")
-            inv_time = time.strftime("%H:%M:%S")
             name = invoice.partner_id.name.split()
             first_name = ''
             last_name = ''
@@ -47,11 +55,16 @@ class Account(http.Controller):
                     last_name += ' ' + name[3]
 
             for line in invoice.invoice_line_ids:
+                tax_items = []
+                subtotal = line.price_unit * line.quantity
                 for tax in line.tax_ids:
-                    tax_items = {
+                    tax_amount = subtotal / (1 + tax.amount / 100)
+                    tax_subtotal = subtotal - tax_amount
+                    tax_item = {
                         "name": tax.name,
-                        "amount": tax.amount
+                        "amount": round(tax_subtotal, 2)
                     }
+                    tax_items.append(tax_item)
                 item = {
                     "EAN13": line.product_id.barcode,
                     "product": line.name,
@@ -74,8 +87,7 @@ class Account(http.Controller):
                 "minigo_code": invoice.warehouse_id.code,
                 "minigo_address": invoice._get_address(invoice.warehouse_id.partner_id),
                 "origin": invoice.name,
-                "date": inv_date,
-                "time": inv_time,
+                "invoice_date": invoice.invoice_date,
                 "seller": invoice.seller_id.vat,
                 "amount_untaxed": invoice.amount_untaxed,
                 "amount_tax": invoice.amount_tax,
