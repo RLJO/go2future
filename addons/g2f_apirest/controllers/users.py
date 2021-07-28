@@ -177,6 +177,26 @@ class ResUser(http.Controller):
             response = {'status': '400', 'messsage': msg}
             return dumps(response)
 
+    @http.route(['/users/avatar'], type='json', auth='public', methods=['PUT'],
+                website=True, csrf=False)
+    def update_user_avatar(self, **kw):
+        """Endpoint for update avatar user from app mobile."""
+
+        method = http.request.httprequest.method
+        kw = http.request.jsonrequest
+        self.res_partner = http.request.env['res.partner']
+
+        if method == 'PUT':
+            login = kw.get('login')
+            avatar = kw.get('avatar') 
+
+            data = {"user_avatar": avatar}
+
+            response = self._update_res_partner(login, data)
+            return response
+
+        return False 
+
     @http.route(['/users'], type='json', auth='public',
                 methods=['GET', 'POST', 'PUT', 'DELETE'],
                 website=True, csrf=False)
@@ -197,7 +217,7 @@ class ResUser(http.Controller):
             print('Modificar Usuario')
             response = self.update_user(kw)
             return response
-        
+
         return False
 
     def update_user(self, kw):
