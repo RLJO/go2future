@@ -304,11 +304,16 @@ class SaleOrder(models.Model):
                     last_name += ' ' + name[3]
 
             for line in invoice.invoice_line_ids:
+                tax_items = []
+                subtotal = line.price_unit * line.quantity
                 for tax in line.tax_ids:
-                    tax_items = {
+                    tax_amount = subtotal / (1 + tax.amount / 100)
+                    tax_subtotal = subtotal - tax_amount
+                    tax_item = {
                         "name": tax.name,
-                        "amount": tax.amount
+                        "amount": round(tax_subtotal, 2)
                     }
+                    tax_items.append(tax_item)
                 item = {
                     "EAN13": line.product_id.barcode,
                     "product": line.name,
@@ -352,11 +357,11 @@ class SaleOrder(models.Model):
             except Exception as exc:
                 _logger.warning('Json enviado: (%s).', payload)
                 _logger.warning('Respuesta Vendedor: (%s).', response.text)
-                raise UserError(_("Error inesperado %s") % exc)
+                # raise UserError(_("Error inesperado %s") % exc)
             if response.status_code != 200:
                 _logger.warning('Json enviado: (%s).', payload)
                 _logger.warning('Respuesta Vendedor: (%s).', response.text)
-                raise UserError(_("Error en API %s") % response.text)
+                # raise UserError(_("Error en API %s") % response.text)
             print(payload)
             print(response.text)
             _logger.warning('Json enviado: (%s).', payload)

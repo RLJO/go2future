@@ -20,12 +20,18 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'sale', 'website', 'website_daily_deals'],
+    'depends': [
+        'base',
+        'sale',
+        'website',
+        'website_daily_deals',
+        'purchase'
+    ],
 
     # always loaded
     'data': [
-        # 'security/ir.model.access.csv',
+        'security/ir.model.access.csv',
         'views/account_move_view.xml',
-        # 'views/res_users_view.xml',
+        'wizard/purchase_order_wizard.xml',
     ],
 }

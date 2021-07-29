@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+	<data>
+        <record id="purchase_order_wizard_form_view" model="ir.ui.view">
+            <field name="name">purchase_order_wizard</field>
+            <field name="model">purchase.order.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Purchase Order Wizard">
+                    <group>
+                        <field name="data"/>
+                        <!--<label for="amount" string="Requested Payment Amount"/>
+                        <div>
+                            <field name="amount" string="Requested Payment Amount" widget="monetary" class="oe_inline"/>
+                            <span></span>
+                        </div>-->
+                    </group>
+                    <footer>
+                        <button string="Send Purchase Order" name="send_po" type="object" class="btn-primary"/>
+                         or
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_purchase_order_wizard" model="ir.actions.act_window">
+            <field name="name">Send Purchase Order</field>
+            <field name="res_model">purchase.order.wizard</field>
+            <field name="target">new</field>
+            <field name="binding_model_id" ref="purchase.model_purchase_order"/>
+            <field name="binding_view_types">list,form</field>
+        </record>
+
+        <!--<record id="action_purchase_order_wizard" model="ir.actions.act_window">
+            <field name="name">Send Purchase Order</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">purchase.order.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="binding_model_id" ref="purchase.model_purchase_order" />
+            <field name="binding_view_types">list</field>
+        </record>-->
+
+        <!--<act_window id="purchase_order_action_purchase_order_wizard"
+            name="Purchase Order Wizard"
+            res_model="purchase.order.wizard"
+            binding_model="purchase.order"
+            binding_views="list,form"
+            view_mode="form" target="new"/>-->
+
+	</data>
+</odoo>
