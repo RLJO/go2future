@@ -78,7 +78,8 @@ class ProductProduct(models.Model):
         print(stock_location_name)
 
         list_products = []
-        productos = self.env['product.store'].read_group([],
+        productos = self.env['product.store'].read_group(
+                domain=[('store_id', '=', store_sensor.store_id.id)],
                 fields=['product_id'],
                 groupby=['product_id'],
                 lazy=False)
