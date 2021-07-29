@@ -76,6 +76,16 @@ class ProductProduct(models.Model):
             return []
         stock_location_name = store_sensor.store_id.view_location_id.name
         print(stock_location_name)
-        response = self.search_product_by_location_code(stock_location_name)
-        return response
 
+        list_products = []
+        productos = self.env['product.store'].read_group([],
+                fields=['product_id'],
+                groupby=['product_id'],
+                lazy=False)
+
+        for producto in productos:
+            product_se = self.env['product.template'].search([('id', '=', producto.get('product_id')[0])])
+            list_products.append({f'{product_se.barcode}': producto.get('__count')})
+
+        response = list_products
+        return response

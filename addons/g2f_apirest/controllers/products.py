@@ -84,8 +84,7 @@ class Product(http.Controller):
         if method == 'GET':
             print('Obtener Productos que estan ubicados dentro de un determinado sensor en una tienda')
             product_list = product.sudo().search_products_by_weight_sensor_id(weight_sensor_id)
-            response["data"] = [{f'{p.barcode}': p.qty_available} for p in product_list]
-
+            response["data"] = product_list
             return dumps(response)
 
     @http.route(['/update_gondola'], type='http', auth='public',
