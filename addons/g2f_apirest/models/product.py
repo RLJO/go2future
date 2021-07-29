@@ -79,7 +79,7 @@ class ProductProduct(models.Model):
 
         list_products = []
         productos = self.env['product.store'].read_group(
-                domain=[('store_id', '=', store_sensor.store_id.id)],
+                domain=[('store_id', '=', store_sensor.store_id.id), ('shelf_id', '=', store_sensor.id)],
                 fields=['product_id'],
                 groupby=['product_id'],
                 lazy=False)
