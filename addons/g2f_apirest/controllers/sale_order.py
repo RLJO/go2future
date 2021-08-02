@@ -23,7 +23,6 @@ class SaleOrderCart(http.Controller):
                 user_id)
             return dumps(response)
 
-
     @http.route(['/cart_update'], type='json', auth='public',
             methods=['GET', 'POST'], website=True, csrf=False)
     def user_cart_from_vision(self, **kw):

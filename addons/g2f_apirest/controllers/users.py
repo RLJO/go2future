@@ -195,7 +195,7 @@ class ResUser(http.Controller):
             response = self._update_res_partner(login, data)
             return response
 
-        return False 
+        return False
 
     @http.route(['/users'], type='json', auth='public',
                 methods=['GET', 'POST', 'PUT', 'DELETE'],
@@ -224,7 +224,6 @@ class ResUser(http.Controller):
         login = kw.get('login')
         name = kw.get('name')
         lastname = kw.get('lastname')
-
 
         user = self._validate_user(login)
         if not user:
