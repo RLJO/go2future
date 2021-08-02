@@ -8,6 +8,7 @@
                 <form string="Raspberry">
                     <sheet>
                         <group name="info" string="Información">
+                            <field name="id" readonly="1"/>
                             <field name="name" size="3"/>
                             <field name="ip_add"/>
                             <field name="store_id" readonly="1"/>
@@ -25,6 +26,7 @@
             <field name="model">store.raspi</field>
             <field name="arch" type="xml">
                 <tree string="Raspberry">
+                    <field name="id" readonly="1"/>
                     <field name="name" size="3"/>
                     <field name="ip_add"/>
                     <field name="sensor_ids" string="Sensores"/>

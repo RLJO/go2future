@@ -48,10 +48,18 @@ class StoreDoor(models.Model):
 
 
 class StoreCamera(models.Model):
+    _name = 'store.iaserver'
+    _description = 'IA server'
+
+    name = fields.Char(string="Nombre")
+
+
+class StoreCamera(models.Model):
     _name = 'store.camera'
     _description = 'StoreCameras'
 
     name = fields.Char(string="Nombre")
+    #ai_unit = fields.Many2one('store.iaserver', string="Unidad de AI")
     ai_unit = fields.Integer(string="Unidad de AI")
     device_url = fields.Char(string="URL Dispositivo")
     port_number = fields.Integer(string="Puerto")
@@ -124,6 +132,8 @@ class ProductStore(models.Model):
     und_fund = fields.Integer(string='Unidades Fondo')
     und_high = fields.Integer(string='Unidades Alto')
     weight_total_prod = fields.Float(string='Peso total Product', compute='_compute_total_weight')
+    qty_total_prod = fields.Integer(string="Cantidad total")
+    qty_available_prod = fields.Integer(string="Cantidad disponible")
     store_id = fields.Many2one('stock.warehouse', string='Tienda')
 
     @api.depends('ini_position')
