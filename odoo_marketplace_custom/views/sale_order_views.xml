@@ -152,6 +152,9 @@
                         <field name="warehouse_id"/>
                         <field name="seller_id"/>
                     </xpath>
+                    <xpath expr="//field[@name='price_subtotal']" position='after'>
+                        <field name="amount_commission_plus_tax"/>
+                    </xpath>
                 </data>
             </field>
         </record>
