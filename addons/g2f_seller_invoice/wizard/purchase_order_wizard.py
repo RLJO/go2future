@@ -49,10 +49,10 @@ class PurchaseOrderWizard(models.TransientModel):
             detail = 'LINE'
             detail += len(po.invoice_line_ids).zfill(6)
             for line in po.invoice_line_ids:
-                detail += line.product_id.default_code.ljust(14)
+                detail += line.product_id.barcode.ljust(14)
                 detail += line.name.ljust(35)
                 detail += line.name.ljust(35)
-                detail += line.product_id.barcode.zfill(14)
+                detail += line.product_id.default_code.zfill(14)
                 detail += ''.ljust(7)
                 detail += ''.zfill(7)  # Cantidad pedida en cajas (Package)
                 detail += ''.zfill(11)  # Cantidad pedida en unidades
@@ -65,6 +65,10 @@ class PurchaseOrderWizard(models.TransientModel):
 
             data = info + '\n' + head + '\n' + detail
             print(data)
+            # https://api.planexware.net/PlanexwareWs
+            # Ocp-Apim-Subscription-Key: 1381fbeede8243c6b87322169b623d8e
+            # get_file = client.service.sendBill(filename + '.zip', base64.b64encode(str(data_file)))
+
 
     def _get_address(self, partner_id):
         address = partner_id.street + ', ' if partner_id.street else ''

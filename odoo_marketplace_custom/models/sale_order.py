@@ -418,6 +418,15 @@ class SaleOrderLine(models.Model):
         values['warehouse_id'] = self.order_id.warehouse_id
         return values
 
+    def _prepare_invoice_line(self, **optional_values):
+        res = super(SaleOrderLine, self)._prepare_invoice_line(**optional_values)
+        for line in self.order_id.marketplace_vendor_line:
+            if res.get('product_id') == line.product_id.id:
+                res.update({
+                    'amount_commission_plus_tax': line.amount_commission_amount_tax_company_total
+                })
+        return res
+
 
 class MarketplaceVendor(models.Model):
     _name = "marketplace.vendor"
@@ -459,6 +468,12 @@ class AccountMove(models.Model):
 
     warehouse_id = fields.Many2one('stock.warehouse', string=_("Warehouse"))
     seller_id = fields.Many2one('res.partner', string=_('Seller'))
+
+
+class AccountMove(models.Model):
+    _inherit = 'account.move.line'
+
+    amount_commission_plus_tax = fields.Float(string='Comisión MiniGO')
 
 
 class MarketplaceVendorTotal(models.Model):
