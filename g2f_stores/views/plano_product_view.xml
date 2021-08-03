@@ -48,6 +48,7 @@
                     <field name="line"/>
                     <field name="shelf_id"/>
                     <field name="weight_total_prod"/>
+                    <field name="qty_available_prod"/>
                 </tree>
             </field>
         </record>

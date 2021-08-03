@@ -59,8 +59,8 @@ class StoreCamera(models.Model):
     _description = 'StoreCameras'
 
     name = fields.Char(string="Nombre")
-    #ai_unit = fields.Many2one('store.iaserver', string="Unidad de AI")
-    ai_unit = fields.Integer(string="Unidad de AI")
+    ai_unit = fields.Many2one('store.iaserver', string="Unidad de AI")
+    #ai_unit = fields.Integer(string="Unidad de AI")
     device_url = fields.Char(string="URL Dispositivo")
     port_number = fields.Integer(string="Puerto")
     store_id = fields.Many2one('stock.warehouse', string='Tienda')
@@ -120,7 +120,7 @@ class ProductStore(models.Model):
     _name = 'product.store'
     _description = 'Product in Store'
 
-    product_id = fields.Many2one('product.template', string='Producto')
+    product_id = fields.Many2one('product.product', string='Producto')
     gondola = fields.Char(string='Gondola')
     gondola_id = fields.Many2one('store.raspi', string='Gondola')
     line = fields.Char(string='Linea')

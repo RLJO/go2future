@@ -39,8 +39,7 @@ class SaleOrderCart(http.Controller):
 
         if method == 'GET':
             # Obtener lista de productos de orden de venta abierta
-            response = sale_order.sudo()._get_sale_order_from_controller(
-                user_id)
+            response = sale_order.sudo()._get_sale_order_from_controller(user_id)
             return dumps(response)
 
         if method == 'POST':
