@@ -5,3 +5,4 @@ access_g2f_store_sensor,g2f_stores.store_sensor,g2f_stores.model_store_sensor,ba
 access_g2f_store_door,g2f_stores.store_door,g2f_stores.model_store_door,base.group_user,1,1,1,1
 access_g2f_store_camera_zone,g2f_stores.camera_zone,g2f_stores.model_camera_zone,base.group_user,1,1,1,1
 access_g2f_store_product_store,g2f_stores.product_store,g2f_stores.model_product_store,base.group_user,1,1,1,1
+access_g2f_store_serveria_store,g2f_stores.store_iaserver,g2f_stores.model_store_iaserver,base.group_user,1,1,1,1

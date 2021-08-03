@@ -30,8 +30,8 @@
 
     # always loaded
     'data': [
-        # 'security/ir.model.access.csv',
+        'security/ir.model.access.csv',
         'views/account_move_view.xml',
-        # 'wizard/purchase_order_wizard.xml',
+        'wizard/purchase_order_wizard.xml',
     ],
 }

@@ -76,6 +76,19 @@ class ProductProduct(models.Model):
             return []
         stock_location_name = store_sensor.store_id.view_location_id.name
         print(stock_location_name)
-        response = self.search_product_by_location_code(stock_location_name)
-        return response
 
+        cab = []
+        det = []
+        productos = self.env['product.store'].read_group(
+                domain=[('store_id', '=', store_sensor.store_id.id), ('shelf_id', '=', store_sensor.id)],
+                fields=['product_id'],
+                groupby=['product_id'],
+                lazy=False)
+
+        for producto in productos:
+            product_se = self.env['product.template'].search([('id', '=', producto.get('product_id')[0])])
+            cab.append(f"{product_se.barcode}")
+            det.append(producto.get('__count'))
+
+        response = dict(zip(cab, det))
+        return response

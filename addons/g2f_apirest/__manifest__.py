@@ -10,7 +10,7 @@
     'category': 'ecommerce',
     'license': 'LGPL-3',
     'version': '12.0.1.0.0',
-    'depends': ['website', 'website_sale', 'l10n_ar', 'payment_prisma'],
+    'depends': ['website', 'website_sale', 'l10n_ar', 'payment_prisma', 'g2f_stores'],
     'data': [
         'views/res_partner_views.xml',
         'security/ir.model.access.csv',
