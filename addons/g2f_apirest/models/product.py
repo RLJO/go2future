@@ -79,16 +79,10 @@ class ProductProduct(models.Model):
 
         cab = []
         det = []
-        productos = self.env['product.store'].read_group(
-                domain=[('store_id', '=', store_sensor.store_id.id), ('shelf_id', '=', store_sensor.id)],
-                fields=['product_id'],
-                groupby=['product_id'],
-                lazy=False)
-
+        productos = self.env['product.store'].search([('store_id', '=', store_sensor.store_id.id),
+                                                      ('shelf_id', '=', store_sensor.id)])
         for producto in productos:
-            product_se = self.env['product.template'].search([('id', '=', producto.get('product_id')[0])])
-            cab.append(f"{product_se.barcode}")
-            det.append(producto.get('__count'))
-
+            cab.append(f"{producto.product_id.barcode}")
+            det.append(producto.qty_available_prod)
         response = dict(zip(cab, det))
         return response

@@ -40,15 +40,18 @@ class SaleOrder(models.Model):
         list_sale = self._list_sale_order_cart(order)
         return list_sale
 
-    def _add_products_from_controller(self, user_id, barcode, quantity,
+    def _add_products_from_controller(self, user_id, barcode, quantity, sensor,
                                       action=None):
-        order = self._search_sale_order_by_partner(user_id)
+        user_id = self.env['res.users'].search([('login', '=', user_id)])
+        order = self._search_sale_order_by_partner(user_id.partner_id.id)
         product = self._search_product_by_id(barcode)
         if action == 'picked':
             self._add_product_cart(order, product, quantity)
+            self._remove_product_shelf(order, product, quantity, sensor)
             return True
         elif action == 'placed':
             self._remove_product_cart(order, product, quantity)
+            self._add_product_shelf(order, product, quantity, sensor)
             return True
 
         return False
@@ -95,6 +98,37 @@ class SaleOrder(models.Model):
             ('order_id', '=', order_instance.id),
             ('product_id', '=', product_instance.id)
             ])
+
+    def _add_product_shelf(self, order, product, quantity, sensor):
+        quantity = quantity
+        store = order.warehouse_id
+        product_store = self.env['product.store'].search([('product_id', '=', product.id),
+                                                          ('shelf_id', '=', sensor),
+                                                          ('store_id', '=', store.id)])
+        try:
+            if product_store:
+                quantity += product_store.qty_available_prod
+                product_store.write({'qty_available_prod': quantity})
+                product_store._cr.commit()
+            return True
+        except Exception as error:
+            print(error)
+
+    def _remove_product_shelf(self, order, product, quantity, sensor):
+        quantity = quantity
+        store = order.warehouse_id
+        product_store = self.env['product.store'].search([('product_id', '=', product.id),
+                                                          ('shelf_id.name', '=', sensor),
+                                                          ('store_id', '=', store.id)])
+        # _product_in_sale_order(order_instance, product_instance)
+        try:
+            if product_store:
+                quantity = product_store.qty_available_prod - quantity
+                product_store.write({'qty_available_prod': quantity})
+                product_store._cr.commit()
+            return True
+        except Exception as error:
+            print(error)
 
     def _add_product_cart(self, order_instance, product_instance, quantity):
         '''Add products to cart.'''
@@ -156,7 +190,7 @@ class SaleOrder(models.Model):
         for line in lines:
             product_name = line.product_id.name
             product_sku = line.product_id.default_code
-            product_image = line.product_id.image_128.decode('ascii')
+            product_image = None if not line.product_id.image_128 else line.product_id.image_128.decode('ascii')
             price_unit = line.price_unit
             product_uom_qty = line.product_uom_qty
             price_subtotal = line.price_subtotal

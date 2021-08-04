@@ -33,19 +33,18 @@ class SaleOrderCart(http.Controller):
         barcode = kw.get('product')
         quantity = kw.get('quantity')
         action = kw.get('action')
+        sensor = kw.get('sensor')
 
         sale_order = http.request.env['sale.order']
 
         if method == 'GET':
             # Obtener lista de productos de orden de venta abierta
-            response = sale_order.sudo()._get_sale_order_from_controller(
-                user_id)
+            response = sale_order.sudo()._get_sale_order_from_controller(user_id)
             return dumps(response)
 
         if method == 'POST':
             #  Agregar un prodcuto a una orden de venta
-            response = sale_order.sudo()._add_products_from_controller(
-                user_id, barcode, quantity, action)
+            response = sale_order.sudo()._add_products_from_controller(user_id, barcode, quantity, sensor, action)
             if response:
                 return http.Response('CREATED', status=201)
             return http.Response('NOT FOUND', status=404)
