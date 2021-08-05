@@ -350,9 +350,13 @@ class SaleOrder(models.Model):
             payload = json.dumps(pyload)
             headers = {
                 'Content-Type': "application/json",
-                'Authorization': "Bearer " + api_key,
                 'Cache-Control': "no-cache",
             }
+            if invoice.seller_id.seler_token_type == 'bearer':
+                headers.update({'Authorization': "Bearer " + api_key})
+            elif invoice.seller_id.seler_token_type == 'header':
+                headers.update({invoice.seller_id.token_tag: api_key})
+
             try:
                 response = requests.request("POST", api_path, data=payload, headers=headers)
             except Exception as exc:
