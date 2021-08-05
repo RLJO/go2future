@@ -185,9 +185,10 @@ class SaleOrder(models.Model):
         title = ['product_name', 'product_sku', 'product_image',
                 'price_unit', 'product_uom_qty', 'price_subtotal',
                 'price_tax', 'price_total', 'product_uom',
-                'product_type']
+                'product_type', 'barcode']
 
         for line in lines:
+            product_barcode = line.product_id.barcode
             product_name = line.product_id.name
             product_sku = line.product_id.default_code
             product_image = None if not line.product_id.image_128 else line.product_id.image_128.decode('ascii')
@@ -201,6 +202,6 @@ class SaleOrder(models.Model):
             result.append(dict(zip(title, [
                 product_name, product_sku, product_image, price_unit,
                 product_uom_qty, price_subtotal, price_tax, price_total,
-                product_uom, product_type])))
+                product_uom, product_type, product_barcode])))
         print(result)
         return result

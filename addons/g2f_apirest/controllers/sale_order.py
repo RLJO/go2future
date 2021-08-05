@@ -16,12 +16,20 @@ class SaleOrderCart(http.Controller):
         user_id = kw.get('user_id')
 
         sale_order = http.request.env['sale.order']
+        products = {}
 
         if method == 'GET':
             # Obtener lista de productos de orden de venta abierta
             response = sale_order.sudo()._get_sale_order_from_controller(
                 user_id)
-            return dumps(response)
+
+            # Parsear para vision: {'barcode': cantidad, 'barcode': cantidad}
+            for producto in response:
+                if isinstance(producto, dict):
+                    barcode = producto.get('barcode')
+                    qty = producto.get('product_uom_qty')
+                    products.update({barcode: int(qty)})
+            return dumps(products)
 
     @http.route(['/cart_update'], type='json', auth='public',
             methods=['GET', 'POST'], website=True, csrf=False)
