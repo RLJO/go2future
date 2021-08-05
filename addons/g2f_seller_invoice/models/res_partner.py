@@ -10,3 +10,6 @@ class ResPartner(models.Model):
 
     seller_api_path = fields.Char(string='Seller API path')
     seller_api_key = fields.Char(string='Seller API Key')
+    seler_token_type = fields.Selection(string='Tipo de Auth', default='bearer',
+                                        selection=[('bearer', 'Bearer'), ('header', 'Header-Tag')])
+    token_tag = fields.Char(string='Etiqueta')
