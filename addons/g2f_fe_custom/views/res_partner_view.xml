@@ -54,7 +54,7 @@
                                     </div>
                                 </div>
                                 <field name="seller_api_path" widget="url" placeholder="Url para envio de solicitud de factura" attrs="{'invisible': [('electronic_invoice_type', 'not in', ['seller_api'])], 'required': [('electronic_invoice_type', 'in', ['seller_api'])]}"/>
-                                <field name="seler_token_type" attrs="{'invisible': [('electronic_invoice_type', '!=', 'seler_api')] }" />
+                                <field name="seler_token_type" attrs="{'invisible': [('electronic_invoice_type', '!=', 'seller_api')] }" />
                                 <field name="token_tag" placeholder="X-Auth-Token"
                                        attrs="{'invisible': [('seler_token_type', '!=', 'header')],
                                                'required': [('seler_token_type', '=', 'header')]}"/>
