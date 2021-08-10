@@ -16,7 +16,7 @@ _logger = logging.getLogger(__name__)
 
 
 class ProductProduct(models.Model):
-    '''Product model inherit product.product.'''
+    """Product model inherit product.product."""
 
     _inherit = 'product.product'
 
@@ -24,11 +24,11 @@ class ProductProduct(models.Model):
 
     @api.depends('image_128')
     def _parse_image_128(self):
-        '''Computed fields return image as string.'''
+        """Computed fields return image as string."""
         self.image_128_parse = self.image_128.decode('ascii')
 
     def get_product_by_code(self, barcode=''):
-        '''get product by barcode pased.'''
+        """get product by barcode pased."""
 
         domain = [
             ('barcode', '=', barcode),
@@ -41,7 +41,7 @@ class ProductProduct(models.Model):
         return dumps(response)
 
     def parse_products(self, domain=None):
-        '''Return  products parse.'''
+        """Return  products parse."""
 
         response = self.search_read(
                 domain, 
@@ -53,7 +53,8 @@ class ProductProduct(models.Model):
         return response
 
     def search_product_by_location_code(self, location_code):
-        """Buscar productos ubicados en un determinada tienda pasada como parametro."""
+        """Buscar productos ubicados en un determinada tienda pasada
+        como parametro."""
 
         stock_location = self.env['stock.location'].search([('name', 'ilike', location_code)])
         lista_ubicaciones = [location.id for location in stock_location.child_ids]
@@ -79,16 +80,12 @@ class ProductProduct(models.Model):
 
         cab = []
         det = []
-        productos = self.env['product.store'].read_group(
-                domain=[('store_id', '=', store_sensor.store_id.id), ('shelf_id', '=', store_sensor.id)],
-                fields=['product_id'],
-                groupby=['product_id'],
-                lazy=False)
-
+        productos = self.env['product.store'].search(
+            [('store_id', '=', store_sensor.store_id.id),
+             ('shelf_id', '=', store_sensor.id)]
+        )
         for producto in productos:
-            product_se = self.env['product.template'].search([('id', '=', producto.get('product_id')[0])])
-            cab.append(f"{product_se.barcode}")
-            det.append(producto.get('__count'))
-
+            cab.append(f"{producto.product_id.barcode}")
+            det.append(producto.qty_available_prod)
         response = dict(zip(cab, det))
         return response
