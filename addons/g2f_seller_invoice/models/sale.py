@@ -186,9 +186,10 @@ class SaleOrder(models.Model):
                 "time": inv_time,
                 "items": items
             }
+            pyload = {"invoices": [data, ]}
 
             # url = seller_id.api_path  # "http://dummy.minigo.store/orders"
-            payload = json.dumps(data)
+            payload = json.dumps(pyload)
             headers = {
                 'Content-Type': "application/json",
                 'Authorization': "Bearer " + api_key,
