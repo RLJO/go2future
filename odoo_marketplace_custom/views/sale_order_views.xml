@@ -155,6 +155,10 @@
                     <xpath expr="//field[@name='price_subtotal']" position='after'>
                         <field name="amount_commission_plus_tax"/>
                     </xpath>
+                    <xpath expr="//group[@class='oe_subtotal_footer oe_right']" position='inside'>
+                        <field name="total_commission"/>
+                        <field name="total_less_commission" class="oe_subtotal_footer_separator"/>
+                    </xpath>
                 </data>
             </field>
         </record>

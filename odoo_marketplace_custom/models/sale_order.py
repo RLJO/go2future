@@ -468,6 +468,13 @@ class AccountMove(models.Model):
 
     warehouse_id = fields.Many2one('stock.warehouse', string=_("Warehouse"))
     seller_id = fields.Many2one('res.partner', string=_('Seller'))
+    total_commission = fields.Float('Total Commission', compute='get_total_commission')
+    total_less_commission = fields.Float('Total', compute='get_total_commission')
+
+    @api.depends('invoice_line_ids')
+    def get_total_commission(self):
+        self.total_commission = sum(l.amount_commission_plus_tax for l in self.invoice_line_ids)
+        self.total_less_commission = self.amount_total - self.total_commission
 
 
 class AccountMove(models.Model):
