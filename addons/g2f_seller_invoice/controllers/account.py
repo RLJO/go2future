@@ -73,7 +73,8 @@ class Account(http.Controller):
                     "unit_price": line.price_unit,
                     "discount": line.discount,
                     "tax": tax_items,
-                    "subtotal": line.price_subtotal
+                    "subtotal": line.price_subtotal,
+                    "amount_commission_plus_tax": line.amount_commission_plus_tax
                 }
                 items.append(item)
 
@@ -92,6 +93,8 @@ class Account(http.Controller):
                 "amount_untaxed": invoice.amount_untaxed,
                 "amount_tax": invoice.amount_tax,
                 "amount_total": invoice.amount_total,
+                "total_commission": invoice.total_commission,
+                "total_less_commission": invoice.total_less_commission,
                 "items": items
             }
             res.append(data)
