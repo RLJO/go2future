@@ -464,12 +464,13 @@
 			<field name="mode">primary</field>
 			<field name="arch" type="xml">
 				<form string="Product">
+					<field name="marketplace_seller_group" invisible="True"/>
 					<header>
 						<button name="set_pending" type="object" string="Request To Approve" attrs="{'invisible':[('status', 'in', ('pending','approved','rejected'))]}" class="btn-primary"/>
-						<button name="approved" type="object" string="Approve" attrs="{'invisible':[('status', 'in', ('draft','approved','rejected',False))]}" groups="odoo_marketplace.marketplace_officer_group" class="btn-primary"/>
-						<button name="reject" type="object" string="Reject" attrs="{'invisible':[('status', 'in', ('draft','rejected', False))]}" groups="odoo_marketplace.marketplace_officer_group"/>
-						<button name="send_to_draft" type="object" attrs="{'invisible':[('status', 'in', ('pending','approved','draft', False))]}" string="Send To Draft"/>
-						<button string="Variant Prices" type="action" name="%(odoo_marketplace.mp_product_template_attribute_value_action)d" attrs="{'invisible': [('product_variant_count', '&lt;=', 1)]}" groups="product.group_product_variant"/>
+						<button name="approved" type="object" string="Approve" attrs="{'invisible':[('status', 'in', ('draft','approved','rejected',False)), ('marketplace_seller_group', '=', True)]}" groups="odoo_marketplace.marketplace_officer_group" class="btn-primary"/>
+						<button name="reject" type="object" string="Reject" attrs="{'invisible':[('status', 'in', ('draft','rejected', False)), ('marketplace_seller_group', '=', True)]}" groups="odoo_marketplace.marketplace_officer_group"/>
+						<button name="send_to_draft" type="object" attrs="{'invisible':['|', ('status', 'in', ('pending','approved','draft', False)), ('marketplace_seller_group', '=', True)]}" string="Send To Draft"/>
+						<button string="Variant Prices" type="action" name="%(odoo_marketplace.mp_product_template_attribute_value_action)d" attrs="{'invisible': [('product_variant_count', '&lt;=', 1), ('marketplace_seller_group', '=', True)]}" groups="product.group_product_variant"/>
 						<field name="status" widget="statusbar" statusbar_visible="draft,pending,approved,rejected"/>
 					</header>
 					<sheet>
@@ -486,34 +487,42 @@
 								<field string="Variants" name="product_variant_count" widget="statinfo"/>
 							</button>
 						</div>
-						<field name="image_1920" widget="image" class="oe_avatar"/>
+						<field name="image_1920" widget="image" class="oe_avatar" attrs="{'readonly' : [('marketplace_seller_group', '=', True)]}"/>
 						<div class="oe_title">
 							<label class="oe_edit_only" for="name" string="Product Name"/>
-							<h1><field name="name"/></h1>
+							<h1><field name="name" attrs="{'readonly' : [('marketplace_seller_group', '=', True)]}"/></h1>
 							<label class="oe_edit_only" for="public_categ_ids"/>
-							<h3><field name="public_categ_ids" required="1" options="{'no_create': True}" widget="many2many_tags" placeholder="Category..."/></h3>
+							<h3><field name="public_categ_ids" required="1" options="{'no_create': True}" widget="many2many_tags" placeholder="Category..."
+							attrs="{'readonly' : [('marketplace_seller_group', '=', True)]}"/></h3>
 						</div>
-						<field name="standard_price" invisible="1" groups="odoo_marketplace.marketplace_draft_seller_group"/>
+						<field name="standard_price" invisible="1" groups="odoo_marketplace.marketplace_draft_seller_group"
+						attrs="{'readonly' : [('marketplace_seller_group', '=', True)]}"/>
 						<div name="wk_div_info"></div>
 						<br/>
 						<notebook>
 							<page string="Information">
-								<group>
+								<group attrs="{'readonly' : [('marketplace_seller_group', '=', True)]}">
 									<group>
 										<field name="type" attrs="{'readonly' : [('status', 'in', ['approved', 'rejected'])]}"/>
-										<field name="categ_id" required="1" options="{'no_create': True}" class="oe_inline" groups="odoo_marketplace.marketplace_officer_group"/>
-                                        <field name="marketplace_seller_id" required="1" attrs="{'readonly': [('status', 'in', ('approved','rejected'))]}" domain="[('seller', '=', True), ('state', '=', 'approved')]" options="{'no_create': True}" context="{'form_view_ref': 'odoo_marketplace.wk_seller_form_view'}" groups="odoo_marketplace.marketplace_officer_group"/>
+										<field name="categ_id" required="1" options="{'no_create': True}"
+											   class="oe_inline" groups="odoo_marketplace.marketplace_officer_group"
+										attrs="{'readonly' : [('marketplace_seller_group', '=', True)]}"/>
+                                        <field name="marketplace_seller_id" required="1" attrs="{'readonly': [('status', 'in', ('approved','rejected')), ('marketplace_seller_group', '=', True)]}"
+											   domain="[('seller', '=', True), ('state', '=', 'approved')]" options="{'no_create': True}" context="{'form_view_ref': 'odoo_marketplace.wk_seller_form_view'}" groups="odoo_marketplace.marketplace_officer_group"/>
 										<field name="currency_id" invisible="1"/>
 									</group>
 									<group>
-										<field name="lst_price" widget='monetary' options="{'currency_field': 'currency_id'}" attrs="{'readonly': [('product_variant_count', '&gt;', 1)]}"/>
-										<field name="barcode" attrs="{'invisible': [('product_variant_count', '&gt;', 1)]}"/>
-										<field name="hs_code"/>
-										<field name="default_code" attrs="{'invisible': [('product_variant_count', '&gt;', 1)]}"/>
+										<field name="lst_price" widget='monetary' options="{'currency_field': 'currency_id'}"
+											   attrs="{'readonly': [('product_variant_count', '&gt;', 1),
+											   ('marketplace_seller_group', '=', True)]}"/>
+										<field name="barcode" attrs="{'invisible': [('product_variant_count', '&gt;', 1)], 'readonly' : [('marketplace_seller_group', '=', True)]}"/>
+										<field name="hs_code" attrs="{'readonly' : [('marketplace_seller_group', '=', True)]}"/>
+										<field name="default_code" attrs="{'invisible': [('product_variant_count', '&gt;', 1)], 'readonly' : [('marketplace_seller_group', '=', True)]}"/>
 									</group>
 								</group>
 								<separator string="Internal Notes" colspan="4" groups="odoo_marketplace.marketplace_officer_group"/>
-								<field name="description" placeholder="This note is only for internal purposes." groups="odoo_marketplace.marketplace_officer_group"/>
+								<field name="description" placeholder="This note is only for internal purposes." groups="odoo_marketplace.marketplace_officer_group"
+									   attrs="{'readonly' : [('marketplace_seller_group', '=', True)]}"/>
 							</page>
 							<page name="variants" string="Variants" groups="product.group_product_variant">
 								<field name="attribute_line_ids" widget="one2many_list" context="{'show_attribute': False}">
