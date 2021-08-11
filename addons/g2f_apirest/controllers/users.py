@@ -241,6 +241,7 @@ class ResUser(http.Controller):
         if not params:
             params = {}
 
+
         login = params.get('login')
         passw = params.get('password')
         name = params.get('name')
@@ -260,8 +261,9 @@ class ResUser(http.Controller):
         document_reverse = params.get('document_reverse')
 
         user = http.request.env['res.users']
-        if self.res_partner.sudo().validate_user(login) or \
-                self.res_partner.sudo().document_exist(identification_type, vat):
+        self.res_partner = user.partner_id
+        if user.partner_id.sudo().validate_user(login) or \
+                user.partner_id.sudo().document_exist(identification_type, vat):
             msg = _('User already exists!')
             response = {'status': '400', 'message': msg}
             return dumps(response)
