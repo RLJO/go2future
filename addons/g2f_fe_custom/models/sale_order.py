@@ -20,6 +20,9 @@ class SaleOrder(models.Model):
     def _create_invoices(self, grouped=False, final=False, date=None):
         moves = super(SaleOrder, self)._create_invoices(grouped, final, date)
         for move in moves:
-            if move.partner_id and move.partner_id.fe_journal_id:
-                move.journal_id = move.partner_id.fe_journal_id
+            move.company_invoicing = False
+            if move.seller_id and move.seller_id.fe_journal_id:
+                move.journal_id = move.seller_id.fe_journal_id
+            if move.seller_id.electronic_invoice_type in ['afip', 'no_afip']:
+                move.action_post()
         return moves

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_country_form_marketplace" model="ir.ui.view">
+            <field name="name">res.country.form</field>
+            <field name="model">res.country</field>
+            <field name="inherit_id" ref="base.view_country_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='code']" position="after">
+                    <field name="code_mini"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_country_tree_marketplace" model="ir.ui.view">
+            <field name="name">res.country.form</field>
+            <field name="model">res.country</field>
+            <field name="inherit_id" ref="base.view_country_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='code']" position="after">
+                    <field name="code_mini"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="res_country_state_marketplace_view_tree">
+            <field name="name">res.country.state.inherit.view.tree</field>
+            <field name="model">res.country.state</field>
+            <field name="inherit_id" ref="base.view_country_state_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='code']" position="after">
+                    <field name="code_mini"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_country_state_form_inherit_marketplace" model="ir.ui.view">
+            <field name="name">res.country.state.form.marketplace</field>
+            <field name="model">res.country.state</field>
+            <field name="inherit_id" ref="base.view_country_state_form"/>
+            <field name="arch" type="xml">
+                <field name="country_id" position="after">
+                    <field name="code_mini"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</odoo>
