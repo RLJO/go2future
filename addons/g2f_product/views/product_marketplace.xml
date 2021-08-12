@@ -25,17 +25,17 @@
                       </group>
                       <group string="Locación">
                         <field name="layout" attrs="{'required': [('status', 'in', ('pending', 'approved'))]}"/>
-                        <field name="cant_frente"/>
+                        <!--field name="cant_frente"/>
                         <field name="cant_fondo"/>
-                        <field name="cant_altura"/>
+                        <field name="cant_altura"/-->
                       </group>
                       <group string="Logistica">
                         <field name="gondola" attrs="{'required': [('status', 'in', ('pending', 'approved'))]}"/>
-                        <label for="peso_estante"/>
+                        <!--label for="peso_estante"/>
                         <div class="o_row" name="peso_estante">
                           <field name="peso_estante"/>
                           <span>g</span>
-                        </div>
+                        </div-->
                         <label for="aptitud"/>
                         <div class="o_row" name="aptitud">
                           <field name="aptitud"/>
@@ -111,11 +111,11 @@
                 <field name="product_code" readonly="1"/>
                 <br/>
                 <label for="product_url"/>
-                <field name="product_url" widget="url"/>
+                <field name="product_url" widget="url" attrs="{'readonly' : [('marketplace_seller_group', '=', True)]}"/>
             </xpath>
 
             <button name="send_to_draft" position="attributes">
-                <attribute name="attrs">{'invisible':[('status', 'in', ('pending','draft', False))]}</attribute>
+                <attribute name="attrs">{'invisible':['|', ('status', 'in', ('pending','approved','draft', False)), ('marketplace_seller_group', '=', True)]}</attribute>
             </button>
 
 

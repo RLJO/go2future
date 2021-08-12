@@ -41,6 +41,9 @@
                                     <field name="name" force_save="1"/>
                                     <field name="product_id" force_save="1"/>
                                     <field name="price_unit" force_save="1" widget="monetary" sum="PRECIO UNITARIO(B+I)"/>
+                                    <field name="discount" readonly="1" widget="monetary" sum="Dcto(%)" optional="show"/>
+                                    <field name="discount_unit" readonly="1" widget="monetary" sum="Dcto Unitario" optional="show"/>
+                                    <field name="discount_total" readonly="1" widget="monetary" sum="Dcto Unitario" optional="show"/>
                                     <field name="amount_tax" force_save="1" widget="monetary" sum="IMPUESTOS" optional="show"/>
                                     <field name="tax_id" force_save="1" widget="many2many_tags" optional="show"/>
                                     <field name="total_tax" force_save="1" sum="% IVA Total" optional="show"/>
@@ -69,6 +72,22 @@
             </field>
         </record>
 
+
+        <record model="ir.ui.view" id="view_marketplace_vendor_search">
+            <field name="name">marketplace.vendor.search</field>
+            <field name="model">marketplace.vendor</field>
+            <field name="arch" type="xml">
+                <search string="Marketplace vendor">
+                    <group string="Group By">
+                        <filter string="Fecha" name="date"
+                            context="{'group_by': 'date'}"/>
+                        <filter string="Vendedor" name="name"
+                            context="{'group_by': 'name'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
          <record id="view_marketplace_vendor_form" model="ir.ui.view">
             <field name="name">marketplace.vendor.form</field>
             <field name="model">marketplace.vendor</field>
@@ -84,6 +103,9 @@
                             <field name="name" force_save="1"/>
                             <field name="product_id" force_save="1"/>
                             <field name="price_unit" force_save="1" widget="monetary" sum="PRECIO UNITARIO(B+I)"/>
+                             <field name="discount" force_save="1" widget="monetary" sum="Dcto(%)" optional="show"/>
+                            <field name="discount_unit"  force_save="1" widget="monetary" sum="Dcto Unitario" optional="show"/>
+                            <field name="discount_total"  force_save="1" widget="monetary" sum="Dcto Unitario" optional="show"/>
                             <field name="amount_tax" force_save="1" widget="monetary" sum="IMPUESTOS" optional="show"/>
                             <field name="tax_id" force_save="1" widget="many2many_tags" optional="show"/>
                             <field name="total_tax" force_save="1" sum="% IVA Total" optional="show"/>
@@ -116,6 +138,9 @@
                 <field name="partner_id" readonly="1"/>
                 <field name="product_id" readonly="1"/>
                 <field name="price_unit" widget="monetary" sum="PRECIO UNITARIO(B+I)" readonly="1"/>
+                <field name="discount" readonly="1" widget="monetary" sum="Dcto(%)" optional="show"/>
+                <field name="discount_unit" readonly="1" widget="monetary" sum="Dcto Unitario" optional="show"/>
+                <field name="discount_total" readonly="1" widget="monetary" sum="Dcto Unitario" optional="show"/>
                 <field name="amount_tax" widget="monetary" sum="IMPUESTOS" optional="show" readonly="1"/>
                 <field name="tax_id" widget="many2many_tags" optional="show" readonly="1"/>
                 <field name="total_tax" sum="% IVA Total" optional="show" readonly="1"/>
@@ -137,6 +162,8 @@
                 <field name="name">marketplace vendedor %</field>
                 <field name="res_model">marketplace.vendor</field>
                 <field name="view_mode">tree,kanban</field>
+                 <field name="search_view_id" ref="view_marketplace_vendor_search"/>
+                <field name="context">{"search_default_date":1,"search_default_name":1 }</field>
         </record>
 
         <menuitem id="marketplace_vendor_menu" name="marketplace vendedor %" action="action_marketplace_vendor_form" parent="odoo_marketplace.wk_seller_dashboard_menu1"/>
