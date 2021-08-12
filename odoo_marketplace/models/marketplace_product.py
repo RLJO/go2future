@@ -58,9 +58,20 @@ class ProductTemplate(models.Model):
         readonly=True, store=True,
         groups="base.group_user,odoo_marketplace.marketplace_seller_group")
     item_ids = fields.One2many('product.pricelist.item', 'product_tmpl_id', 'Pricelist Items')
+    marketplace_seller_group = fields.Boolean(string='block', compute="_marketplace_seller_group")
 
     @api.model
-    def _read_group_fill_results( self, domain, groupby, remaining_groupbys,
+    def _marketplace_seller_group(self):
+        self.marketplace_seller_group = False
+        for obj in self:
+            seller_group = obj.env['ir.model.data'].get_object_reference(
+                'odoo_marketplace', 'marketplace_seller_group')[1]
+            groups_ids = obj.env.user.sudo().groups_id.ids
+            if seller_group in groups_ids and obj.status in ['pending', 'approved', 'rejected']:
+                obj.marketplace_seller_group = True
+
+    @api.model
+    def _read_group_fill_results(self, domain, groupby, remaining_groupbys,
         aggregated_fields, count_field,read_group_result, read_group_order=None):
 
         if groupby == 'status':

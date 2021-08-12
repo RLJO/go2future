@@ -19,6 +19,19 @@ class SaleOrder(models.Model):
     @api.model
     def create(self, vals):
         result = super(SaleOrder, self).create(vals)
+        if result.warehouse_id:
+            if not result.warehouse_id.code:
+                raise UserError(_('Debe colocar el Codigo del local %s', result.warehouse_id.name))
+            if not result.warehouse_id.country_id:
+                raise UserError(_('Debe colocar el pais del local %s', result.warehouse_id.name))
+            if not result.warehouse_id.state_id:
+                raise UserError(_('Debe colocar la Provincia del local %s', result.warehouse_id.name))
+            if not result.warehouse_id.country_id.code_mini:
+                raise UserError(_('Debe colocar el Código MiniGO al pais del local %s', result.warehouse_id.name))
+            if not result.warehouse_id.state_id.code_mini:
+                raise UserError(_('Debe colocar el Código MiniGO a la Provincia del local %s', result.warehouse_id.name))
+            result.name = (result.warehouse_id.country_id.code_mini + '-' + result.warehouse_id.state_id.code_mini
+                           + '-' + result.warehouse_id.code + '-' + result.name)
         result.create_marketplace_vendor()
         return result
 
@@ -75,8 +88,10 @@ class SaleOrder(models.Model):
                 'tax_id': tax_line,
                 'total_tax': total_tax,
                 'total_int': total_int,
-                'partner_id': self.partner_id.id
-
+                'partner_id': self.partner_id.id,
+                'discount': line.discount if line.discount else 0,
+                'discount_unit': ((line.discount * line.price_unit)/100) if line.discount else 0,
+                'discount_total': line.price_unit - ((line.discount * line.price_unit)/100) if line.discount else 0
             }
             total_vendor = (price_unit * line.product_uom_qty) - amount_commission_amount_tax_company_total
             self.sudo().marketplace_vendor_line.create(vals)
@@ -466,6 +481,10 @@ class MarketplaceVendor(models.Model):
     total_vendor = fields.Float(string='TOTAL VENDEDOR')
     partner_id = fields.Many2one('res.partner', 'Cliente',
                                  required=False)
+    discount = fields.Float(string='Dcto(%)', digits='Discount', default=0.0)
+    discount_unit = fields.Float(string='Dcto Unitario', digits='Discount', default=0.0)
+    discount_total = fields.Float(string='Dcto Total', digits='Discount', default=0.0)
+
 
 
 class AccountMove(models.Model):
@@ -473,6 +492,14 @@ class AccountMove(models.Model):
 
     warehouse_id = fields.Many2one('stock.warehouse', string=_("Warehouse"))
     seller_id = fields.Many2one('res.partner', string=_('Seller'))
+    total_commission = fields.Float('Total Commission', compute='get_total_commission')
+    total_less_commission = fields.Float('Total', compute='get_total_commission')
+
+    @api.depends('invoice_line_ids')
+    def get_total_commission(self):
+        for s in self:
+            s.total_commission = sum(l.amount_commission_plus_tax for l in s.invoice_line_ids)
+            s.total_less_commission = s.amount_total - s.total_commission
 
 
 class AccountMove(models.Model):

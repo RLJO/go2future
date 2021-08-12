@@ -22,7 +22,8 @@ class ResPartner(models.Model):
     _inherit = 'res.partner'
 
     def _default_image(self):
-        image_path = get_module_resource('g2f_apirest', 'static/src/img', 'default_image.png')
+        image_path = get_module_resource('g2f_apirest', 'static/src/img',
+                                         'default_image.png')
         return base64.b64encode(open(image_path, 'rb').read())
 
 
@@ -36,7 +37,9 @@ class ResPartner(models.Model):
     gender = fields.Selection(GENDER, string='Gender')
     document_obverse = fields.Image(default=_default_image)
     document_reverse = fields.Image(default=_default_image)
-    user_avatar = fields.Image(default=_default_image)
+    user_avatar = fields.Image()
+    terms_conditions_agreement = fields.Boolean(default=False)
+    email_recipe_receive = fields.Boolean(default=False)
 
     def age(self):
         age = 0
@@ -130,7 +133,8 @@ class ResPartner(models.Model):
         return countries
 
     def get_payment_card(self):
-        """Get Payment Card data from unser passed in instance self from controllers."""
+        """Get Payment Card data from unser passed in instance self from
+        controllers."""
 
         lista = [(t.id, t.name, t.card_number, t.security_code, t.expiration_month,
                 t.expiration_year, t.card_type, t.card_identification.name, t.state) 
@@ -167,5 +171,26 @@ class ResPartner(models.Model):
     def payment_cards_type_list(self):
         """Get payment_cards_type_list and return a generators list."""
 
-        return ((f.name, f.payment_method_id) for f in self.env['payment.cards.types'].search([]))
+        # return ((f.name, f.payment_method_id) for f in self.env['payment.cards.types'].search([]))
+        return ((f.name, f.id) for f in self.env['payment.cards.types'].search([]))
 
+    def get_data_user(self):
+        """Parse data for user."""
+
+        res_partner = {"name": self.name,
+                       "lastname": self.lastname,
+                       "login": self.email,
+                       "birthday": self.birthday.strftime('%Y-%m-%d'),
+                       "gender": self.gender,
+                       "identification_type": self.l10n_latam_identification_type_id.name,
+                       "vat": self.vat,
+                       "address": self.street,
+                       "country": self.country_id.name,
+                       "country_state": self.state_id.name,
+                       "state_city": self.city,
+                       "business_name": '',
+                       "phone": self.phone,
+                       "password": self.user_id.password,
+                       "avatar": self.user_avatar.decode('ascii') if self.user_avatar else ''}
+
+        return res_partner if res_partner else ''
