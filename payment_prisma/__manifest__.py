@@ -4,6 +4,7 @@
   "summary":  """Enables the use of the Prisma payment gateway.""",
   "category": "Payment",
   "version":  "1.0.0",
+  "contributors": ["Boris Silva <silvaboris@gmail.com>"],
   "author":  "kelvis pernia / Andy Quijada",
   "description":  """Enables the use of the Prisma payment gateway.""",
   "depends":  [

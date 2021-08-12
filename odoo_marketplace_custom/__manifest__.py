@@ -14,11 +14,12 @@
 # If not, see <https://store.webkul.com/license.html/>
 #################################################################################
 {
-  "name":  "Odoo Multi Vendor Marketplace custom",
+  "name":  "G2F Marketplace custom",
   "summary":  """Start your marketplace in odoo with Odoo Multi-Vendor Marketplace custom.""",
   "category": "Website",
   "version":  "14.0.5",
   "author":  "kelvis pernia / Andy Quijada",
+  "contributors": ["Boris Silva <silvaboris@gmail.com>"],
   "description":  """Odoo Multi Vendor Marketplace custom""",
   "depends":  ['base', 'l10n_latam_base', 'sale', 'odoo_marketplace', 'marketplace_seller_wise_checkout',
                'g2f_marketplace', 'account', 'g2f_stores'],
