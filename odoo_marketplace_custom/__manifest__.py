@@ -19,6 +19,7 @@
   "category": "Website",
   "version":  "14.0.5",
   "author":  "kelvis pernia / Andy Quijada",
+  "contributors": ["Boris Silva <silvaboris@gmail.com>"],
   "description":  """Odoo Multi Vendor Marketplace custom""",
   "depends":  ['base', 'l10n_latam_base', 'sale', 'odoo_marketplace', 'marketplace_seller_wise_checkout',
                'g2f_marketplace', 'account', 'g2f_stores'],
