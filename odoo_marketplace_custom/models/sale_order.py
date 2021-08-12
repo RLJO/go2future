@@ -478,8 +478,9 @@ class AccountMove(models.Model):
 
     @api.depends('invoice_line_ids')
     def get_total_commission(self):
-        self.total_commission = sum(l.amount_commission_plus_tax for l in self.invoice_line_ids)
-        self.total_less_commission = self.amount_total - self.total_commission
+        for s in self:
+            s.total_commission = sum(l.amount_commission_plus_tax for l in s.invoice_line_ids)
+            s.total_less_commission = s.amount_total - s.total_commission
 
 
 class AccountMove(models.Model):

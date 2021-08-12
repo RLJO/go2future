@@ -28,7 +28,8 @@ class Account(http.Controller):
         res = []
         account = http.request.env['account.move']
         seller = http.request.env['res.partner']
-        seller_ids = seller.sudo().search([('vat', '=', kw.get('cuit').replace('-', ''))])
+        # seller_ids = seller.sudo().search([('vat', '=', kw.get('cuit').replace('-', ''))])
+        seller_ids = seller.sudo().search([('vat', '=', kw.get('cuit'))])
         domain = [
             ('move_type', '=', 'out_invoice'),
             ('state', '=', 'posted'),
