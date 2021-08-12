@@ -169,7 +169,8 @@ class ResPartner(models.Model):
     def payment_cards_type_list(self):
         """Get payment_cards_type_list and return a generators list."""
 
-        return ((f.name, f.payment_method_id) for f in self.env['payment.cards.types'].search([]))
+        # return ((f.name, f.payment_method_id) for f in self.env['payment.cards.types'].search([]))
+        return ((f.name, f.id) for f in self.env['payment.cards.types'].search([]))
 
     def get_data_user(self):
         """Parse data for user."""
