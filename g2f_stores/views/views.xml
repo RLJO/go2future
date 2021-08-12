@@ -8,7 +8,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='code']" position="after">
                     <field name="direccion_local"/>
-                    <field name="country_id" string="Ciudad"/>
+                    <field name="country_id" string="País"/>
                     <field name="state_id" string="Provincia"/>
                 </xpath>
                 <xpath expr="//field[@name='code']" position="attributes">
@@ -18,29 +18,29 @@
                     <attribute name="string">Compañía</attribute>
                 </xpath>
                 <xpath expr="//notebook" position="inside">
-                    <page name="tiendas" string="Configuracion de Tienda">
+                    <page name="tiendas" string="Configuracion de Tienda" groups="stock.group_stock_manager">
                         <group name="api_url" string="Connf API">
                             <field name="vision_url"/>
                             <field name="access_control_url"/>
                             <field name="plano_url"/>
                         </group>
                     </page>
-                    <page name="config_door" string="Control de Accesos">
+                    <page name="config_door" string="Control de Accesos" groups="stock.group_stock_manager">
                         <group name="doors" string="Puertas">
                             <field name="door_ids" nolabel="1"/>
                         </group>
                     </page>
-                    <page name="config_vision" string="Vision">
+                    <page name="config_vision" string="Vision" groups="stock.group_stock_manager">
                         <group name="cameras" string="Camaras">
                             <field name="cameras_ids" nolabel="1"/>
                         </group>
                     </page>
-                    <page name="config_sensor" string="Sensores">
+                    <page name="config_sensor" string="Sensores" groups="stock.group_stock_manager">
                         <group name="raspi" string="Raspberrys">
                             <field name="raspi_ids" nolabel="1"/>
                         </group>
                     </page>
-                    <page name="config_plano" string="Planogrametría">
+                    <page name="config_plano" string="Planogrametría" groups="stock.group_stock_manager">
                         <group name="plano" string="Planogrametria">
                             <field name="product_plano_ids" nolabel="1"/>
                         </group>
