@@ -14,7 +14,7 @@
 # If not, see <https://store.webkul.com/license.html/>
 #################################################################################
 {
-  "name":  "Odoo Multi Vendor Marketplace custom",
+  "name":  "G2F Marketplace custom",
   "summary":  """Start your marketplace in odoo with Odoo Multi-Vendor Marketplace custom.""",
   "category": "Website",
   "version":  "14.0.5",
