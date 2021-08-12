@@ -9,7 +9,7 @@
         Add catman and nutrition facts pages to product
     """,
 
-    'author': "Go 2 Future",
+    'author': "Go2Future",
     'website': "go2future.com.ar",
     'contributors': ["Boris Silva <silvaboris@gmail.com>"],
 

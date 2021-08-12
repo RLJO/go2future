@@ -5,6 +5,7 @@
   "category": "payment",
   "version":  "14.0.0",
   "author":  "kelvis pernia / Andy Quijada",
+  "contributors": ["Boris Silva <silvaboris@gmail.com>"],
   "description":  """Odoo commission payment""",
   "depends":  ['base', 'sale', 'odoo_marketplace', 'marketplace_seller_wise_checkout', 'account',
                'odoo_marketplace_custom'],
