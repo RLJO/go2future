@@ -37,7 +37,9 @@ class ResPartner(models.Model):
     gender = fields.Selection(GENDER, string='Gender')
     document_obverse = fields.Image(default=_default_image)
     document_reverse = fields.Image(default=_default_image)
-    user_avatar = fields.Image(default=_default_image)
+    user_avatar = fields.Image()
+    terms_conditions_agreement = fields.Boolean(default=False)
+    email_recipe_receive = fields.Boolean(default=False)
 
     def age(self):
         age = 0
@@ -169,7 +171,8 @@ class ResPartner(models.Model):
     def payment_cards_type_list(self):
         """Get payment_cards_type_list and return a generators list."""
 
-        return ((f.name, f.payment_method_id) for f in self.env['payment.cards.types'].search([]))
+        # return ((f.name, f.payment_method_id) for f in self.env['payment.cards.types'].search([]))
+        return ((f.name, f.id) for f in self.env['payment.cards.types'].search([]))
 
     def get_data_user(self):
         """Parse data for user."""

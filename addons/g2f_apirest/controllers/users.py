@@ -241,6 +241,7 @@ class ResUser(http.Controller):
         if not params:
             params = {}
 
+
         login = params.get('login')
         passw = params.get('password')
         name = params.get('name')
@@ -258,10 +259,13 @@ class ResUser(http.Controller):
         image_1920 = params.get('image_1920')
         document_obverse = params.get('document_obverse')
         document_reverse = params.get('document_reverse')
+        terms_conditions_agreement = params.get('terms_conditions_agreement') or False
+        email_recipe_receive = params.get('email_recipe_receive') or False
 
         user = http.request.env['res.users']
-        if self.res_partner.sudo().validate_user(login) or \
-                self.res_partner.sudo().document_exist(identification_type, vat):
+        self.res_partner = user.partner_id
+        if user.partner_id.sudo().validate_user(login) or \
+                user.partner_id.sudo().document_exist(identification_type, vat):
             msg = _('User already exists!')
             response = {'status': '400', 'message': msg}
             return dumps(response)
@@ -287,7 +291,10 @@ class ResUser(http.Controller):
                     'vat': vat, 'country_id': country_id, 'state_id': state_id,
                     'city': state_city, 'l10n_ar_afip_responsibility_type_id': 5,
                     'image_1920': image_1920, 'document_obverse': document_obverse,
-                    'document_reverse': document_reverse, 'lang': 'es_AR'}
+                    'document_reverse': document_reverse, 'lang': 'es_AR',
+                    'terms_conditions_agreement': terms_conditions_agreement,
+                    'email_recipe_receive': email_recipe_receive}
+
             self._update_res_partner(login, data)
 
             response = {'status': '200', 'message': 'ok'}

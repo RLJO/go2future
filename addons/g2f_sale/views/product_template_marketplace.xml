@@ -66,22 +66,24 @@
                         Normas de precio
                     </span>
                 </button>
-                <field name="taxes_id" widget="many2many_tags" options="{'no_create': True}" attrs="{'required': True }"/>
+                <field name="taxes_id" widget="many2many_tags" options="{'no_create': True}"
+                       attrs="{'readonly' : [('marketplace_seller_group', '=', True)]}" required="True" />
                 <field name="internal_tax" widget="float" placeholder="Internal Taxes" invisible="1"/>
             </xpath>
 
             <!-- this is in: PAGE=Inventory Group=Weights -->
             <xpath expr="//field[@name='uom_id']" position="replace">
-                <field name="uom_id" options="{'no_open':True, 'no_create_edit':True, 'no_create':True}" attrs="{'required': True }" domain="[('unit_for_sale', '=', True)]"/>
+                <field name="uom_id" options="{'no_open':True, 'no_create_edit':True, 'no_create':True}"  required="True" domain="[('unit_for_sale', '=', True)]"/>
             </xpath>
 
             <xpath expr="//field[@name='categ_id']" position="before">
-                <field name="brand"/>
-                <field name="contents"/>
-                <field name="uom_id" options="{'no_open':True, 'no_create_edit':True, 'no_create':True}" attrs="{'required': True }" domain="[('unit_for_sale', '=', True)]"/>
-                <field name="barcode" string="EAN 13" required="1"/>
-                <field name="country_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,}"/>
-                <field name="useful_life" string="Vida útil en días"/>
+                <field name="brand" attrs="{'readonly' : [('marketplace_seller_group', '=', True)]}"/>
+                <field name="contents" attrs="{'readonly' : [('marketplace_seller_group', '=', True)]}"/>
+                <field name="uom_id" options="{'no_open':True, 'no_create_edit':True, 'no_create':True}" attrs="{'readonly' : [('marketplace_seller_group', '=', True)]}"
+                       domain="[('unit_for_sale', '=', True)]"  required="True"/>
+                <field name="barcode" string="EAN 13" required="1" attrs="{'readonly' : [('marketplace_seller_group', '=', True)]}"/>
+                <field name="country_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,}" attrs="{'readonly' : [('marketplace_seller_group', '=', True)]}"/>
+                <field name="useful_life" string="Vida útil en días" attrs="{'readonly' : [('marketplace_seller_group', '=', True)]}"/>
             </xpath>
 
 
@@ -92,26 +94,26 @@
             <xpath expr="//separator" position="before">
                 <group id="package">
                     <group string="Datos del Bulto">
-                        <field name="units_per_package"/>
-                        <field name="dun14" attrs="{'required': True}"/>
-                        <field name="width" string="Ancho (mm)" attrs="{'required': True}"/>
-                        <field name="height" string="Altura (mm)" attrs="{'required': True}"/>
-                        <field name="depth" string="Profundidad (mm)" attrs="{'required': True}"/>
-                        <field name="weight" string="Peso del bulto (g)" attrs="{'required': True}"/>
+                        <field name="units_per_package" attrs="{'readonly' : [('marketplace_seller_group', '=', True)]}"/>
+                        <field name="dun14" attrs="{'readonly' : [('marketplace_seller_group', '=', True)]}" required="True"/>
+                        <field name="width" string="Ancho (mm)" attrs="{'readonly' : [('marketplace_seller_group', '=', True)]}" required="True"/>
+                        <field name="height" string="Altura (mm)" attrs="{'readonly' : [('marketplace_seller_group', '=', True)]}" required="True"/>
+                        <field name="depth" string="Profundidad (mm)" attrs="{'readonly' : [('marketplace_seller_group', '=', True)]}" required="True"/>
+                        <field name="weight" string="Peso del bulto (g)" attrs="{'readonly' : [('marketplace_seller_group', '=', True)]}" required="True"/>
                     </group>
                     <group string="Atributos">
-                        <field name="vegan"/>
-                        <field name="organic"/>
-                        <field name="without_tacc"/>
-                        <field name="sugar_free"/>
+                        <field name="vegan" attrs="{'readonly' : [('marketplace_seller_group', '=', True)]}"/>
+                        <field name="organic" attrs="{'readonly' : [('marketplace_seller_group', '=', True)]}"/>
+                        <field name="without_tacc" attrs="{'readonly' : [('marketplace_seller_group', '=', True)]}"/>
+                        <field name="sugar_free" attrs="{'readonly' : [('marketplace_seller_group', '=', True)]}"/>
                     </group>
                 </group>
                 <group string="Mensajes opcionales">
-                    <field name="optional_messages" nolabel="1" placeholder="Mensajes opcionales para el cliente"/>
+                    <field name="optional_messages" nolabel="1" placeholder="Mensajes opcionales para el cliente"  attrs="{'readonly' : [('marketplace_seller_group', '=', True)]}"/>
                 </group>
                 <br/>
                 <group string="Descripción">
-                    <field name="product_description" nolabel="1" placeholder="Descripción del producto"/>
+                    <field name="product_description" nolabel="1" placeholder="Descripción del producto"  attrs="{'readonly' : [('marketplace_seller_group', '=', True)]}"/>
                 </group>
             </xpath>
 

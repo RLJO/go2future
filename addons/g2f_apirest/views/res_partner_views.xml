@@ -6,6 +6,11 @@
         <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="arch" type="xml">
 
+            <xpath expr="//field[@name='image_1920']" position="after">
+                <br/>
+                <field name="user_avatar" widget="image" class="oe_avatar"/>
+            </xpath> 
+
             <xpath expr="//field[@name='name']" position="after">
                 <br/>
                 <field name="lastname" string='Lastname' placeholder="Lastname"/>

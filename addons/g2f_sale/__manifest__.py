@@ -9,7 +9,7 @@
     'website': "",
     'category': 'Sales',
     'license': 'LGPL-3',
-    'version': '12.0.1.0.0',
+    'version': '12.0.1.0.1',
     'depends': ['sale_management', 'purchase', 'stock', 'uom',
                 'odoo_marketplace', 'g2f_marketplace'],
     'data': [

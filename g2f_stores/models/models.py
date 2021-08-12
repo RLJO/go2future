@@ -20,6 +20,9 @@ class StockWarehouse(models.Model):
     camera_zone_ids = fields.One2many('store.camera', inverse_name='store_id', string='Zonas de Cámaras')
     raspi_ids = fields.One2many('store.raspi', inverse_name='store_id', string='Raspberry Pi')
     product_plano_ids = fields.One2many('product.store', inverse_name='store_id', string='Productos Plano')
+    country_id = fields.Many2one('res.country', string='Country', default=lambda self: self.env.company.country_id, required=True)
+    state_id = fields.Many2one('res.country.state', string='State', domain="[('country_id', '=', country_id)]",
+                               required=True)
 
 
 class StoreDoor(models.Model):
