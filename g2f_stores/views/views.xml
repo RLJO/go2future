@@ -8,8 +8,8 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='code']" position="after">
                     <field name="direccion_local"/>
-                    <field name="country_id" string="País"/>
-                    <field name="state_id" string="Provincia"/>
+                    <field name="country_id" string="País" required="1"/>
+                    <field name="state_id" string="Provincia" required="1"/>
                 </xpath>
                 <xpath expr="//field[@name='code']" position="attributes">
                     <attribute name="string">Código</attribute>

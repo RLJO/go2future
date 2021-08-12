@@ -32,7 +32,7 @@ class ResPartner(models.Model):
         ('F', 'Female'),
         ('O', 'Other')]
 
-    lastname = fields.Char(string='Lastname')
+    lastname = fields.Char(string='Apellidos')
     birthday = fields.Date(string='Cumpleaños')
     gender = fields.Selection(GENDER, string='Sexo')
     document_obverse = fields.Image(default=_default_image)
