@@ -38,6 +38,8 @@ class ResPartner(models.Model):
     document_obverse = fields.Image(default=_default_image)
     document_reverse = fields.Image(default=_default_image)
     user_avatar = fields.Image()
+    terms_conditions_agreement = fields.Boolean(default=False)
+    email_recipe_receive = fields.Boolean(default=False)
 
     def age(self):
         age = 0
