@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields, _
+from odoo import models, fields, _, api
 from odoo.exceptions import AccessError, UserError
 from odoo.tools import float_compare
 from odoo.tools.float_utils import float_repr
@@ -22,7 +22,7 @@ class AccountMove(models.Model):
         ('afip', _('AFIP')),
         ('no_afip', _('No AFIP'))
     ], string=_('Invoicing Type'), force_save=True, default='afip')
-    company_invoicing = fields.Boolean(string=_('¿Facturación propia?'), default=False)
+    company_invoicing = fields.Boolean(string=_('¿Facturación propia?'), default=True)
 
     def l10n_ar_verify_on_afip(self):
         for inv in self:
@@ -322,3 +322,8 @@ class AccountMove(models.Model):
             raise UserError(msg)
 
         return validated + (self - sale_ar_edi_invoices)._post_data()
+
+    @api.onchange('seller_id')
+    def _onchange_seller_id_account(self):
+        if self.seller_id and self.seller_id.fe_journal_id:
+            self.journal_id = self.seller_id.fe_journal_id

@@ -18,7 +18,7 @@
                         <group>
                             <group>
                                 <field name="electronic_invoice_type"/>
-                                <field name="fe_journal_id" attrs="{'invisible': [('electronic_invoice_type', 'not in', ['afip', 'no_afip'])], 'required': [('electronic_invoice_type', 'in', ['afip', 'no_afip'])]}"/>
+                                <field name="fe_journal_id" attrs="{'invisible': [('electronic_invoice_type', 'not in', ['afip', 'no_afip'])], 'required': [('electronic_invoice_type', 'in', ['afip', 'no_afip'])]}" required="1"/>
                                 <div attrs="{'invisible': [('electronic_invoice_type','!=', 'afip')]}">
                                     <span class="o_form_label">AFIP Web Services</span>
                                     <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." groups="base.group_multi_company"/>
@@ -54,7 +54,13 @@
                                     </div>
                                 </div>
                                 <field name="seller_api_path" widget="url" placeholder="Url para envio de solicitud de factura" attrs="{'invisible': [('electronic_invoice_type', 'not in', ['seller_api'])], 'required': [('electronic_invoice_type', 'in', ['seller_api'])]}"/>
-                                <field name="seller_api_key" placeholder="Token para envio de solicitud de factura" attrs="{'invisible': [('electronic_invoice_type', 'not in', ['seller_api'])], 'required': [('electronic_invoice_type', 'in', ['seller_api'])]}"/>
+                                <field name="seler_token_type" attrs="{'invisible': [('electronic_invoice_type', '!=', 'seller_api')] }" />
+                                <field name="token_tag" placeholder="X-Auth-Token"
+                                       attrs="{'invisible': [('seler_token_type', '!=', 'header')],
+                                               'required': [('seler_token_type', '=', 'header')]}"/>
+                                <field name="seller_api_key" placeholder="Token para envio de solicitud de factura"
+                                       attrs="{'invisible': [('electronic_invoice_type', 'not in', ['seller_api'])],
+                                              'required': [('electronic_invoice_type', 'in', ['seller_api'])]}"/>
                             </group>
                             <group>
                                 <field name="invoices_note"/>

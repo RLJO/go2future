@@ -19,6 +19,19 @@ class SaleOrder(models.Model):
     @api.model
     def create(self, vals):
         result = super(SaleOrder, self).create(vals)
+        if result.warehouse_id:
+            if not result.warehouse_id.code:
+                raise UserError(_('Debe colocar el Codigo del local %s', result.warehouse_id.name))
+            if not result.warehouse_id.country_id:
+                raise UserError(_('Debe colocar el pais del local %s', result.warehouse_id.name))
+            if not result.warehouse_id.state_id:
+                raise UserError(_('Debe colocar la Provincia del local %s', result.warehouse_id.name))
+            if not result.warehouse_id.country_id.code_mini:
+                raise UserError(_('Debe colocar el Código MiniGO al pais del local %s', result.warehouse_id.name))
+            if not result.warehouse_id.state_id.code_mini:
+                raise UserError(_('Debe colocar el Código MiniGO a la Provincia del local %s', result.warehouse_id.name))
+            result.name = (result.warehouse_id.country_id.code_mini + '-' + result.warehouse_id.state_id.code_mini
+                           + '-' + result.warehouse_id.code + '-' + result.name)
         result.create_marketplace_vendor()
         return result
 
@@ -34,6 +47,8 @@ class SaleOrder(models.Model):
         for marketplace_vendor_total in self.marketplace_vendor_line_total:
             marketplace_vendor_total.unlink()
         for line in self.sudo().order_line:
+            discount = 0
+            price_unit = 0
             tax_line = []
             sale_percentage_go = (100 - line.seller.commission)
             amount_commission = (line.price_subtotal * (sale_percentage_go/100))
@@ -49,6 +64,11 @@ class SaleOrder(models.Model):
                     total_tax += line.price_subtotal * iva
                 if tax.marketplace_type == 'int':
                     total_int += line.price_subtotal * iva
+            if line.discount:
+                discount = line.discount / 100
+                price_unit = (line.price_unit - (line.price_unit * discount))
+            else:
+                price_unit = line.price_unit
             vals = {
                 'sale_order': self.id,
                 'sale_order_line': line.id,
@@ -64,14 +84,16 @@ class SaleOrder(models.Model):
                 'amount_tax_company': line.company_id.sudo().account_sale_tax_id.amount,
                 'amount_tax_company_total': amount_tax_company_total,
                 'amount_commission_amount_tax_company_total': amount_commission_amount_tax_company_total,
-                'total_vendor': (line.price_unit * line.product_uom_qty) - amount_commission_amount_tax_company_total,
+                'total_vendor': (price_unit * line.product_uom_qty) - amount_commission_amount_tax_company_total,
                 'tax_id': tax_line,
                 'total_tax': total_tax,
                 'total_int': total_int,
-                'partner_id': self.partner_id.id
-
+                'partner_id': self.partner_id.id,
+                'discount': line.discount if line.discount else 0,
+                'discount_unit': ((line.discount * line.price_unit)/100) if line.discount else 0,
+                'discount_total': line.price_unit - ((line.discount * line.price_unit)/100) if line.discount else 0
             }
-            total_vendor = (line.price_unit * line.product_uom_qty) - amount_commission_amount_tax_company_total
+            total_vendor = (price_unit * line.product_uom_qty) - amount_commission_amount_tax_company_total
             self.sudo().marketplace_vendor_line.create(vals)
             count_amount += amount_commission_amount_tax_company_total
             if self.marketplace_vendor_line_total:
@@ -297,12 +319,24 @@ class SaleOrder(models.Model):
                     last_name += ' ' + name[3]
 
             for line in invoice.invoice_line_ids:
+                tax_items = []
+                subtotal = line.price_unit * line.quantity
+                for tax in line.tax_ids:
+                    tax_amount = subtotal / (1 + tax.amount / 100)
+                    tax_subtotal = subtotal - tax_amount
+                    tax_item = {
+                        "name": tax.name,
+                        "amount": round(tax_subtotal, 2)
+                    }
+                    tax_items.append(tax_item)
                 item = {
                     "EAN13": line.product_id.barcode,
                     "product": line.name,
                     "sku_code": line.product_id.default_code,
                     "quantity": line.quantity,
                     "unit_price": line.price_unit,
+                    "discount": line.discount,
+                    "tax": tax_items,
                     "subtotal": line.price_subtotal
                 }
                 items.append(item)
@@ -319,26 +353,35 @@ class SaleOrder(models.Model):
                 "origin": self.name,
                 "date": inv_date,
                 "time": inv_time,
+                "seller": invoice.seller_id.id,
+                "amount_untaxed": invoice.amount_untaxed,
+                "amount_tax": invoice.amount_tax,
+                "amount_total": invoice.amount_total,
                 "items": items
             }
+            pyload = {"invoices": [data,]}
 
             # url = seller_id.api_path  # "http://dummy.minigo.store/orders"
-            payload = json.dumps(data)
+            payload = json.dumps(pyload)
             headers = {
                 'Content-Type': "application/json",
-                'Authorization': "Bearer " + api_key,
                 'Cache-Control': "no-cache",
             }
+            if invoice.seller_id.seler_token_type == 'bearer':
+                headers.update({'Authorization': "Bearer " + api_key})
+            elif invoice.seller_id.seler_token_type == 'header':
+                headers.update({invoice.seller_id.token_tag: api_key})
+
             try:
                 response = requests.request("POST", api_path, data=payload, headers=headers)
             except Exception as exc:
                 _logger.warning('Json enviado: (%s).', payload)
                 _logger.warning('Respuesta Vendedor: (%s).', response.text)
-                raise UserError(_("Error inesperado %s") % exc)
+                # raise UserError(_("Error inesperado %s") % exc)
             if response.status_code != 200:
                 _logger.warning('Json enviado: (%s).', payload)
                 _logger.warning('Respuesta Vendedor: (%s).', response.text)
-                raise UserError(_("Error en API %s") % response.text)
+                # raise UserError(_("Error en API %s") % response.text)
             print(payload)
             print(response.text)
             _logger.warning('Json enviado: (%s).', payload)
@@ -395,6 +438,15 @@ class SaleOrderLine(models.Model):
         values['warehouse_id'] = self.order_id.warehouse_id
         return values
 
+    def _prepare_invoice_line(self, **optional_values):
+        res = super(SaleOrderLine, self)._prepare_invoice_line(**optional_values)
+        for line in self.order_id.marketplace_vendor_line:
+            if res.get('product_id') == line.product_id.id:
+                res.update({
+                    'amount_commission_plus_tax': line.amount_commission_amount_tax_company_total
+                })
+        return res
+
 
 class MarketplaceVendor(models.Model):
     _name = "marketplace.vendor"
@@ -429,6 +481,10 @@ class MarketplaceVendor(models.Model):
     total_vendor = fields.Float(string='TOTAL VENDEDOR')
     partner_id = fields.Many2one('res.partner', 'Cliente',
                                  required=False)
+    discount = fields.Float(string='Dcto(%)', digits='Discount', default=0.0)
+    discount_unit = fields.Float(string='Dcto Unitario', digits='Discount', default=0.0)
+    discount_total = fields.Float(string='Dcto Total', digits='Discount', default=0.0)
+
 
 
 class AccountMove(models.Model):
@@ -436,6 +492,20 @@ class AccountMove(models.Model):
 
     warehouse_id = fields.Many2one('stock.warehouse', string=_("Warehouse"))
     seller_id = fields.Many2one('res.partner', string=_('Seller'))
+    total_commission = fields.Float('Total Commission', compute='get_total_commission')
+    total_less_commission = fields.Float('Total', compute='get_total_commission')
+
+    @api.depends('invoice_line_ids')
+    def get_total_commission(self):
+        for s in self:
+            s.total_commission = sum(l.amount_commission_plus_tax for l in s.invoice_line_ids)
+            s.total_less_commission = s.amount_total - s.total_commission
+
+
+class AccountMove(models.Model):
+    _inherit = 'account.move.line'
+
+    amount_commission_plus_tax = fields.Float(string='Comisión MiniGO')
 
 
 class MarketplaceVendorTotal(models.Model):

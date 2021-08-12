@@ -177,6 +177,24 @@ class ResUser(http.Controller):
             response = {'status': '400', 'messsage': msg}
             return dumps(response)
 
+    @http.route(['/users/avatar'], type='json', auth='public', methods=['PUT'],
+                website=True, csrf=False)
+    def update_user_avatar(self, **kw):
+        """Endpoint for update avatar user from app mobile."""
+
+        method = http.request.httprequest.method
+        kw = http.request.jsonrequest
+
+        if method == 'PUT':
+            login = kw.get('login')
+            avatar = kw.get('avatar')
+            data = {"user_avatar": avatar}
+
+            response = self._update_res_partner(login, data)
+            return response
+
+        return False
+
     @http.route(['/users'], type='json', auth='public',
                 methods=['GET', 'POST', 'PUT', 'DELETE'],
                 website=True, csrf=False)
@@ -185,7 +203,6 @@ class ResUser(http.Controller):
 
         method = http.request.httprequest.method
         kw = http.request.jsonrequest
-        self.res_partner = http.request.env['res.partner']
 
         if method == 'POST':
             print('Crear usuario')
@@ -197,14 +214,13 @@ class ResUser(http.Controller):
             print('Modificar Usuario')
             response = self.update_user(kw)
             return response
-        
+
         return False
 
     def update_user(self, kw):
         login = kw.get('login')
         name = kw.get('name')
         lastname = kw.get('lastname')
-
 
         user = self._validate_user(login)
         if not user:
@@ -225,6 +241,7 @@ class ResUser(http.Controller):
         if not params:
             params = {}
 
+
         login = params.get('login')
         passw = params.get('password')
         name = params.get('name')
@@ -242,11 +259,13 @@ class ResUser(http.Controller):
         image_1920 = params.get('image_1920')
         document_obverse = params.get('document_obverse')
         document_reverse = params.get('document_reverse')
-
+        terms_conditions_agreement = params.get('terms_conditions_agreement') or False
+        email_recipe_receive = params.get('email_recipe_receive') or False
 
         user = http.request.env['res.users']
-        if self.res_partner.sudo().validate_user(login) or \
-                self.res_partner.sudo().document_exist(identification_type, vat):
+        self.res_partner = user.partner_id
+        if user.partner_id.sudo().validate_user(login) or \
+                user.partner_id.sudo().document_exist(identification_type, vat):
             msg = _('User already exists!')
             response = {'status': '400', 'message': msg}
             return dumps(response)
@@ -257,7 +276,7 @@ class ResUser(http.Controller):
         country_id, state_id = self.res_partner.search_country_state_by_name(country, country_state)
 
         try:
-            new_user = user.sudo().create({
+            user.sudo().create({
                 'login': login,
                 'email': login,
                 'password': passw,
@@ -272,7 +291,10 @@ class ResUser(http.Controller):
                     'vat': vat, 'country_id': country_id, 'state_id': state_id,
                     'city': state_city, 'l10n_ar_afip_responsibility_type_id': 5,
                     'image_1920': image_1920, 'document_obverse': document_obverse,
-                    'document_reverse': document_reverse, 'lang': 'es_AR'}
+                    'document_reverse': document_reverse, 'lang': 'es_AR',
+                    'terms_conditions_agreement': terms_conditions_agreement,
+                    'email_recipe_receive': email_recipe_receive}
+
             self._update_res_partner(login, data)
 
             response = {'status': '200', 'message': 'ok'}
@@ -312,19 +334,16 @@ class ResUser(http.Controller):
             msg = _('Incorrect user or password!')
             response = {'status': '400', 'messsage': msg}
             return dumps(response)
-        else:
-            user_data = self._get_data_user(login)
 
-        # por ahora devuelvo un OK y los datos del usuario,
-        # pero deberia devolver un hash
-        # luego la app basada en ese hash genera un QR para entrar
+        user_data = self._get_data_user(login)
         return dumps({'status': '200', 'messsage': 'ok', 'data': user_data})
 
     def _get_data_user(self, email):
-        user = http.request.env['res.users'].sudo().search_read(
-            [('login', 'ilike', email)], ['login', 'name', 'lastname'])
-
-        return user[0] if user else ''
+        user = http.request.env['res.users'].sudo().search(
+            [('login', 'ilike', email)]
+        )
+        res_partner = user.partner_id.sudo().get_data_user()
+        return res_partner
 
     def _validate_login(self, login, password):
         user = http.request.env['res.users'].sudo().search(

@@ -17,7 +17,7 @@
   "name"                 :  "Odoo Multi Vendor Marketplace",
   "summary"              :  """Start your marketplace in odoo with Odoo Multi-Vendor Marketplace. Allow        Multiple sellers to sell their products on your marketplace website.""",
   "category"             :  "Website",
-  "version"              :  "1.0.2",
+  "version"              :  "1.0.3",
   "sequence"             :  1,
   "author"               :  "Webkul Software Pvt. Ltd.",
   "license"              :  "Other proprietary",
