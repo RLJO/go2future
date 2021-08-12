@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-  "name":  "commission payment",
+  "name":  "G2F commission payment",
   "summary":  """pago comisión mini go.""",
   "category": "payment",
   "version":  "14.0.0",
