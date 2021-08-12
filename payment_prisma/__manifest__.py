@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-  "name":  "Payment Prisma",
+  "name":  "G2F Payment Prisma",
   "summary":  """Enables the use of the Prisma payment gateway.""",
   "category": "Payment",
   "version":  "1.0.0",
