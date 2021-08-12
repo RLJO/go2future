@@ -20,9 +20,8 @@ class StockWarehouse(models.Model):
     camera_zone_ids = fields.One2many('store.camera', inverse_name='store_id', string='Zonas de Cámaras')
     raspi_ids = fields.One2many('store.raspi', inverse_name='store_id', string='Raspberry Pi')
     product_plano_ids = fields.One2many('product.store', inverse_name='store_id', string='Productos Plano')
-    country_id = fields.Many2one('res.country', string='Country', default=lambda self: self.env.company.country_id, required=True)
-    state_id = fields.Many2one('res.country.state', string='State', domain="[('country_id', '=', country_id)]",
-                               required=True)
+    country_id = fields.Many2one('res.country', string='Country', default=lambda self: self.env.company.country_id)
+    state_id = fields.Many2one('res.country.state', string='State', domain="[('country_id', '=', country_id)]")
 
 
 class StoreDoor(models.Model):
@@ -69,6 +68,24 @@ class StoreCamera(models.Model):
     store_id = fields.Many2one('stock.warehouse', string='Tienda')
     zone_ids = fields.One2many('camera.zone', inverse_name='camera_id', string='Zonas')
     camera_image = fields.Binary(string='Imagen de Camara', attachment=False)
+
+    def get_camera_by_ai_unit(self, ai_unit):
+        domain = [('ai_unit', '=', ai_unit)]
+        res_list = self.env['store.camera'].search(domain)
+        #_logger.info("Values: %s" % res_list)
+        data = []
+        if res_list:
+            for camera in res_list:
+                data.append(
+                    {
+                        'id': camera.id,
+                        'camera_name': camera.name,
+                        'ai_unit': camera.ai_unit.id,
+                        'device_url': camera.device_url,
+                        'port_number': camera.port_number
+                    },
+                )
+        return data
 
 
 class CameraZone(models.Model):
