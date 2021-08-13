@@ -19,6 +19,7 @@ class StoreCameraPorts(http.Controller):
         if method == 'GET':
             data = camera_obj.sudo().get_camera_by_ai_unit(ai_unit)
             if data:
+                response['success'] = True
                 response['data'] = data  # values.update({'data': data})
             else:
                 _logger.info("No data found: %s" % response)
