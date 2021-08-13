@@ -33,6 +33,7 @@ class StoreDoor(models.Model):
     qrcode = fields.Binary(string='QR', attachment=False, store=True, readonly=True, compute='_compute_qrcode')
     code = fields.Char(string="Valor QR")
     type = fields.Selection(string="Tipo", selection=[('in', 'Entrada'), ('out', 'Salida'), ('staff', 'Staff')])
+    description = fields.Char(string='Descripción')
 
     @api.depends('store_id', 'name', 'type')
     def _compute_qrcode(self):
