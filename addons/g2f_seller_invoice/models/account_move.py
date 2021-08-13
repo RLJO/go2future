@@ -17,6 +17,15 @@ class AccountMove(models.Model):
     ei_pdf = fields.Binary('PDF invoice')
     seller_respond = fields.Text('Seller respond')
     json_sent = fields.Text('JSON sent')
+    cae_exp_date = fields.Datetime('CAE expiration date')
+    # invoice_date = fields.Date(string='Invoice/Bill Date', readonly=True, index=True, copy=False,
+    #     states={'draft': [('readonly', False)]},
+    #     default=_get_default_invoice_date2)
+    #
+    # @api.model
+    # def _get_default_invoice_date2(self):
+    #     return fields.Date.context_today(self) if self._context.get('default_move_type', 'entry') in ('in_invoice', 'in_refund', 'in_receipt') else False
+
 
     @api.model
     def _invoice_confirm(self, vals):
@@ -35,6 +44,7 @@ class AccountMove(models.Model):
                 'name': vals['einvoice'],
                 'date_einvoice': vals['date_einvoice'],
                 'invoice_date': vals['date_einvoice'],
+                'cae_exp_date': vals['cae_exp_date'],
                 'cae_number': vals['cae_number'],
                 'ei_qr_code': vals['ei_qr_code'],
                 # 'ei_barcode': vals['ei_barcode'],

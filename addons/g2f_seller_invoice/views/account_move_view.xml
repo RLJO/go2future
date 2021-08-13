@@ -12,6 +12,7 @@
                           <field name="einvoice" readonly="1"/>
                           <field name="date_einvoice" readonly="1"/>
                           <field name="cae_number" readonly="1"/>
+                          <field name="cae_exp_date" readonly="1"/>
                           <field name="ei_qr_code" widget="url" readonly="1"/>
 <!--                          <field name="ei_barcode"/>-->
                           <field name="ei_xml_file" widget="ace" options="{'mode': 'xml'}" readonly="1"/>
