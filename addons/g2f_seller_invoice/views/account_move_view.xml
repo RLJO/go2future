@@ -7,6 +7,7 @@
           <field name="arch" type="xml">
               <xpath expr="//notebook" position="inside">
                   <page name="einvoice" string="Electronic Invoice">
+                      <group><button name="json_resend" type="object" string="JSON resend"/></group>
                       <group>
                           <field name="einvoice" readonly="1"/>
                           <field name="date_einvoice" readonly="1"/>
@@ -18,6 +19,7 @@
                       </group>
                       <group>
                           <field name="seller_respond" readonly="1"/>
+                          <field name="json_sent" readonly="1"/>
                       </group>
                   </page>
               </xpath>

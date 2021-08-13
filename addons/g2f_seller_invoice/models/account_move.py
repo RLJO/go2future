@@ -9,13 +9,14 @@ class AccountMove(models.Model):
     _inherit = 'account.move'
 
     einvoice = fields.Char('Invoice number')
-    date_einvoice = fields.Date('Invoice date')
+    date_einvoice = fields.Datetime('Invoice date')
     cae_number = fields.Char('CAE number')
     ei_qr_code = fields.Char('QR code')
     ei_barcode = fields.Binary('Invoice barcode')
     ei_xml_file = fields.Text('XML file')
     ei_pdf = fields.Binary('PDF invoice')
     seller_respond = fields.Text('Seller respond')
+    json_sent = fields.Text('JSON sent')
 
     @api.model
     def _invoice_confirm(self, vals):
@@ -31,7 +32,9 @@ class AccountMove(models.Model):
         if inv_id:
             inv_id.sudo().write({
                 'einvoice': vals['einvoice'],
+                'name': vals['einvoice'],
                 'date_einvoice': vals['date_einvoice'],
+                'invoice_date': vals['date_einvoice'],
                 'cae_number': vals['cae_number'],
                 'ei_qr_code': vals['ei_qr_code'],
                 # 'ei_barcode': vals['ei_barcode'],
@@ -50,3 +53,8 @@ class AccountMove(models.Model):
         address += 'CP: ' + partner_id.zip + ', ' if partner_id.zip else ''
         address += partner_id.country_id.name if partner_id.country_id.name else ''
         return address
+
+    def json_resend(self):
+        sale_obj = self.env['sale.order']
+        res = sale_obj.send_api_data(self)
+        return res
