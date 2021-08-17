@@ -50,7 +50,7 @@ class StoreDoor(models.Model):
             "Ya existe una puerta con el mismo Código en la tienda!")]
 
 
-class StoreCamera(models.Model):
+class StoreServer(models.Model):
     _name = 'store.iaserver'
     _description = 'IA server'
 
@@ -69,6 +69,8 @@ class StoreCamera(models.Model):
     store_id = fields.Many2one('stock.warehouse', string='Tienda')
     zone_ids = fields.One2many('camera.zone', inverse_name='camera_id', string='Zonas')
     camera_image = fields.Binary(string='Imagen de Camara', attachment=False)
+    door_active = fields.Boolean(string='¿Apunta a puerta?')
+    door_id = fields.Many2one('store.door', string='Puerta')
 
     def get_camera_by_ai_unit(self, ai_unit):
         domain = [('ai_unit', '=', ai_unit)]
@@ -135,6 +137,18 @@ class StoreSensor(models.Model):
     zone_id = fields.Many2one('camera.zone', string='Zona')
     pi_id = fields.Many2one('store.raspi', string='Raspberry PI')
     store_id = fields.Many2one('stock.warehouse', string='Tienda', related="pi_id.store_id", store=True)
+
+    def get_sensor_data(self, data):
+        res =[]
+        for sensor in data:
+            res.append({
+            "sensor_id": sensor.id,
+            "calibration_factor": sensor.calibration_factor,
+            "dt_pin": sensor.dt_pin,
+            "sck_pin": sensor.sck_pin,
+            "zone": sensor.zone_id.name,
+        })
+        return res
 
 
 class ProductStore(models.Model):
