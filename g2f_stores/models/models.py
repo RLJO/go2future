@@ -69,6 +69,8 @@ class StoreCamera(models.Model):
     store_id = fields.Many2one('stock.warehouse', string='Tienda')
     zone_ids = fields.One2many('camera.zone', inverse_name='camera_id', string='Zonas')
     camera_image = fields.Binary(string='Imagen de Camara', attachment=False)
+    door_active = fields.Boolean(string='¿Apunta a puerta?')
+    door_id = fields.Many2one('store.door', string='Puerta')
 
     def get_camera_by_ai_unit(self, ai_unit):
         domain = [('ai_unit', '=', ai_unit)]
