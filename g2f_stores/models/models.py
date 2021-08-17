@@ -49,6 +49,19 @@ class StoreDoor(models.Model):
     _sql_constraints = [('unique_store_door_name', 'UNIQUE(name, store_id)',
             "Ya existe una puerta con el mismo Código en la tienda!")]
 
+    def get_door_cam(self, doors):
+        result = {}
+        for door in doors:
+            cameras = self.env['store.camera'].search([('door_id', '=', door.id)])
+            cams_url = []
+            for camera in cameras:
+                cams_url.append(camera.device_url)
+            if cams_url:
+                result[door.name] = cams_url
+        return result
+
+
+
 
 class StoreServer(models.Model):
     _name = 'store.iaserver'

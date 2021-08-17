@@ -5,7 +5,7 @@ import logging
 _logger = logging.getLogger(__name__)
 
 
-class ModelName(http.Controller):
+class StoreRasberryPi(http.Controller):
 
     @http.route(['/store/get_sensor_cart_data'], type="http", auth="public", website=True, method=['GET'],
                 csrf=False)
@@ -16,7 +16,7 @@ class ModelName(http.Controller):
         data = request.env['store.sensor'].sudo().search([("pi_id", "=", pi_id)])
         res = data.get_sensor_data(data)
 
-        if data:
+        if res:
             response['success'] = True
             response['data'] = res
         else:
