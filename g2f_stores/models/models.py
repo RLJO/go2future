@@ -17,7 +17,7 @@ class StockWarehouse(models.Model):
     plano_url = fields.Char(string="URL Plano")
     door_ids = fields.One2many('store.door', inverse_name='store_id', string='Puertas')
     cameras_ids = fields.One2many('store.camera', inverse_name='store_id', string='Cámaras')
-    camera_zone_ids = fields.One2many('store.camera', inverse_name='store_id', string='Zonas de Cámaras')
+    camera_zone_ids = fields.One2many('camera.zone', inverse_name='store_id', string='Zonas de Cámaras')
     raspi_ids = fields.One2many('store.raspi', inverse_name='store_id', string='Raspberry Pi')
     product_plano_ids = fields.One2many('product.store', inverse_name='store_id', string='Productos Plano')
     country_id = fields.Many2one('res.country', string='Country', default=lambda self: self.env.company.country_id)
@@ -80,7 +80,7 @@ class StoreCamera(models.Model):
     device_url = fields.Char(string="URL Dispositivo")
     port_number = fields.Integer(string="Puerto")
     store_id = fields.Many2one('stock.warehouse', string='Tienda')
-    zone_ids = fields.One2many('camera.zone', inverse_name='camera_id', string='Zonas')
+    # zone_ids = fields.One2many('camera.zone', inverse_name='camera_id', string='Zonas')
     camera_image = fields.Binary(string='Imagen de Camara', attachment=False)
     door_active = fields.Boolean(string='¿Apunta a puerta?')
     door_id = fields.Many2one('store.door', string='Puerta')
@@ -110,6 +110,22 @@ class CameraZone(models.Model):
 
     name = fields.Char(string="Nombre")
     parent_id = fields.Many2one('camera.zone', string='Zona Padre')
+    store_id = fields.Many2one('stock.warehouse', string='Tienda')
+    camera_points_ids = fields.One2many('camera.zone.points', 'zone_id', string='Camara-Puntos')
+
+    @api.constrains('parent_id')
+    def _check_parent_id(self):
+        if not self._check_recursion():
+            raise ValidationError(_('You can not create recursive zones.'))
+
+
+class ZoneCameraPoints(models.Model):
+    _name = 'camera.zone.points'
+    _description = 'Puntos de Zonas'
+
+    name = fields.Char(string="Puntos", compute='name_zone_camera')
+    zone_id = fields.Many2one('camera.zone', string='Zona')
+    store_id = fields.Many2one('stock.warehouse', string='Tienda', related='zone_id.store_id')
     camera_id = fields.Many2one('store.camera', string='Camara')
     camera_image_zone = fields.Binary(string='Imagen de Camara', related='camera_id.camera_image', store=True)
     bottom_right_x = fields.Float(string='Punto x abajo derecho')
@@ -120,12 +136,9 @@ class CameraZone(models.Model):
     top_right_y = fields.Float(string='Punto y arriba derecho')
     top_left_x = fields.Float(string='Punto x arriba izquierdo')
     top_left_y = fields.Float(string='Punto y arriba izquierdo')
-    store_id = fields.Many2one('stock.warehouse', string='Tienda')
 
-    @api.constrains('parent_id')
-    def _check_parent_id(self):
-        if not self._check_recursion():
-            raise ValidationError(_('You can not create recursive zones.'))
+    def name_zone_camera(self):
+        self.name = self.zone_id.name + " - " + self.camera_id.name
 
 
 class RaspberryPi(models.Model):

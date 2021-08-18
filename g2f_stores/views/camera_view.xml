@@ -27,9 +27,9 @@
                                 <field name="camera_image" widget="image"/>
                             </group>
                         </group>
-                        <group>
-                            <field name="zone_ids"/>
-                        </group>
+<!--                        <group>-->
+<!--                            <field name="zone_ids"/>-->
+<!--                        </group>-->
                     </sheet>
                 </form>
             </field>

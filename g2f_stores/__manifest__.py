@@ -31,6 +31,7 @@
         'views/sensor_store.xml',
         'views/raspi_views.xml',
         'views/zone_camera_view.xml',
+        'views/zone_camera_points.xml',
         'views/store_iaserver.xml',
         'views/plano_product_view.xml',
         'views/templates.xml',

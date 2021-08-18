@@ -43,6 +43,11 @@
                             <field name="raspi_ids" nolabel="1"/>
                         </group>
                     </page>
+                    <page name="config_zones" string="Zonas" groups="stock.group_stock_manager">
+                        <group name="zones" string="Zonas">
+                            <field name="camera_zone_ids" nolabel="1"/>
+                        </group>
+                    </page>
                     <page name="config_plano" string="Planogrametría" groups="stock.group_stock_manager">
                         <group name="plano" string="Planogrametria">
                             <field name="product_plano_ids" nolabel="1"/>
