@@ -8,31 +8,13 @@
                 <form string="Zona">
                     <sheet>
                         <group name="info" string="Información">
+                            <field name="id"/>
                             <field name="name"/>
-                            <field name="parent_id"/>
-                            <field name="camera_id" readonly="1"/>
-                            <field name="store_id" readonly="1"/>
+                            <field name="parent_id" domain="[('parent_id', '=', False)]"/>
+                            <field name="store_id" readonly="0"/>
                         </group>
                         <group name="sensors" string="Puntos">
-                            <group name="top_left" string="Arriba izq.">
-                                <field name="top_left_x"/>
-                                <field name="top_left_y"/>
-                            </group>
-                            <group name="top_right" string="Arriba der.">
-                                <field name="top_right_x"/>
-                                <field name="top_right_y"/>
-                            </group>
-                            <group name="bottom_left" string="Abajo izq.">
-                                <field name="bottom_left_x"/>
-                                <field name="bottom_left_y"/>
-                            </group>
-                            <group name="bottom_right" string="Abajo der.">
-                                <field name="bottom_right_x"/>
-                                <field name="bottom_right_y"/>
-                            </group>
-                        </group>
-                        <group>
-                            <field name="camera_image_zone" widget="image"/>
+                            <field name="camera_points_ids"/>
                         </group>
                     </sheet>
                 </form>
@@ -44,9 +26,9 @@
             <field name="model">camera.zone</field>
             <field name="arch" type="xml">
                 <tree string="Zona">
+                    <field name="id"/>
                     <field name="name"/>
-                    <field name="parent_id"/>
-                    <field name="camera_id" readonly="1"/>
+                    <field name="parent_id" domain="[('parent_id', '=', False)]"/>
                     <field name="store_id" readonly="1"/>
                 </tree>
             </field>
@@ -58,11 +40,9 @@
             <field name="arch" type="xml">
                 <search string="Zona">
                     <field name="store_id"/>
-                    <field name="camera_id"/>
                     <field name="parent_id"/>
                     <group expand="1" string="Group By">
                         <filter string="Tienda" name="store_id" domain="[]" context="{'group_by':'store_id'}"/>
-                        <filter string="Camara" name="camera_id" domain="[]" context="{'group_by':'camera_id'}"/>
                         <filter string="Zona Padre" name="parent_id" domain="[]" context="{'group_by':'parent_id'}"/>
                     </group>
                 </search>

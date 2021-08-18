@@ -15,8 +15,9 @@
                             </h1>
                         </div>
                         <group>
-                            <field name="create_uid"/>
-                            <field name="create_date"/>
+                            <field name="id" readonly="1"/>
+                            <field name="create_uid" readonly="1" string="Creado por"/>
+                            <field name="create_date" readonly="1" string="Fecha de creación"/>
                         </group>
                     </sheet>
                 </form>
@@ -28,8 +29,10 @@
             <field name="model">store.iaserver</field>
             <field name="arch" type="xml">
                 <tree string="Servidor de IA">
-                    <field name="create_uid"/>
-                    <field name="create_date"/>
+                    <field name="id"/>
+                    <field name="name"/>
+                    <field name="create_uid" string="Creado por"/>
+                    <field name="create_date" string="Fecha de creación"/>
                 </tree>
             </field>
         </record>
@@ -39,10 +42,10 @@
             <field name="model">store.iaserver</field>
             <field name="arch" type="xml">
                 <search string="Servidor de IA">
-                    <group expand="1" string="Group By">
-                        <filter string="Example Field" name="example_field" domain="[]"
-                                context="{'group_by':'example_field'}"/>
-                    </group>
+                    <field name="name"/>
+<!--                    <group expand="1" string="Group By">-->
+<!--                        <filter string="Nombre" name="store_id" context="{'group_by':'store_id'}"/>-->
+<!--                    </group>-->
                 </search>
             </field>
         </record>
@@ -59,7 +62,7 @@
             </field>
         </record>
 
-        <menuitem name="Servidor de IA" id="store.iaserver_menu" parent="g2f_stores_config" action="store_iaserver_act_window"/>
+        <menuitem name="Servidor de IA" id="store_iaserver_menu" parent="g2f_stores_config" action="store_iaserver_act_window"/>
 
     </data>
 </odoo>
