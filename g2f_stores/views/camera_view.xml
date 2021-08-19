@@ -17,14 +17,19 @@
                             <group>
                                 <field name="ai_unit"/>
                                 <field name="store_id" readonly="1"/>
+                                <field name="door_active"/>
+                                <field name="door_id" options="{'no_create': True}"
+                                       domain="[('store_id', '=', store_id)]"
+                                       attrs="{'invisible': [('door_active', '=', False)],
+                                       'required': [('door_active', '=', True)]}"/>
                             </group>
                             <group>
                                 <field name="camera_image" widget="image"/>
                             </group>
                         </group>
-                        <group>
-                            <field name="zone_ids"/>
-                        </group>
+<!--                        <group>-->
+<!--                            <field name="zone_ids"/>-->
+<!--                        </group>-->
                     </sheet>
                 </form>
             </field>

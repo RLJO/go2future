@@ -13,6 +13,9 @@
                 <xpath expr="//field[@name='invoice_date']/.." position="inside">
                     <field name="company_invoicing"/>
                 </xpath>
+                <xpath expr="//notebook/page[@name='einvoice']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('electronic_invoice_type', '!=', 'seller_api')]}</attribute>
+                </xpath>
             </field>
         </record>
 

@@ -6,6 +6,9 @@
             <field name="model">stock.warehouse</field>
             <field name="inherit_id" ref="stock.view_warehouse"/>
             <field name="arch" type="xml">
+                <xpath expr="//page[@name='warehouse_config']" position="attributes">
+                    <attribute name="groups">base.group_system</attribute>
+                </xpath>
                 <xpath expr="//field[@name='code']" position="after">
                     <field name="direccion_local"/>
                     <field name="country_id" string="País" required="1"/>
@@ -38,6 +41,11 @@
                     <page name="config_sensor" string="Sensores" groups="stock.group_stock_manager">
                         <group name="raspi" string="Raspberrys">
                             <field name="raspi_ids" nolabel="1"/>
+                        </group>
+                    </page>
+                    <page name="config_zones" string="Zonas" groups="stock.group_stock_manager">
+                        <group name="zones" string="Zonas">
+                            <field name="camera_zone_ids" nolabel="1"/>
                         </group>
                     </page>
                     <page name="config_plano" string="Planogrametría" groups="stock.group_stock_manager">

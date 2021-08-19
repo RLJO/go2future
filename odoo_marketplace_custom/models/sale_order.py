@@ -387,6 +387,7 @@ class SaleOrder(models.Model):
             _logger.warning('Json enviado: (%s).', payload)
             _logger.warning('Respuesta Vendedor: (%s).', response.text)
             invoice.seller_respond = response.text
+            invoice.json_sent = payload
         return True
 
     def _get_address(self, partner_id):

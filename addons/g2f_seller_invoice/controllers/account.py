@@ -43,6 +43,7 @@ class Account(http.Controller):
         moves = account.sudo().search(domain)
         for invoice in moves:
             items = []
+            prisma = []
             name = invoice.partner_id.name.split()
             first_name = ''
             last_name = ''
@@ -54,6 +55,13 @@ class Account(http.Controller):
                 last_name = name[2]
                 if len(name) == 4:
                     last_name += ' ' + name[3]
+
+            ('seller_api', _('API Seller')),
+            ('afip', _('AFIP')),
+            ('no_afip', _('No AFIP'))
+            e_invoice_type = dict(invoice._fields['electronic_invoice_type'].selection).get(invoice.electronic_invoice_type)
+            afip_auth_mode = invoice.l10n_ar_afip_auth_mode or ''
+            afip_auth_code = invoice.l10n_ar_afip_auth_code or ''
 
             for line in invoice.invoice_line_ids:
                 tax_items = []
@@ -79,6 +87,12 @@ class Account(http.Controller):
                 }
                 items.append(item)
 
+            for p in invoice.payment_prisma_status_ids:
+                prisma = {
+                    "transaction": p.site_transaction_id,
+                    "card_brand": p.card_brand
+                }
+
             data = {
                 "id": invoice.id,
                 "name": first_name,
@@ -96,7 +110,13 @@ class Account(http.Controller):
                 "amount_total": invoice.amount_total,
                 "total_commission": invoice.total_commission,
                 "total_less_commission": invoice.total_less_commission,
-                "items": items
+                "items": items,
+                "origin": invoice.invoice_origin,
+                "afip_auth_code": afip_auth_mode + ' - ' + afip_auth_code if afip_auth_code else '',
+                "afip_date_due": invoice.l10n_ar_afip_auth_code_due,
+                "afip_result": invoice.l10n_ar_afip_result,
+                "e_invoice_type": e_invoice_type,
+                "prisma": prisma,
             }
             res.append(data)
         # payload = json.dumps(data)

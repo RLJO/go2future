@@ -20,7 +20,8 @@ class ResPartner(models.Model):
     electronic_invoice_type = fields.Selection(selection=[
         ('seller_api', _('API Seller')),
         ('afip', _('AFIP')),
-        ('no_afip', _('No AFIP'))
+        ('no_afip', _('No AFIP')),
+        ('fafip', _('Facturación AFIP'))
     ], string=_('Invoicing Type'), default='afip')
     l10n_ar_connection_ids = fields.One2many('l10n_ar.afipws.connection', 'partner_id', 'Connections')
     l10n_ar_afip_ws_environment = fields.Selection([('testing', _('Testing')), ('production', _('Production'))],
@@ -30,6 +31,10 @@ class ResPartner(models.Model):
     l10n_ar_afip_ws_crt_fname = fields.Char(string=_('Certificate'), compute="_compute_l10n_ar_afip_ws_crt_fname", store=True)
     l10n_ar_afip_ws_crt = fields.Binary(string=_('Private Key'), attachment=True)
     fe_journal_id = fields.Many2one(comodel_name='account.journal', string=_('Diario'), domain='[("type", "=", "sale")]')
+    invoice_type_cae_caea = fields.Selection(selection=[
+        ('cae', _('CAE')),
+        ('caea', _('CAEA')),
+    ], string=_('Invoicing Type'), default='cae')
 
     def l10n_ar_connection_test(self):
         self.ensure_one()

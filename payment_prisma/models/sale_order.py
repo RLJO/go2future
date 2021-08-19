@@ -233,3 +233,8 @@ class SaleOrder(models.Model):
                     self.site_transaction_id = response.text
                     self.transaction_status = response.status_code
         return True
+
+    def _prepare_invoice(self):
+        res = super(SaleOrder, self)._prepare_invoice()
+        res['origin_id'] = self.id
+        return res

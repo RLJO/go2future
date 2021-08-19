@@ -95,5 +95,5 @@ class MarketplaceVendor(models.Model):
             'tax_ids': [(6, 0, tax_ids.ids)],
             'company_id': self.env.company.id,
             'company_currency_id': self.env.company.currency_id.id,
-            'journal': journal.id
+            #'journal': journal.id
         }
