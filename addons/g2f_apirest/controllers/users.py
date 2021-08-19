@@ -400,16 +400,33 @@ class ResUser(http.Controller):
             print(error)
             return False
 
+    def reset_password_by_document(self, kw):
+        """reset password by document passed."""
+
+        res_partner = http.request.env['res.partner']
+        user = http.request.env['res.users']
+
+        identification_type = kw.get('identification_type')
+        vat = kw.get('vat')
+        search_identification_type = res_partner.sudo().search_identification_type(identification_type)
+
+        identification_type_id = search_identification_type.id if search_identification_type else ''
+        domain = [('l10n_latam_identification_type_id', '=', identification_type_id),
+                  ('vat', '=', vat)]
+        search_res_partner = res_partner.sudo().search(domain)
+        print(search_res_partner.email)
+        return search_res_partner.email
+
     @http.route(['/users/ResetPassword'], type='json', auth='public',
                 methods=['POST'],
                 website=True, csrf=False)
     def reset_password_user(self, **kw):
         kw = http.request.jsonrequest
-        login = kw.get('login')
-        user = self._validate_user(login)
-        user_disabled = self._validate_user_inactive(login)
+        login = kw.get('login') or self.reset_password_by_document(kw)
 
-        if not user and not user_disabled:
+        user = self._validate_user(login)
+
+        if not user:
             msg = _('User does not exist!')
             response = {'status': '400', 'messsage': msg}
             return dumps(response)
