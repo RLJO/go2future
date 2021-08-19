@@ -215,7 +215,27 @@ class ResUser(http.Controller):
             response = self.update_user(kw)
             return response
 
+        if method == 'DELETE':
+            print('Delete Usuario')
+            response = self.delete_user(kw)
+            return response
         return False
+
+    def delete_user(self, kw):
+        """Delete User."""
+
+        login = kw.get('login')
+        user = self._validate_user(login)
+
+        if not user:
+            msg = _('User does not exist!')
+            response = {'status': '400', 'messsage': msg}
+            return dumps(response)
+
+        user.write({'active': False})
+        msg = _('User has be deleted!')
+        response = {'status': '200', 'messsage': msg}
+        return dumps(response)
 
     def update_user(self, kw):
         login = kw.get('login')
@@ -223,6 +243,7 @@ class ResUser(http.Controller):
         lastname = kw.get('lastname')
 
         user = self._validate_user(login)
+
         if not user:
             msg = _('User does not exist!')
             response = {'status': '400', 'messsage': msg}
@@ -264,8 +285,14 @@ class ResUser(http.Controller):
 
         user = http.request.env['res.users']
         self.res_partner = user.partner_id
-        if user.partner_id.sudo().validate_user(login) or \
-                user.partner_id.sudo().document_exist(identification_type, vat):
+        user_inactive = self._validate_user_inactive(login)
+
+        if self._validate_user(login):
+            msg = _('User already exists!')
+            response = {'status': '400', 'message': msg}
+            return dumps(response)
+
+        if (user.partner_id.sudo().document_exist(identification_type, vat) and not user_inactive):
             msg = _('User already exists!')
             response = {'status': '400', 'message': msg}
             return dumps(response)
@@ -276,14 +303,19 @@ class ResUser(http.Controller):
         country_id, state_id = self.res_partner.search_country_state_by_name(country, country_state)
 
         try:
-            user.sudo().create({
-                'login': login,
-                'email': login,
-                'password': passw,
-                'name': name,
-                'lastname': lastname,
-            })
-            user._cr.commit()
+            if not self._validate_user(login) and not user_inactive:
+                user.sudo().create({
+                    'login': login,
+                    'email': login,
+                    'password': passw,
+                    'name': name,
+                    'lastname': lastname,
+                })
+                user._cr.commit()
+
+            if user_inactive:
+                user_inactive.sudo().write({'password': passw, 'active': True})
+                user_inactive._cr.commit()
 
             # Update data in respartner
             data = {'birthday': birthday, 'gender': gender, 'mobile': mobile,
@@ -318,12 +350,24 @@ class ResUser(http.Controller):
             return True
         return False
 
+    def _validate_user_inactive(self, login):
+        """Validate if user id Inactive."""
+
+        user = http.request.env['res.users']
+        return user.sudo().search([('login', '=', login),
+                                   ('active', '=', False)]) 
+
     @http.route(['/users/login'], type='json', auth='public',
                 methods=['POST'], website=True, csrf=False)
     def login(self, **kw):
         kw = http.request.jsonrequest
         login = kw.get('login')
         passw = kw.get('password')
+
+        if self._validate_user_inactive(login):
+            msg = _('User is disabled, you must register again to enable it')
+            response = {'status': '400', 'messsage': msg}
+            return dumps(response)
 
         if not self._validate_user(login):
             msg = _('User does not exist!')
@@ -363,8 +407,9 @@ class ResUser(http.Controller):
         kw = http.request.jsonrequest
         login = kw.get('login')
         user = self._validate_user(login)
+        user_disabled = self._validate_user_inactive(login)
 
-        if not user:
+        if not user and not user_disabled:
             msg = _('User does not exist!')
             response = {'status': '400', 'messsage': msg}
             return dumps(response)
