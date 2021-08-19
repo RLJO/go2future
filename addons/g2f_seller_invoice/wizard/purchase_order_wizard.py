@@ -1,7 +1,7 @@
 from odoo import models, fields, api, _
 import datetime
 import time
-import zeep
+from zeep import Client, xsd
 from zeep.exceptions import Fault
 import base64
 from odoo.exceptions import except_orm, Warning, RedirectWarning
@@ -70,8 +70,7 @@ class PurchaseOrderWizard(models.TransientModel):
             data = info + '\n' + head + '\n' + detail
             print(data)
             
-            file_obj = self.env['ir.attachment'].search([('res_model', '=', 'purchase.order'),
-                                                         ('res_id', '=', 2)])
+            file_obj = self.env['ir.attachment'].search([('res_model', '=', 'purchase.order'), ('res_id', '=', 2)])
 
             # file_content = base64.b64encode(bytes(data, 'utf-8'))
             file_content = file_obj.datas
@@ -80,90 +79,36 @@ class PurchaseOrderWizard(models.TransientModel):
             # Ocp-Apim-Subscription-Key: 1381fbeede8243c6b87322169b623d8e
             # get_file = client.service.sendBill(filename + '.zip', base64.b64encode(str(data_file)))
 
-            wsdlwsdlwsdlwsdlwsdl = '/home/boris/Descargas/PlanexwareWsWsdl'
-            settings = zeep.Settings(extra_http_headers={
-                'Ocp-Apim-Subscription-Key': '1381fbeede8243c6b87322169b623d8e'
-            })
+            wsdl = '/home/boris/Descargas/PlanexwareWsWsdl'
+            # settings = zeep.Settings(extra_http_headers={
+            #     'Ocp-Apim-Subscription-Key': '1381fbeede8243c6b87322169b623d8e',
+            #     'Company': 'GO2FUTURE'
+            # })
+
+            client = Client(wsdl)
+
+            settings = {
+                'Ocp-Apim-Subscription-Key': '1381fbeede8243c6b87322169b623d8e',
+                'Company': 'GO2FUTURE'
+            }
+            client.settings.extra_http_headers = settings
+
             function = 'ORDERS'
             file_name = 'file.txt'
-            svc_url = 'https://api.planexware.net/PlanexwareWS'
-            method_url = 'https://ws.planexware.net/PlanexwareWS/Upload'
-            #
-            function_header = zeep.xsd.Element('{http://test.python-zeep.org}Function', zeep.xsd.ComplexType([
-                zeep.xsd.Element('{https://ws.planexware.net}Function', zeep.xsd.String())
-            ]))
-            filename_header = zeep.xsd.Element('{http://test.python-zeep.org}FileName', zeep.xsd.ComplexType([
-                zeep.xsd.Element('{https://ws.planexware.net}FileName', zeep.xsd.String())
-            ]))
-            to_header = zeep.xsd.Element('{http://test.python-zeep.org}To', zeep.xsd.ComplexType([
-                zeep.xsd.Element('{hhttp://schemas.microsoft.com/ws/2005/05/addressing/none}To', zeep.xsd.String())
-            ]))
-            action_header = zeep.xsd.Element('{http://test.python-zeep.org}Action', zeep.xsd.ComplexType([
-                zeep.xsd.Element('{http://schemas.microsoft.com/ws/2005/05/addressing/none}Action', zeep.xsd.String())
-            ]))
-            # header_value = header(Function=function, FileName=file_name, Action=method_url, To=svc_url)
-
-            # headers = {"Function": function, "FileName": file_name, "to": to, "action": action}
-            function_header_value = function_header(Function=function)
-            filename_header_value = filename_header(FileName=file_name)
-            to_header_value = to_header(To=svc_url)
-            action_header_value = action_header(Action=method_url)
-            # header_value = {"Function": function, "FileName": file_name}
-
-            # header = zeep.xsd.Element(None, zeep.xsd.ComplexType(
-            #     zeep.xsd.Sequence([
-            #         zeep.xsd.Element('{http://www.w3.org/2005/08/addressing}Function', zeep.xsd.String()),
-            #         zeep.xsd.Element('{http://www.w3.org/2005/08/addressing}FileName', zeep.xsd.String()),
-            #         zeep.xsd.Element('{http://www.w3.org/2005/08/addressing}Action', zeep.xsd.String()),
-            #         zeep.xsd.Element('{http://www.w3.org/2005/08/addressing}To', zeep.xsd.String()),
-            #     ])
-            # ))
-
-            header = zeep.xsd.Element(
-                'customHeader',
-                zeep.xsd.ComplexType([
-                    zeep.xsd.Element('Function', zeep.xsd.String()),
-                    zeep.xsd.Element('FileName', zeep.xsd.String()),
-                    zeep.xsd.Element('Action', zeep.xsd.String()),
-                    zeep.xsd.Element('To', zeep.xsd.String()),
-                ])
-            )
-            #
-            # PassengersType = xsd.ComplexType(
-            #     xsd.Sequence([
-            #         xsd.Element('passengers', PassengerType, min_occurs=1, max_occurs='unbounded')
-            #     ]), qname=etree.QName("{http://example.com/schema}passengers")
-            # )
-            FunctionHeader = xsd.xsd.ComplexType(
-                xsd.xsd.Sequence([
-                    xsd.xsd.Element('function')
-                ]), qname=etree.QName("{http://example.com/schema}function")
-            )
-
-            header_value = header(Function=function, FileName=file_name, Action=method_url, To=svc_url)
-            upload_request = {"FileContent": file_content}
-
-            # client = zeep.Client(wsdl=wsdl, settings=settings).service.GetStatus()
-            try:
-                client = zeep.Client(wsdl=wsdl, settings=settings).service.Upload(
-                    file_content, _soapheaders=[header_value])
-                print(client)
-            except Fault as error:
-                print(error.detail)
-
-            # client = zeep.Client(wsdl=wsdl, settings=settings).service.Upload(
-            #     _soapheaders=[
-            #         filename_header_value,
-            #         function_header_value,
-            #         to_header_value,
-            #         action_header_value
-            #     ], UploadRequest=upload_request)
-            #
-            # client = zeep.Client(wsdl=wsdl, settings=settings).service.Upload(
-            #     file_content,
-            #     _soapheaders=[header_value])
 
             # b'SU5GTzAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwT1JERVJTXG5IRUFEMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwICAgIFAwMDAwMiAgICAgICAgICAgICAgICAgICAgICAgIENvbmNlcGNpw7NuIEFyZW5hbCAyOTQ3LCBDaXVkYWQgQXV0w7MgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAyMDIxMDcyNDIwMjEwNzI0ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDAwMDAwMDAwMDAwNy4yNjIwMjEwODAzMjIwNiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBQMDAwMDIgICAgICAgICAgICAgIFxuTElORTAwMDAwMTEyMTIxMjEyMTIxMjEgQ29jYSBDb2xhIFplcm8gICAgICAgICAgICAgICAgICAgICBDb2NhIENvbGEgWmVybyAgICAgICAgICAgICAgICAgICAgIDAwMDAwMDAwMDAwMDAwICAgICAgIDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwICAgICAgICAgICAgICAgICAwMDAwMDAwMDAwMDAwLjYgICAgICAgICAgICAgICAwMDAwMDAwMDAwMDA2LjAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAoK'
+
+            header = xsd.ComplexType(
+                xsd.Sequence([
+                    xsd.Element('Function', xsd.String()),
+                    xsd.Element('FileName', xsd.String()),
+                ])
+            )
+            headers = [header(Function=function, FileName=file_name)]
+            client.set_default_soapheaders(headers)
+
+            client.service.Upload(file_content)
+
 
             xml = """
                 <?xml version=”1.0”?>
