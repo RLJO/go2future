@@ -10,7 +10,7 @@
 			<field name="inherit_id" ref="sale.view_order_form"/>
 			<field name="arch" type="xml">
 				<xpath expr="//form/sheet//field[@name='payment_term_id']" position="after">
-					<field name="marketplace_seller_id" readonly="0" groups="odoo_marketplace.marketplace_officer_group"/>
+					<field name="marketplace_seller_id" readonly="0" groups="odoo_marketplace.marketplace_officer_group" invisible="1"/>
 				</xpath>
 			</field>
 		</record>

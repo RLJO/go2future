@@ -17,7 +17,7 @@
   "name"                 :  "Odoo Marketplace Seller Wise Checkout",
   "summary"              :  """The module allows the customer to split the order seller wise.  The products are divided at the checkout according the respective sellers and the customer can now pay for each seller separately.""",
   "category"             :  "Website",
-  "version"              :  "1.0.0",
+  "version"              :  "1.0.1",
   "sequence"             :  1,
   "author"               :  "Webkul Software Pvt. Ltd.",
   "license"              :  "Other proprietary",
