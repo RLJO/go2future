@@ -24,23 +24,23 @@
             </field>
         </record>
 
-        <record id="action_purchase_order_wizard" model="ir.actions.act_window">
+<!--        <record id="action_purchase_order_wizard" model="ir.actions.act_window">
             <field name="name">Send Purchase Order</field>
             <field name="res_model">purchase.order.wizard</field>
             <field name="target">new</field>
             <field name="binding_model_id" ref="purchase.model_purchase_order"/>
             <field name="binding_view_types">list,form</field>
-        </record>
+        </record>-->
 
-        <!--<record id="action_purchase_order_wizard" model="ir.actions.act_window">
+        <record id="action_purchase_order_wizard" model="ir.actions.act_window">
             <field name="name">Send Purchase Order</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">purchase.order.wizard</field>
             <field name="view_mode">form</field>
             <field name="target">new</field>
             <field name="binding_model_id" ref="purchase.model_purchase_order" />
-            <field name="binding_view_types">list</field>
-        </record>-->
+            <field name="binding_view_types">list,form</field>
+        </record>
 
         <!--<act_window id="purchase_order_action_purchase_order_wizard"
             name="Purchase Order Wizard"

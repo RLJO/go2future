@@ -3,6 +3,7 @@ import datetime
 import time
 from zeep import Client, xsd
 from zeep.exceptions import Fault
+from lxml import etree as ET
 import base64
 from odoo.exceptions import except_orm, Warning, RedirectWarning
 
@@ -52,8 +53,9 @@ class PurchaseOrderWizard(models.TransientModel):
             detail = 'LINE'
             detail += str(len(po.order_line)).zfill(6)
             for line in po.order_line:
+                barcode = line.product_id.barcode or ''
                 default_code = line.product_id.default_code or ''
-                detail += line.product_id.barcode.ljust(14)
+                detail += barcode.ljust(14)
                 detail += line.name.ljust(35)
                 detail += line.name.ljust(35)
                 detail += default_code.zfill(14)
@@ -74,66 +76,50 @@ class PurchaseOrderWizard(models.TransientModel):
 
             # file_content = base64.b64encode(bytes(data, 'utf-8'))
             file_content = file_obj.datas
+            # b'SU5GTzAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwT1JERVJTXG5IRUFEMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwICAgIFAwMDAwMiAgICAgICAgICAgICAgICAgICAgICAgIENvbmNlcGNpw7NuIEFyZW5hbCAyOTQ3LCBDaXVkYWQgQXV0w7MgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAyMDIxMDcyNDIwMjEwNzI0ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDAwMDAwMDAwMDAwNy4yNjIwMjEwODAzMjIwNiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBQMDAwMDIgICAgICAgICAgICAgIFxuTElORTAwMDAwMTEyMTIxMjEyMTIxMjEgQ29jYSBDb2xhIFplcm8gICAgICAgICAgICAgICAgICAgICBDb2NhIENvbGEgWmVybyAgICAgICAgICAgICAgICAgICAgIDAwMDAwMDAwMDAwMDAwICAgICAgIDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwICAgICAgICAgICAgICAgICAwMDAwMDAwMDAwMDAwLjYgICAgICAgICAgICAgICAwMDAwMDAwMDAwMDA2LjAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAoK'
 
             # https://api.planexware.net/PlanexwareWs
             # Ocp-Apim-Subscription-Key: 1381fbeede8243c6b87322169b623d8e
             # get_file = client.service.sendBill(filename + '.zip', base64.b64encode(str(data_file)))
 
-            wsdl = '/home/boris/Descargas/PlanexwareWsWsdl'
-            # settings = zeep.Settings(extra_http_headers={
-            #     'Ocp-Apim-Subscription-Key': '1381fbeede8243c6b87322169b623d8e',
-            #     'Company': 'GO2FUTURE'
-            # })
-
-            client = Client(wsdl)
-
-            settings = {
-                'Ocp-Apim-Subscription-Key': '1381fbeede8243c6b87322169b623d8e',
-                'Company': 'GO2FUTURE'
-            }
-            client.settings.extra_http_headers = settings
-
+            file_content = b'dGVzdDQ='
             function = 'ORDERS'
             file_name = 'file.txt'
+            wsdl = 'PlanexwareWsWsdl'
 
-            # b'SU5GTzAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwT1JERVJTXG5IRUFEMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwICAgIFAwMDAwMiAgICAgICAgICAgICAgICAgICAgICAgIENvbmNlcGNpw7NuIEFyZW5hbCAyOTQ3LCBDaXVkYWQgQXV0w7MgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAyMDIxMDcyNDIwMjEwNzI0ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDAwMDAwMDAwMDAwNy4yNjIwMjEwODAzMjIwNiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBQMDAwMDIgICAgICAgICAgICAgIFxuTElORTAwMDAwMTEyMTIxMjEyMTIxMjEgQ29jYSBDb2xhIFplcm8gICAgICAgICAgICAgICAgICAgICBDb2NhIENvbGEgWmVybyAgICAgICAgICAgICAgICAgICAgIDAwMDAwMDAwMDAwMDAwICAgICAgIDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwICAgICAgICAgICAgICAgICAwMDAwMDAwMDAwMDAwLjYgICAgICAgICAgICAgICAwMDAwMDAwMDAwMDA2LjAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAoK'
+            client = Client(wsdl)
+            client.set_ns_prefix(None, "https://ws.planexware.net")
+            settings = {
+                'Ocp-Apim-Subscription-Key': '1381fbeede8243c6b87322169b623d8e',
+                'Company': 'GO2FUTURE',
+            }
+            client.settings.extra_http_headers = settings
+            client.settings.raw_response = True
 
             header = xsd.ComplexType(
                 xsd.Sequence([
-                    xsd.Element('Function', xsd.String()),
-                    xsd.Element('FileName', xsd.String()),
+                    xsd.Element("Function", xsd.String()),
+                    xsd.Element("FileName", xsd.String()),
                 ])
             )
-            headers = [header(Function=function, FileName=file_name)]
-            client.set_default_soapheaders(headers)
 
-            client.service.Upload(file_content)
+            header_value = header(Function=function, FileName=file_name)
+            print(header_value)
 
+            params = {}
+            # Para imprimir el xml que  se envia
+            node = client.create_message(client.service, 'Upload', FileContent=file_content,
+                                         _soapheaders=[header_value])
+            tree = ET.ElementTree(node)
+            tree.write('test.xml', pretty_print=True)
 
-            xml = """
-                <?xml version=”1.0”?>
-                <s:Envelope xmlns:s=”http://schemas.xmlsoap.org/soap/envelope/”>
-                    <s:Header>
-                    <Function xmlns=”https://ws.planexware.net”>ORDERS</Function>
-                    <FileName xmlns=”https://ws.planexware.net”>ORD_1111222710006_3334445300149978_77980327199999.txt</FileName>
-                    <To s:mustUnderstand=”1” xmlns=”http://schemas.microsoft.com/ws/2005/05/addressing/none”>
-                    https://api.planexware.net/PlanexwareWS </To>
-                    <Action s:mustUnderstand=”1” xmlns=”http://schemas.microsoft.com/ws/2005/05/addressing/none”>
-                https://ws.planexware.net/PlanexwareWS/Upload</Action>
-                </s:Header>
-                <s:Body>
-                <UploadRequest xmlns=”https://ws.planexware.net”>
-                <FileContent>%r</FileContent>
-                </UploadRequest>
-                </s:Body>
-                </s:Envelope>
-            """ % file_content
-
-
-
-
-
-
+            try:
+                response = client.service.Upload(FileContent=file_content, _soapheaders=[header_value])
+                print(response.status_code)
+                print(response.ok)
+                print(response.text)
+            except Fault as error:
+                print(error)
 
     def _get_address(self, partner_id):
         address = partner_id.street + ', ' if partner_id.street else ''
