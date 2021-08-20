@@ -5,6 +5,7 @@ from zeep import Client, xsd
 from zeep.exceptions import Fault
 from lxml import etree as ET
 import base64
+from odoo.modules.module import get_module_resource
 from odoo.exceptions import except_orm, Warning, RedirectWarning
 
 import logging
@@ -26,7 +27,7 @@ class PurchaseOrderWizard(models.TransientModel):
         for po in po_ids:
             info = 'INFO'
             info += '9500000598565'.zfill(13)  # EAN del emisor
-            info += '7792900000008'.zfill(13)  # EAN del Proveedor
+            info += '9930566108352'.zfill(13)  # EAN del Proveedor
             info += 'ORDERS'
 
             head = 'HEAD'
@@ -36,16 +37,16 @@ class PurchaseOrderWizard(models.TransientModel):
             head += ''.ljust(4)
             head += po.name.ljust(10)
             head += ''.ljust(10)  # Código del proveedor
-            head += ''.ljust(10)  # Descripción del Proveedor
-            head += self._get_address(po.partner_id)[:35].ljust(10)
+            head += po.partner_id.name.ljust(35)  # Descripción del Proveedor
+            head += self._get_address(po.partner_id)[:35].ljust(35)
             head += ''.ljust(120)
             head += po.date_order.strftime('%Y%m%d') if po.date_order else ''
-            head += po.date_planned.strftime('%Y%m%d') if po.date_planned else ''
-            head += po.date_approve.strftime('%Y%m%d') if po.date_approve else ''
+            head += "  " + po.date_planned.strftime('%Y%m%d') if po.date_planned else ''.ljust(12)
+            head += "  " + po.date_approve.strftime('%Y%m%d') if po.date_approve else ''.ljust(12)
             head += ''.ljust(35)  # Forma de Pago / Observaciones
             head += ''.ljust(5)
             head += str(po.amount_total).zfill(15)
-            head += send_date
+            head += send_date[2:]
             head += send_time
             head += ''.ljust(145)
             head += po.name.ljust(20)
@@ -71,22 +72,13 @@ class PurchaseOrderWizard(models.TransientModel):
 
             data = info + '\n' + head + '\n' + detail
             print(data)
-            
-            file_obj = self.env['ir.attachment'].search([('res_model', '=', 'purchase.order'), ('res_id', '=', 2)])
 
             # file_content = base64.b64encode(bytes(data, 'utf-8'))
-            file_content = file_obj.datas
-            # b'SU5GTzAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwT1JERVJTXG5IRUFEMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwICAgIFAwMDAwMiAgICAgICAgICAgICAgICAgICAgICAgIENvbmNlcGNpw7NuIEFyZW5hbCAyOTQ3LCBDaXVkYWQgQXV0w7MgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAyMDIxMDcyNDIwMjEwNzI0ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDAwMDAwMDAwMDAwNy4yNjIwMjEwODAzMjIwNiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBQMDAwMDIgICAgICAgICAgICAgIFxuTElORTAwMDAwMTEyMTIxMjEyMTIxMjEgQ29jYSBDb2xhIFplcm8gICAgICAgICAgICAgICAgICAgICBDb2NhIENvbGEgWmVybyAgICAgICAgICAgICAgICAgICAgIDAwMDAwMDAwMDAwMDAwICAgICAgIDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwICAgICAgICAgICAgICAgICAwMDAwMDAwMDAwMDAwLjYgICAgICAgICAgICAgICAwMDAwMDAwMDAwMDA2LjAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAoK'
-
-            # https://api.planexware.net/PlanexwareWs
-            # Ocp-Apim-Subscription-Key: 1381fbeede8243c6b87322169b623d8e
-            # get_file = client.service.sendBill(filename + '.zip', base64.b64encode(str(data_file)))
-
-            file_content = b'dGVzdDQ='
+            file_content = base64.b64encode(data.encode('utf-8'))
+            #file_content = b'dGVzdDQ='
             function = 'ORDERS'
             file_name = 'file.txt'
-            wsdl = 'PlanexwareWsWsdl'
-
+            wsdl = get_module_resource('g2f_seller_invoice', 'wizard/', 'PlanexwareWsWsdl')
             client = Client(wsdl)
             client.set_ns_prefix(None, "https://ws.planexware.net")
             settings = {
@@ -108,10 +100,10 @@ class PurchaseOrderWizard(models.TransientModel):
 
             params = {}
             # Para imprimir el xml que  se envia
-            node = client.create_message(client.service, 'Upload', FileContent=file_content,
-                                         _soapheaders=[header_value])
+            node = client.create_message(client.service, 'Upload', FileContent=file_content, _soapheaders=[header_value])
             tree = ET.ElementTree(node)
-            tree.write('test.xml', pretty_print=True)
+            # tree.write('test.xml', pretty_print=True)
+            print(ET.tostring(tree, pretty_print=True, encoding=str))
 
             try:
                 response = client.service.Upload(FileContent=file_content, _soapheaders=[header_value])
