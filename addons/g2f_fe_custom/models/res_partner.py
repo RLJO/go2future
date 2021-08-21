@@ -20,8 +20,7 @@ class ResPartner(models.Model):
     electronic_invoice_type = fields.Selection(selection=[
         ('seller_api', _('API Seller')),
         ('afip', _('AFIP')),
-        ('no_afip', _('No AFIP')),
-        ('fafip', _('Facturación AFIP'))
+        ('no_afip', _('No AFIP'))
     ], string=_('Invoicing Type'), default='afip')
     l10n_ar_connection_ids = fields.One2many('l10n_ar.afipws.connection', 'partner_id', 'Connections')
     l10n_ar_afip_ws_environment = fields.Selection([('testing', _('Testing')), ('production', _('Production'))],
@@ -35,6 +34,7 @@ class ResPartner(models.Model):
         ('cae', _('CAE')),
         ('caea', _('CAEA')),
     ], string=_('Invoicing Type'), default='cae')
+    account_move_line_caea_ids = fields.One2many('account.move.caea.line', 'account_move_id', string=_('Datos CAEA'), track_visibility='onchange')
 
     def l10n_ar_connection_test(self):
         self.ensure_one()
@@ -214,3 +214,13 @@ class ResPartner(models.Model):
             rec.l10n_ar_afip_ws_crt = base64.b64encode(open(cert_file, 'rb').read())
             _logger.log(25, 'Setting demo certificate from %s to %s in seller %s' % (
             old, rec.l10n_ar_afip_ws_crt_fname, rec.name))
+
+class AccountMoveCaeaLine(models.Model):
+    _name = 'account.move.caea.line'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
+
+    account_move_id = fields.Many2one('account.move')
+    caea_creation_date = fields.Datetime(_('Fecha de creación'), default=lambda self: fields.datetime.now(),readonly=True, store=True, track_visibility="onchange")
+    caea_validity_from = fields.Date(_('Vigencia desde'), required=True, track_visibility="onchange")
+    caea_validity_to = fields.Date(_('Vigencia hasta'), required=True, track_visibility="onchange")
+    caea_number = fields.Integer(_('CAEA N°'), required=True, track_visibility="onchange")

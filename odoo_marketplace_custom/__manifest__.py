@@ -31,6 +31,7 @@
             'views/sale_order_views.xml',
             'views/res_country_view.xml',
             'data/marketplace_dashboard_data.xml',
+            'data/cron_data.xml',
             ],
   "application":  True,
   "installable":  True,

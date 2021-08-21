@@ -502,6 +502,16 @@ class AccountMove(models.Model):
             s.total_commission = sum(l.amount_commission_plus_tax for l in s.invoice_line_ids)
             s.total_less_commission = s.amount_total - s.total_commission
 
+    '''
+    @api.model
+    def search(self, domain=None, fields=None, offset=0, limit=None, order=None):
+        return super(AccountMove, self).search(domain, fields, offset, limit, order)
+        if self.env.context.get('invoicing_type'):
+            partner_id = self.env.user.partner_id
+            args += [('seller_id', '=', partner_id.id)]
+        return super(AccountMove, self).search(args, **kwargs)
+    '''
+
 
 class AccountMove(models.Model):
     _inherit = 'account.move.line'

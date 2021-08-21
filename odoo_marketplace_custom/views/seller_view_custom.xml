@@ -215,6 +215,12 @@
             <xpath expr='//field[@name="email"]' position="after">
                 <field name="email_commission" string="Correo electrónico commission"/>
             </xpath>
+            <xpath expr="//field[@name='is_permanent_exclution']" position="before">
+                <field name="activities_start"/>
+            </xpath>
+            <xpath expr="//field[@name='certificate_file']" position="after">
+                <field name="internal_taxes"/>
+            </xpath>
         </field>
         </record>
 
@@ -242,12 +248,21 @@
                     </a>
                 </div>
             </xpath>
+            <xpath expr='//div[hasclass("container","o_kanban_card_content")]//div[hasclass("col-6","o_kanban_primary_left")]//div[@t-if="record.state.raw_value ==&apos;payment&apos;"]/center/h3' position="replace">
+                <h3>Detalle</h3>
+            </xpath>
             <xpath expr='//div[hasclass("container","o_kanban_card_content")]//div[hasclass("col-6","o_kanban_primary_right")]//div[@t-if="record.state.raw_value ==&apos;payment&apos;"]' position="replace">
                 <div t-if="record.state.raw_value == 'payment'">
                     <a class="wk_kanban_button_box text-white" name="action_marketplace_vendor_percentage" type="object" style="background-color:#f0ad4e">
-                        <span class="o_label">Pagos</span>
+                        <span class="o_label">Ver</span>
                     </a>
                 </div>
+            </xpath>
+            <xpath expr='//kanban' position="attributes">
+                <attribute name="default_order">sequence</attribute>
+            </xpath>
+            <xpath expr='//kanban/templates/t/div' position="attributes">
+                <attribute name="attrs">{'invisible':['|', '&amp;', ('is_seller','=',True),('state','=','seller'), ('state', '=', 'order')]}</attribute>
             </xpath>
         </field>
         </record>
@@ -305,6 +320,58 @@
                 </p>
             </field>
         </record>
+
+        <record id="odoo_marketplace.wk_seller_dashboard_menu3_sub_menu2" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6, 0, [ref('odoo_marketplace_custom.make_invisible')])]"/>
+        </record>
+        <record id="odoo_marketplace.wk_seller_payment_pay_to_seller" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6, 0, [ref('odoo_marketplace_custom.make_invisible')])]"/>
+        </record>
+        <record id="odoo_marketplace.wk_seller_payment_request" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6, 0, [ref('odoo_marketplace_custom.make_invisible')])]"/>
+        </record>
+        <record id="odoo_marketplace.wk_seller_payment_method" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6, 0, [ref('odoo_marketplace_custom.make_invisible')])]"/>
+        </record>
+        <record id="odoo_marketplace.wk_seller_paid_bill" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6, 0, [ref('odoo_marketplace_custom.make_invisible')])]"/>
+        </record>
+        <record id="odoo_marketplace.wk_mp_account_payments_menu" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6, 0, [ref('odoo_marketplace_custom.make_invisible')])]"/>
+        </record>
+        <record id="marketplace_seller_wise_checkout.wk_seller_dashboard_so_menu" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6, 0, [ref('odoo_marketplace_custom.make_invisible')])]"/>
+        </record>
+
+        <record id="wk_seller_invoices_action" model="ir.actions.act_window">
+            <field name="name">Facturas consumidor final</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.move</field>
+            <field name="context">{'invoicing_type': 'consumidor_final'}</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="wk_seller_order_invoicing"
+                  name="Facturas consumidor final"
+                  sequence="6"
+                  parent="odoo_marketplace.wk_seller_dashboard_menu3"
+                  action="odoo_marketplace_custom.wk_seller_invoices_action"
+                  groups="odoo_marketplace.marketplace_seller_group,odoo_marketplace.marketplace_manager_group"/>
+
+        <record id="wk_seller_commission_invoices_action" model="ir.actions.act_window">
+            <field name="name">Facturas comisión MiniGo</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.move</field>
+            <field name="context">{'invoicing_type': 'comisiones'}</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="wk_seller_commission_invoicing"
+                  name="Facturas comisión MiniGo"
+                  sequence="1"
+                  parent="odoo_marketplace.wk_seller_dashboard_invoicing_menu"
+                  action="odoo_marketplace_custom.wk_seller_commission_invoices_action"
+                  groups="odoo_marketplace.marketplace_seller_group,odoo_marketplace.marketplace_manager_group"/>
 
     </data>
 </odoo>
