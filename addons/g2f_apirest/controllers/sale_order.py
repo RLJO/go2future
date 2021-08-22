@@ -93,3 +93,21 @@ class SaleOrderCart(http.Controller):
             return dumps(response)
 
         return http.Response('NOT FOUND', status=404) 
+
+    @http.route(['/sale_order_detail/'], type='http', auth='public',
+                methods=['GET'], website=True, csrf=False)
+    def sale_order_detail(self, **kw):
+        '''Get sale order list by login.'''
+
+        print(kw)
+        method = http.request.httprequest.method
+        order = kw.get('sale_order')
+
+        domain = [('name', '=', order)]
+        sale_order = http.request.env['sale.order'].sudo().search(domain)
+
+        if method == 'GET' and sale_order:
+            response = sale_order.sudo()._list_sale_order_cart(sale_order)
+            return dumps(response)
+
+        return http.Response('NOT FOUND', status=404)

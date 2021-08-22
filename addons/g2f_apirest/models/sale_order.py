@@ -91,14 +91,36 @@ class SaleOrder(models.Model):
         order_list = []
 
         for order in orders:
+            # TODO: validate invoice is paid
+
             data.update({"order": order.name,
                          "create_date": order.create_date.strftime("%Y-%m-%d"),
                          "store": order.user_id.name,
-                         "amount_total": order.amount_total
+                         "amount_total": order.amount_total,
+                         "download_invoice": self._link_download_invoice(order)
                          })
             order_list.append(data)
 
         return order_list
+
+    def _link_download_invoice(self, order):
+        """prepare download link invoice from sale order passed."""
+
+        link = ''
+        try:
+            order = order
+            server = 'http://localhost:8069'
+            access_url = order.invoice_ids.access_url
+            access_token = order.invoice_ids.access_token
+            command = '&report_type=pdf&download=true'
+            link = f"{server}{access_url}?access_token={access_token}{command}"
+        except Exception as error:
+            print(error)
+            link = error
+
+        return link
+
+
 
     def _search_sale_order_by_partner(self, partner_id=None, state='draft'):
         '''Search sale order by partner id.'''
