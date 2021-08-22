@@ -1,0 +1,17 @@
+<odoo>
+    <data>
+        <record id="krikos_wk_seller_form_view" model="ir.ui.view">
+            <field name="name">krikos OC</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="odoo_marketplace.wk_seller_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet/group[@name='url']" position="after">
+                    <group>
+                        <field name="stocked_krikos"/>
+                        <field name="supplier_ean"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

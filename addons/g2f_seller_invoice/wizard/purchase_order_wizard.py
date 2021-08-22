@@ -27,12 +27,12 @@ class PurchaseOrderWizard(models.TransientModel):
         for po in po_ids:
             info = 'INFO'
             info += '9500000598565'.zfill(13)  # EAN del emisor
-            info += po.partner_id.vat.replace('-', '').zfill(13)  # '9930566108352'.zfill(13)  # EAN del Proveedor
+            info += po.partner_id.supplier_ean.zfill(13)  # '9930566108352'.zfill(13)  # EAN del Proveedor
             info += 'ORDERS'
 
             head = 'HEAD'
             head += '9500000598565'.zfill(13)  # EAN del emisor
-            head += po.partner_id.vat.replace('-', '').zfill(13)  # EAN del Proveedor
+            head += po.partner_id.supplier_ean.zfill(13)  # EAN del Proveedor
             head += '9500000598565'.zfill(13)  # EAN de la boca de entrega
             head += ''.ljust(4)
             head += po.name.ljust(10)
