@@ -1,0 +1,19 @@
+<odoo>
+  <data>
+      <record model="ir.ui.view" id="g2f_purchase_order_form">
+          <field name="name">g2f.purchase.order.form</field>
+          <field name="model">purchase.order</field>
+          <field name="inherit_id" ref="purchase.purchase_order_form"/>
+          <field name="arch" type="xml">
+              <xpath expr="//notebook" position="inside">
+                  <page name="planexware" string="Planexware">
+                      <group>
+                          <field name="pw_status_code" readonly="1"/>
+                          <field name="pw_xml_response" widget="ace" options="{'mode': 'xml'}" readonly="1"/>
+                      </group>
+                  </page>
+              </xpath>
+          </field>
+      </record>
+  </data>
+</odoo>

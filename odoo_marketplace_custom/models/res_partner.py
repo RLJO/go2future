@@ -44,6 +44,8 @@ class ResPartner(models.Model):
     customer_attention_phone = fields.Char(_('Teléfono de atención al cliente'))
     customer_attention_email = fields.Char(_('Email de atención al cliente'))
     customer_attention_website = fields.Char(_('Website de atención al cliente'))
+    stocked_krikos = fields.Boolean('Stocked by krikos')
+    supplier_ean = fields.Char('Supplier EAN')
 
     def update_warehouse_ids_domain(self, partner):
         warehouse_ids = []

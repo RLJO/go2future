@@ -7,14 +7,9 @@
             <field name="model">purchase.order.wizard</field>
             <field name="arch" type="xml">
                 <form string="Purchase Order Wizard">
-                    <group>
-                        <field name="data"/>
-                        <!--<label for="amount" string="Requested Payment Amount"/>
-                        <div>
-                            <field name="amount" string="Requested Payment Amount" widget="monetary" class="oe_inline"/>
-                            <span></span>
-                        </div>-->
-                    </group>
+                    <div class="alert alert-info text-center" role="status">
+                        Press the "Send purchase order" button to send the order to krikos.
+                    </div>
                     <footer>
                         <button string="Send Purchase Order" name="send_po" type="object" class="btn-primary"/>
                          or

@@ -27,12 +27,12 @@ class PurchaseOrderWizard(models.TransientModel):
         for po in po_ids:
             info = 'INFO'
             info += '9500000598565'.zfill(13)  # EAN del emisor
-            info += '9930566108352'.zfill(13)  # EAN del Proveedor
+            info += po.partner_id.supplier_ean.zfill(13)  # '9930566108352'.zfill(13)  # EAN del Proveedor
             info += 'ORDERS'
 
             head = 'HEAD'
             head += '9500000598565'.zfill(13)  # EAN del emisor
-            head += '7792900000008'.zfill(13)  # EAN del Proveedor
+            head += po.partner_id.supplier_ean.zfill(13)  # EAN del Proveedor
             head += '9500000598565'.zfill(13)  # EAN de la boca de entrega
             head += ''.ljust(4)
             head += po.name.ljust(10)
@@ -77,7 +77,7 @@ class PurchaseOrderWizard(models.TransientModel):
             file_content = base64.b64encode(data.encode('utf-8'))
             #file_content = b'dGVzdDQ='
             function = 'ORDERS'
-            file_name = 'file.txt'
+            file_name = po.name + '.txt'
             wsdl = get_module_resource('g2f_seller_invoice', 'wizard/', 'PlanexwareWsWsdl')
             client = Client(wsdl)
             client.set_ns_prefix(None, "https://ws.planexware.net")
@@ -98,7 +98,6 @@ class PurchaseOrderWizard(models.TransientModel):
             header_value = header(Function=function, FileName=file_name)
             print(header_value)
 
-            params = {}
             # Para imprimir el xml que  se envia
             node = client.create_message(client.service, 'Upload', FileContent=file_content, _soapheaders=[header_value])
             tree = ET.ElementTree(node)
@@ -106,12 +105,16 @@ class PurchaseOrderWizard(models.TransientModel):
             print(ET.tostring(tree, pretty_print=True, encoding=str))
 
             try:
-                response = client.service.Upload(FileContent=file_content, _soapheaders=[header_value])
+                response = client.service.Upload(FileContent=data.encode('utf-8'), _soapheaders=[header_value])
                 print(response.status_code)
                 print(response.ok)
                 print(response.text)
+                _logger.info("### Status Code ### %r", response.status_code)
+                _logger.info("### XML Response ### %r", response.text)
+                po.write({'pw_status_code': response.status_code, 'pw_xml_response': response.text})
             except Fault as error:
                 print(error)
+                _logger.info("### Send Error ### %r", error)
 
     def _get_address(self, partner_id):
         address = partner_id.street + ', ' if partner_id.street else ''
