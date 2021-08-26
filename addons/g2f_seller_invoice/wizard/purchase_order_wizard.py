@@ -65,7 +65,7 @@ class PurchaseOrderWizard(models.TransientModel):
                 detail += default_code.zfill(14)
                 detail += ''.ljust(7)
                 detail += '1'.zfill(7)  # Cantidad pedida en cajas (Package)
-                detail += str(line.quantity).zfill(11)  # Cantidad pedida en unidades
+                detail += str(line.product_qty).zfill(11)  # Cantidad pedida en unidades
                 detail += ''.zfill(5)  # Cantidad de unidades por package
                 detail += ''.ljust(17)
                 detail += str(line.price_unit).zfill(15)
