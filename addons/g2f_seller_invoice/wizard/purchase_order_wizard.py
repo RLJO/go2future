@@ -116,7 +116,11 @@ class PurchaseOrderWizard(models.TransientModel):
                 print(response.text)
                 _logger.info("### Status Code ### %r", response.status_code)
                 _logger.info("### XML Response ### %r", response.text)
-                po.write({'pw_status_code': response.status_code, 'pw_xml_response': response.text})
+                po.write({
+                    'pw_status_code': response.status_code,
+                    'pw_xml_response': response.text,
+                    'pw_plane_text': data
+                })
             except Fault as error:
                 print(error)
                 _logger.info("### Send Error ### %r", error)
