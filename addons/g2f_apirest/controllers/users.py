@@ -161,14 +161,14 @@ class ResUser(http.Controller):
                     raise ValidationError(_('web.base.access.control.url dont exist in ir.config_parameter.'))
 
                 # Prepare url endpoint and send to Access control server
-                base_url = config_parameter.value
-                endpoint = "api/Odoo/OpenDoor"
-                params = {"storeCode": int(store_id), "doorId": int(door_id), "userId": login}
-                try:
-                    enter_store_response = requests.post(urljoin(base_url, endpoint), json=params)
-                    print(enter_store_response.text)
-                except Exception as E:
-                    print(f'Error:{E}')
+                #base_url = config_parameter.value
+                #endpoint = "api/Odoo/OpenDoor"
+                #params = {"storeCode": int(store_id), "doorId": int(door_id), "userId": login}
+                #try:
+                #    enter_store_response = requests.post(urljoin(base_url, endpoint), json=params)
+                #    print(enter_store_response.text)
+                #except Exception as E:
+                #    print(f'Error:{E}')
 
                 response = {"status": "200", "message": "Wait for access control"}
                 return dumps(response)
