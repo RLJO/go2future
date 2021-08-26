@@ -469,7 +469,7 @@
 						<button name="set_pending" type="object" string="Request To Approve" attrs="{'invisible':[('status', 'in', ('pending','approved','rejected'))]}" class="btn-primary"/>
 						<button name="approved" type="object" string="Approve" attrs="{'invisible':[('status', 'in', ('draft','approved','rejected',False)), ('marketplace_seller_group', '=', True)]}" groups="odoo_marketplace.marketplace_officer_group" class="btn-primary"/>
 						<button name="reject" type="object" string="Reject" attrs="{'invisible':[('status', 'in', ('draft','rejected', False)), ('marketplace_seller_group', '=', True)]}" groups="odoo_marketplace.marketplace_officer_group"/>
-						<button name="send_to_draft" type="object" attrs="{'invisible':['|', ('status', 'in', ('pending','approved','draft', False)), ('marketplace_seller_group', '=', True)]}" string="Send To Draft"/>
+						<button name="send_to_draft" type="object" attrs="{'invisible':[('marketplace_seller_group', '=', True)]}" string="Send To Draft"/>
 						<button string="Variant Prices" type="action" name="%(odoo_marketplace.mp_product_template_attribute_value_action)d" attrs="{'invisible': [('product_variant_count', '&lt;=', 1), ('marketplace_seller_group', '=', True)]}" groups="product.group_product_variant"/>
 						<field name="status" widget="statusbar" statusbar_visible="draft,pending,approved,rejected"/>
 					</header>
