@@ -6,7 +6,7 @@ from zeep.exceptions import Fault
 from lxml import etree as ET
 import base64
 from odoo.modules.module import get_module_resource
-from odoo.exceptions import except_orm, Warning, RedirectWarning
+from odoo.exceptions import except_orm, UserError
 
 import logging
 _logger = logging.getLogger(__name__)
@@ -25,6 +25,9 @@ class PurchaseOrderWizard(models.TransientModel):
         send_time = time.strftime("%H%M")
         _logger.info("### Lista ### %r", po_ids.read())
         for po in po_ids:
+            if not po.partner_id.supplier_ean:
+                raise UserError(_("EAN del Proveedor (%s) no puede ser nulo.") % po.partner_id.name)
+
             info = 'INFO'
             info += '9500000598565'.zfill(13)  # EAN del emisor
             info += po.partner_id.supplier_ean.zfill(13)  # '9930566108352'.zfill(13)  # EAN del Proveedor
@@ -51,24 +54,24 @@ class PurchaseOrderWizard(models.TransientModel):
             head += ''.ljust(145)
             head += po.name.ljust(20)
 
-            detail = 'LINE'
-            detail += str(len(po.order_line)).zfill(6)
             for line in po.order_line:
                 barcode = line.product_id.barcode or ''
                 default_code = line.product_id.default_code or ''
+                detail = 'LINE'
+                detail += str(len(po.order_line)).zfill(6)
                 detail += barcode.ljust(14)
                 detail += line.name.ljust(35)
                 detail += line.name.ljust(35)
                 detail += default_code.zfill(14)
                 detail += ''.ljust(7)
-                detail += ''.zfill(7)  # Cantidad pedida en cajas (Package)
-                detail += ''.zfill(11)  # Cantidad pedida en unidades
+                detail += '1'.zfill(7)  # Cantidad pedida en cajas (Package)
+                detail += str(line.quantity).zfill(11)  # Cantidad pedida en unidades
                 detail += ''.zfill(5)  # Cantidad de unidades por package
                 detail += ''.ljust(17)
                 detail += str(line.price_unit).zfill(15)
                 detail += ''.ljust(15)
                 detail += str(line.price_subtotal).zfill(15)
-                detail += ''.ljust(80)
+                detail += ''.ljust(80) + '\n'
 
             data = info + '\n' + head + '\n' + detail
             print(data)
