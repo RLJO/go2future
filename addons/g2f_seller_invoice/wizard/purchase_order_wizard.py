@@ -23,7 +23,8 @@ class PurchaseOrderWizard(models.TransientModel):
         po_ids = self.env['purchase.order'].search([('id', 'in', ids)])
         send_date = time.strftime("%Y%m%d")
         send_time = time.strftime("%H%M")
-        _logger.info("### Lista ### %r", po_ids.read())
+        detail = ''
+        # _logger.info("### Lista ### %r", po_ids.read())
         for po in po_ids:
             if not po.partner_id.supplier_ean:
                 raise UserError(_("EAN del Proveedor (%s) no puede ser nulo.") % po.partner_id.name)
@@ -57,7 +58,7 @@ class PurchaseOrderWizard(models.TransientModel):
             for line in po.order_line:
                 barcode = line.product_id.barcode or ''
                 default_code = line.product_id.default_code or ''
-                detail = 'LINE'
+                detail += 'LINE'
                 detail += str(len(po.order_line)).zfill(6)
                 detail += barcode.ljust(14)
                 detail += line.name.ljust(35)
@@ -75,6 +76,7 @@ class PurchaseOrderWizard(models.TransientModel):
 
             data = info + '\n' + head + '\n' + detail
             print(data)
+            _logger.info("### TXT File ### %r", data)
 
             # file_content = base64.b64encode(bytes(data, 'utf-8'))
             file_content = base64.b64encode(data.encode('utf-8'))
