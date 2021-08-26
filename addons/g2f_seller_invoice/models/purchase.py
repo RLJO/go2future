@@ -14,3 +14,4 @@ class PurchaseOrder(models.Model):
 
     pw_status_code = fields.Integer('PlanexWare Status Code')
     pw_xml_response = fields.Text('PlanexWare XML Response')
+    pw_plane_text = fields.Text('Krikos Plane Text')

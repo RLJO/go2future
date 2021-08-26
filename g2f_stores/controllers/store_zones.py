@@ -13,14 +13,14 @@ class GetStoreZones(http.Controller):
         method = request.httprequest.method
         store_id = int(kw.get('store_id'))
         response = {"id": store_id, "status": 200, "data": []}
-        data = request.env['camera.zone'].sudo().search([("id", "=", int(store_id))])
+
         if method == 'GET':
+            data = request.env['camera.zone'].sudo().data_zone_camera(store_id)
             if data:
                 response['success'] = True
-                response['return'] = "Something"
+                response['data'] = data
             else:
                 response['success'] = False
                 response['error_code'] = 1
                 response['error_data'] = 'No data found!'
-
         return dumps(response)

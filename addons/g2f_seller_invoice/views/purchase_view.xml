@@ -8,6 +8,7 @@
               <xpath expr="//notebook" position="inside">
                   <page name="planexware" string="Planexware">
                       <group>
+                          <field name="pw_plane_text" readonly="1"/>
                           <field name="pw_status_code" readonly="1"/>
                           <field name="pw_xml_response" widget="ace" options="{'mode': 'xml'}" readonly="1"/>
                       </group>

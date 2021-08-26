@@ -61,8 +61,6 @@ class StoreDoor(models.Model):
         return result
 
 
-
-
 class StoreServer(models.Model):
     _name = 'store.iaserver'
     _description = 'IA server'
@@ -118,6 +116,29 @@ class CameraZone(models.Model):
         if not self._check_recursion():
             raise ValidationError(_('You can not create recursive zones.'))
 
+    def data_zone_camera(self, store_id):
+        zone_obj = self.env['camera.zone']
+        zone_ids = zone_obj.search([('store_id', '=', store_id),])
+        data = []
+        for zone in zone_ids:
+            if zone.parent_id: # Solo sub_zonas
+                for camera in zone.camera_points_ids:
+                    data.append({
+                        'id': zone.id,
+                        'zone_name': zone.name,
+                        'bottom_right_x': camera.bottom_right_x,
+                        'bottom_right_y': camera.bottom_right_y,
+                        'bottom_left_x': camera.bottom_left_x,
+                        'bottom_left_y': camera.bottom_left_y,
+                        'top_right_x': camera.top_right_x,
+                        'top_right_y': camera.top_right_y,
+                        'top_left_x': camera.top_left_x,
+                        'top_left_y': camera.top_left_y,
+                        'parent_zone': zone.parent_id.id,
+                        'camera_id': camera.camera_id.id
+                    })
+        return data
+
 
 class ZoneCameraPoints(models.Model):
     _name = 'camera.zone.points'
@@ -138,7 +159,8 @@ class ZoneCameraPoints(models.Model):
     top_left_y = fields.Float(string='Punto y arriba izquierdo')
 
     def name_zone_camera(self):
-        self.name = self.zone_id.name + " - " + self.camera_id.name
+        for i in self:
+            i.name = i.zone_id.name + " - " + i.camera_id.name
 
 
 class RaspberryPi(models.Model):

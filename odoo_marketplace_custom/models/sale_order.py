@@ -353,7 +353,7 @@ class SaleOrder(models.Model):
                 "origin": self.name,
                 "date": inv_date,
                 "time": inv_time,
-                "seller": invoice.seller_id.id,
+                "seller": invoice.seller_id.name,
                 "amount_untaxed": invoice.amount_untaxed,
                 "amount_tax": invoice.amount_tax,
                 "amount_total": invoice.amount_total,
