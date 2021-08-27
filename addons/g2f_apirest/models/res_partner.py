@@ -87,7 +87,7 @@ class ResPartner(models.Model):
             country = self.env['res.country'].search(domain_country)
 
             domain_state = [('name', 'ilike', state_name), ('country_id', '=', country.id)]
-            state = self.env['res.country.state'].search(domain_state)
+            state = self.env['res.country.state'].search(domain_state, limit=1)
 
             country_id = country.id if country else None
             state_id = state.id if state else None

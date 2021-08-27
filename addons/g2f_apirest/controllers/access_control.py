@@ -59,7 +59,7 @@ class AccessControl(http.Controller):
             store_id = kw.get('store_id') or 1
             door_id = kw.get('door_id') or 0
             was_confirmed = kw.get('was_confirmed')
-    
+
             config_parameter = http.request.env['ir.config_parameter'].sudo().search([
                 ('key', 'ilike', 'web.base.access.control.url')
             ])

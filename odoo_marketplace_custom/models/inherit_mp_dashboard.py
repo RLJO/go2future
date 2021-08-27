@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields, _
+from odoo import api, models, fields, _
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -59,3 +59,27 @@ class marketplace_dashboard(models.Model):
     state = fields.Selection(
         [('product', 'Product'), ('seller', 'Seller'), ('order', 'Order'), ('payment', 'Payment'), ('children', 'Children')])
     count_partner_children = fields.Integer(compute='_get_partner_children')
+    sequence = fields.Integer('Sequencia')
+
+    @api.model
+    def update_data(self):
+        products = self.sudo().browse(self.env.ref('odoo_marketplace.product_demo').id)
+        products.write({
+            'name': 'Productos MiniGo',
+            'sequence': 1,
+        })
+        sellers = self.sudo().browse(self.env.ref('odoo_marketplace.seller_demo').id)
+        sellers.write({
+            'name': 'Vendedores',
+            'sequence': 2,
+        })
+        childrens = self.sudo().browse(self.env.ref('odoo_marketplace_custom.children_marketplace').id)
+        childrens.write({
+            'name': 'Vendedores Hijos MiniGO',
+            'sequence': 3,
+        })
+        payments = self.sudo().browse(self.env.ref('odoo_marketplace.payment_demo').id)
+        payments.write({
+            'name': 'Detalle ventas y comisiones',
+            'sequence': 4,
+        })

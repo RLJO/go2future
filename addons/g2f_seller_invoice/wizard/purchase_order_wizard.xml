@@ -7,14 +7,9 @@
             <field name="model">purchase.order.wizard</field>
             <field name="arch" type="xml">
                 <form string="Purchase Order Wizard">
-                    <group>
-                        <field name="data"/>
-                        <!--<label for="amount" string="Requested Payment Amount"/>
-                        <div>
-                            <field name="amount" string="Requested Payment Amount" widget="monetary" class="oe_inline"/>
-                            <span></span>
-                        </div>-->
-                    </group>
+                    <div class="alert alert-info text-center" role="status">
+                        Press the "Send purchase order" button to send the order to krikos.
+                    </div>
                     <footer>
                         <button string="Send Purchase Order" name="send_po" type="object" class="btn-primary"/>
                          or
@@ -24,23 +19,23 @@
             </field>
         </record>
 
-        <record id="action_purchase_order_wizard" model="ir.actions.act_window">
+<!--        <record id="action_purchase_order_wizard" model="ir.actions.act_window">
             <field name="name">Send Purchase Order</field>
             <field name="res_model">purchase.order.wizard</field>
             <field name="target">new</field>
             <field name="binding_model_id" ref="purchase.model_purchase_order"/>
             <field name="binding_view_types">list,form</field>
-        </record>
+        </record>-->
 
-        <!--<record id="action_purchase_order_wizard" model="ir.actions.act_window">
+        <record id="action_purchase_order_wizard" model="ir.actions.act_window">
             <field name="name">Send Purchase Order</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">purchase.order.wizard</field>
             <field name="view_mode">form</field>
             <field name="target">new</field>
             <field name="binding_model_id" ref="purchase.model_purchase_order" />
-            <field name="binding_view_types">list</field>
-        </record>-->
+            <field name="binding_view_types">list,form</field>
+        </record>
 
         <!--<act_window id="purchase_order_action_purchase_order_wizard"
             name="Purchase Order Wizard"

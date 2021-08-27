@@ -1,0 +1,717 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* odoo_marketplace_custom
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-05-09 04:43+0000\n"
+"PO-Revision-Date: 2021-05-08 23:50-0500\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: es\n"
+"X-Generator: Poedit 2.4.3\n"
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.inherit_wk_seller_custom
+msgid "<span class=\"o_label\">Children</span>"
+msgstr "<span class=\"o_label\">Hijos</span>"
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.go2f_odoo_marketplace_seller_form_view_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_form
+msgid "AFIP Responsibility"
+msgstr "Responsabilidad AFIP"
+
+#. module: odoo_marketplace_custom
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_res_partner__acc_number
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_res_users__acc_number
+msgid "Account Number"
+msgstr "Número de cuenta"
+
+#. module: odoo_marketplace_custom
+#: model:ir.model,name:odoo_marketplace_custom.model_ir_actions_act_window
+msgid "Action Window"
+msgstr "Acción de ventana"
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_form
+msgid ""
+"Add your social profile links below and publish it in your seller profile "
+"page. So that customers can directly visit your social profiles from your "
+"seller profile page."
+msgstr ""
+"Agregue los enlaces de su perfil social a continuación y publíquelo en su "
+"página de perfil de vendedor. Para que los clientes puedan visitar "
+"directamente sus perfiles sociales desde su página de perfil de vendedor."
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_form
+msgid "Address"
+msgstr "Dirección"
+
+#. module: odoo_marketplace_custom
+#: code:addons/odoo_marketplace_custom/models/sale_order.py:0
+#, python-format
+msgid "Amount"
+msgstr "Cantidad"
+
+#. module: odoo_marketplace_custom
+#: code:addons/odoo_marketplace_custom/models/sale_order.py:0
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_marketplace_vendor__amount_sale_percentage
+#, python-format
+msgid "Amount %"
+msgstr "Cantidad %"
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_form
+msgid "Amount limit for seller payment request"
+msgstr "Límite de cantidad para la solicitud de pago del vendedor"
+
+#. module: odoo_marketplace_custom
+#: code:addons/odoo_marketplace_custom/models/sale_order.py:0
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_sale_order__amount_marketplace
+#, python-format
+msgid "Amount marketplace"
+msgstr "Cantidad MiniGO"
+
+#. module: odoo_marketplace_custom
+#: code:addons/odoo_marketplace_custom/models/sale_order.py:0
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_sale_order__amount_marketplace_vendor
+#, python-format
+msgid "Amount vendor"
+msgstr "Cantidad vendedor"
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_form
+msgid "Approval Settings"
+msgstr "Configuración de aprobación"
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_kanban
+msgid "Avatar"
+msgstr ""
+
+#. module: odoo_marketplace_custom
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_res_partner__journal_id
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_res_users__journal_id
+msgid "Banco"
+msgstr ""
+
+#. module: odoo_marketplace_custom
+#: code:addons/odoo_marketplace_custom/models/res_partner.py:0
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_res_partner__bank_id
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_res_users__bank_id
+#, python-format
+msgid "Bank"
+msgstr "Banco"
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_form
+msgid "Banner image size must be 1298 x 400 px for perfect view."
+msgstr ""
+"El tamaño de la imagen del banner debe ser de 1298 x 400 px para una "
+"visualización perfecta."
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.go2f_odoo_marketplace_seller_form_view_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_form
+msgid "Certificate Exclition file"
+msgstr "Certificado de exclusión"
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.go2f_odoo_marketplace_seller_form_view_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_form
+msgid "Certificate gross incoome file"
+msgstr "Certificado de ingresos brutos"
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_form
+msgid ""
+"Check if you want to override seller's default settings else default "
+"settings will apply."
+msgstr ""
+"Compruebe si desea anular la configuración predeterminada del vendedor; de "
+"lo contrario, se aplicará la configuración predeterminada."
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_kanban
+msgid "Child Image"
+msgstr "Imagen"
+
+#. module: odoo_marketplace_custom
+#: code:addons/odoo_marketplace_custom/models/inherit_mp_dashboard.py:0
+#: model:ir.actions.act_window,name:odoo_marketplace_custom.res_partner_children_seller
+#: model:ir.model.fields.selection,name:odoo_marketplace_custom.selection__marketplace_dashboard__state__children
+#: model:ir.ui.menu,name:odoo_marketplace_custom.marketplace_children_seller_menu
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.inherit_wk_seller_custom
+#, python-format
+msgid "Children"
+msgstr "Hijos"
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_form
+msgid "City"
+msgstr "Ciudad"
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_form
+msgid "Click to Allow"
+msgstr "Haga clic para permitir"
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_form
+msgid "Click to Deny"
+msgstr "Haga clic para denegar"
+
+#. module: odoo_marketplace_custom
+#: model:ir.model,name:odoo_marketplace_custom.model_res_partner
+msgid "Contact"
+msgstr "Contacto"
+
+#. module: odoo_marketplace_custom
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_marketplace_dashboard__count_partner_children
+msgid "Count Partner Children"
+msgstr "N°. Hijos"
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_form
+msgid "Country"
+msgstr "País"
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_form
+msgid "Create Your Shop"
+msgstr "Crea tu tienda"
+
+#. module: odoo_marketplace_custom
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_marketplace_vendor__create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: odoo_marketplace_custom
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_marketplace_vendor__create_date
+msgid "Created on"
+msgstr "Creado en"
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.go2f_odoo_marketplace_seller_form_view_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_form
+msgid "Datos Fiscales"
+msgstr ""
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_form
+msgid "Days"
+msgstr "Días"
+
+#. module: odoo_marketplace_custom
+#: code:addons/odoo_marketplace_custom/models/sale_order.py:0
+#, python-format
+msgid "Debe seleccionar el almacén correspondiente"
+msgstr ""
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_form
+msgid "Default Settings"
+msgstr "Configuración por defecto"
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.sale_order_inherit_from
+msgid "Delivery"
+msgstr "Entrega"
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.sale_order_inherit_from
+msgid "Delivery Date"
+msgstr "Fecha de entrega"
+
+#. module: odoo_marketplace_custom
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_account_move__display_name
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_ir_actions_act_window__display_name
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_marketplace_dashboard__display_name
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_marketplace_vendor__display_name
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_product_supplierinfo__display_name
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_res_partner__display_name
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_sale_order__display_name
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_sale_order_line__display_name
+msgid "Display Name"
+msgstr "Nombre mostrado"
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.sale_order_inherit_from
+msgid "Expected:"
+msgstr "Esperado:"
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.go2f_odoo_marketplace_seller_form_view_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_form
+msgid "Fiscal Company Data"
+msgstr "Información fiscal"
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_form
+msgid "General"
+msgstr ""
+
+#. module: odoo_marketplace_custom
+#: code:addons/odoo_marketplace_custom/models/res_partner.py:0
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_res_partner__has_children
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_res_users__has_children
+#, python-format
+msgid "Has children"
+msgstr "Tiene vendedores hijos?"
+
+#. module: odoo_marketplace_custom
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_account_move__id
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_ir_actions_act_window__id
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_marketplace_dashboard__id
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_marketplace_vendor__id
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_product_supplierinfo__id
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_res_partner__id
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_sale_order__id
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_sale_order_line__id
+msgid "ID"
+msgstr ""
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_form
+msgid "Identification Number"
+msgstr "Número de identificación"
+
+#. module: odoo_marketplace_custom
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_marketplace_vendor__amount_sale
+msgid "Importe"
+msgstr ""
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.go2f_odoo_marketplace_seller_form_view_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_form
+msgid "Ingresos Brutos"
+msgstr ""
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.go2f_odoo_marketplace_seller_form_view_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_form
+msgid "Is Exclution IVA"
+msgstr "Esta excluido de IVA"
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.go2f_odoo_marketplace_seller_form_view_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_form
+msgid "Is Permanent exclution"
+msgstr "Es la exclusión permanente"
+
+#. module: odoo_marketplace_custom
+#: model:ir.model,name:odoo_marketplace_custom.model_account_move
+msgid "Journal Entry"
+msgstr "Asiento contable"
+
+#. module: odoo_marketplace_custom
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_account_move____last_update
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_ir_actions_act_window____last_update
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_marketplace_dashboard____last_update
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_marketplace_vendor____last_update
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_product_supplierinfo____last_update
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_res_partner____last_update
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_sale_order____last_update
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_sale_order_line____last_update
+msgid "Last Modified on"
+msgstr "Última modificación el"
+
+#. module: odoo_marketplace_custom
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_marketplace_vendor__write_uid
+msgid "Last Updated by"
+msgstr "Última actualización por"
+
+#. module: odoo_marketplace_custom
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_marketplace_vendor__write_date
+msgid "Last Updated on"
+msgstr "Última actualización el"
+
+#. module: odoo_marketplace_custom
+#: model:ir.module.category,name:odoo_marketplace_custom.module_category_marketplace
+msgid "Marketplace"
+msgstr "MiniGO"
+
+#. module: odoo_marketplace_custom
+#: model:marketplace.dashboard,name:odoo_marketplace_custom.children_marketplace
+msgid "Marketplace Children"
+msgstr "Vendedores Hijos MiniGO"
+
+#. module: odoo_marketplace_custom
+#: model:ir.model,name:odoo_marketplace_custom.model_marketplace_dashboard
+msgid "Marketplace Dashboard"
+msgstr "Panel de MiniGO"
+
+#. module: odoo_marketplace_custom
+#: code:addons/odoo_marketplace_custom/models/res_partner.py:0
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_res_partner__children_parent_id
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_res_users__children_parent_id
+#, python-format
+msgid "Marketplace Parent"
+msgstr "Padre"
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_form
+msgid "Marketplace Settings & Details"
+msgstr "Configuración y detalles"
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.view_marketplace_vendor_form
+msgid "Marketplace Vendor"
+msgstr "Marketplace vendedor"
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.sale_order_inherit_from
+msgid "Marketplace Vendor %"
+msgstr "Marketplace vendedor %"
+
+#. module: odoo_marketplace_custom
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_sale_order__marketplace_vendor_line
+msgid "Marketplace Vendor Line"
+msgstr "Marketplace vendedor"
+
+#. module: odoo_marketplace_custom
+#: model:res.groups,name:odoo_marketplace_custom.group_marketplace_children_create
+msgid "Marketplace children_create"
+msgstr ""
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_form
+msgid "Minimum gap for next payment request"
+msgstr "Brecha mínima para la próxima solicitud de pago"
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_kanban
+msgid "NIF:"
+msgstr ""
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_form
+msgid "Name"
+msgstr "Referencia"
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_form
+msgid "Number"
+msgstr "Numero"
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.go2f_odoo_marketplace_seller_form_view_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_form
+msgid "Number..."
+msgstr "Numero..."
+
+#. module: odoo_marketplace_custom
+#: model:ir.model.fields.selection,name:odoo_marketplace_custom.selection__marketplace_dashboard__state__order
+msgid "Order"
+msgstr "Pedido"
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_form
+msgid "Other Settings"
+msgstr "Otros ajustes"
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_form
+msgid "Over-ride seller's default settings"
+msgstr "Anular la configuración predeterminada del vendedor"
+
+#. module: odoo_marketplace_custom
+#: model:ir.model.fields.selection,name:odoo_marketplace_custom.selection__marketplace_dashboard__state__payment
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_form
+msgid "Payment"
+msgstr "Pago"
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_form
+msgid "Payment Terms"
+msgstr "Términos de pago"
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_form
+msgid "Policies"
+msgstr "Políticas"
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_form
+msgid "Prisma"
+msgstr ""
+
+#. module: odoo_marketplace_custom
+#: code:addons/odoo_marketplace_custom/models/sale_order.py:0
+#: model:ir.model.fields.selection,name:odoo_marketplace_custom.selection__marketplace_dashboard__state__product
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_form
+#, python-format
+msgid "Product"
+msgstr "Producto"
+
+#. module: odoo_marketplace_custom
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_marketplace_vendor__product_id
+msgid "Producto"
+msgstr ""
+
+#. module: odoo_marketplace_custom
+#: code:addons/odoo_marketplace_custom/models/sale_order.py:0
+#, python-format
+msgid "Producto no Posee Vendedor asignado"
+msgstr ""
+
+#. module: odoo_marketplace_custom
+#: code:addons/odoo_marketplace_custom/models/sale_order.py:0
+#, python-format
+msgid "Producto no Posee Vendedor asignado para el almacen solicitado %s"
+msgstr ""
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_form
+msgid "Profile Banner"
+msgstr "Banner de perfil"
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_form
+msgid "Profile Image"
+msgstr "Imagen de perfil"
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_form
+msgid "Profile Message"
+msgstr "Mensaje de perfil"
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_form
+msgid "Profile Page"
+msgstr "Página de perfil"
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_form
+msgid "Profile image must be 180 x 180 px for perfect view."
+msgstr "La imagen de perfil debe ser de 180 x 180 px para una vista perfecta."
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_form
+msgid "Publish Now"
+msgstr "Publica ahora"
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.view_product_supplier_inherit_custom
+msgid "Purchase"
+msgstr "Compras"
+
+#. module: odoo_marketplace_custom
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_res_partner__res_partner_children
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_res_users__res_partner_children
+msgid "Res Partner Children"
+msgstr "Hijos"
+
+#. module: odoo_marketplace_custom
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_marketplace_vendor__sale_order
+msgid "Sale Order"
+msgstr "Pedido de venta"
+
+#. module: odoo_marketplace_custom
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_marketplace_vendor__sale_order_line
+msgid "Sale Order Line"
+msgstr "Línea de Pedido de Ventas"
+
+#. module: odoo_marketplace_custom
+#: model:ir.model,name:odoo_marketplace_custom.model_sale_order
+msgid "Sales Order"
+msgstr "Pedido de venta"
+
+#. module: odoo_marketplace_custom
+#: model:ir.model,name:odoo_marketplace_custom.model_sale_order_line
+msgid "Sales Order Line"
+msgstr "Línea de Pedido de Ventas"
+
+#. module: odoo_marketplace_custom
+#: code:addons/odoo_marketplace_custom/models/sale_order.py:0
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_account_bank_statement_line__seller_id
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_account_move__seller_id
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_account_payment__seller_id
+#: model:ir.model.fields.selection,name:odoo_marketplace_custom.selection__marketplace_dashboard__state__seller
+#, python-format
+msgid "Seller"
+msgstr "Vendedor"
+
+#. module: odoo_marketplace_custom
+#: model:ir.actions.act_window,name:odoo_marketplace_custom.res_partner_children_manager
+#: model:ir.ui.menu,name:odoo_marketplace_custom.marketplace_children_manager_menu
+msgid "Seller Children"
+msgstr "Vendedor hijo"
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_form
+msgid "Social Media"
+msgstr ""
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_form
+msgid "Social Web Info"
+msgstr ""
+
+#. module: odoo_marketplace_custom
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_marketplace_dashboard__state
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_form
+msgid "State"
+msgstr "Estado"
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_form
+msgid "Street..."
+msgstr "Calle..."
+
+#. module: odoo_marketplace_custom
+#: model:ir.model,name:odoo_marketplace_custom.model_product_supplierinfo
+msgid "Supplier Pricelist"
+msgstr "Tarifa de proveedor"
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_form
+msgid "The default configuration settings can be checked from here"
+msgstr ""
+"Los ajustes de configuración predeterminados se pueden verificar desde aquí"
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_form
+msgid "This message will display on your profile on web."
+msgstr "Este mensaje se mostrará en su perfil en la web."
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_kanban
+msgid "Tipo de identificación:"
+msgstr ""
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_form
+msgid "Type"
+msgstr "Tipo"
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_form
+msgid "UnPublish Now"
+msgstr "Anular publicación ahora"
+
+#. module: odoo_marketplace_custom
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_marketplace_vendor__name
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_sale_order_line__seller
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.sale_order_inherit_from
+msgid "Vendor"
+msgstr "Vendedor"
+
+#. module: odoo_marketplace_custom
+#: code:addons/odoo_marketplace_custom/models/sale_order.py:0
+#: model:ir.model.fields,help:odoo_marketplace_custom.field_marketplace_vendor__name
+#: model:ir.model.fields,help:odoo_marketplace_custom.field_sale_order_line__seller
+#, python-format
+msgid "Vendor of this product"
+msgstr "Vendedor de este producto"
+
+#. module: odoo_marketplace_custom
+#: code:addons/odoo_marketplace_custom/models/product.py:0
+#: code:addons/odoo_marketplace_custom/models/res_partner.py:0
+#: code:addons/odoo_marketplace_custom/models/sale_order.py:0
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_account_bank_statement_line__warehouse_id
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_account_move__warehouse_id
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_account_payment__warehouse_id
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_product_supplierinfo__warehouse_id
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_res_partner__warehouse_ids
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_res_users__warehouse_ids
+#, python-format
+msgid "Warehouse"
+msgstr "Almacén"
+
+#. module: odoo_marketplace_custom
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_res_partner__warehouse_ids_domain
+#: model:ir.model.fields,field_description:odoo_marketplace_custom.field_res_users__warehouse_ids_domain
+msgid "Warehouse Ids Domain"
+msgstr ""
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_form
+msgid "Warehouse/Location"
+msgstr ""
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_form
+msgid "Write messger for yor profile..."
+msgstr "Escribe un mensaje para tu perfil ..."
+
+#. module: odoo_marketplace_custom
+#: code:addons/odoo_marketplace_custom/models/res_partner.py:0
+#, python-format
+msgid ""
+"You are not an autorized user to change seller account access. Please "
+"contact your administrator. "
+msgstr ""
+"No es un usuario autorizado para cambiar el acceso a la cuenta del "
+"vendedor. Comuníquese con su administrador. "
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_form
+msgid "Your Id"
+msgstr "Tu Id"
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_form
+msgid "ZIP"
+msgstr ""
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.go2f_odoo_marketplace_seller_form_view_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_form
+msgid "certificate date end"
+msgstr "fecha de fin del certificado"
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.go2f_odoo_marketplace_seller_form_view_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_form
+msgid "certificate date start"
+msgstr "fecha de inicio del certificado"
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_form
+msgid "e.g. +3281813700"
+msgstr "ej: +54 9 11 5285-9921"
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_form
+msgid "e.g. www.odoo.com"
+msgstr "e.j. https://www.odoo.com"
+
+#. module: odoo_marketplace_custom
+#: model:ir.actions.act_window,name:odoo_marketplace_custom.action_marketplace_vendor_form
+#: model:ir.model,name:odoo_marketplace_custom.model_marketplace_vendor
+msgid "marketplace.vendor"
+msgstr ""
+
+#. module: odoo_marketplace_custom
+#: code:addons/odoo_marketplace_custom/models/res_partner.py:0
+#, python-format
+msgid ""
+"~~~~~~~~~~Seller does not belongs to draft seller group. So you can't "
+"change seller group to seller group."
+msgstr ""
+"~~~~~~~~~~ El vendedor no pertenece al grupo de vendedores de borrador. Por "
+"lo tanto, no puede cambiar de grupo de vendedores a grupo de vendedores."
+
+#. module: odoo_marketplace_custom
+#: code:addons/odoo_marketplace_custom/models/res_partner.py:0
+#, python-format
+msgid ""
+"~~~~~~~~~~You are not an autorized user to change seller account access. "
+"Please contact your administrator. "
+msgstr ""
+"~~~~~~~~~~ No es un usuario autorizado para cambiar el acceso a la cuenta "
+"del vendedor. Comuníquese con su administrador. "
+
+#. module: odoo_marketplace_custom
+#: model_terms:ir.ui.view,arch_db:odoo_marketplace_custom.res_partner_children_form
+msgid "⇒ Click to view"
+msgstr "⇒ Haga clic para ver"

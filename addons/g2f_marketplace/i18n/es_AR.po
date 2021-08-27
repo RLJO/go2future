@@ -1,0 +1,172 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* g2f_marketplace
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-04-23 21:56+0000\n"
+"PO-Revision-Date: 2021-04-23 23:25-0500\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: es\n"
+"X-Generator: Poedit 2.4.2\n"
+
+#. module: g2f_marketplace
+#: model_terms:ir.ui.view,arch_db:g2f_marketplace.go2f_odoo_marketplace_seller_form_view
+msgid "AFIP Responsibility"
+msgstr "Responsabilidad AFIP"
+
+#. module: g2f_marketplace
+#: model:ir.model.fields,field_description:g2f_marketplace.field_res_partner__certificate_date_end
+#: model:ir.model.fields,field_description:g2f_marketplace.field_res_users__certificate_date_end
+msgid "Certificate Date End"
+msgstr "Fecha de fin del certificado"
+
+#. module: g2f_marketplace
+#: model:ir.model.fields,field_description:g2f_marketplace.field_res_partner__certificate_date_start
+#: model:ir.model.fields,field_description:g2f_marketplace.field_res_users__certificate_date_start
+msgid "Certificate Date Start"
+msgstr "Fecha de inicio del certificado"
+
+#. module: g2f_marketplace
+#: model_terms:ir.ui.view,arch_db:g2f_marketplace.go2f_odoo_marketplace_seller_form_view
+msgid "Certificate Exclition file"
+msgstr "Certificado de exclusión"
+
+#. module: g2f_marketplace
+#: model:ir.model.fields,field_description:g2f_marketplace.field_res_partner__certificate_file
+#: model:ir.model.fields,field_description:g2f_marketplace.field_res_users__certificate_file
+msgid "Certificate Exclution File"
+msgstr "Certificado de exclusión"
+
+#. module: g2f_marketplace
+#: model_terms:ir.ui.view,arch_db:g2f_marketplace.go2f_odoo_marketplace_seller_form_view
+msgid "Certificate gross incoome file"
+msgstr "Certificado de ingresos brutos"
+
+#. module: g2f_marketplace
+#: model:ir.model,name:g2f_marketplace.model_res_partner
+msgid "Contact"
+msgstr "Contacto"
+
+#. module: g2f_marketplace
+#: model_terms:ir.ui.view,arch_db:g2f_marketplace.go2f_odoo_marketplace_seller_form_view
+msgid "Datos Fiscales"
+msgstr ""
+
+#. module: g2f_marketplace
+#: model:ir.model.fields,field_description:g2f_marketplace.field_res_partner__display_name
+msgid "Display Name"
+msgstr "Nombre mostrado"
+
+#. module: g2f_marketplace
+#: model_terms:ir.ui.view,arch_db:g2f_marketplace.go2f_odoo_marketplace_seller_form_view
+msgid "Fiscal Company Data"
+msgstr "Información"
+
+#. module: g2f_marketplace
+#: model:ir.model.fields,field_description:g2f_marketplace.field_res_partner__id
+msgid "ID"
+msgstr "Id"
+
+#. module: g2f_marketplace
+#: model_terms:ir.ui.view,arch_db:g2f_marketplace.go2f_odoo_marketplace_seller_form_view
+msgid "Ingresos Brutos"
+msgstr ""
+
+#. module: g2f_marketplace
+#: model_terms:ir.ui.view,arch_db:g2f_marketplace.go2f_odoo_marketplace_seller_form_view
+msgid "Is Exclution IVA"
+msgstr "Esta excluido de IVA"
+
+#. module: g2f_marketplace
+#: model:ir.model.fields,field_description:g2f_marketplace.field_res_partner__is_exclution_iva
+#: model:ir.model.fields,field_description:g2f_marketplace.field_res_users__is_exclution_iva
+msgid "Is Exclution Iva"
+msgstr "Esta excluido de IVA"
+
+#. module: g2f_marketplace
+#: model:ir.model.fields,field_description:g2f_marketplace.field_res_partner__is_exempt_iva
+#: model:ir.model.fields,field_description:g2f_marketplace.field_res_users__is_exempt_iva
+msgid "Is Exempt Iva"
+msgstr "Esta exento de IVA"
+
+#. module: g2f_marketplace
+#: model:ir.model.fields,field_description:g2f_marketplace.field_res_partner__is_permanent_exclution
+#: model:ir.model.fields,field_description:g2f_marketplace.field_res_users__is_permanent_exclution
+msgid "Is Permanent Exclution"
+msgstr "Es la exclusión permanente"
+
+#. module: g2f_marketplace
+#: model_terms:ir.ui.view,arch_db:g2f_marketplace.go2f_odoo_marketplace_seller_form_view
+msgid "Is Permanent exclution"
+msgstr "Es la exclusión permanente"
+
+#. module: g2f_marketplace
+#: model:ir.model.fields,field_description:g2f_marketplace.field_res_partner____last_update
+msgid "Last Modified on"
+msgstr "Última modificación el"
+
+#. module: g2f_marketplace
+#: model_terms:ir.ui.view,arch_db:g2f_marketplace.go2f_odoo_marketplace_seller_form_view
+msgid "Number"
+msgstr "Numero"
+
+#. module: g2f_marketplace
+#: model_terms:ir.ui.view,arch_db:g2f_marketplace.go2f_odoo_marketplace_seller_form_view
+msgid "Number..."
+msgstr "Numero..."
+
+#. module: g2f_marketplace
+#: model:ir.model.fields.selection,name:g2f_marketplace.selection__res_partner__regime_gross_income__multilateral
+msgid "Opero en mas de una provincia."
+msgstr ""
+
+#. module: g2f_marketplace
+#: model:ir.model.fields.selection,name:g2f_marketplace.selection__res_partner__regime_gross_income__local
+msgid "Opero en una sola provincia."
+msgstr ""
+
+#. module: g2f_marketplace
+#: model:ir.model.fields,field_description:g2f_marketplace.field_res_partner__regime_gross_income
+#: model:ir.model.fields,field_description:g2f_marketplace.field_res_users__regime_gross_income
+msgid "Regime Gross Income"
+msgstr "Régimen de ingresos brutos"
+
+#. module: g2f_marketplace
+#: model:ir.model.fields,field_description:g2f_marketplace.field_res_partner__registration_gross_income_file
+#: model:ir.model.fields,field_description:g2f_marketplace.field_res_users__registration_gross_income_file
+msgid "Registration Form File"
+msgstr "Certificado de ingresos brutos"
+
+#. module: g2f_marketplace
+#: model:ir.model.fields.selection,name:g2f_marketplace.selection__res_partner__regime_gross_income__simplificado
+msgid "Soy un peque;o contribuyente que realiza actividades en una sola provincia."
+msgstr "Soy un pequeño contribuyente que realiza actividades en una sola provincia."
+
+#. module: g2f_marketplace
+#: model_terms:ir.ui.view,arch_db:g2f_marketplace.go2f_odoo_marketplace_seller_form_view
+msgid "Type"
+msgstr "Tipo"
+
+#. module: g2f_marketplace
+#: model_terms:ir.ui.view,arch_db:g2f_marketplace.go2f_odoo_marketplace_seller_form_view
+msgid "certificate date end"
+msgstr "fecha de fin del certificado"
+
+#. module: g2f_marketplace
+#: model_terms:ir.ui.view,arch_db:g2f_marketplace.go2f_odoo_marketplace_seller_form_view
+msgid "certificate date start"
+msgstr "fecha de inicio del certificado"
+
+#. module: g2f_marketplace
+#: model:ir.model.fields,field_description:g2f_marketplace.field_res_partner__registration_number_gross_income
+#: model:ir.model.fields,field_description:g2f_marketplace.field_res_users__registration_number_gross_income
+msgid "registration number in gross income tax"
+msgstr "número de registro en el impuesto sobre la renta bruta"

@@ -38,6 +38,14 @@ class ResPartner(models.Model):
     acc_number = fields.Char('Account Number')
     invoices_note = fields.Char(string=_('Invoices note'))
     email_commission = fields.Char('email_commission')
+    activities_start = fields.Char(_('Inicio de actividades'))
+    internal_taxes = fields.Boolean(_('Impuestos internos'), default=False)
+    full_direction = fields.Char(_('Domicilio legal completo'))
+    customer_attention_phone = fields.Char(_('Teléfono de atención al cliente'))
+    customer_attention_email = fields.Char(_('Email de atención al cliente'))
+    customer_attention_website = fields.Char(_('Website de atención al cliente'))
+    stocked_krikos = fields.Boolean('Stocked by krikos')
+    supplier_ean = fields.Char('Supplier EAN')
 
     def update_warehouse_ids_domain(self, partner):
         warehouse_ids = []
