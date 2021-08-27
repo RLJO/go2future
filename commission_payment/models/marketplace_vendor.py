@@ -16,7 +16,7 @@ class MarketplaceVendor(models.Model):
 
     def _commission_payment(self):
         list = []
-        vendor = self.search([])
+        vendor = self.search([], order='name asc')
         today = (fields.Date.today())
         date_star = datetime.strptime("%s-%s-01 00:00:00" % (today.year, today.month-1), '%Y-%m-%d %H:%M:%S')
         date_end = "%s-%s-%s 23:59:59" % (today.year, today.month-1, calendar.monthrange(today.year, today.month-1)[1])
@@ -24,38 +24,44 @@ class MarketplaceVendor(models.Model):
         marketplace_vendor = vendor.filtered(lambda vendor: vendor.date >= date_star and vendor.date <= date_end
                                              and vendor.display_name != self.env.company.name)
         for vendor_id in marketplace_vendor:
-            a = True
-            if not list == []:
-                for list_id in list:
-                    if list_id['name'] == vendor_id.name.name:
-                        list_id['amount_commission'] = list_id['amount_commission'] + vendor_id.amount_commission
-                        list_id['id_vendor'] = list_id['id_vendor'] + ',' + str(vendor_id.id)
-                        a = False
-                if a:
+            if not vendor_id.move_id:
+                a = True
+                if not list == []:
+                    for list_id in list:
+                        if list_id['name_id'] == vendor_id.name.id:
+                            list_id['amount_commission_amount_tax_company_total'] = list_id['amount_commission_amount_tax_company_total'] + vendor_id.amount_commission_amount_tax_company_total
+                            list_id['id_vendor'] = list_id['id_vendor'] + ',' + str(vendor_id.id)
+                            a = False
+                    if a:
+                        list.append({
+                            'partner_id': vendor_id.name,
+                            'name': vendor_id.name.name,
+                            'amount_commission_amount_tax_company_total': vendor_id.amount_commission_amount_tax_company_total,
+                            'currency_id': vendor_id.currency_id,
+                            'id_vendor': str(vendor_id.id),
+                            'date_months': vendor_id.date.strftime("%b"),
+                            'name_id': vendor_id.name.id
+                        })
+                else:
                     list.append({
                         'partner_id': vendor_id.name,
                         'name': vendor_id.name.name,
-                        'amount_commission': vendor_id.amount_commission,
+                        'amount_commission_amount_tax_company_total': vendor_id.amount_commission_amount_tax_company_total,
                         'currency_id': vendor_id.currency_id,
-                        'id_vendor': str(vendor_id.id)
+                        'id_vendor': str(vendor_id.id),
+                        'date_months': vendor_id.date.strftime("%b"),
+                        'name_id': vendor_id.name.id
                     })
-            else:
-                list.append({
-                    'partner_id': vendor_id.name,
-                    'name': vendor_id.name.name,
-                    'amount_commission': vendor_id.amount_commission,
-                    'currency_id': vendor_id.currency_id,
-                    'id_vendor': str(vendor_id.id)
-                })
-        for list_id in list:
-            vals = self._prepare_invoice(list_id)
-            move_id = self.move_id.sudo().create(vals)
-            if move_id:
-                vals_line = self._prepare_invoice_line(move_id, list_id)
-                move_id.sudo().invoice_line_ids = [(0, 0, vals_line)]
-                id_vendor = list_id['id_vendor'].split(',')
-                for vendor in id_vendor:
-                    self.search([('id', '=', int(vendor))]).move_id = move_id.id
+        if not list == []:
+            for list_id in list:
+                vals = self._prepare_invoice(list_id)
+                move_id = self.move_id.sudo().create(vals)
+                if move_id:
+                    vals_line = self._prepare_invoice_line(move_id, list_id)
+                    move_id.sudo().invoice_line_ids = [(0, 0, vals_line)]
+                    id_vendor = list_id['id_vendor'].split(',')
+                    for vendor in id_vendor:
+                        self.search([('id', '=', int(vendor))]).move_id = move_id.id
 
     def _prepare_invoice(self, list_id):
         """Prepare the dict of values to create the new invoice for a purchase order.
@@ -72,7 +78,7 @@ class MarketplaceVendor(models.Model):
             'partner_id': partner_invoice_id,
             'fiscal_position_id': (self.fiscal_position_id or self.fiscal_position_id.get_fiscal_position(partner_invoice_id)).id,
             'partner_bank_id': list_id['partner_id'].bank_ids[:1].id,
-            'invoice_origin': 'commission',
+            'invoice_origin': 'commission-' + list_id['date_months'],
             'invoice_line_ids': [],
             'company_id': self.env.company.id,
             'journal_id': journal.id,
@@ -87,7 +93,7 @@ class MarketplaceVendor(models.Model):
         return {
             'move_id': move_id.id,
             'name': product_id_template.product_variant_id.display_name,
-            'price_unit': list_id['amount_commission'] or 0.0,
+            'price_unit': list_id['amount_commission_amount_tax_company_total'] or 0.0,
             'discount': 0,
             'quantity': 1,
             'product_uom_id': product_id_template.product_variant_id.uom_id.id,

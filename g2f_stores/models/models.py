@@ -11,6 +11,7 @@ from odoo.exceptions import ValidationError, UserError
 class StockWarehouse(models.Model):
     _inherit = 'stock.warehouse'
 
+    code_krikos = fields.Char(string="GLN", store=True)
     direccion_local = fields.Char(string="Direccion del MiniGO")
     access_control_url = fields.Char(string="URL Control de Accessos")
     vision_url = fields.Char(string="URL Vision")

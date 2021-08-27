@@ -42,6 +42,7 @@ class SaleOrder(models.Model):
 
     def create_marketplace_vendor(self):
         count_amount = 0
+        cont = 0
         for marketplace_vendor in self.marketplace_vendor_line:
             marketplace_vendor.unlink()
         for marketplace_vendor_total in self.marketplace_vendor_line_total:
@@ -69,7 +70,10 @@ class SaleOrder(models.Model):
                 price_unit = (line.price_unit - (line.price_unit * discount))
             else:
                 price_unit = line.price_unit
+            cont += 1
+            valor = self.env['ir.config_parameter'].sudo().get_param('marketplace_vendor_code.code')
             vals = {
+                'code': self.env['ir.config_parameter'].sudo().get_param('marketplace_vendor_code.code') + '-' + str(cont),
                 'sale_order': self.id,
                 'sale_order_line': line.id,
                 'name': line.seller.id,
@@ -485,6 +489,7 @@ class MarketplaceVendor(models.Model):
     discount = fields.Float(string='Dcto(%)', digits='Discount', default=0.0)
     discount_unit = fields.Float(string='Dcto Unitario', digits='Discount', default=0.0)
     discount_total = fields.Float(string='Dcto Total', digits='Discount', default=0.0)
+    code = fields.Char('#')
 
 
 

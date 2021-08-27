@@ -96,6 +96,8 @@
                     <sheet>
                         <group>
                             <field name="sale_order" invisible="0"/>
+                            <field name="code" force_save="1" readonly="1"/>
+                            <field name="move_id" class="btn-primary" string="Factura" readonly="1"/>
                             <field name="sale_order_line" invisible="1"/>
                             <field name="name" force_save="1"/>
                             <field name="date" force_save="1" />
@@ -130,6 +132,7 @@
         <field name="model">marketplace.vendor</field>
         <field name="arch" type="xml">
             <tree string="Marketplace Vendor" editable="bottom" default_order='date' delete="false">
+                <field name="code"  readonly="1"/>
                 <field name="sale_order" class="btn-primary" readonly="1"/>
                 <field name="move_id" class="btn-primary" string="Factura" readonly="1"/>
                 <field name="sale_order_line" invisible="1"/>
@@ -161,8 +164,9 @@
         <record id="action_marketplace_vendor_form" model="ir.actions.act_window">
                 <field name="name">marketplace vendedor %</field>
                 <field name="res_model">marketplace.vendor</field>
-                <field name="view_mode">tree,kanban</field>
-                 <field name="search_view_id" ref="view_marketplace_vendor_search"/>
+                <field name="view_mode">tree,kanban,form</field>
+                <field name="view_id" ref="view_marketplace_vendor_tree_form"/>
+                <field name="search_view_id" ref="odoo_marketplace_custom.view_marketplace_vendor_search"/>
                 <field name="context">{"search_default_date":1,"search_default_name":1 }</field>
         </record>
 

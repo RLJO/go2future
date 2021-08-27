@@ -3,7 +3,7 @@
   "name":  "G2F commission payment",
   "summary":  """pago comisión mini go.""",
   "category": "payment",
-  "version":  "14.0.0",
+  "version":  "14.0.1",
   "author":  "kelvis pernia / Andy Quijada",
   "contributors": ["Boris Silva <silvaboris@gmail.com>"],
   "description":  """Odoo commission payment""",

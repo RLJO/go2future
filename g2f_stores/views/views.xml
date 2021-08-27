@@ -20,6 +20,9 @@
                 <xpath expr="//field[@name='partner_id']" position="attributes">
                     <attribute name="string">Compañía</attribute>
                 </xpath>
+                <xpath expr="//field[@name='partner_id']" position="before">
+                    <field name="code_krikos"/>
+                </xpath>
                 <xpath expr="//notebook" position="inside">
                     <page name="tiendas" string="Configuracion de Tienda" groups="stock.group_stock_manager">
                         <group name="api_url" string="Connf API">
