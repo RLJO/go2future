@@ -77,11 +77,11 @@ class ResUser(http.Controller):
             msg = _('User dont exists!')
             response = {'status': '400', 'messsage': msg}
             return dumps(response)
- 
+
         if method == 'GET':
             response = user.partner_id.get_payment_card()
             return dumps(response)
- 
+
 
     @http.route(['/users/payment_cards'], type='json', auth='public',
                 methods=['POST', 'PUT', 'PATCH', 'DELETE'],
@@ -147,6 +147,8 @@ class ResUser(http.Controller):
         door_id = kw.get('door_id')
         store_id = kw.get('store_id')
 
+        response = {"status": "200", "message": "Wait for access control"}
+
         if method == 'POST':
             print('Validar que el usuario exista o este activo')
             user = self._validate_user(login)
@@ -154,23 +156,24 @@ class ResUser(http.Controller):
                 print(f'El ID del usuario es:{user.id}')
                 # Enviarle al sistema de control de acceso que el usaurio entro
 
-                config_parameter = http.request.env['ir.config_parameter'].sudo().search([
-                    ('key', 'ilike', 'web.base.access.control.url')
-                ])
-                if not config_parameter:
-                    raise ValidationError(_('web.base.access.control.url dont exist in ir.config_parameter.'))
+                store = http.request.env['stock.warehouse'].sudo().search(
+                        [('id', '=', store_id)]
+                )
+                if not store:
+                    msg = _('Store dont exist.')
+                    response = {"status": "400", "message": msg}
+                    return response
 
                 # Prepare url endpoint and send to Access control server
-                #base_url = config_parameter.value
-                #endpoint = "api/Odoo/OpenDoor"
-                #params = {"storeCode": int(store_id), "doorId": int(door_id), "userId": login}
-                #try:
-                #    enter_store_response = requests.post(urljoin(base_url, endpoint), json=params)
-                #    print(enter_store_response.text)
-                #except Exception as E:
-                #    print(f'Error:{E}')
+                base_url = store.access_control_url
+                params = {"storeCode": int(store_id),
+                          "doorId": int(door_id),
+                          "userId": login}
+                try:
+                    requests.post(base_url, json=params)
+                except Exception as Error:
+                    response = {"status": "400", "message": Error}
 
-                response = {"status": "200", "message": "Wait for access control"}
                 return dumps(response)
 
             msg = _('User dont exists!')
