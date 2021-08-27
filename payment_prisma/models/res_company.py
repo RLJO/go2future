@@ -6,3 +6,4 @@ class ResCompany(models.Model):
     _inherit = 'res.company'
 
     site_ids = fields.Char(string=_('Código prisma'))
+    code_gln = fields.Char(string="GLN", store=True)
