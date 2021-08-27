@@ -32,6 +32,8 @@
     'data': [
         'security/ir.model.access.csv',
         'views/account_move_view.xml',
+        'views/purchase_view.xml',
+        # 'views/res_partner_view.xml',
         'wizard/purchase_order_wizard.xml',
     ],
 }

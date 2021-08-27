@@ -63,9 +63,9 @@ class ProductTemplate(models.Model):
     @api.model
     def _marketplace_seller_group(self):
         self.marketplace_seller_group = False
+        seller_group = self.env['ir.model.data'].get_object_reference(
+            'odoo_marketplace', 'group_marketplace_product')[1]
         for obj in self:
-            seller_group = obj.env['ir.model.data'].get_object_reference(
-                'odoo_marketplace', 'marketplace_seller_group')[1]
             groups_ids = obj.env.user.sudo().groups_id.ids
             if seller_group in groups_ids and obj.status in ['pending', 'approved', 'rejected']:
                 obj.marketplace_seller_group = True

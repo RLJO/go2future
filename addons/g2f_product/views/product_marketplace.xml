@@ -114,9 +114,9 @@
                 <field name="product_url" widget="url" attrs="{'readonly' : [('marketplace_seller_group', '=', True)]}"/>
             </xpath>
 
-            <button name="send_to_draft" position="attributes">
+            <!--button name="send_to_draft" position="attributes">
                 <attribute name="attrs">{'invisible':['|', ('status', 'in', ('pending','approved','draft', False)), ('marketplace_seller_group', '=', True)]}</attribute>
-            </button>
+            </button-->
 
 
         </field>

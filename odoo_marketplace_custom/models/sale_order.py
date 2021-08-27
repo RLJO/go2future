@@ -42,6 +42,7 @@ class SaleOrder(models.Model):
 
     def create_marketplace_vendor(self):
         count_amount = 0
+        cont = 0
         for marketplace_vendor in self.marketplace_vendor_line:
             marketplace_vendor.unlink()
         for marketplace_vendor_total in self.marketplace_vendor_line_total:
@@ -69,7 +70,10 @@ class SaleOrder(models.Model):
                 price_unit = (line.price_unit - (line.price_unit * discount))
             else:
                 price_unit = line.price_unit
+            cont += 1
+            valor = self.env['ir.config_parameter'].sudo().get_param('marketplace_vendor_code.code')
             vals = {
+                'code': self.env['ir.config_parameter'].sudo().get_param('marketplace_vendor_code.code') + '-' + str(cont),
                 'sale_order': self.id,
                 'sale_order_line': line.id,
                 'name': line.seller.id,
@@ -353,7 +357,7 @@ class SaleOrder(models.Model):
                 "origin": self.name,
                 "date": inv_date,
                 "time": inv_time,
-                "seller": invoice.seller_id.id,
+                "seller": invoice.seller_id.name,
                 "amount_untaxed": invoice.amount_untaxed,
                 "amount_tax": invoice.amount_tax,
                 "amount_total": invoice.amount_total,
@@ -485,6 +489,7 @@ class MarketplaceVendor(models.Model):
     discount = fields.Float(string='Dcto(%)', digits='Discount', default=0.0)
     discount_unit = fields.Float(string='Dcto Unitario', digits='Discount', default=0.0)
     discount_total = fields.Float(string='Dcto Total', digits='Discount', default=0.0)
+    code = fields.Char('#')
 
 
 
@@ -501,6 +506,16 @@ class AccountMove(models.Model):
         for s in self:
             s.total_commission = sum(l.amount_commission_plus_tax for l in s.invoice_line_ids)
             s.total_less_commission = s.amount_total - s.total_commission
+
+    '''
+    @api.model
+    def search(self, domain=None, fields=None, offset=0, limit=None, order=None):
+        return super(AccountMove, self).search(domain, fields, offset, limit, order)
+        if self.env.context.get('invoicing_type'):
+            partner_id = self.env.user.partner_id
+            args += [('seller_id', '=', partner_id.id)]
+        return super(AccountMove, self).search(args, **kwargs)
+    '''
 
 
 class AccountMove(models.Model):

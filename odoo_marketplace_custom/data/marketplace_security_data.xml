@@ -24,5 +24,9 @@
 			<field name="groups" eval="[(4, ref('group_marketplace_children_create'))]"/>
 		</record>
 
+        <record id="make_invisible" model="res.groups">
+            <field name="name">Invisible</field>
+        </record>
+
     </data>
 </odoo>

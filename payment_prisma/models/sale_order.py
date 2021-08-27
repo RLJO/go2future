@@ -236,5 +236,5 @@ class SaleOrder(models.Model):
 
     def _prepare_invoice(self):
         res = super(SaleOrder, self)._prepare_invoice()
-        res['origin_id'] = self.id
+        res['sale_order_id'] = self.id
         return res

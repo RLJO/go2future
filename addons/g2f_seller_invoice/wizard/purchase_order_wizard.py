@@ -1,10 +1,12 @@
 from odoo import models, fields, api, _
 import datetime
 import time
-import zeep
+from zeep import Client, xsd
 from zeep.exceptions import Fault
+from lxml import etree as ET
 import base64
-from odoo.exceptions import except_orm, Warning, RedirectWarning
+from odoo.modules.module import get_module_resource
+from odoo.exceptions import except_orm, UserError
 
 import logging
 _logger = logging.getLogger(__name__)
@@ -21,174 +23,107 @@ class PurchaseOrderWizard(models.TransientModel):
         po_ids = self.env['purchase.order'].search([('id', 'in', ids)])
         send_date = time.strftime("%Y%m%d")
         send_time = time.strftime("%H%M")
-        _logger.info("### Lista ### %r", po_ids.read())
+        detail = ''
+        # _logger.info("### Lista ### %r", po_ids.read())
         for po in po_ids:
+            if not po.partner_id.supplier_ean:
+                raise UserError(_("EAN del Proveedor (%s) no puede ser nulo.") % po.partner_id.name)
+
             info = 'INFO'
             info += '9500000598565'.zfill(13)  # EAN del emisor
-            info += '7792900000008'.zfill(13)  # EAN del Proveedor
+            info += po.partner_id.supplier_ean.zfill(13)  # '9930566108352'.zfill(13)  # EAN del Proveedor
             info += 'ORDERS'
 
             head = 'HEAD'
             head += '9500000598565'.zfill(13)  # EAN del emisor
-            head += '7792900000008'.zfill(13)  # EAN del Proveedor
+            head += po.partner_id.supplier_ean.zfill(13)  # EAN del Proveedor
             head += '9500000598565'.zfill(13)  # EAN de la boca de entrega
             head += ''.ljust(4)
             head += po.name.ljust(10)
             head += ''.ljust(10)  # Código del proveedor
-            head += ''.ljust(10)  # Descripción del Proveedor
-            head += self._get_address(po.partner_id)[:35].ljust(10)
+            head += po.partner_id.name.ljust(35)  # Descripción del Proveedor
+            head += self._get_address(po.partner_id)[:35].ljust(35)
             head += ''.ljust(120)
             head += po.date_order.strftime('%Y%m%d') if po.date_order else ''
-            head += po.date_planned.strftime('%Y%m%d') if po.date_planned else ''
-            head += po.date_approve.strftime('%Y%m%d') if po.date_approve else ''
+            head += "  " + po.date_planned.strftime('%Y%m%d') if po.date_planned else ''.ljust(12)
+            head += "  " + po.date_approve.strftime('%Y%m%d') if po.date_approve else ''.ljust(12)
             head += ''.ljust(35)  # Forma de Pago / Observaciones
             head += ''.ljust(5)
             head += str(po.amount_total).zfill(15)
-            head += send_date
+            head += send_date[2:]
             head += send_time
             head += ''.ljust(145)
             head += po.name.ljust(20)
 
-            detail = 'LINE'
-            detail += str(len(po.order_line)).zfill(6)
             for line in po.order_line:
+                barcode = line.product_id.barcode or ''
                 default_code = line.product_id.default_code or ''
-                detail += line.product_id.barcode.ljust(14)
+                detail += 'LINE'
+                detail += str(len(po.order_line)).zfill(6)
+                detail += barcode.ljust(14)
                 detail += line.name.ljust(35)
                 detail += line.name.ljust(35)
                 detail += default_code.zfill(14)
                 detail += ''.ljust(7)
-                detail += ''.zfill(7)  # Cantidad pedida en cajas (Package)
-                detail += ''.zfill(11)  # Cantidad pedida en unidades
+                detail += '1'.zfill(7)  # Cantidad pedida en cajas (Package)
+                detail += str(line.product_qty).zfill(11)  # Cantidad pedida en unidades
                 detail += ''.zfill(5)  # Cantidad de unidades por package
                 detail += ''.ljust(17)
                 detail += str(line.price_unit).zfill(15)
                 detail += ''.ljust(15)
                 detail += str(line.price_subtotal).zfill(15)
-                detail += ''.ljust(80)
+                detail += ''.ljust(80) + '\n'
 
             data = info + '\n' + head + '\n' + detail
             print(data)
-            
-            file_obj = self.env['ir.attachment'].search([('res_model', '=', 'purchase.order'),
-                                                         ('res_id', '=', 2)])
+            _logger.info("### TXT File ### %r", data)
 
             # file_content = base64.b64encode(bytes(data, 'utf-8'))
-            file_content = file_obj.datas
-
-            # https://api.planexware.net/PlanexwareWs
-            # Ocp-Apim-Subscription-Key: 1381fbeede8243c6b87322169b623d8e
-            # get_file = client.service.sendBill(filename + '.zip', base64.b64encode(str(data_file)))
-
-            wsdlwsdlwsdlwsdlwsdl = '/home/boris/Descargas/PlanexwareWsWsdl'
-            settings = zeep.Settings(extra_http_headers={
-                'Ocp-Apim-Subscription-Key': '1381fbeede8243c6b87322169b623d8e'
-            })
+            file_content = base64.b64encode(data.encode('utf-8'))
+            #file_content = b'dGVzdDQ='
             function = 'ORDERS'
-            file_name = 'file.txt'
-            svc_url = 'https://api.planexware.net/PlanexwareWS'
-            method_url = 'https://ws.planexware.net/PlanexwareWS/Upload'
-            #
-            function_header = zeep.xsd.Element('{http://test.python-zeep.org}Function', zeep.xsd.ComplexType([
-                zeep.xsd.Element('{https://ws.planexware.net}Function', zeep.xsd.String())
-            ]))
-            filename_header = zeep.xsd.Element('{http://test.python-zeep.org}FileName', zeep.xsd.ComplexType([
-                zeep.xsd.Element('{https://ws.planexware.net}FileName', zeep.xsd.String())
-            ]))
-            to_header = zeep.xsd.Element('{http://test.python-zeep.org}To', zeep.xsd.ComplexType([
-                zeep.xsd.Element('{hhttp://schemas.microsoft.com/ws/2005/05/addressing/none}To', zeep.xsd.String())
-            ]))
-            action_header = zeep.xsd.Element('{http://test.python-zeep.org}Action', zeep.xsd.ComplexType([
-                zeep.xsd.Element('{http://schemas.microsoft.com/ws/2005/05/addressing/none}Action', zeep.xsd.String())
-            ]))
-            # header_value = header(Function=function, FileName=file_name, Action=method_url, To=svc_url)
+            file_name = po.name + '.txt'
+            wsdl = get_module_resource('g2f_seller_invoice', 'wizard/', 'PlanexwareWsWsdl')
+            client = Client(wsdl)
+            client.set_ns_prefix(None, "https://ws.planexware.net")
+            settings = {
+                'Ocp-Apim-Subscription-Key': '1381fbeede8243c6b87322169b623d8e',
+                'Company': 'GO2FUTURE',
+            }
+            client.settings.extra_http_headers = settings
+            client.settings.raw_response = True
 
-            # headers = {"Function": function, "FileName": file_name, "to": to, "action": action}
-            function_header_value = function_header(Function=function)
-            filename_header_value = filename_header(FileName=file_name)
-            to_header_value = to_header(To=svc_url)
-            action_header_value = action_header(Action=method_url)
-            # header_value = {"Function": function, "FileName": file_name}
-
-            # header = zeep.xsd.Element(None, zeep.xsd.ComplexType(
-            #     zeep.xsd.Sequence([
-            #         zeep.xsd.Element('{http://www.w3.org/2005/08/addressing}Function', zeep.xsd.String()),
-            #         zeep.xsd.Element('{http://www.w3.org/2005/08/addressing}FileName', zeep.xsd.String()),
-            #         zeep.xsd.Element('{http://www.w3.org/2005/08/addressing}Action', zeep.xsd.String()),
-            #         zeep.xsd.Element('{http://www.w3.org/2005/08/addressing}To', zeep.xsd.String()),
-            #     ])
-            # ))
-
-            header = zeep.xsd.Element(
-                'customHeader',
-                zeep.xsd.ComplexType([
-                    zeep.xsd.Element('Function', zeep.xsd.String()),
-                    zeep.xsd.Element('FileName', zeep.xsd.String()),
-                    zeep.xsd.Element('Action', zeep.xsd.String()),
-                    zeep.xsd.Element('To', zeep.xsd.String()),
+            header = xsd.ComplexType(
+                xsd.Sequence([
+                    xsd.Element("Function", xsd.String()),
+                    xsd.Element("FileName", xsd.String()),
                 ])
             )
-            #
-            # PassengersType = xsd.ComplexType(
-            #     xsd.Sequence([
-            #         xsd.Element('passengers', PassengerType, min_occurs=1, max_occurs='unbounded')
-            #     ]), qname=etree.QName("{http://example.com/schema}passengers")
-            # )
-            FunctionHeader = xsd.xsd.ComplexType(
-                xsd.xsd.Sequence([
-                    xsd.xsd.Element('function')
-                ]), qname=etree.QName("{http://example.com/schema}function")
-            )
 
-            header_value = header(Function=function, FileName=file_name, Action=method_url, To=svc_url)
-            upload_request = {"FileContent": file_content}
+            header_value = header(Function=function, FileName=file_name)
+            print(header_value)
 
-            # client = zeep.Client(wsdl=wsdl, settings=settings).service.GetStatus()
+            # Para imprimir el xml que  se envia
+            node = client.create_message(client.service, 'Upload', FileContent=file_content, _soapheaders=[header_value])
+            tree = ET.ElementTree(node)
+            # tree.write('test.xml', pretty_print=True)
+            print(ET.tostring(tree, pretty_print=True, encoding=str))
+
             try:
-                client = zeep.Client(wsdl=wsdl, settings=settings).service.Upload(
-                    file_content, _soapheaders=[header_value])
-                print(client)
+                response = client.service.Upload(FileContent=data.encode('utf-8'), _soapheaders=[header_value])
+                print(response.status_code)
+                print(response.ok)
+                print(response.text)
+                _logger.info("### Status Code ### %r", response.status_code)
+                _logger.info("### XML Response ### %r", response.text)
+                po.write({
+                    'pw_status_code': response.status_code,
+                    'pw_xml_response': response.text,
+                    'pw_plane_text': data
+                })
             except Fault as error:
-                print(error.detail)
-
-            # client = zeep.Client(wsdl=wsdl, settings=settings).service.Upload(
-            #     _soapheaders=[
-            #         filename_header_value,
-            #         function_header_value,
-            #         to_header_value,
-            #         action_header_value
-            #     ], UploadRequest=upload_request)
-            #
-            # client = zeep.Client(wsdl=wsdl, settings=settings).service.Upload(
-            #     file_content,
-            #     _soapheaders=[header_value])
-
-            # b'SU5GTzAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwT1JERVJTXG5IRUFEMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwICAgIFAwMDAwMiAgICAgICAgICAgICAgICAgICAgICAgIENvbmNlcGNpw7NuIEFyZW5hbCAyOTQ3LCBDaXVkYWQgQXV0w7MgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAyMDIxMDcyNDIwMjEwNzI0ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDAwMDAwMDAwMDAwNy4yNjIwMjEwODAzMjIwNiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBQMDAwMDIgICAgICAgICAgICAgIFxuTElORTAwMDAwMTEyMTIxMjEyMTIxMjEgQ29jYSBDb2xhIFplcm8gICAgICAgICAgICAgICAgICAgICBDb2NhIENvbGEgWmVybyAgICAgICAgICAgICAgICAgICAgIDAwMDAwMDAwMDAwMDAwICAgICAgIDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwICAgICAgICAgICAgICAgICAwMDAwMDAwMDAwMDAwLjYgICAgICAgICAgICAgICAwMDAwMDAwMDAwMDA2LjAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAoK'
-
-            xml = """
-                <?xml version=”1.0”?>
-                <s:Envelope xmlns:s=”http://schemas.xmlsoap.org/soap/envelope/”>
-                    <s:Header>
-                    <Function xmlns=”https://ws.planexware.net”>ORDERS</Function>
-                    <FileName xmlns=”https://ws.planexware.net”>ORD_1111222710006_3334445300149978_77980327199999.txt</FileName>
-                    <To s:mustUnderstand=”1” xmlns=”http://schemas.microsoft.com/ws/2005/05/addressing/none”>
-                    https://api.planexware.net/PlanexwareWS </To>
-                    <Action s:mustUnderstand=”1” xmlns=”http://schemas.microsoft.com/ws/2005/05/addressing/none”>
-                https://ws.planexware.net/PlanexwareWS/Upload</Action>
-                </s:Header>
-                <s:Body>
-                <UploadRequest xmlns=”https://ws.planexware.net”>
-                <FileContent>%r</FileContent>
-                </UploadRequest>
-                </s:Body>
-                </s:Envelope>
-            """ % file_content
-
-
-
-
-
-
+                print(error)
+                _logger.info("### Send Error ### %r", error)
 
     def _get_address(self, partner_id):
         address = partner_id.street + ', ' if partner_id.street else ''
