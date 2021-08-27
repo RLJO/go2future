@@ -30,6 +30,15 @@ class ResUser(http.Controller):
 
         return http.Response('NOT FOUND', status=404)
 
+    @http.route(['/store/get_list'], type='http', auth='public',
+                methods=['GET'], website=True, csrf=False)
+    def store_list(self):
+        """Endpoint return Store list for app moblie."""
+
+        method = http.request.httprequest.method
+        stores = http.request.env['stock.warehouse'].sudo().search_read(
+                fields=['name', 'direccion_local', 'country_id', 'state_id'])
+        return dumps(stores)
 
     @http.route(['/users/Countries'], type='http', auth='public',
                 methods=['GET'],
