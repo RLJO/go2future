@@ -19,23 +19,24 @@ def getInvoices():
 @app.route('/invoices', methods=['POST'])
 def addInvoices():
     new_invoice = {
-		"id": request.json['id'],
-		"name": request.json['name'],
-		"last_name": request.json['last_name'],
-		"consumer_address": request.json['consumer_address'],
-		"doc_type": request.json['doc_type'],
-		"doc_nbr": request.json['doc_nbr'],
-		"minigo_code": request.json['minigo_code'],
-		"minigo_address": request.json['minigo_address'],
-		"origin": request.json['origin'],
-		"date": request.json['date'],
-		"time": request.json['time'],
-		"seller": request.json['seller'],
-		"amount_untaxed": request.json['amount_untaxed'],
-		"amount_tax": request.json['amount_tax'],
-		"amount_total": request.json['amount_total'],
-		"items": request.json['items']
-	}
+                "name": request.json['name'],
+                "last_name": request.json['last_name'],
+                "consumer_address": request.json['consumer_address'],
+                "doc_type": request.json['doc_type'],
+                "doc_nbr": request.json['doc_nbr'],
+                "minigo_code": request.json['minigo_code'],
+                "minigo_address": request.json['minigo_address'],
+                "origin": request.json['origin'],
+                "date": request.json['date'],
+                "time": request.json['time'],
+                "seller": request.json['seller'],
+                "amount_untaxed": request.json['amount_untaxed'],
+                "amount_tax": request.json['amount_tax'],
+                "amount_total": request.json['amount_total'],
+                "items": request.json['items']
+        }
+    invoices.append(new_invoice)
+    return jsonify({'invoices': invoices})
 
 
 if __name__ == '__main__':
