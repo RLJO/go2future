@@ -16,7 +16,7 @@ class AccountMove(models.Model):
     ei_xml_file = fields.Text('XML file')
     ei_pdf = fields.Binary('PDF invoice')
     seller_respond = fields.Text('Seller respond')
-    json_sent = fields.Text('JSON sent')
+    json_sent = fields.Text('JSON sent', track_visibility='always')
     cae_exp_date = fields.Datetime('CAE expiration date')
     # invoice_date = fields.Date(string='Invoice/Bill Date', readonly=True, index=True, copy=False,
     #     states={'draft': [('readonly', False)]},
