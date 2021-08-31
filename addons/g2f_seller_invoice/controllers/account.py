@@ -113,8 +113,8 @@ class Account(http.Controller):
                 "items": items,
                 "origin": invoice.invoice_origin,
                 "afip_auth_code": afip_auth_mode + ' - ' + afip_auth_code if afip_auth_code else '',
-                "afip_date_due": invoice.l10n_ar_afip_auth_code_due,
-                "afip_result": invoice.l10n_ar_afip_result,
+                "afip_date_due": invoice.l10n_ar_afip_auth_code_due or '',
+                "afip_result": invoice.l10n_ar_afip_result or '',
                 "e_invoice_type": e_invoice_type,
                 "prisma": prisma,
             }
