@@ -24,6 +24,17 @@ class PurchaseOrderWizard(models.TransientModel):
         send_date = time.strftime("%Y%m%d")
         send_time = time.strftime("%H%M")
         detail = ''
+
+        if not self.env.company.code_gln:
+            raise UserError(_("EAN del Emisor (%s) no puede ser nulo.") %
+                            self.env.company.name)
+        else:
+            issuing_ean = self.env.company.code_gln or ''
+        if not self.picking_type_id.warehouse_id.code_krikos:
+            raise UserError(_("EAN de la boca de entrega (%s) no puede ser nulo.") %
+                            self.picking_type_id.warehouse_id.name)
+        else:
+            delivery_ean = self.picking_type_id.warehouse_id.code_krikos or ''
         # _logger.info("### Lista ### %r", po_ids.read())
         for po in po_ids:
             if not po.partner_id.supplier_ean:
@@ -35,9 +46,9 @@ class PurchaseOrderWizard(models.TransientModel):
             info += 'ORDERS'
 
             head = 'HEAD'
-            head += '9500000598565'.zfill(13)  # EAN del emisor
+            head += issuing_ean.zfill(13)  # EAN del emisor
             head += po.partner_id.supplier_ean.zfill(13)  # EAN del Proveedor
-            head += '9500000598565'.zfill(13)  # EAN de la boca de entrega
+            head += delivery_ean.zfill(13)  # EAN de la boca de entrega '9500000598565'
             head += ''.ljust(4)
             head += po.name.ljust(10)
             head += ''.ljust(10)  # Código del proveedor
@@ -58,12 +69,13 @@ class PurchaseOrderWizard(models.TransientModel):
             for line in po.order_line:
                 barcode = line.product_id.barcode or ''
                 default_code = line.product_id.default_code or ''
+                brand = line.product_id.brand or ''
                 detail += 'LINE'
                 detail += str(len(po.order_line)).zfill(6)
                 detail += barcode.ljust(14)
-                detail += line.name.ljust(35)
-                detail += line.name.ljust(35)
-                detail += default_code.zfill(14)
+                detail += default_code.ljust(35)
+                detail += brand.ljust(35)
+                detail += line.product_id.name.zfill(14)
                 detail += ''.ljust(7)
                 detail += '1'.zfill(7)  # Cantidad pedida en cajas (Package)
                 detail += str(line.product_qty).zfill(11)  # Cantidad pedida en unidades
