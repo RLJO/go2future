@@ -17,7 +17,7 @@
   "name":  "G2F Marketplace custom",
   "summary":  """Start your marketplace in odoo with Odoo Multi-Vendor Marketplace custom.""",
   "category": "Website",
-  "version":  "14.0.6",
+  "version":  "14.0.7",
   "author":  "kelvis pernia / Andy Quijada",
   "contributors": ["Boris Silva <silvaboris@gmail.com>"],
   "description":  """Odoo Multi Vendor Marketplace custom""",
