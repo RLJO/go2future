@@ -30,15 +30,15 @@ class PurchaseOrderWizard(models.TransientModel):
                             self.env.company.name)
         else:
             issuing_ean = self.env.company.code_gln or ''
-        if not self.picking_type_id.warehouse_id.code_krikos:
-            raise UserError(_("EAN de la boca de entrega (%s) no puede ser nulo.") %
-                            self.picking_type_id.warehouse_id.name)
-        else:
-            delivery_ean = self.picking_type_id.warehouse_id.code_krikos or ''
         # _logger.info("### Lista ### %r", po_ids.read())
         for po in po_ids:
             if not po.partner_id.supplier_ean:
                 raise UserError(_("EAN del Proveedor (%s) no puede ser nulo.") % po.partner_id.name)
+            if not po.warehouse_id.code_krikos:
+                raise UserError(_("EAN de la boca de entrega (%s) no puede ser nulo.") %
+                                po.warehouse_id.name)
+            else:
+                delivery_ean = po.warehouse_id.code_krikos or ''
 
             info = 'INFO'
             info += '9500000598565'.zfill(13)  # EAN del emisor
