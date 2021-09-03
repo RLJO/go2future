@@ -26,7 +26,6 @@ class ResPartner(models.Model):
                                          'default_image.png')
         return base64.b64encode(open(image_path, 'rb').read())
 
-
     GENDER = [
         ('M', 'Male'),
         ('F', 'Female'),
@@ -189,7 +188,7 @@ class ResPartner(models.Model):
                        "country_state": self.state_id.name,
                        "state_city": self.city,
                        "business_name": '',
-                       "phone": self.phone,
+                       "phone": self.phone or '',
                        "password": self.user_id.password,
                        "avatar": self.user_avatar.decode('ascii') if self.user_avatar else ''}
 

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="marketplace_stock_quant_tree" model="ir.ui.view">
+            <field name="name">marketplace.stock.quant.tree</field>
+            <field name="model">stock.quant</field>
+            <field name="inherit_id" ref="stock.view_stock_quant_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr='//field[@name="product_id"]' position="after">
+                    <field name="seller_id"/>
+                    <field name="location_parent_id"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="marketplace_stock_quant_form" model="ir.ui.view">
+            <field name="name">marketplace.stock.quant.form</field>
+            <field name="model">stock.quant</field>
+            <field name="inherit_id" ref="stock.view_stock_quant_form"/>
+            <field name="arch" type="xml">
+                <xpath expr='//field[@name="product_id"]' position="after">
+                    <field name="seller_id"/>
+                    <field name="location_parent_id"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="marketplace_uant_search_view" model="ir.ui.view">
+            <field name="name">marketplace.stock.quant.search</field>
+            <field name="model">stock.quant</field>
+            <field name="inherit_id" ref="stock.quant_search_view"/>
+            <field name="arch" type="xml">
+                <xpath expr='//field[@name="owner_id"]' position="after">
+                    <field name="location_parent_id"/>
+                </xpath>
+                <xpath expr='//filter[@name="company"]' position="after">
+                    <filter string='Parent Location' name="location_parent" domain="[]" context="{'group_by': 'location_parent_id'}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="odoo_marketplace.wk_seller_dashboard_menu4_sub_menu1" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6, 0, [ref('odoo_marketplace_custom.make_invisible')])]"/>
+        </record>
+        <record id="odoo_marketplace.wk_seller_dashboard_menu4_sub_menu2" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6, 0, [ref('odoo_marketplace_custom.make_invisible')])]"/>
+        </record>
+        <record id="odoo_marketplace.wk_seller_dashboard_menu3_sub_menu3" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6, 0, [ref('odoo_marketplace_custom.make_invisible')])]"/>
+        </record>
+
+        <record id="wk_seller_stock_action" model="ir.actions.act_window">
+            <field name="name">Informe de inventario</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">stock.quant</field>
+            <field name="domain">[('seller_id.id', 'in', '[get_marketplace_seller_stock()]')]</field>
+            <field name="context">{'search_default_internal_loc': 1, 'search_default_productgroup':1, 'search_default_locationgroup':1}</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="wk_seller_stock_menu"
+                  name="Informe de inventario"
+                  sequence="1"
+                  parent="odoo_marketplace.wk_seller_dashboard_menu4"
+                  action="odoo_marketplace_custom.wk_seller_stock_action"
+                  groups="odoo_marketplace.marketplace_seller_group,odoo_marketplace.marketplace_manager_group"/>
+
+    </data>
+</odoo>

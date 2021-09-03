@@ -322,6 +322,7 @@ class ResUser(http.Controller):
                     'password': passw,
                     'name': name,
                     'lastname': lastname,
+                    'sel_groups_1_9_10':9
                 })
                 user._cr.commit()
 

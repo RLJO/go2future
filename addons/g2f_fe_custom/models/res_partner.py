@@ -34,7 +34,11 @@ class ResPartner(models.Model):
         ('cae', _('CAE')),
         ('caea', _('CAEA')),
     ], string=_('Invoicing Type'), default='cae')
-    account_move_line_caea_ids = fields.One2many('account.move.caea.line', 'account_move_id', string=_('Datos CAEA'), track_visibility='onchange')
+    account_move_line_caea_ids = fields.One2many('account.move.caea.line', 'res_partner_id', string=_('Datos CAEA'), track_visibility='onchange')
+    full_direction = fields.Char(_('Domicilio legal completo'))
+    customer_attention_phone = fields.Char(_('Teléfono de atención al cliente'))
+    customer_attention_email = fields.Char(_('Email de atención al cliente'))
+    customer_attention_website = fields.Char(_('Website de atención al cliente'))
 
     def l10n_ar_connection_test(self):
         self.ensure_one()
@@ -219,7 +223,7 @@ class AccountMoveCaeaLine(models.Model):
     _name = 'account.move.caea.line'
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
-    account_move_id = fields.Many2one('account.move')
+    res_partner_id = fields.Many2one('res.partner')
     caea_creation_date = fields.Datetime(_('Fecha de creación'), default=lambda self: fields.datetime.now(),readonly=True, store=True, track_visibility="onchange")
     caea_validity_from = fields.Date(_('Vigencia desde'), required=True, track_visibility="onchange")
     caea_validity_to = fields.Date(_('Vigencia hasta'), required=True, track_visibility="onchange")

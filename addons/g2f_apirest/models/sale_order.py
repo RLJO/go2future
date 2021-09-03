@@ -40,9 +40,9 @@ class SaleOrder(models.Model):
         list_sale = self._list_sale_order_cart(order)
         return list_sale
 
-    def _add_products_from_controller(self, user_id, barcode, quantity, sensor,
+    def _add_products_from_controller(self, userid, barcode, quantity, sensor,
                                       action=None):
-        user_id = self.env['res.users'].search([('login', '=', user_id)])
+        user_id = self.env['res.users'].search([('id', '=', userid)])
         order = self._search_sale_order_by_partner(user_id.partner_id.id)
         product = self._search_product_by_id(barcode)
         if action == 'picked':

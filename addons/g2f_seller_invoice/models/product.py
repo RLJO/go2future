@@ -2,10 +2,8 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from odoo import models, fields, api, _
-from odoo.exceptions import UserError
-from json import dumps
-import requests
-from odoo import http, _
+from datetime import timedelta, time
+from odoo.tools.float_utils import float_round
 
 
 class ProductTemplate(models.Model):
@@ -56,36 +54,42 @@ class ProductTemplate(models.Model):
             data = 'No se encontró Minigo registrado con el id: %s' % code
         return data
 
-    # def get_deals(self, product_id):
-    #     lis = []
-    #     control = []
-    #     pricelist = self.env['product.pricelist.item']
-    #     deals = pricelist.search([
-    #         ('product_tmpl_id', '=', product_id.product_tmpl_id.id),
-    #         ('website_deals_m2o.state', '=', 'validated')
-    #     ])
-    #     for l in pricelist:
-    #         for lines in deals:
-    #             detail = deals.filtered(lambda x: x.product_tmpl_id == lines.product_id.product_tmpl_id)
-    #             # raise UserError(_('RESULT. %r') % detail)
-    #             if detail not in control:
-    #                 if len(detail) > 1:
-    #                     weight = sum([pro.weight for pro in detail])
-    #                     dct = {
-    #                         'product_id': l.product_id.id,
-    #                         'type_id': detail[0].product_id.id,
-    #                         'weight': weight,
-    #                     }
-    #                 else:
-    #                     dct = {
-    #                         'product_id': l.product_id.id,
-    #                         'type_id': detail.product_id.id,
-    #                         'weight': detail.weight,
-    #                     }
-    #                 lis.append((0, 0, dct))
-    #                 control.append(detail)
-    #     self.type_summary_ids = lis
-
+    @api.model
+    def _get_product_planos(self, code):
+        data = {"data": []}
+        location_ids = self.env['stock.location'].search([('location_id.name', '=', code)])
+        quant = self.env['stock.quant']
+        quant_ids = quant.search([('location_id', 'in', location_ids.ids)], order='location_id')
+        for line in quant_ids:
+            second_line = line.product_id.brand + ' ' if line.product_id.brand else ''
+            second_line += str(line.product_id.contents) + ' ' if line.product_id.contents else ''
+            second_line += line.product_id.uom_id.name or ''
+            qty_sold = line.product_id._compute_sales_count_wo_group()
+            head = {
+                "ARTICLE_ID": line.product_id.barcode,
+                "ITEM_NAME": line.product_id.name,
+                "ITEM_STOCK": line.quantity,
+                "ITEM_FIRST_LINE": line.product_id.desc_tag,
+                "ITEM_SECOND_LINE": line.product_id.desc_tag_2,
+                "ITEM_BRAND": line.product_id.brand,
+                "ITEM_VOLUME": line.product_id.contents,
+                "ITEM_VOLUME_MEASUREMENT": line.product_id.uom_id.name,
+                "ITEM_SECTOR": line.product_id.sector.name,
+                "ITEM_FAMILY": line.product_id.familia.name,
+                "ITEM_SUBFAMILY": line.product_id.subfamilia.name,
+                "ITEM_CATEGORY": line.product_id.categoria.name,
+                "ITEM_SELLER": line.product_id.marketplace_seller_id.name,
+                "ITEM_QTY_SOLD": line.product_id.sales_count,
+                "ITEM_WIDTH": line.product_id.alto,
+                "ITEM_HEIGHT": line.product_id.ancho,
+                "ITEM_DEPTH": line.product_id.profundidad,
+                "ITEM_WEIGHT": line.product_id.peso_bruto,
+                "ITEM_LAYOUT": line.product_id.layout,
+            }
+            data["data"].append(head)
+        if not quant_ids:
+            data = 'No se encontró Minigo registrado con el id: %s' % code
+        return data
 
     @api.model
     def get_product_data(self, vals):
@@ -123,6 +127,33 @@ class ProductTemplate(models.Model):
             data = 'No se encontró producto registrado con el SKU: %s' % vals['sku']
         return data
 
+
+class ProductProduct(models.Model):
+    _inherit = 'product.product'
+
+    def _compute_sales_count_wo_group(self):
+        r = {}
+        self.sales_count = 0
+        # if not self.user_has_groups('sales_team.group_sale_salesman'):
+        #     return r
+        date_from = fields.Datetime.to_string(fields.datetime.combine(fields.datetime.now() - timedelta(days=365),
+                                                                      time.min))
+
+        done_states = self.env['sale.report']._get_done_states()
+
+        domain = [
+            ('state', 'in', done_states),
+            ('product_id', 'in', self.ids),
+            ('date', '>=', date_from),
+        ]
+        for group in self.env['sale.report'].read_group(domain, ['product_id', 'product_uom_qty'], ['product_id']):
+            r[group['product_id'][0]] = group['product_uom_qty']
+        for product in self:
+            if not product.id:
+                product.sales_count = 0.0
+                continue
+            product.sales_count = float_round(r.get(product.id, 0), precision_rounding=product.uom_id.rounding)
+        return r
 
 # class ProductTemplate(http.Controller):
 #     @http.route(['/product/list'], type='http', auth='public',
