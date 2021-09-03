@@ -80,6 +80,11 @@ class ProductTemplate(models.Model):
                 "ITEM_CATEGORY": line.product_id.categoria.name,
                 "ITEM_SELLER": line.product_id.marketplace_seller_id.name,
                 "ITEM_QTY_SOLD": line.product_id.sales_count,
+                "ITEM_WIDTH": line.product_id.alto,
+                "ITEM_HEIGHT": line.product_id.ancho,
+                "ITEM_DEPTH": line.product_id.profundidad,
+                "ITEM_WEIGHT": line.product_id.peso_bruto,
+                "ITEM_LAYOUT": line.product_id.layout,
             }
             data["data"].append(head)
         if not quant_ids:
