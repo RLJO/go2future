@@ -34,11 +34,11 @@ class PurchaseOrderWizard(models.TransientModel):
         for po in po_ids:
             if not po.partner_id.supplier_ean:
                 raise UserError(_("EAN del Proveedor (%s) no puede ser nulo.") % po.partner_id.name)
-            if not po.warehouse_id.code_krikos:
+            if not po.picking_type_id.warehouse_id.code_krikos:
                 raise UserError(_("EAN de la boca de entrega (%s) no puede ser nulo.") %
-                                po.warehouse_id.name)
+                                po.picking_type_id.warehouse_id.name)
             else:
-                delivery_ean = po.warehouse_id.code_krikos or ''
+                delivery_ean = po.picking_type_id.warehouse_id.code_krikos or ''
 
             info = 'INFO'
             info += '9500000598565'.zfill(13)  # EAN del emisor
