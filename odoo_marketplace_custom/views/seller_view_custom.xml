@@ -354,7 +354,7 @@
             <field name="name">Facturas consumidor final</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">account.move</field>
-            <field name="context">{'invoicing_type': 'consumidor_final'}</field>
+            <field name="domain">[('seller_id.id', 'in', '[get_seller()]')]</field>
             <field name="view_mode">tree,form</field>
         </record>
 
@@ -369,7 +369,7 @@
             <field name="name">Facturas comisión MiniGo</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">account.move</field>
-            <field name="context">{'invoicing_type': 'comisiones'}</field>
+            <field name="domain">[('partner_id.id', 'in', '[get_customer()]')]</field>
             <field name="view_mode">tree,form</field>
         </record>
 

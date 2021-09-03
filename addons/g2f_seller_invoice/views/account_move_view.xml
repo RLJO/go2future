@@ -6,8 +6,7 @@
           <field name="inherit_id" ref="account.view_move_form"/>
           <field name="arch" type="xml">
               <xpath expr="//notebook" position="inside">
-                  <page name="einvoice" string="Electronic Invoice"
-                        attrs="{'invisible': [('electronic_invoice_type','!=', 'seller_api')]}">
+                  <page name="einvoice" string="Electronic Invoice">
                       <group><button name="json_resend" type="object" string="JSON resend"/></group>
                       <group>
                           <field name="einvoice" readonly="1"/>

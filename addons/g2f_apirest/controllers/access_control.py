@@ -11,6 +11,14 @@ from odoo.exceptions import ValidationError, UserError
 class AccessControl(http.Controller):
     """Access Control Controller."""
 
+    def get_store_by_id(self, store_id):
+        """Get Store from id passed."""
+
+        store = http.request.env['stock.warehouse'].sudo().search(
+                [('id', '=', store_id)]
+                )
+        return store.access_control_url or ''
+
     @http.route(['/get_message_access_control'], type='json', auth='public',
                 methods=['POST'],
                 website=True, csrf=False)
@@ -33,6 +41,21 @@ class AccessControl(http.Controller):
                 sale_order = http.request.env['sale.order']
                 user = http.request.env['res.partner'].sudo().validate_user(login)
                 sale_order.sudo().create_sale_order(user.partner_id.id)
+            elif code == 9:
+                # Es que esta saliendo de la tienda
+                # debo confirmar la sale order
+                # Buscar en la pesta;a prisma respon alli se mira si fue 
+                # satisfactorio el pago o no, si fue satisfactorio el pago 
+                #  Enviarle a acceso control que le abra la puerta 2 y tambien
+                # crear transaccation con codigo 10 que quiere decir que 
+                # Todo salio bien
+                #  Si el pago fue rechazado, elviarle a daniel  mediante 
+                # create_transaction un codigo (0) que indique no no fue posible
+                # cobrarle al usuario
+                pass
+
+
+
 
             # tomar el mensaje y guardarlo en el model transaction
             transaction.sudo().create_transaction(login, store_id, door_id, code, message, 'access_control')
@@ -60,16 +83,11 @@ class AccessControl(http.Controller):
             door_id = kw.get('door_id') or 0
             was_confirmed = kw.get('was_confirmed')
 
-            config_parameter = http.request.env['ir.config_parameter'].sudo().search([
-                ('key', 'ilike', 'web.base.access.control.url')
-            ])
-            if not config_parameter:
-                raise ValidationError(_('web.base.access.control.url dont exist in ir.config_parameter.'))
-
             # Prepare url endpoint and send to Access control server
-            base_url = config_parameter.value
+            base_url = self.get_store_by_id(store_id)
             endpoint = 'api/Odoo/ConfirmAtHall'
             params = {"storeCode": int(store_id), "doorId": int(door_id),
                       "userId": login, "WasConfirmed": was_confirmed}
             send_access_store_response = requests.post(urljoin(base_url, endpoint), json=params)
             print(send_access_store_response)
+            return send_access_store_response

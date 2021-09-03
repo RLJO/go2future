@@ -14,13 +14,23 @@ _logger = logging.getLogger(__name__)
 class Product(http.Controller):
     @http.route('/product/widget/', type='json', auth="none", methods=['POST'], cors="*", csrf=False)
     def get_product_widget(self, **kw):
-        vals = {}
         code = kw.get('code')
         product_tmpl = http.request.env['product.template']
         response = product_tmpl.sudo()._get_product_widget(code)
         print(http.request.params)
         print(response)
         # return json.dumps({"result": "Success"})
+        _logger.info("### TRAMA ### %r", response)
         return response
 
-# curl -i -X POST -H "Content-Type: application/json" -d '{"params": {"code":"GO1"}}' 'https://g2f-api-rest.odoo.com/product/widget/'
+    @http.route('/product/planos/', type='json', auth="none", methods=['POST'], cors="*", csrf=False)
+    def get_product_planos(self, **kw):
+        code = kw.get('code')
+        product_tmpl = http.request.env['product.template']
+        response = product_tmpl.sudo()._get_product_planos(code)
+        print(http.request.params)
+        print(response)
+        _logger.info("### TRAMA ### %r", response)
+        return response
+
+# curl -i -X POST -H "Content-Type: application/json" -d '{"params": {"code":"0001"}}' 'https://g2f-api-rest.odoo.com/product/widget/'
