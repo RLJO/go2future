@@ -41,7 +41,8 @@
                         <field name="payment_cards_ids" nolabel="1">
                             <tree editable="bottom" class="class_test">
                                 <field name="name"/>
-                                <field name="card_number"/>
+                                <field name="card_number" password="True"/>
+                                <field name="card_last_digits"/>
                                 <field name="security_code"/>
                                 <field name="expiration_month"/>
                                 <field name="expiration_year"/>

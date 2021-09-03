@@ -28,5 +28,12 @@
             <field name="name">Invisible</field>
         </record>
 
+        <record id="account_invoice_rule_portal_marketplace" model="ir.rule">
+            <field name="name">Portal Personal Account Invoices Marketplace</field>
+            <field name="model_id" ref="account.model_account_move"/>
+            <field name="domain_force">[('move_type', 'in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund'))]</field>
+            <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+        </record>
+
     </data>
 </odoo>

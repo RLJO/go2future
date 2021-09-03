@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from datetime import date, timedelta
-from odoo import _, fields, models
+from odoo import _, api, fields, models
 
 MONTHS = [
     ('01', _('January')),
@@ -42,6 +42,13 @@ class PaymentCards(models.Model):
         ('disabled', _('Disabled')),
         ('active', _('Active'))
     ], default='disabled')
+    card_last_digits = fields.Char(string=_('Last Digits'), compute='_compute_last_digits')
+
+    @api.depends('card_number')
+    def _compute_last_digits(self):
+        for record in self:
+            if len(record.card_number) >= 4:
+                record.card_last_digits = record.card_number[-4:]
 
     def change_state(self):
         self.ensure_one()
