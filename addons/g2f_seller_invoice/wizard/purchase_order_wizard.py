@@ -1,6 +1,7 @@
 from odoo import models, fields, api, _
 import datetime
 import time
+import xml.dom.minidom
 from zeep import Client, xsd
 from zeep.exceptions import Fault
 from lxml import etree as ET
@@ -30,15 +31,15 @@ class PurchaseOrderWizard(models.TransientModel):
                             self.env.company.name)
         else:
             issuing_ean = self.env.company.code_gln or ''
-        if not self.picking_type_id.warehouse_id.code_krikos:
-            raise UserError(_("EAN de la boca de entrega (%s) no puede ser nulo.") %
-                            self.picking_type_id.warehouse_id.name)
-        else:
-            delivery_ean = self.picking_type_id.warehouse_id.code_krikos or ''
         # _logger.info("### Lista ### %r", po_ids.read())
         for po in po_ids:
             if not po.partner_id.supplier_ean:
                 raise UserError(_("EAN del Proveedor (%s) no puede ser nulo.") % po.partner_id.name)
+            if not po.picking_type_id.warehouse_id.code_krikos:
+                raise UserError(_("EAN de la boca de entrega (%s) no puede ser nulo.") %
+                                po.picking_type_id.warehouse_id.name)
+            else:
+                delivery_ean = po.picking_type_id.warehouse_id.code_krikos or ''
 
             info = 'INFO'
             info += '9500000598565'.zfill(13)  # EAN del emisor
@@ -128,9 +129,11 @@ class PurchaseOrderWizard(models.TransientModel):
                 print(response.text)
                 _logger.info("### Status Code ### %r", response.status_code)
                 _logger.info("### XML Response ### %r", response.text)
+                pw_xml_response = xml.dom.minidom.parseString(response.text)
+                xml_pretty_str = pw_xml_response.toprettyxml()
                 po.write({
                     'pw_status_code': response.status_code,
-                    'pw_xml_response': response.text,
+                    'pw_xml_response': xml_pretty_str,
                     'pw_plane_text': data
                 })
             except Fault as error:

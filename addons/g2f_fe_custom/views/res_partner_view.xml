@@ -65,12 +65,16 @@
                             </group>
                             <group string="Información para facturas consumidor final">
                                 <field name="invoices_note"/>
+                                <field name="full_direction"/>
+                                <field name="customer_attention_phone"/>
+                                <field name="customer_attention_email"/>
+                                <field name="customer_attention_website"/>
                             </group>
                         <group/>
                         </group>
                         <group>
-                            <field name="account_move_line_caea_ids">
-                                <tree editable="botton">
+                            <field name="account_move_line_caea_ids" attrs="{'invisible': [('electronic_invoice_type','!=', 'no_afip')]}">
+                                <tree editable="botton" default_order="caea_creation_date desc">
                                     <field name="caea_creation_date"/>
                                     <field name="caea_validity_from"/>
                                     <field name="caea_validity_to"/>
