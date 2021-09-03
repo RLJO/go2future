@@ -74,9 +74,9 @@ class PurchaseOrderWizard(models.TransientModel):
                 detail += 'LINE'
                 detail += str(len(po.order_line)).zfill(6)
                 detail += barcode.ljust(14)
-                detail += default_code[:35].ljust(35)
                 detail += line.product_id.name[:35].ljust(35)
-                detail += brand[:14].zfill(14)
+                detail += brand[:35].ljust(35)
+                detail += default_code[:14].zfill(14)
                 detail += ''.ljust(7)
                 detail += '1'.zfill(7)  # Cantidad pedida en cajas (Package)
                 detail += str(line.product_qty).zfill(11)  # Cantidad pedida en unidades
