@@ -19,8 +19,8 @@
                             <group>
                                 <field name="electronic_invoice_type"/>
                                 <field name="invoice_type_cae_caea"  attrs="{'invisible': [('electronic_invoice_type','!=', 'seller_api')], 'required': [('electronic_invoice_type','=', 'seller_api')]}" string="Facturación tipo"/>
-                                <field name="fe_journal_id" required="1"/>
-                                <div attrs="{'invisible': [('electronic_invoice_type','!=', 'afip')]}">
+                                <field name="fe_journal_id" groups="odoo_marketplace.marketplace_manager_group"/>
+                                <div groups="odoo_marketplace.marketplace_manager_group" attrs="{'invisible': [('electronic_invoice_type','!=', 'afip')]}">
                                     <span class="o_form_label">AFIP Web Services</span>
                                     <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." groups="base.group_multi_company"/>
                                     <div class="content-group">
