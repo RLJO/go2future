@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-23 21:56+0000\n"
-"PO-Revision-Date: 2021-04-23 23:25-0500\n"
+"POT-Creation-Date: 2021-09-04 01:03+0000\n"
+"PO-Revision-Date: 2021-09-03 20:06-0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -15,12 +15,56 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
 "Language: es\n"
-"X-Generator: Poedit 2.4.2\n"
+"X-Generator: Poedit 3.0\n"
+
+#. module: g2f_marketplace
+#: model_terms:ir.ui.view,arch_db:g2f_marketplace.go2f_wk_seller_kanban_view
+msgid "<b>Código vendedor: </b>"
+msgstr ""
 
 #. module: g2f_marketplace
 #: model_terms:ir.ui.view,arch_db:g2f_marketplace.go2f_odoo_marketplace_seller_form_view
 msgid "AFIP Responsibility"
 msgstr "Responsabilidad AFIP"
+
+#. module: g2f_marketplace
+#: model:ir.model.fields,field_description:g2f_marketplace.field_res_partner__api_path
+#: model:ir.model.fields,field_description:g2f_marketplace.field_res_users__api_path
+msgid "API path"
+msgstr ""
+
+#. module: g2f_marketplace
+#: model_terms:ir.ui.view,arch_db:g2f_marketplace.go2f_wk_seller_form_view
+msgid "Address"
+msgstr "Dirección"
+
+#. module: g2f_marketplace
+#: model:ir.model.fields,field_description:g2f_marketplace.field_res_partner__autoridades_file
+#: model:ir.model.fields,field_description:g2f_marketplace.field_res_users__autoridades_file
+msgid "Adjuntar asignación de autoridades y artículo 60 inscrito"
+msgstr ""
+
+#. module: g2f_marketplace
+#: model:ir.model.fields,field_description:g2f_marketplace.field_res_partner__estatutos_file
+#: model:ir.model.fields,field_description:g2f_marketplace.field_res_users__estatutos_file
+msgid "Adjuntar estatutos"
+msgstr ""
+
+#. module: g2f_marketplace
+#: model:ir.model.fields,field_description:g2f_marketplace.field_res_partner__modificaciones_file
+#: model:ir.model.fields,field_description:g2f_marketplace.field_res_users__modificaciones_file
+msgid "Adjuntar modificaciones"
+msgstr ""
+
+#. module: g2f_marketplace
+#: model_terms:ir.ui.view,arch_db:g2f_marketplace.go2f_wk_seller_form_view
+msgid "Avatar"
+msgstr ""
+
+#. module: g2f_marketplace
+#: model_terms:ir.ui.view,arch_db:g2f_marketplace.go2f_view_partner_tree
+msgid "CUIT"
+msgstr ""
 
 #. module: g2f_marketplace
 #: model:ir.model.fields,field_description:g2f_marketplace.field_res_partner__certificate_date_end
@@ -36,14 +80,14 @@ msgstr "Fecha de inicio del certificado"
 
 #. module: g2f_marketplace
 #: model_terms:ir.ui.view,arch_db:g2f_marketplace.go2f_odoo_marketplace_seller_form_view
-msgid "Certificate Exclition file"
+msgid "Certificate Exclution file"
 msgstr "Certificado de exclusión"
 
 #. module: g2f_marketplace
 #: model:ir.model.fields,field_description:g2f_marketplace.field_res_partner__certificate_file
 #: model:ir.model.fields,field_description:g2f_marketplace.field_res_users__certificate_file
-msgid "Certificate Exclution File"
-msgstr "Certificado de exclusión"
+msgid "Certificate File"
+msgstr "Archivo de certificado"
 
 #. module: g2f_marketplace
 #: model_terms:ir.ui.view,arch_db:g2f_marketplace.go2f_odoo_marketplace_seller_form_view
@@ -51,9 +95,43 @@ msgid "Certificate gross incoome file"
 msgstr "Certificado de ingresos brutos"
 
 #. module: g2f_marketplace
+#: model_terms:ir.ui.view,arch_db:g2f_marketplace.go2f_wk_seller_form_view
+msgid "City"
+msgstr "Ciudad"
+
+#. module: g2f_marketplace
 #: model:ir.model,name:g2f_marketplace.model_res_partner
 msgid "Contact"
 msgstr "Contacto"
+
+#. module: g2f_marketplace
+#: model_terms:ir.ui.view,arch_db:g2f_marketplace.go2f_wk_seller_form_view
+msgid "Contact / Address"
+msgstr "Contacto / Dirección"
+
+#. module: g2f_marketplace
+#: model_terms:ir.ui.view,arch_db:g2f_marketplace.go2f_wk_seller_form_view
+msgid "Contact image"
+msgstr "Imagen"
+
+#. module: g2f_marketplace
+#: model_terms:ir.ui.view,arch_db:g2f_marketplace.go2f_wk_seller_form_view
+msgid "Contactos"
+msgstr ""
+
+#. module: g2f_marketplace
+#: model_terms:ir.ui.view,arch_db:g2f_marketplace.go2f_wk_seller_form_view
+msgid "Country"
+msgstr "País"
+
+#. module: g2f_marketplace
+#: model_terms:ir.ui.view,arch_db:g2f_marketplace.go2f_view_partner_tree
+#: model_terms:ir.ui.view,arch_db:g2f_marketplace.go2f_wk_seller_form_view
+#: model_terms:ir.ui.view,arch_db:g2f_marketplace.go2f_wk_seller_kanban_view
+#: model_terms:ir.ui.view,arch_db:g2f_marketplace.go2f_wk_seller_tree_view
+#: model_terms:ir.ui.view,arch_db:g2f_marketplace.go2f_wk_seller_view_filter
+msgid "Código vendedor"
+msgstr ""
 
 #. module: g2f_marketplace
 #: model_terms:ir.ui.view,arch_db:g2f_marketplace.go2f_odoo_marketplace_seller_form_view
@@ -61,19 +139,35 @@ msgid "Datos Fiscales"
 msgstr ""
 
 #. module: g2f_marketplace
-#: model:ir.model.fields,field_description:g2f_marketplace.field_res_partner__display_name
-msgid "Display Name"
-msgstr "Nombre mostrado"
+#: model_terms:ir.ui.view,arch_db:g2f_marketplace.go2f_wk_seller_form_view
+msgid "Delivery"
+msgstr "Entrega"
 
 #. module: g2f_marketplace
-#: model_terms:ir.ui.view,arch_db:g2f_marketplace.go2f_odoo_marketplace_seller_form_view
-msgid "Fiscal Company Data"
-msgstr "Información"
+#: model:ir.model.fields,field_description:g2f_marketplace.field_res_partner__display_name
+msgid "Display Name"
+msgstr "Mostrar Nombre"
+
+#. module: g2f_marketplace
+#: model:ir.model.fields,field_description:g2f_marketplace.field_res_partner__has_api
+#: model:ir.model.fields,field_description:g2f_marketplace.field_res_users__has_api
+msgid "Facturación a traves de API de MiniGO?"
+msgstr ""
 
 #. module: g2f_marketplace
 #: model:ir.model.fields,field_description:g2f_marketplace.field_res_partner__id
 msgid "ID"
-msgstr "Id"
+msgstr "ID (identificación)"
+
+#. module: g2f_marketplace
+#: model_terms:ir.ui.view,arch_db:g2f_marketplace.go2f_odoo_marketplace_seller_form_view
+msgid "Información de Estatutos y Modificaciones"
+msgstr ""
+
+#. module: g2f_marketplace
+#: model_terms:ir.ui.view,arch_db:g2f_marketplace.go2f_odoo_marketplace_seller_form_view
+msgid "Información fiscal y legal"
+msgstr ""
 
 #. module: g2f_marketplace
 #: model_terms:ir.ui.view,arch_db:g2f_marketplace.go2f_odoo_marketplace_seller_form_view
@@ -81,15 +175,25 @@ msgid "Ingresos Brutos"
 msgstr ""
 
 #. module: g2f_marketplace
+#: model_terms:ir.ui.view,arch_db:g2f_marketplace.go2f_wk_seller_form_view
+msgid "Internal notes..."
+msgstr "Notas internas..."
+
+#. module: g2f_marketplace
+#: model_terms:ir.ui.view,arch_db:g2f_marketplace.go2f_wk_seller_form_view
+msgid "Invoice"
+msgstr "Factura"
+
+#. module: g2f_marketplace
 #: model_terms:ir.ui.view,arch_db:g2f_marketplace.go2f_odoo_marketplace_seller_form_view
 msgid "Is Exclution IVA"
-msgstr "Esta excluido de IVA"
+msgstr "Posee certificado de exclusión de IVA?"
 
 #. module: g2f_marketplace
 #: model:ir.model.fields,field_description:g2f_marketplace.field_res_partner__is_exclution_iva
 #: model:ir.model.fields,field_description:g2f_marketplace.field_res_users__is_exclution_iva
 msgid "Is Exclution Iva"
-msgstr "Esta excluido de IVA"
+msgstr "Posee certificado de exclusión de IVA?"
 
 #. module: g2f_marketplace
 #: model:ir.model.fields,field_description:g2f_marketplace.field_res_partner__is_exempt_iva
@@ -111,12 +215,22 @@ msgstr "Es la exclusión permanente"
 #. module: g2f_marketplace
 #: model:ir.model.fields,field_description:g2f_marketplace.field_res_partner____last_update
 msgid "Last Modified on"
-msgstr "Última modificación el"
+msgstr "Última modificación en"
 
 #. module: g2f_marketplace
-#: model_terms:ir.ui.view,arch_db:g2f_marketplace.go2f_odoo_marketplace_seller_form_view
-msgid "Number"
-msgstr "Numero"
+#: model_terms:ir.ui.view,arch_db:g2f_marketplace.go2f_wk_seller_form_view
+msgid "Logo"
+msgstr ""
+
+#. module: g2f_marketplace
+#: model_terms:ir.ui.view,arch_db:g2f_marketplace.go2f_wk_seller_form_view
+msgid "Mobile:"
+msgstr "Móvil:"
+
+#. module: g2f_marketplace
+#: model_terms:ir.ui.view,arch_db:g2f_marketplace.go2f_wk_seller_form_view
+msgid "Nombre contacto"
+msgstr ""
 
 #. module: g2f_marketplace
 #: model_terms:ir.ui.view,arch_db:g2f_marketplace.go2f_odoo_marketplace_seller_form_view
@@ -134,6 +248,16 @@ msgid "Opero en una sola provincia."
 msgstr ""
 
 #. module: g2f_marketplace
+#: model_terms:ir.ui.view,arch_db:g2f_marketplace.go2f_wk_seller_form_view
+msgid "Phone:"
+msgstr "Teléfono:"
+
+#. module: g2f_marketplace
+#: model_terms:ir.ui.view,arch_db:g2f_marketplace.go2f_odoo_marketplace_seller_form_view
+msgid "Posee certificado de exclusión de IVA?"
+msgstr ""
+
+#. module: g2f_marketplace
 #: model:ir.model.fields,field_description:g2f_marketplace.field_res_partner__regime_gross_income
 #: model:ir.model.fields,field_description:g2f_marketplace.field_res_users__regime_gross_income
 msgid "Regime Gross Income"
@@ -146,14 +270,45 @@ msgid "Registration Form File"
 msgstr "Certificado de ingresos brutos"
 
 #. module: g2f_marketplace
+#: model:ir.model.fields,field_description:g2f_marketplace.field_res_partner__seller_code
+#: model:ir.model.fields,field_description:g2f_marketplace.field_res_users__seller_code
+msgid "Seller code"
+msgstr "Código de vendedor"
+
+#. module: g2f_marketplace
 #: model:ir.model.fields.selection,name:g2f_marketplace.selection__res_partner__regime_gross_income__simplificado
 msgid "Soy un peque;o contribuyente que realiza actividades en una sola provincia."
 msgstr "Soy un pequeño contribuyente que realiza actividades en una sola provincia."
 
 #. module: g2f_marketplace
+#: model_terms:ir.ui.view,arch_db:g2f_marketplace.go2f_wk_seller_form_view
+msgid "State"
+msgstr "Estado"
+
+#. module: g2f_marketplace
+#: model_terms:ir.ui.view,arch_db:g2f_marketplace.go2f_wk_seller_form_view
+msgid "Street 2..."
+msgstr "Calle 2..."
+
+#. module: g2f_marketplace
+#: model_terms:ir.ui.view,arch_db:g2f_marketplace.go2f_wk_seller_form_view
+msgid "Street..."
+msgstr "Calle..."
+
+#. module: g2f_marketplace
 #: model_terms:ir.ui.view,arch_db:g2f_marketplace.go2f_odoo_marketplace_seller_form_view
-msgid "Type"
-msgstr "Tipo"
+msgid "Tipo de Industria"
+msgstr ""
+
+#. module: g2f_marketplace
+#: model_terms:ir.ui.view,arch_db:g2f_marketplace.go2f_odoo_marketplace_seller_form_view
+msgid "Url para envio de solicitud de factura"
+msgstr ""
+
+#. module: g2f_marketplace
+#: model_terms:ir.ui.view,arch_db:g2f_marketplace.go2f_wk_seller_form_view
+msgid "ZIP"
+msgstr ""
 
 #. module: g2f_marketplace
 #: model_terms:ir.ui.view,arch_db:g2f_marketplace.go2f_odoo_marketplace_seller_form_view
@@ -164,6 +319,16 @@ msgstr "fecha de fin del certificado"
 #: model_terms:ir.ui.view,arch_db:g2f_marketplace.go2f_odoo_marketplace_seller_form_view
 msgid "certificate date start"
 msgstr "fecha de inicio del certificado"
+
+#. module: g2f_marketplace
+#: model_terms:ir.ui.view,arch_db:g2f_marketplace.go2f_wk_seller_form_view
+msgid "e.g. Mr."
+msgstr "Ej: Sr."
+
+#. module: g2f_marketplace
+#: model_terms:ir.ui.view,arch_db:g2f_marketplace.go2f_wk_seller_form_view
+msgid "e.g. Sales Director"
+msgstr "Ej: Gerente de ventas"
 
 #. module: g2f_marketplace
 #: model:ir.model.fields,field_description:g2f_marketplace.field_res_partner__registration_number_gross_income

@@ -1,0 +1,108 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* commission_payment
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-09-04 01:35+0000\n"
+"PO-Revision-Date: 2021-09-03 20:37-0500\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: es\n"
+"X-Generator: Poedit 3.0\n"
+
+#. module: commission_payment
+#: model:ir.model.fields,field_description:commission_payment.field_account_bank_statement_import_journal_creation__commission
+#: model:ir.model.fields,field_description:commission_payment.field_account_journal__commission
+#: model:ir.model.fields,field_description:commission_payment.field_product_product__commission
+#: model:ir.model.fields,field_description:commission_payment.field_product_template__commission
+msgid "Commission"
+msgstr "Comisión"
+
+#. module: commission_payment
+#: model:ir.model.fields,field_description:commission_payment.field_account_journal__display_name
+#: model:ir.model.fields,field_description:commission_payment.field_account_move__display_name
+#: model:ir.model.fields,field_description:commission_payment.field_marketplace_vendor__display_name
+#: model:ir.model.fields,field_description:commission_payment.field_product_template__display_name
+msgid "Display Name"
+msgstr "Mostrar Nombre"
+
+#. module: commission_payment
+#: model:ir.model.fields,field_description:commission_payment.field_marketplace_vendor__fiscal_position_id
+msgid "Fiscal Position"
+msgstr "Posición Fiscal"
+
+#. module: commission_payment
+#: model:ir.model.fields,field_description:commission_payment.field_account_journal__id
+#: model:ir.model.fields,field_description:commission_payment.field_account_move__id
+#: model:ir.model.fields,field_description:commission_payment.field_marketplace_vendor__id
+#: model:ir.model.fields,field_description:commission_payment.field_product_template__id
+msgid "ID"
+msgstr "ID (identificación)"
+
+#. module: commission_payment
+#: model:ir.model,name:commission_payment.model_account_journal
+msgid "Journal"
+msgstr "Diario"
+
+#. module: commission_payment
+#: model:ir.model,name:commission_payment.model_account_move
+msgid "Journal Entry"
+msgstr "Asiento contable"
+
+#. module: commission_payment
+#: model:ir.model.fields,field_description:commission_payment.field_account_journal____last_update
+#: model:ir.model.fields,field_description:commission_payment.field_account_move____last_update
+#: model:ir.model.fields,field_description:commission_payment.field_marketplace_vendor____last_update
+#: model:ir.model.fields,field_description:commission_payment.field_product_template____last_update
+msgid "Last Modified on"
+msgstr "Última modificación en"
+
+#. module: commission_payment
+#: model_terms:ir.ui.view,arch_db:commission_payment.account_commission
+msgid "Para comisiones"
+msgstr ""
+
+#. module: commission_payment
+#: code:addons/commission_payment/models/marketplace_vendor.py:0
+#, python-format
+msgid "Please define an accounting commission journal for the company %s (%s)."
+msgstr "Defina un diario de comisiones contables para la empresa% s (% s)."
+
+#. module: commission_payment
+#: model:ir.model,name:commission_payment.model_product_template
+msgid "Product Template"
+msgstr "Plantilla de producto"
+
+#. module: commission_payment
+#: code:addons/commission_payment/models/account_move.py:0
+#, python-format
+msgid "You must have an email address in your User Preferences to send emails."
+msgstr "Debe tener una dirección de correo electrónico en sus Preferencias de usuario para enviar correos electrónicos."
+
+#. module: commission_payment
+#: model:ir.actions.server,name:commission_payment.commission_cron_ir_actions_server
+#: model:ir.cron,cron_name:commission_payment.commission_cron
+#: model:ir.cron,name:commission_payment.commission_cron
+#: model:mail.template,subject:commission_payment.email_template_commission
+#: model_terms:ir.ui.view,arch_db:commission_payment.product_template_commission
+msgid "commission"
+msgstr "Comisión"
+
+#. module: commission_payment
+#: model:ir.actions.server,name:commission_payment.commission_cron_confirm_move_ir_actions_server
+#: model:ir.cron,cron_name:commission_payment.commission_cron_confirm_move
+#: model:ir.cron,name:commission_payment.commission_cron_confirm_move
+msgid "commission confirm move"
+msgstr "Confirmar facturas de comisión"
+
+#. module: commission_payment
+#: model:ir.model,name:commission_payment.model_marketplace_vendor
+msgid "marketplace.vendor"
+msgstr ""
