@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-17 18:21+0000\n"
-"PO-Revision-Date: 2021-04-17 15:15-0500\n"
+"POT-Creation-Date: 2021-09-04 00:46+0000\n"
+"PO-Revision-Date: 2021-09-03 19:50-0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -15,7 +15,29 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
 "Language: es\n"
-"X-Generator: Poedit 2.4.2\n"
+"X-Generator: Poedit 3.0\n"
+
+#. module: g2f_sale
+#: model_terms:ir.ui.view,arch_db:g2f_sale.go2f_product_template_marketplace_form_view
+msgid ""
+"<span attrs=\"{'invisible': [('pricelist_item_count', '=', 1)]}\">\n"
+"                        Normas de precio\n"
+"                    </span>\n"
+"                    <span attrs=\"{'invisible': [('pricelist_item_count', '!=', 1)]}\">\n"
+"                        Normas de precio\n"
+"                    </span>"
+msgstr ""
+"<span attrs=\"{'invisible': [('pricelist_item_count', '=', 1)]}\">\n"
+"                        Promociones\n"
+"                    </span>\n"
+"                    <span attrs=\"{'invisible': [('pricelist_item_count', '!=', 1)]}\">\n"
+"                        Promociones\n"
+"                    </span>"
+
+#. module: g2f_sale
+#: model_terms:ir.ui.view,arch_db:g2f_sale.go2f_product_template_marketplace_form_view
+msgid "<span class=\"o_stat_text\">On Hand</span>"
+msgstr "<span class=\"o_stat_text\">Stock</span>"
 
 #. module: g2f_sale
 #: model:ir.model.fields,help:g2f_sale.field_product_product__type
@@ -30,6 +52,23 @@ msgstr ""
 "Un servicio es un producto no material."
 
 #. module: g2f_sale
+#: model_terms:ir.ui.view,arch_db:g2f_sale.go2f_product_template_only_form_view
+msgid "Alto (mm)"
+msgstr ""
+
+#. module: g2f_sale
+#: model_terms:ir.ui.view,arch_db:g2f_sale.go2f_product_template_marketplace_form_view
+msgid "Altura (mm)"
+msgstr ""
+
+#. module: g2f_sale
+#: model_terms:ir.ui.view,arch_db:g2f_sale.go2f_product_template_marketplace_form_view
+#: model_terms:ir.ui.view,arch_db:g2f_sale.go2f_product_template_only_form_view
+msgid "Ancho (mm)"
+msgstr ""
+
+#. module: g2f_sale
+#: model_terms:ir.ui.view,arch_db:g2f_sale.go2f_product_template_marketplace_form_view
 #: model_terms:ir.ui.view,arch_db:g2f_sale.go2f_product_template_only_form_view
 msgid "Atributos"
 msgstr ""
@@ -52,14 +91,10 @@ msgid "Contents"
 msgstr "Contenido"
 
 #. module: g2f_sale
+#: model_terms:ir.ui.view,arch_db:g2f_sale.go2f_product_template_marketplace_form_view
 #: model_terms:ir.ui.view,arch_db:g2f_sale.go2f_product_template_only_form_view
 msgid "Datos del Bulto"
-msgstr "Datos del Bulto"
-
-#. module: g2f_sale
-#: model_terms:ir.ui.view,arch_db:g2f_sale.go2f_product_template_only_form_view
-msgid "Default Code"
-msgstr "Código por defecto"
+msgstr ""
 
 #. module: g2f_sale
 #: model:ir.model.fields,field_description:g2f_sale.field_product_product__depth
@@ -68,14 +103,16 @@ msgid "Depth"
 msgstr "Profundidad"
 
 #. module: g2f_sale
+#: model_terms:ir.ui.view,arch_db:g2f_sale.go2f_product_template_marketplace_form_view
 #: model_terms:ir.ui.view,arch_db:g2f_sale.go2f_product_template_only_form_view
-msgid "Depth (mm)"
-msgstr "Profundidad (mm)"
+msgid "Descripción"
+msgstr ""
 
 #. module: g2f_sale
+#: model_terms:ir.ui.view,arch_db:g2f_sale.go2f_product_template_marketplace_form_view
 #: model_terms:ir.ui.view,arch_db:g2f_sale.go2f_product_template_only_form_view
-msgid "Description"
-msgstr "Descripción"
+msgid "Descripción del producto"
+msgstr ""
 
 #. module: g2f_sale
 #: model:ir.model.fields,field_description:g2f_sale.field_product_supplierinfo__display_name
@@ -96,6 +133,7 @@ msgid "Dun14 must be unique!"
 msgstr "DUN14 debe de ser único!"
 
 #. module: g2f_sale
+#: model_terms:ir.ui.view,arch_db:g2f_sale.go2f_product_template_marketplace_form_view
 #: model_terms:ir.ui.view,arch_db:g2f_sale.go2f_product_template_only_form_view
 msgid "EAN 13"
 msgstr ""
@@ -112,16 +150,11 @@ msgid "Height"
 msgstr "Alto"
 
 #. module: g2f_sale
-#: model_terms:ir.ui.view,arch_db:g2f_sale.go2f_product_template_only_form_view
-msgid "Height (mm)"
-msgstr "Alto (mm)"
-
-#. module: g2f_sale
 #: model:ir.model.fields,field_description:g2f_sale.field_product_supplierinfo__id
 #: model:ir.model.fields,field_description:g2f_sale.field_product_template__id
 #: model:ir.model.fields,field_description:g2f_sale.field_uom_uom__id
 msgid "ID"
-msgstr ""
+msgstr "ID (identificación)"
 
 #. module: g2f_sale
 #: model:ir.model.fields,field_description:g2f_sale.field_product_product__internal_tax
@@ -130,6 +163,7 @@ msgid "Internal Tax"
 msgstr "Impuesto interno"
 
 #. module: g2f_sale
+#: model_terms:ir.ui.view,arch_db:g2f_sale.go2f_product_template_marketplace_form_view
 #: model_terms:ir.ui.view,arch_db:g2f_sale.go2f_product_template_only_form_view
 msgid "Internal Taxes"
 msgstr "Impuestos internos"
@@ -142,14 +176,21 @@ msgid "Last Modified on"
 msgstr "Última modificación el"
 
 #. module: g2f_sale
+#: model_terms:ir.ui.view,arch_db:g2f_sale.go2f_product_template_marketplace_form_view
+#: model_terms:ir.ui.view,arch_db:g2f_sale.go2f_product_template_only_form_view
+msgid "Mensajes opcionales"
+msgstr ""
+
+#. module: g2f_sale
+#: model_terms:ir.ui.view,arch_db:g2f_sale.go2f_product_template_marketplace_form_view
+#: model_terms:ir.ui.view,arch_db:g2f_sale.go2f_product_template_only_form_view
+msgid "Mensajes opcionales para el cliente"
+msgstr ""
+
+#. module: g2f_sale
 #: model:ir.model.fields,field_description:g2f_sale.field_product_product__optional_messages
 #: model:ir.model.fields,field_description:g2f_sale.field_product_template__optional_messages
 msgid "Optional Messages"
-msgstr "Mensajes opcionales"
-
-#. module: g2f_sale
-#: model_terms:ir.ui.view,arch_db:g2f_sale.go2f_product_template_only_form_view
-msgid "Optional messages"
 msgstr "Mensajes opcionales"
 
 #. module: g2f_sale
@@ -165,16 +206,16 @@ msgid "Origin Country"
 msgstr "País de origen"
 
 #. module: g2f_sale
+#: model_terms:ir.ui.view,arch_db:g2f_sale.go2f_product_template_marketplace_form_view
+#: model_terms:ir.ui.view,arch_db:g2f_sale.go2f_product_template_only_form_view
+msgid "Peso del bulto (g)"
+msgstr ""
+
+#. module: g2f_sale
 #: model:ir.model.fields,help:g2f_sale.field_product_product__list_price
 #: model:ir.model.fields,help:g2f_sale.field_product_template__list_price
 msgid "Price at which the product is sold to customers."
 msgstr "Precio al que se vende el producto a los clientes."
-
-#. module: g2f_sale
-#: model:ir.model.fields,field_description:g2f_sale.field_product_product__product_description
-#: model:ir.model.fields,field_description:g2f_sale.field_product_template__product_description
-msgid "Product Description"
-msgstr "Descripción del producto"
 
 #. module: g2f_sale
 #: model:ir.model,name:g2f_sale.model_product_template
@@ -193,10 +234,26 @@ msgid "Product Unit of Measure"
 msgstr "Unidad de medida del producto"
 
 #. module: g2f_sale
+#: model:ir.model.fields,field_description:g2f_sale.field_product_product__product_description
+#: model:ir.model.fields,field_description:g2f_sale.field_product_template__product_description
+msgid "Product description"
+msgstr "Descripción del producto"
+
+#. module: g2f_sale
+#: model_terms:ir.ui.view,arch_db:g2f_sale.go2f_product_template_only_form_view
+msgid "Profudidad (mm)"
+msgstr "Profundidad (mm)"
+
+#. module: g2f_sale
+#: model_terms:ir.ui.view,arch_db:g2f_sale.go2f_product_template_marketplace_form_view
+msgid "Profundidad (mm)"
+msgstr ""
+
+#. module: g2f_sale
 #: model:ir.model.fields,field_description:g2f_sale.field_product_product__list_price
 #: model:ir.model.fields,field_description:g2f_sale.field_product_template__list_price
 msgid "Sales Price"
-msgstr "Precio de venta al público"
+msgstr "Precio de venta"
 
 #. module: g2f_sale
 #: model:ir.model.fields.selection,name:g2f_sale.selection__product_template__type__product
@@ -215,6 +272,11 @@ msgid "Supplier Pricelist"
 msgstr "Tarifa de proveedor"
 
 #. module: g2f_sale
+#: model_terms:ir.ui.view,arch_db:g2f_sale.go2f_product_template_common_form_view
+msgid "Ubicación"
+msgstr ""
+
+#. module: g2f_sale
 #: model:ir.model.fields,field_description:g2f_sale.field_uom_uom__unit_for_sale
 msgid "Unit For Sale"
 msgstr "Unidad de medida"
@@ -222,13 +284,8 @@ msgstr "Unidad de medida"
 #. module: g2f_sale
 #: model:ir.model.fields,field_description:g2f_sale.field_product_product__units_per_package
 #: model:ir.model.fields,field_description:g2f_sale.field_product_template__units_per_package
-msgid "Units Per Package"
+msgid "Units per Package"
 msgstr "Unidades por bulto"
-
-#. module: g2f_sale
-#: model_terms:ir.ui.view,arch_db:g2f_sale.go2f_product_template_only_form_view
-msgid "Useful life in days"
-msgstr "Vida útil en días"
 
 #. module: g2f_sale
 #: model:ir.model.fields,field_description:g2f_sale.field_product_product__vegan
@@ -237,19 +294,20 @@ msgid "Vegan"
 msgstr "Vegano"
 
 #. module: g2f_sale
-#: model_terms:ir.ui.view,arch_db:g2f_sale.go2f_product_template_common_form_view
-msgid "Vendors"
-msgstr "Vendedores"
+#: model_terms:ir.ui.view,arch_db:g2f_sale.go2f_product_template_marketplace_form_view
+#: model_terms:ir.ui.view,arch_db:g2f_sale.go2f_product_template_only_form_view
+msgid "Vida útil en días"
+msgstr ""
+
+#. module: g2f_sale
+#: model:ir.model.fields,field_description:g2f_sale.field_product_supplierinfo__warehouse_id
+msgid "Warehouse"
+msgstr "Almacén"
 
 #. module: g2f_sale
 #: model:ir.model.fields,field_description:g2f_sale.field_product_template__weight
 msgid "Weight"
 msgstr "Peso"
-
-#. module: g2f_sale
-#: model_terms:ir.ui.view,arch_db:g2f_sale.go2f_product_template_only_form_view
-msgid "Weight of package (g)"
-msgstr "Peso del bulto (g)"
 
 #. module: g2f_sale
 #: model:ir.model.fields,field_description:g2f_sale.field_product_product__width
@@ -258,23 +316,23 @@ msgid "Width"
 msgstr "Ancho"
 
 #. module: g2f_sale
-#: model_terms:ir.ui.view,arch_db:g2f_sale.go2f_product_template_only_form_view
-msgid "Width (mm)"
-msgstr "Ancho (mm)"
-
-#. module: g2f_sale
 #: model:ir.model.fields,field_description:g2f_sale.field_product_product__without_tacc
 #: model:ir.model.fields,field_description:g2f_sale.field_product_template__without_tacc
-msgid "Without Tacc"
+msgid "Without Tac"
 msgstr "Sin Tacc"
-
-#. module: g2f_sale
-#: model:ir.model.fields,field_description:g2f_sale.field_product_supplierinfo__warehouse_id
-msgid "stock.warehouse"
-msgstr ""
 
 #. module: g2f_sale
 #: model:ir.model.fields,field_description:g2f_sale.field_product_product__useful_life
 #: model:ir.model.fields,field_description:g2f_sale.field_product_template__useful_life
 msgid "useful life in days"
 msgstr "vida útil en días"
+
+#. module: g2f_sale
+#: model_terms:ir.ui.view,arch_db:g2f_sale.go2f_product_template_only_form_view
+msgid "{'purchase_ok': True}"
+msgstr ""
+
+#. module: g2f_sale
+#: model_terms:ir.ui.view,arch_db:g2f_sale.go2f_product_template_only_form_view
+msgid "{'sale_ok': True}"
+msgstr ""
