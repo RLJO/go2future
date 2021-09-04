@@ -1,0 +1,501 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* g2f_fe_custom
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-09-04 01:09+0000\n"
+"PO-Revision-Date: 2021-09-03 20:22-0500\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: es\n"
+"X-Generator: Poedit 3.0\n"
+
+#. module: g2f_fe_custom
+#: model_terms:ir.ui.view,arch_db:g2f_fe_custom.wk_seller_form_view_fe_custom
+msgid "<span attrs=\"{'invisible': [('l10n_ar_afip_ws_crt','!=', False)]}\"> or</span>"
+msgstr ""
+
+#. module: g2f_fe_custom
+#: model_terms:ir.ui.view,arch_db:g2f_fe_custom.wk_seller_form_view_fe_custom
+msgid ""
+"<span class=\"o_form_label\">AFIP Web Services</span>\n"
+"                                    <span class=\"fa fa-lg fa-building-o\" title=\"Values set here are company-specific.\" groups=\"base.group_multi_company\"/>"
+msgstr ""
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields.selection,name:g2f_fe_custom.selection__account_move__electronic_invoice_type__afip
+#: model:ir.model.fields.selection,name:g2f_fe_custom.selection__res_partner__electronic_invoice_type__afip
+msgid "AFIP"
+msgstr "CAE - AFIP WebService"
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_res_partner__l10n_ar_afip_ws_environment
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_res_users__l10n_ar_afip_ws_environment
+msgid "AFIP Environment"
+msgstr "Entorno AFIP"
+
+#. module: g2f_fe_custom
+#: model:ir.model,name:g2f_fe_custom.model_l10n_ar_afipws_connection
+msgid "AFIP Webservice Connection"
+msgstr "Conexión Webservice de AFIP"
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields.selection,name:g2f_fe_custom.selection__account_move__electronic_invoice_type__seller_api
+#: model:ir.model.fields.selection,name:g2f_fe_custom.selection__res_partner__electronic_invoice_type__seller_api
+msgid "API Seller"
+msgstr "API - Factura el vendedor"
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_account_move_caea_line__message_needaction
+msgid "Action Needed"
+msgstr "Accion necesaria"
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_account_move_caea_line__activity_ids
+msgid "Activities"
+msgstr "Actividades"
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_account_move_caea_line__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "Excepción de actividad"
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_account_move_caea_line__activity_state
+msgid "Activity State"
+msgstr "Estado de actividad"
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_account_move_caea_line__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "Icono de tipo de actividad"
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_account_move_caea_line__message_attachment_count
+msgid "Attachment Count"
+msgstr "Cantidad de archivos adjuntos"
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields.selection,name:g2f_fe_custom.selection__res_partner__invoice_type_cae_caea__cae
+msgid "CAE"
+msgstr ""
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields.selection,name:g2f_fe_custom.selection__res_partner__invoice_type_cae_caea__caea
+msgid "CAEA"
+msgstr ""
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_account_move_caea_line__caea_number
+msgid "CAEA N°"
+msgstr ""
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_res_partner__l10n_ar_afip_ws_crt_fname
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_res_users__l10n_ar_afip_ws_crt_fname
+msgid "Certificate"
+msgstr "Certificado"
+
+#. module: g2f_fe_custom
+#: model_terms:ir.ui.view,arch_db:g2f_fe_custom.wk_seller_form_view_fe_custom
+msgid "Click here to create a Resquest Certificate file. This file need to be uploaded to your AFIP Portal in order to ask AFIP for a certificate"
+msgstr "Haga clic aquí para crear un archivo de certificado resquest. Este archivo debe cargarse en su Portal de AFIP para solicitar a AFIP un certificado"
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_l10n_ar_afipws_connection__company_id
+msgid "Company"
+msgstr "Compañia"
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_res_partner__l10n_ar_connection_ids
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_res_users__l10n_ar_connection_ids
+msgid "Connections"
+msgstr "Conexiones"
+
+#. module: g2f_fe_custom
+#: model:ir.model,name:g2f_fe_custom.model_res_partner
+msgid "Contact"
+msgstr "Contacto"
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_account_move_caea_line__create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_account_move_caea_line__create_date
+msgid "Created on"
+msgstr "Creado en"
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_res_partner__account_move_line_caea_ids
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_res_users__account_move_line_caea_ids
+msgid "Datos CAEA"
+msgstr ""
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_res_partner__fe_journal_id
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_res_users__fe_journal_id
+msgid "Diario"
+msgstr ""
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_account_move__display_name
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_account_move_caea_line__display_name
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_l10n_ar_afipws_connection__display_name
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_res_partner__display_name
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_sale_order__display_name
+msgid "Display Name"
+msgstr "Mostrar Nombre"
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_res_partner__full_direction
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_res_users__full_direction
+msgid "Domicilio legal completo"
+msgstr ""
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_res_partner__customer_attention_email
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_res_users__customer_attention_email
+msgid "Email de atención al cliente"
+msgstr ""
+
+#. module: g2f_fe_custom
+#: model_terms:ir.ui.view,arch_db:g2f_fe_custom.wk_seller_form_view_fe_custom
+msgid "Facturación"
+msgstr ""
+
+#. module: g2f_fe_custom
+#: model_terms:ir.ui.view,arch_db:g2f_fe_custom.wk_seller_form_view_fe_custom
+msgid "Facturación tipo"
+msgstr ""
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_account_move_caea_line__caea_creation_date
+msgid "Fecha de creación"
+msgstr ""
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_account_move_caea_line__message_follower_ids
+msgid "Followers"
+msgstr "Seguidores"
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_account_move_caea_line__message_channel_ids
+msgid "Followers (Channels)"
+msgstr "Seguidores (Canales)"
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_account_move_caea_line__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Seguidores (Empresas)"
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,help:g2f_fe_custom.field_account_move_caea_line__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr ""
+
+#. module: g2f_fe_custom
+#: model_terms:ir.ui.view,arch_db:g2f_fe_custom.wk_seller_form_view_fe_custom
+msgid "Generate Renewal Request"
+msgstr "Generar solicitud de renovación"
+
+#. module: g2f_fe_custom
+#: model_terms:ir.ui.view,arch_db:g2f_fe_custom.wk_seller_form_view_fe_custom
+msgid "Here need to upload the file with the Certificate that you download from AFIP"
+msgstr "Aquí debe cargar el archivo con el Certificado que descarga de AFIP"
+
+#. module: g2f_fe_custom
+#: model_terms:ir.ui.view,arch_db:g2f_fe_custom.wk_seller_form_view_fe_custom
+msgid "How to get certificate for production?"
+msgstr "¿Cómo obtener el certificado de producción?"
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_account_move__id
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_account_move_caea_line__id
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_l10n_ar_afipws_connection__id
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_res_partner__id model:ir.model.fields,field_description:g2f_fe_custom.field_sale_order__id
+msgid "ID"
+msgstr "ID (identificación)"
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_account_move_caea_line__activity_exception_icon
+msgid "Icon"
+msgstr ""
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,help:g2f_fe_custom.field_account_move_caea_line__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "Icono para indicar una actividad de excepción."
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,help:g2f_fe_custom.field_account_move_caea_line__message_needaction
+#: model:ir.model.fields,help:g2f_fe_custom.field_account_move_caea_line__message_unread
+msgid "If checked, new messages require your attention."
+msgstr "Si está marcada, los mensajes nuevos requieren su atención."
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,help:g2f_fe_custom.field_account_move_caea_line__message_has_error
+#: model:ir.model.fields,help:g2f_fe_custom.field_account_move_caea_line__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Si está marcado, algunos mensajes tienen un error de entrega."
+
+#. module: g2f_fe_custom
+#: model_terms:ir.ui.view,arch_db:g2f_fe_custom.wk_seller_form_view_fe_custom
+msgid "Información para facturas consumidor final"
+msgstr ""
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_account_bank_statement_line__electronic_invoice_type
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_account_move__electronic_invoice_type
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_account_payment__electronic_invoice_type
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_res_partner__electronic_invoice_type
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_res_partner__invoice_type_cae_caea
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_res_users__electronic_invoice_type
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_res_users__invoice_type_cae_caea
+msgid "Invoicing Type"
+msgstr "Tipo de facturación al consumidor final"
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_account_move_caea_line__message_is_follower
+msgid "Is Follower"
+msgstr "Es un seguidor"
+
+#. module: g2f_fe_custom
+#: model:ir.model,name:g2f_fe_custom.model_account_move
+msgid "Journal Entry"
+msgstr "Asiento contable"
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_account_move____last_update
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_account_move_caea_line____last_update
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_l10n_ar_afipws_connection____last_update
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_res_partner____last_update
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_sale_order____last_update
+msgid "Last Modified on"
+msgstr "Última modificación en"
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_account_move_caea_line__write_uid
+msgid "Last Updated by"
+msgstr "Última actualización por"
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_account_move_caea_line__write_date
+msgid "Last Updated on"
+msgstr "Última actualización en"
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_account_move_caea_line__message_main_attachment_id
+msgid "Main Attachment"
+msgstr "Adjunto principal"
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_account_move_caea_line__message_has_error
+msgid "Message Delivery error"
+msgstr "Error de Envío de Mensaje"
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_account_move_caea_line__message_ids
+msgid "Messages"
+msgstr "Mensajes"
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_account_move_caea_line__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "Mi fecha límite de actividad"
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_account_move_caea_line__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "Fecha límite para la próxima actividad"
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_account_move_caea_line__activity_summary
+msgid "Next Activity Summary"
+msgstr "Resumen de la siguiente actividad"
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_account_move_caea_line__activity_type_id
+msgid "Next Activity Type"
+msgstr "Siguiente tipo de actividad"
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields.selection,name:g2f_fe_custom.selection__account_move__electronic_invoice_type__no_afip
+#: model:ir.model.fields.selection,name:g2f_fe_custom.selection__res_partner__electronic_invoice_type__no_afip
+msgid "No AFIP"
+msgstr "CAEA - AFIP"
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_account_move_caea_line__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Número de acciones"
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_account_move_caea_line__message_has_error_counter
+msgid "Number of errors"
+msgstr "Numero de errores"
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,help:g2f_fe_custom.field_account_move_caea_line__message_needaction_counter
+msgid "Number of messages which requires an action"
+msgstr "Número de mensajes que requieren una acción"
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,help:g2f_fe_custom.field_account_move_caea_line__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Número de mensajes con error de envío"
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,help:g2f_fe_custom.field_account_move_caea_line__message_unread_counter
+msgid "Number of unread messages"
+msgstr "Número de mensajes no leidos"
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_l10n_ar_afipws_connection__partner_id
+msgid "Partner"
+msgstr "Empresa"
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_res_partner__l10n_ar_afip_ws_crt
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_res_partner__l10n_ar_afip_ws_key
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_res_partner__l10n_ar_afip_ws_key_fname
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_res_users__l10n_ar_afip_ws_crt
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_res_users__l10n_ar_afip_ws_key
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_res_users__l10n_ar_afip_ws_key_fname
+msgid "Private Key"
+msgstr "Llave privada"
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields.selection,name:g2f_fe_custom.selection__res_partner__l10n_ar_afip_ws_environment__production
+msgid "Production"
+msgstr "Producción"
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_account_move_caea_line__res_partner_id
+msgid "Res Partner"
+msgstr "Empresas"
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_account_move_caea_line__activity_user_id
+msgid "Responsible User"
+msgstr "Responsable"
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_account_move_caea_line__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "Error de entrega de SMS"
+
+#. module: g2f_fe_custom
+#: model:ir.model,name:g2f_fe_custom.model_sale_order
+msgid "Sales Order"
+msgstr "Pedido de venta"
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,help:g2f_fe_custom.field_account_move_caea_line__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+"Estado basado en actividades\n"
+"Atrasado: la fecha de vencimiento ya pasó\n"
+"Hoy: la fecha de actividad es hoy\n"
+"Planificado: actividades futuras."
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_res_partner__customer_attention_phone
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_res_users__customer_attention_phone
+msgid "Teléfono de atención al cliente"
+msgstr ""
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields.selection,name:g2f_fe_custom.selection__res_partner__l10n_ar_afip_ws_environment__testing
+msgid "Testing"
+msgstr "Pruebas"
+
+#. module: g2f_fe_custom
+#: model_terms:ir.ui.view,arch_db:g2f_fe_custom.wk_seller_form_view_fe_custom
+msgid "Token para envio de solicitud de factura"
+msgstr ""
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,help:g2f_fe_custom.field_account_move_caea_line__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "Tipo de actividad de excepción registrada."
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_account_move_caea_line__message_unread
+msgid "Unread Messages"
+msgstr "Mensajes no leídos"
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_account_move_caea_line__message_unread_counter
+msgid "Unread Messages Counter"
+msgstr "N° de mensajes no leídos"
+
+#. module: g2f_fe_custom
+#: model_terms:ir.ui.view,arch_db:g2f_fe_custom.wk_seller_form_view_fe_custom
+msgid "Url para envio de solicitud de factura"
+msgstr ""
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_account_move_caea_line__caea_validity_from
+msgid "Vigencia desde"
+msgstr ""
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_account_move_caea_line__caea_validity_to
+msgid "Vigencia hasta"
+msgstr ""
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_account_move_caea_line__website_message_ids
+msgid "Website Messages"
+msgstr "Mensajes del sitio web"
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,help:g2f_fe_custom.field_account_move_caea_line__website_message_ids
+msgid "Website communication history"
+msgstr "Historial de comunicación del sitio web"
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_res_partner__customer_attention_website
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_res_users__customer_attention_website
+msgid "Website de atención al cliente"
+msgstr ""
+
+#. module: g2f_fe_custom
+#: model_terms:ir.ui.view,arch_db:g2f_fe_custom.wk_seller_form_view_fe_custom
+msgid "X-Auth-Token"
+msgstr ""
+
+#. module: g2f_fe_custom
+#: model:ir.model,name:g2f_fe_custom.model_account_move_caea_line
+msgid "account.move.caea.line"
+msgstr ""
+
+#. module: g2f_fe_custom
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_account_bank_statement_line__company_invoicing
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_account_move__company_invoicing
+#: model:ir.model.fields,field_description:g2f_fe_custom.field_account_payment__company_invoicing
+msgid "¿Facturación propia?"
+msgstr ""
+
+#. module: g2f_fe_custom
+#: model_terms:ir.ui.view,arch_db:g2f_fe_custom.wk_seller_form_view_fe_custom
+msgid "⇒ Generate Request"
+msgstr "⇒ Generar solicitud"
+
+#. module: g2f_fe_custom
+#: model_terms:ir.ui.view,arch_db:g2f_fe_custom.wk_seller_form_view_fe_custom
+msgid "⇒ Test Connections"
+msgstr "⇒ Probar conexiones"

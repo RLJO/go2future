@@ -1,0 +1,675 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* payment_prisma
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-09-04 00:53+0000\n"
+"PO-Revision-Date: 2021-09-03 19:54-0500\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: es\n"
+"X-Generator: Poedit 3.0\n"
+
+#. module: payment_prisma
+#: code:addons/payment_prisma/models/marketplace_payment_acquirer.py:0
+#: model:ir.model.fields,field_description:payment_prisma.field_marketplace_payment_acquirer__name
+#, python-format
+msgid "Acquierer Name"
+msgstr "Nombre de la pasarela"
+
+#. module: payment_prisma
+#: code:addons/payment_prisma/models/payment_cards.py:0
+#: model:ir.model.fields.selection,name:payment_prisma.selection__payment_cards__state__active
+#, python-format
+msgid "Active"
+msgstr "Activo"
+
+#. module: payment_prisma
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_prisma_status__sd_address_validation_code
+msgid "Address Validation Code"
+msgstr "Código de validación de dirección"
+
+#. module: payment_prisma
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_prisma_status__aggregate_data
+msgid "Aggregate Data"
+msgstr "Información agregada"
+
+#. module: payment_prisma
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_prisma_status__amount
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_prisma_status_line__amount
+msgid "Amount"
+msgstr "Cantidad"
+
+#. module: payment_prisma
+#: code:addons/payment_prisma/models/payment_cards.py:0
+#: model:ir.model.fields.selection,name:payment_prisma.selection__payment_cards__expiration_month__04
+#, python-format
+msgid "April"
+msgstr "Abril"
+
+#. module: payment_prisma
+#: code:addons/payment_prisma/models/payment_cards.py:0
+#: model:ir.model.fields.selection,name:payment_prisma.selection__payment_cards__expiration_month__08
+#, python-format
+msgid "August"
+msgstr "Agosto"
+
+#. module: payment_prisma
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_prisma_status__bin
+msgid "Bin"
+msgstr "Compartimiento"
+
+#. module: payment_prisma
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_prisma_status__sd_card_authorization_code
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_prisma_status_line__card_authorization_code
+msgid "Card Authorization Code"
+msgstr "Código de autorización de la tarjeta"
+
+#. module: payment_prisma
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_prisma_status__card_brand
+msgid "Card Brand"
+msgstr "Marca de la tarjeta"
+
+#. module: payment_prisma
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_prisma_status__card_data
+msgid "Card Data"
+msgstr "Datos de la tarjeta"
+
+#. module: payment_prisma
+#: code:addons/payment_prisma/models/payment_cards.py:0
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_cards__name
+#, python-format
+msgid "Card Description"
+msgstr "Descripción de la tarjeta"
+
+#. module: payment_prisma
+#: code:addons/payment_prisma/models/payment_cards.py:0
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_cards__partner_id
+#, python-format
+msgid "Card Holder"
+msgstr "Titular de la tarjeta"
+
+#. module: payment_prisma
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_cards__card_identification
+msgid "Card Identification"
+msgstr "Identificación de la tarjeta"
+
+#. module: payment_prisma
+#: code:addons/payment_prisma/models/payment_cards.py:0
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_cards__card_number
+#, python-format
+msgid "Card Number"
+msgstr "Número de la tarjeta"
+
+#. module: payment_prisma
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_cards__card_type
+msgid "Card Type"
+msgstr "Tipo de tarjeta"
+
+#. module: payment_prisma
+#: model:ir.model,name:payment_prisma.model_res_company
+msgid "Companies"
+msgstr "Compañías"
+
+#. module: payment_prisma
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_prisma_status__confirmed
+msgid "Confirmed"
+msgstr "Confirmado"
+
+#. module: payment_prisma
+#: code:addons/payment_prisma/models/sale_order.py:0
+#, python-format
+msgid "Consulta de datos de pago satisfactorio"
+msgstr ""
+
+#. module: payment_prisma
+#: model:ir.model,name:payment_prisma.model_res_partner
+msgid "Contact"
+msgstr "Contacto"
+
+#. module: payment_prisma
+#: model:ir.model.fields,field_description:payment_prisma.field_marketplace_payment_acquirer__create_uid
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_cards__create_uid
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_cards_types__create_uid
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_prisma_status__create_uid
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_prisma_status_line__create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: payment_prisma
+#: model:ir.model.fields,field_description:payment_prisma.field_marketplace_payment_acquirer__create_date
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_cards__create_date
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_cards_types__create_date
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_prisma_status__create_date
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_prisma_status_line__create_date
+msgid "Created on"
+msgstr "Creado en"
+
+#. module: payment_prisma
+#: code:addons/payment_prisma/models/payment_cards.py:0
+#: model:ir.model.fields.selection,name:payment_prisma.selection__payment_cards__card_type__credit
+#: model:ir.model.fields.selection,name:payment_prisma.selection__payment_cards_types__type__credit
+#, python-format
+msgid "Credit"
+msgstr "Crédito"
+
+#. module: payment_prisma
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_prisma_status__customer
+msgid "Customer"
+msgstr "Cliente"
+
+#. module: payment_prisma
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_prisma_status__customer_token
+msgid "Customer Token"
+msgstr "Token de cliente"
+
+#. module: payment_prisma
+#: code:addons/payment_prisma/models/sale_order.py:0
+#, python-format
+msgid "Código de error %s, %s"
+msgstr ""
+
+#. module: payment_prisma
+#: code:addons/payment_prisma/models/res_company.py:0
+#: code:addons/payment_prisma/models/res_partner.py:0
+#: model:ir.model.fields,field_description:payment_prisma.field_res_company__site_ids
+#: model:ir.model.fields,field_description:payment_prisma.field_res_partner__site_ids
+#: model:ir.model.fields,field_description:payment_prisma.field_res_users__site_ids
+#: model_terms:ir.ui.view,arch_db:payment_prisma.prisma_res_partner_children_form
+#: model_terms:ir.ui.view,arch_db:payment_prisma.prisma_seller_form_view
+#, python-format
+msgid "Código prisma"
+msgstr ""
+
+#. module: payment_prisma
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_prisma_status__date
+msgid "Date"
+msgstr "Fecha"
+
+#. module: payment_prisma
+#: code:addons/payment_prisma/models/payment_cards.py:0
+#: model:ir.model.fields.selection,name:payment_prisma.selection__payment_cards__card_type__debit
+#: model:ir.model.fields.selection,name:payment_prisma.selection__payment_cards_types__type__debit
+#, python-format
+msgid "Debit"
+msgstr "Débito"
+
+#. module: payment_prisma
+#: model_terms:ir.ui.view,arch_db:payment_prisma.prisma_view_move_form
+#: model_terms:ir.ui.view,arch_db:payment_prisma.prisma_view_order_form
+msgid "Details"
+msgstr "Detalles"
+
+#. module: payment_prisma
+#: code:addons/payment_prisma/models/payment_cards.py:0
+#: model:ir.model.fields.selection,name:payment_prisma.selection__payment_cards__expiration_month__12
+#, python-format
+msgid "Dicember"
+msgstr "Diciembre"
+
+#. module: payment_prisma
+#: code:addons/payment_prisma/models/marketplace_payment_acquirer.py:0
+#: code:addons/payment_prisma/models/payment_cards.py:0
+#: model:ir.model.fields.selection,name:payment_prisma.selection__marketplace_payment_acquirer__state__disabled
+#: model:ir.model.fields.selection,name:payment_prisma.selection__payment_cards__state__disabled
+#, python-format
+msgid "Disabled"
+msgstr "Deshabilitado"
+
+#. module: payment_prisma
+#: model:ir.model.fields,field_description:payment_prisma.field_account_move__display_name
+#: model:ir.model.fields,field_description:payment_prisma.field_marketplace_payment_acquirer__display_name
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_cards__display_name
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_cards_types__display_name
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_prisma_status__display_name
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_prisma_status_line__display_name
+#: model:ir.model.fields,field_description:payment_prisma.field_res_company__display_name
+#: model:ir.model.fields,field_description:payment_prisma.field_res_partner__display_name
+#: model:ir.model.fields,field_description:payment_prisma.field_sale_order__display_name
+msgid "Display Name"
+msgstr "Mostrar Nombre"
+
+#. module: payment_prisma
+#: code:addons/payment_prisma/models/sale_order.py:0
+#, python-format
+msgid "Envio de datos de pago satisfactorio"
+msgstr ""
+
+#. module: payment_prisma
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_prisma_status__sd_error
+msgid "Error"
+msgstr ""
+
+#. module: payment_prisma
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_prisma_status__establishment_name
+msgid "Establishment Name"
+msgstr "Nombre del establecimiento"
+
+#. module: payment_prisma
+#: code:addons/payment_prisma/models/payment_cards.py:0
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_cards__expiration_month
+#, python-format
+msgid "Expiration Month"
+msgstr "Mes de vencimiento"
+
+#. module: payment_prisma
+#: code:addons/payment_prisma/models/payment_cards.py:0
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_cards__expiration_year
+#, python-format
+msgid "Expiration Year"
+msgstr "Año de vencimiento"
+
+#. module: payment_prisma
+#: code:addons/payment_prisma/models/payment_cards.py:0
+#: model:ir.model.fields.selection,name:payment_prisma.selection__payment_cards__expiration_month__02
+#, python-format
+msgid "February"
+msgstr "Febrero"
+
+#. module: payment_prisma
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_prisma_status__first_installment_expiration_date
+msgid "First Installment Expiration Date"
+msgstr "Fecha de vencimiento del primer plazo"
+
+#. module: payment_prisma
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_prisma_status__fraud_detection
+msgid "Fraud Detection"
+msgstr "Detección de fraudes"
+
+#. module: payment_prisma
+#: model:ir.model.fields,field_description:payment_prisma.field_res_company__code_gln
+msgid "GLN"
+msgstr ""
+
+#. module: payment_prisma
+#: model:ir.model.fields,field_description:payment_prisma.field_account_move__id
+#: model:ir.model.fields,field_description:payment_prisma.field_marketplace_payment_acquirer__id
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_cards__id
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_cards_types__id
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_prisma_status__id
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_prisma_status__prisma_id
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_prisma_status_line__id
+#: model:ir.model.fields,field_description:payment_prisma.field_res_company__id
+#: model:ir.model.fields,field_description:payment_prisma.field_res_partner__id
+#: model:ir.model.fields,field_description:payment_prisma.field_sale_order__id
+msgid "ID"
+msgstr "ID (identificación)"
+
+#. module: payment_prisma
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_prisma_status__installments
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_prisma_status_line__installments
+msgid "Installments"
+msgstr "Cuotas"
+
+#. module: payment_prisma
+#: code:addons/payment_prisma/models/payment_cards.py:0
+#: model:ir.model.fields.selection,name:payment_prisma.selection__payment_cards__expiration_month__01
+#, python-format
+msgid "January"
+msgstr "Enero"
+
+#. module: payment_prisma
+#: model:ir.model,name:payment_prisma.model_account_move
+msgid "Journal Entry"
+msgstr "Asiento contable"
+
+#. module: payment_prisma
+#: code:addons/payment_prisma/models/payment_cards.py:0
+#: model:ir.model.fields.selection,name:payment_prisma.selection__payment_cards__expiration_month__07
+#, python-format
+msgid "July"
+msgstr "Julio"
+
+#. module: payment_prisma
+#: code:addons/payment_prisma/models/payment_cards.py:0
+#: model:ir.model.fields.selection,name:payment_prisma.selection__payment_cards__expiration_month__06
+#, python-format
+msgid "June"
+msgstr "Junio"
+
+#. module: payment_prisma
+#: code:addons/payment_prisma/models/payment_cards.py:0
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_cards__card_last_digits
+#, python-format
+msgid "Last Digits"
+msgstr "Últimos dígitos"
+
+#. module: payment_prisma
+#: model:ir.model.fields,field_description:payment_prisma.field_account_move____last_update
+#: model:ir.model.fields,field_description:payment_prisma.field_marketplace_payment_acquirer____last_update
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_cards____last_update
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_cards_types____last_update
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_prisma_status____last_update
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_prisma_status_line____last_update
+#: model:ir.model.fields,field_description:payment_prisma.field_res_company____last_update
+#: model:ir.model.fields,field_description:payment_prisma.field_res_partner____last_update
+#: model:ir.model.fields,field_description:payment_prisma.field_sale_order____last_update
+msgid "Last Modified on"
+msgstr "Última modificación en"
+
+#. module: payment_prisma
+#: model:ir.model.fields,field_description:payment_prisma.field_marketplace_payment_acquirer__write_uid
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_cards__write_uid
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_cards_types__write_uid
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_prisma_status__write_uid
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_prisma_status_line__write_uid
+msgid "Last Updated by"
+msgstr "Última actualización por"
+
+#. module: payment_prisma
+#: model:ir.model.fields,field_description:payment_prisma.field_marketplace_payment_acquirer__write_date
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_cards__write_date
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_cards_types__write_date
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_prisma_status__write_date
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_prisma_status_line__write_date
+msgid "Last Updated on"
+msgstr "Última actualización en"
+
+#. module: payment_prisma
+#: code:addons/payment_prisma/models/payment_cards.py:0
+#: model:ir.model.fields.selection,name:payment_prisma.selection__payment_cards__expiration_month__03
+#, python-format
+msgid "March"
+msgstr "Marzo"
+
+#. module: payment_prisma
+#: code:addons/payment_prisma/models/payment_cards.py:0
+#: model:ir.model.fields.selection,name:payment_prisma.selection__payment_cards__expiration_month__05
+#, python-format
+msgid "May"
+msgstr "Mayo"
+
+#. module: payment_prisma
+#: code:addons/payment_prisma/models/payment_cards.py:0
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_cards_types__name
+#, python-format
+msgid "Name"
+msgstr "Nombre"
+
+#. module: payment_prisma
+#: code:addons/payment_prisma/models/payment_cards.py:0
+#: model:ir.model.fields.selection,name:payment_prisma.selection__payment_cards__expiration_month__11
+#, python-format
+msgid "November"
+msgstr "Noviembre"
+
+#. module: payment_prisma
+#: code:addons/payment_prisma/models/payment_cards.py:0
+#: model:ir.model.fields.selection,name:payment_prisma.selection__payment_cards__expiration_month__10
+#, python-format
+msgid "October"
+msgstr "Octubre"
+
+#. module: payment_prisma
+#: code:addons/payment_prisma/models/account_move.py:0
+#: model:ir.model.fields,field_description:payment_prisma.field_account_bank_statement_line__sale_order_id
+#: model:ir.model.fields,field_description:payment_prisma.field_account_move__sale_order_id
+#: model:ir.model.fields,field_description:payment_prisma.field_account_payment__sale_order_id
+#, python-format
+msgid "Origin"
+msgstr "Origen"
+
+#. module: payment_prisma
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_prisma_status__pan
+msgid "PAN"
+msgstr ""
+
+#. module: payment_prisma
+#: model:ir.actions.act_window,name:payment_prisma.marketplace_payment_acquirer_tree_action
+msgid "Payment Acqquirer"
+msgstr "Adquiriente de pago"
+
+#. module: payment_prisma
+#: model:ir.model.fields,field_description:payment_prisma.field_sale_order__payment_acquirer_id
+#: model:ir.ui.menu,name:payment_prisma.marketplace_paymnet_acquirer_menu
+msgid "Payment Acquirer"
+msgstr "Adquiriente de pago"
+
+#. module: payment_prisma
+#: code:addons/payment_prisma/models/res_partner.py:0
+#: model:ir.actions.act_window,name:payment_prisma.payment_cards_tree_action
+#: model:ir.model.fields,field_description:payment_prisma.field_res_partner__payment_cards_ids
+#: model:ir.model.fields,field_description:payment_prisma.field_res_users__payment_cards_ids
+#: model:ir.ui.menu,name:payment_prisma.payment_cards_menu
+#: model_terms:ir.ui.view,arch_db:payment_prisma.prisma_view_partner_form
+#, python-format
+msgid "Payment Cards"
+msgstr "Tarjetas de pago"
+
+#. module: payment_prisma
+#: code:addons/payment_prisma/models/payment_cards.py:0
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_cards_types__payment_method_id
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_prisma_status__payment_method_id
+#, python-format
+msgid "Payment Method ID"
+msgstr "Método de pago"
+
+#. module: payment_prisma
+#: model:ir.model.fields,field_description:payment_prisma.field_account_bank_statement_line__payment_prisma_status_ids
+#: model:ir.model.fields,field_description:payment_prisma.field_account_move__payment_prisma_status_ids
+#: model:ir.model.fields,field_description:payment_prisma.field_account_payment__payment_prisma_status_ids
+#: model:ir.model.fields,field_description:payment_prisma.field_sale_order__payment_prisma_status_ids
+msgid "Payment Prisma Status"
+msgstr "Estado de Prisma de pago"
+
+#. module: payment_prisma
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_prisma_status_line__payment_prisma_status_id
+msgid "Payment Status"
+msgstr "Estado de pago"
+
+#. module: payment_prisma
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_prisma_status__payment_type
+msgid "Payment Type"
+msgstr "Tipo de pago"
+
+#. module: payment_prisma
+#: model_terms:ir.ui.view,arch_db:payment_prisma.prisma_view_move_form
+#: model_terms:ir.ui.view,arch_db:payment_prisma.prisma_view_order_form
+msgid "Prisma Response"
+msgstr "Respuesta de Prisma"
+
+#. module: payment_prisma
+#: code:addons/payment_prisma/models/marketplace_payment_acquirer.py:0
+#: model:ir.model.fields,field_description:payment_prisma.field_marketplace_payment_acquirer__private_key
+#, python-format
+msgid "Private Key"
+msgstr "Llave privada"
+
+#. module: payment_prisma
+#: code:addons/payment_prisma/models/marketplace_payment_acquirer.py:0
+#: model:ir.model.fields.selection,name:payment_prisma.selection__marketplace_payment_acquirer__state__production
+#, python-format
+msgid "Production"
+msgstr "Producción"
+
+#. module: payment_prisma
+#: code:addons/payment_prisma/models/marketplace_payment_acquirer.py:0
+#: model:ir.model.fields,field_description:payment_prisma.field_marketplace_payment_acquirer__production_url
+#, python-format
+msgid "Production URL"
+msgstr "Producción URL"
+
+#. module: payment_prisma
+#: code:addons/payment_prisma/models/marketplace_payment_acquirer.py:0
+#: model:ir.model.fields,field_description:payment_prisma.field_marketplace_payment_acquirer__public_key
+#, python-format
+msgid "Public Key"
+msgstr "Llave pública"
+
+#. module: payment_prisma
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_prisma_status__spv
+msgid "SPV"
+msgstr ""
+
+#. module: payment_prisma
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_prisma_status__sale_order_id
+msgid "Sale Order"
+msgstr "Ticket"
+
+#. module: payment_prisma
+#: model:ir.model,name:payment_prisma.model_sale_order
+msgid "Sales Order"
+msgstr "Pedido de venta"
+
+#. module: payment_prisma
+#: code:addons/payment_prisma/models/marketplace_payment_acquirer.py:0
+#: model:ir.model.fields.selection,name:payment_prisma.selection__marketplace_payment_acquirer__state__sandbox
+#, python-format
+msgid "Sandbox"
+msgstr "Pruebas"
+
+#. module: payment_prisma
+#: code:addons/payment_prisma/models/marketplace_payment_acquirer.py:0
+#: model:ir.model.fields,field_description:payment_prisma.field_marketplace_payment_acquirer__sandbox_url
+#, python-format
+msgid "Sandbox URL"
+msgstr "Pruebas URL"
+
+#. module: payment_prisma
+#: code:addons/payment_prisma/models/sale_order.py:0
+#, python-format
+msgid ""
+"Se encontro el siguiente error al intentar procesar la solicitud:\n"
+"%s"
+msgstr ""
+
+#. module: payment_prisma
+#: code:addons/payment_prisma/models/payment_cards.py:0
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_cards__security_code
+#, python-format
+msgid "Security Code"
+msgstr "Código de seguridad"
+
+#. module: payment_prisma
+#: code:addons/payment_prisma/models/payment_cards.py:0
+#: model:ir.model.fields.selection,name:payment_prisma.selection__payment_cards__expiration_month__09
+#, python-format
+msgid "September"
+msgstr "Septiembre"
+
+#. module: payment_prisma
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_prisma_status__site_id
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_prisma_status_line__site_id
+msgid "Site ID"
+msgstr "Código Prisma"
+
+#. module: payment_prisma
+#: code:addons/payment_prisma/models/marketplace_payment_acquirer.py:0
+#: model:ir.model.fields,field_description:payment_prisma.field_marketplace_payment_acquirer__state
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_cards__state
+#, python-format
+msgid "State"
+msgstr "Estado"
+
+#. module: payment_prisma
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_prisma_status_line__status
+msgid "Status"
+msgstr "Estatus"
+
+#. module: payment_prisma
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_prisma_status_line__subpayment_id
+msgid "Sub Payment ID"
+msgstr "ID de pago secundario"
+
+#. module: payment_prisma
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_prisma_status__sub_payments_ids
+msgid "Sub Payments"
+msgstr "Pagos secundarios"
+
+#. module: payment_prisma
+#: code:addons/payment_prisma/models/sale_order.py:0
+#, python-format
+msgid "The customer don't have a card active"
+msgstr "El cliente no tiene una tarjeta activa"
+
+#. module: payment_prisma
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_prisma_status__sd_ticket
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_prisma_status_line__ticket
+msgid "Ticket"
+msgstr "Tiquet"
+
+#. module: payment_prisma
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_prisma_status__token
+msgid "Token"
+msgstr ""
+
+#. module: payment_prisma
+#: code:addons/payment_prisma/models/sale_order.py:0
+#, python-format
+msgid "Token generado exitosamente"
+msgstr ""
+
+#. module: payment_prisma
+#: code:addons/payment_prisma/models/sale_order.py:0
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_prisma_status__site_transaction_id
+#: model:ir.model.fields,field_description:payment_prisma.field_sale_order__site_transaction_id
+#, python-format
+msgid "Transaction ID"
+msgstr "Transacción ID"
+
+#. module: payment_prisma
+#: code:addons/payment_prisma/models/sale_order.py:0
+#: model:ir.model.fields,field_description:payment_prisma.field_sale_order__transaction_status
+#, python-format
+msgid "Transaction Status"
+msgstr "Estado de la transacción"
+
+#. module: payment_prisma
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_cards_types__type
+msgid "Type"
+msgstr "Tipo"
+
+#. module: payment_prisma
+#: model_terms:ir.ui.view,arch_db:payment_prisma.prisma_view_order_form
+msgid "Update Payment"
+msgstr "Actualizar pago"
+
+#. module: payment_prisma
+#: code:addons/payment_prisma/models/res_partner.py:0
+#: model:ir.model.fields,field_description:payment_prisma.field_res_partner__prisma_user_id
+#: model:ir.model.fields,field_description:payment_prisma.field_res_users__prisma_user_id
+#, python-format
+msgid "User ID"
+msgstr ""
+
+#. module: payment_prisma
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_prisma_status__currency
+msgid "currency"
+msgstr "moneda"
+
+#. module: payment_prisma
+#: model:ir.model,name:payment_prisma.model_marketplace_payment_acquirer
+msgid "marketplace.payment.acquirer"
+msgstr ""
+
+#. module: payment_prisma
+#: model:ir.model,name:payment_prisma.model_payment_cards
+msgid "payment.cards"
+msgstr ""
+
+#. module: payment_prisma
+#: model:ir.model,name:payment_prisma.model_payment_cards_types
+msgid "payment.cards.types"
+msgstr ""
+
+#. module: payment_prisma
+#: model:ir.model,name:payment_prisma.model_payment_prisma_status
+msgid "payment.prisma.status"
+msgstr ""
+
+#. module: payment_prisma
+#: model:ir.model,name:payment_prisma.model_payment_prisma_status_line
+msgid "payment.prisma.status.line"
+msgstr ""
+
+#. module: payment_prisma
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_prisma_status__status
+msgid "status"
+msgstr "Estatus"
