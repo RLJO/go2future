@@ -1,0 +1,259 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* g2f_seller_invoice
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-09-04 00:15+0000\n"
+"PO-Revision-Date: 2021-09-03 19:42-0500\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: es\n"
+"X-Generator: Poedit 3.0\n"
+
+#. module: g2f_seller_invoice
+#: model:ir.model.fields.selection,name:g2f_seller_invoice.selection__res_partner__seler_token_type__bearer
+msgid "Bearer"
+msgstr ""
+
+#. module: g2f_seller_invoice
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_account_bank_statement_line__cae_exp_date
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_account_move__cae_exp_date
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_account_payment__cae_exp_date
+msgid "CAE expiration date"
+msgstr "Fecha de vencimiento del CAE"
+
+#. module: g2f_seller_invoice
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_account_bank_statement_line__cae_number
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_account_move__cae_number
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_account_payment__cae_number
+msgid "CAE number"
+msgstr "Número CAE"
+
+#. module: g2f_seller_invoice
+#: model_terms:ir.ui.view,arch_db:g2f_seller_invoice.purchase_order_wizard_form_view
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: g2f_seller_invoice
+#: model:ir.model,name:g2f_seller_invoice.model_res_partner
+msgid "Contact"
+msgstr "Contacto"
+
+#. module: g2f_seller_invoice
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_purchase_order_wizard__create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: g2f_seller_invoice
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_purchase_order_wizard__create_date
+msgid "Created on"
+msgstr "Creado en"
+
+#. module: g2f_seller_invoice
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_purchase_order_wizard__data
+msgid "Data"
+msgstr "Datos"
+
+#. module: g2f_seller_invoice
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_account_move__display_name
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_product_product__display_name
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_product_template__display_name
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_purchase_order__display_name
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_purchase_order_wizard__display_name
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_res_partner__display_name
+msgid "Display Name"
+msgstr "Mostrar Nombre"
+
+#. module: g2f_seller_invoice
+#: model_terms:ir.ui.view,arch_db:g2f_seller_invoice.g2f_view_move_form
+msgid "Electronic Invoice"
+msgstr "Factura Electrónica"
+
+#. module: g2f_seller_invoice
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_res_partner__token_tag
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_res_users__token_tag
+msgid "Etiqueta"
+msgstr "Etiqueta"
+
+#. module: g2f_seller_invoice
+#: model:ir.model.fields.selection,name:g2f_seller_invoice.selection__res_partner__seler_token_type__header
+msgid "Header-Tag"
+msgstr ""
+
+#. module: g2f_seller_invoice
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_account_move__id
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_product_product__id
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_product_template__id
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_purchase_order__id
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_purchase_order_wizard__id
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_res_partner__id
+msgid "ID"
+msgstr ""
+
+#. module: g2f_seller_invoice
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_account_bank_statement_line__ei_barcode
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_account_move__ei_barcode
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_account_payment__ei_barcode
+msgid "Invoice barcode"
+msgstr "Código de barras de la factura"
+
+#. module: g2f_seller_invoice
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_account_bank_statement_line__date_einvoice
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_account_move__date_einvoice
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_account_payment__date_einvoice
+msgid "Invoice date"
+msgstr "Fecha factura"
+
+#. module: g2f_seller_invoice
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_account_bank_statement_line__einvoice
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_account_move__einvoice
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_account_payment__einvoice
+msgid "Invoice number"
+msgstr "Número de factura"
+
+#. module: g2f_seller_invoice
+#: model_terms:ir.ui.view,arch_db:g2f_seller_invoice.g2f_view_move_form
+msgid "JSON resend"
+msgstr "Reenviar JSON"
+
+#. module: g2f_seller_invoice
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_account_bank_statement_line__json_sent
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_account_move__json_sent
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_account_payment__json_sent
+msgid "JSON sent"
+msgstr "JSON Enviado"
+
+#. module: g2f_seller_invoice
+#: model:ir.model,name:g2f_seller_invoice.model_account_move
+msgid "Journal Entry"
+msgstr "Asiento contable"
+
+#. module: g2f_seller_invoice
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_purchase_order__pw_plane_text
+msgid "Krikos Plane Text"
+msgstr "TXT Krikos"
+
+#. module: g2f_seller_invoice
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_account_move____last_update
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_product_product____last_update
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_product_template____last_update
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_purchase_order____last_update
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_purchase_order_wizard____last_update
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_res_partner____last_update
+msgid "Last Modified on"
+msgstr "Última modificación en"
+
+#. module: g2f_seller_invoice
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_purchase_order_wizard__write_uid
+msgid "Last Updated by"
+msgstr "Última actualización por"
+
+#. module: g2f_seller_invoice
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_purchase_order_wizard__write_date
+msgid "Last Updated on"
+msgstr "Última actualización en"
+
+#. module: g2f_seller_invoice
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_account_bank_statement_line__ei_pdf
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_account_move__ei_pdf
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_account_payment__ei_pdf
+msgid "PDF invoice"
+msgstr "Informe PDF"
+
+#. module: g2f_seller_invoice
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_purchase_order__pw_status_code
+msgid "PlanexWare Status Code"
+msgstr "Código respuesta Krikos"
+
+#. module: g2f_seller_invoice
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_purchase_order__pw_xml_response
+msgid "PlanexWare XML Response"
+msgstr "XML respuesta Krikos"
+
+#. module: g2f_seller_invoice
+#: model_terms:ir.ui.view,arch_db:g2f_seller_invoice.g2f_purchase_order_form
+msgid "Planexware"
+msgstr "Krikos"
+
+#. module: g2f_seller_invoice
+#: model_terms:ir.ui.view,arch_db:g2f_seller_invoice.purchase_order_wizard_form_view
+msgid "Press the \"Send purchase order\" button to send the order to krikos."
+msgstr "Presione el botón \"Enviar orden de compra\" para enviar la orden a Krikos."
+
+#. module: g2f_seller_invoice
+#: model:ir.model,name:g2f_seller_invoice.model_product_product
+msgid "Product"
+msgstr "Producto"
+
+#. module: g2f_seller_invoice
+#: model:ir.model,name:g2f_seller_invoice.model_product_template
+msgid "Product Template"
+msgstr "Plantilla de producto"
+
+#. module: g2f_seller_invoice
+#: model:ir.model,name:g2f_seller_invoice.model_purchase_order
+msgid "Purchase Order"
+msgstr "Orden de compra"
+
+#. module: g2f_seller_invoice
+#: model:ir.model,name:g2f_seller_invoice.model_purchase_order_wizard
+#: model_terms:ir.ui.view,arch_db:g2f_seller_invoice.purchase_order_wizard_form_view
+msgid "Purchase Order Wizard"
+msgstr "Orden de compra"
+
+#. module: g2f_seller_invoice
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_account_bank_statement_line__ei_qr_code
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_account_move__ei_qr_code
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_account_payment__ei_qr_code
+msgid "QR code"
+msgstr "Código QR"
+
+#. module: g2f_seller_invoice
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_res_partner__seller_api_key
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_res_users__seller_api_key
+msgid "Seller API Key"
+msgstr "API Key"
+
+#. module: g2f_seller_invoice
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_res_partner__seller_api_path
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_res_users__seller_api_path
+msgid "Seller API path"
+msgstr "API path"
+
+#. module: g2f_seller_invoice
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_account_bank_statement_line__seller_respond
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_account_move__seller_respond
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_account_payment__seller_respond
+msgid "Seller respond"
+msgstr "Respuesta del vendedor"
+
+#. module: g2f_seller_invoice
+#: model:ir.actions.act_window,name:g2f_seller_invoice.action_purchase_order_wizard
+#: model_terms:ir.ui.view,arch_db:g2f_seller_invoice.purchase_order_wizard_form_view
+msgid "Send Purchase Order"
+msgstr "Enviar orden de compra"
+
+#. module: g2f_seller_invoice
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_res_partner__seler_token_type
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_res_users__seler_token_type
+msgid "Tipo de Auth"
+msgstr ""
+
+#. module: g2f_seller_invoice
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_account_bank_statement_line__ei_xml_file
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_account_move__ei_xml_file
+#: model:ir.model.fields,field_description:g2f_seller_invoice.field_account_payment__ei_xml_file
+msgid "XML file"
+msgstr "Archivo XML"
+
+#. module: g2f_seller_invoice
+#: model_terms:ir.ui.view,arch_db:g2f_seller_invoice.purchase_order_wizard_form_view
+msgid "or"
+msgstr "o"

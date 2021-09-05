@@ -18,8 +18,8 @@
 
             <xpath expr="//field[@name='type']" position="before">
                 <group>
-                <field name="birthday" string="Birthday"/>
-                <field name="gender" string="Gender"/>
+                <field name="birthday" string="Birthday" attrs="{'invisible': [('company_type','!=', 'person')]}"/>
+                <field name="gender" string="Gender" attrs="{'invisible': [('company_type','!=', 'person')]}"/>
                 </group>
             </xpath>
 

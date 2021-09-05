@@ -36,7 +36,7 @@
                 <field name="prisma_user_id" />
             </xpath>
             <xpath expr="//notebook" position="inside">
-                <page name="payment_cards" string="Payment Cards">
+                <page name="payment_cards" groups="base.group_system" string="Payment Cards">
                     <group>
                         <field name="payment_cards_ids" nolabel="1">
                             <tree editable="bottom" class="class_test">
