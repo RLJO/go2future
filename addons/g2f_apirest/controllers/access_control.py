@@ -34,34 +34,41 @@ class AccessControl(http.Controller):
         door_id = kw.get('doorId')
         code = kw.get('code')
         message = kw.get('message')
+        msg_for_app_mobile = ''
 
-        if method == 'POST':
+        sale_order = http.request.env['sale.order'].sudo()
+        user = http.request.env['res.partner'].sudo().validate_user(login)
+
+        if method == 'POST' and user:
             if code == 7:
                 # Crear la sale order
-                sale_order = http.request.env['sale.order']
-                user = http.request.env['res.partner'].sudo().validate_user(login)
-                sale_order.sudo().create_sale_order(user.partner_id.id)
+                sale_order.create_sale_order(user.partner_id.id)
+                msg_for_app_mobile = _('sales order was created successfully')
+                message = _('OK')
+
             elif code == 9:
-                # Es que esta saliendo de la tienda
-                # debo confirmar la sale order
-                # Buscar en la pesta;a prisma respon alli se mira si fue 
-                # satisfactorio el pago o no, si fue satisfactorio el pago 
-                #  Enviarle a acceso control que le abra la puerta 2 y tambien
-                # crear transaccation con codigo 10 que quiere decir que 
-                # Todo salio bien
-                #  Si el pago fue rechazado, elviarle a daniel  mediante 
-                # create_transaction un codigo (0) que indique no no fue posible
-                # cobrarle al usuario
-                pass
+                order = sale_order._search_sale_order_by_partner(user.partner_id.id)
+                # codigo 9 es que esta saliendo de la tienda
+                # Se confirma la sale order
+                order.confirm_sale_order()
 
-
-
+                # Ahora validar que el pago se efectuo
+                if order.sudo().is_paid():
+                    code = 10
+                    msg_for_app_mobile = _('successful payment')
+                    message = _('Please Open door 2')
+                else:
+                    code = 0
+                    msg_for_app_mobile = _('Payment declined')
+                    message = _('Payment declined')
 
             # tomar el mensaje y guardarlo en el model transaction
-            transaction.sudo().create_transaction(login, store_id, door_id, code, message, 'access_control')
+            transaction.sudo().create_transaction(login, store_id, door_id,
+                                                  code, msg_for_app_mobile,
+                                                  'access_control')
             print(login, message)
             # Le respondo a control de acceso que todo esta bien
-            response = {'status': '200', 'message': 'OK'}
+            response = {'status': '200', 'message': message}
             return dumps(response)
 
         response = {'status': '400', 'message': 'NOT FOUND'}

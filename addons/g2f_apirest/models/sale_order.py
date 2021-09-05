@@ -56,12 +56,25 @@ class SaleOrder(models.Model):
 
         return False
 
-    def confirm_sale_order(self, login):
+    def is_paid(self):
+        """Validate is payment_prisma_status is approved."""
+
+        self.ensure_one()
+        status_paid = self.payment_prisma_status_ids.status
+        if status_paid == 'approved':
+            return True
+        return False
+
+    def confirm_sale_order(self):
         """Confirm sale order."""
 
-        user_instance = self.env['res.users'].search([('login', '=', login)])
-        order_instance = self._search_sale_order_by_partner(user_instance.partner_id.id)
-        order_instance.action_confirm()
+        self.ensure_one()
+        try:
+            self.action_confirm()
+        except Exception as Error:
+            print(Error)
+            return False
+
         return True
 
     def create_sale_order(self, partner_id):
