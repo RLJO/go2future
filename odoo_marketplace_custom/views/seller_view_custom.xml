@@ -8,7 +8,7 @@
         <field name="inherit_id" ref="odoo_marketplace.wk_seller_form_view"/>
         <field name="arch" type="xml">
              <xpath expr="//button[@name='set_to_pending']" position="after">
-                 <button name="update_seller" string="Actualizar proveedor" type="object" states="new,approved" class="btn-primary"/>
+                 <button name="update_seller" string="Actualizar proveedor" groups="odoo_marketplace.marketplace_manager_group" type="object" states="new,approved" class="btn-primary"/>
             </xpath>
             <xpath expr="//div[@class='oe_title']" position="inside">
                 <div class="oe_edit_only">
@@ -66,16 +66,14 @@
                 <field name="url_handler" class="oe_edit_only profile_url" style="width: 38%%;padding-right:20px;" placeholder="Unique Seller Profile URL handler..." attrs="{'required':[('children_parent_id', '=', False)]}"/>
             </xpath>
 
-            <xpath expr="//group" position="inside">
-                <group>
-                    <field name="stocked_krikos"/>
-                    <field name="supplier_ean" attrs="{'invisible': [('stocked_krikos', '=', False)]}"/>
-                </group>
-            </xpath>
-
             <!--Campo tiene hijos-->
             <xpath expr="//field[@name='title']" position="after">
                 <field name="has_children" string="Tiene vendedores hijos?" attrs="{'invisible': [('children_parent_id', '!=', False)]}" />
+            </xpath>
+            <!--Campo solicitudes a Krikos-->
+            <xpath expr="//field[@name='has_children']" position="after">
+                <field name="stocked_krikos" groups="odoo_marketplace.marketplace_manager_group"/>
+                <field name="supplier_ean" groups="odoo_marketplace.marketplace_manager_group" attrs="{'invisible': [('stocked_krikos', '=', False)]}"/>
             </xpath>
             <!-- Modificaciones en el NOTEBOOK-->
             <xpath expr="//notebook" position="attributes">
