@@ -183,7 +183,7 @@
                         <attribute name="groups">account.group_account_manager</attribute>
                     </xpath>
                     <xpath expr="//field[@name='payment_reference']" position='after'>
-                        <field name="warehouse_id" options="{'no_create': True, 'no_open': True}"/>
+                        <field name="warehouse_id" options="{'no_create': True}"/>
                         <field name="seller_id" options="{'no_create': True}" groups="odoo_marketplace.marketplace_manager_group"/>
                     </xpath>
                     <xpath expr="//field[@name='price_subtotal']" position='after'>
