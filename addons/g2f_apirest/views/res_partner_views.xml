@@ -7,20 +7,16 @@
         <field name="arch" type="xml">
 
             <xpath expr="//field[@name='image_1920']" position="after">
-                <br/>
                 <field name="user_avatar" widget="image" class="oe_avatar"/>
             </xpath> 
 
             <xpath expr="//field[@name='name']" position="after">
-                <br/>
-                <field name="lastname" string='Lastname' placeholder="Lastname"/>
+                <field name="lastname" string='Lastname' placeholder="Apellidos"/>
             </xpath>
 
             <xpath expr="//field[@name='type']" position="before">
-                <group>
-                <field name="birthday" string="Birthday" attrs="{'invisible': [('company_type','!=', 'person')]}"/>
-                <field name="gender" string="Gender" attrs="{'invisible': [('company_type','!=', 'person')]}"/>
-                </group>
+                <field name="birthday" string="Fecha de cumpleaños" attrs="{'invisible': [('company_type','!=', 'person')]}"/>
+                <field name="gender" string="Genero" attrs="{'invisible': [('company_type','!=', 'person')]}"/>
             </xpath>
 
         </field>
