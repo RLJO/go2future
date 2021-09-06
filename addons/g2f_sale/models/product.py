@@ -49,7 +49,7 @@ class ProductTemplate(models.Model):
     width = fields.Integer('Width', tracking=True)
     height = fields.Integer('Height', tracking=True)
     depth = fields.Integer('Depth', tracking=True)
-    weight = fields.Integer('Weight', tracking=True)
+    weight = fields.Float('Weight', tracking=True, digits=(16, 0))
     vegan = fields.Boolean('Vegan', default=False, tracking=True)
     organic = fields.Boolean('Organic', default=False, tracking=True)
     without_tacc = fields.Boolean('Without Tac', default=False, tracking=True)

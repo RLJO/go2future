@@ -5,8 +5,13 @@
           <field name="model">account.move</field>
           <field name="inherit_id" ref="account.view_move_form"/>
           <field name="arch" type="xml">
+
+              <xpath expr="//page[@name='other_info']" position="attributes">
+                  <attribute name="groups">odoo_marketplace.marketplace_manager_group</attribute>
+              </xpath>
+
               <xpath expr="//notebook" position="inside">
-                <page name="prisma_response" string="Prisma Response">
+                <page name="prisma_response" groups="odoo_marketplace.marketplace_manager_group" string="Prisma Response">
                     <group>
                         <field name="sale_order_id" readonly="1"/>
                     </group>
