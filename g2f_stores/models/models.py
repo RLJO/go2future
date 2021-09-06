@@ -40,7 +40,7 @@ class StoreDoor(models.Model):
     def _compute_qrcode(self):
         for obj in self:
             if obj.name:
-                qr = "{'store_id:'" + str(obj.store_id.id)+", 'door_id':'"+str(obj.name)+", type:"+str(obj.type)+"'}"
+                qr = "{\"store_id\":\"" + str(obj.store_id.id) + "\", \"door_id\":\"" + str(obj.name) + "\", \"type\":\"" + str(obj.type) + "\"}"
                 data = io.BytesIO()
                 import qrcode
                 qrcode.make(qr.encode(), box_size=4).save(data, optimise=True, format='PNG')
