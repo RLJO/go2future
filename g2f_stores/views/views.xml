@@ -6,19 +6,24 @@
             <field name="model">stock.warehouse</field>
             <field name="inherit_id" ref="stock.view_warehouse"/>
             <field name="arch" type="xml">
+
+                <xpath expr="//button[@name='action_view_all_routes']" position="attributes">
+                    <attribute name="groups">base.group_system</attribute>
+                </xpath>
                 <xpath expr="//page[@name='warehouse_config']" position="attributes">
                     <attribute name="groups">base.group_system</attribute>
                 </xpath>
                 <xpath expr="//field[@name='code']" position="after">
                     <field name="direccion_local"/>
                     <field name="country_id" string="País" required="1"/>
-                    <field name="state_id" string="Provincia" required="1"/>
+                    <field name="state_id" string="Provincia" required="1" groups="base.group_system"/>
                 </xpath>
                 <xpath expr="//field[@name='code']" position="attributes">
                     <attribute name="string">Código</attribute>
                 </xpath>
                 <xpath expr="//field[@name='partner_id']" position="attributes">
                     <attribute name="string">Compañía</attribute>
+                    <attribute name="groups">base.group_system</attribute>
                 </xpath>
                 <xpath expr="//field[@name='partner_id']" position="before">
                     <field name="code_krikos"/>
