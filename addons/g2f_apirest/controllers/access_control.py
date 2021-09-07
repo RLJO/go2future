@@ -62,6 +62,12 @@ class AccessControl(http.Controller):
                     msg_for_app_mobile = _('Payment declined')
                     message = _('Payment declined')
 
+            elif code == 11:
+                # El cliente decidio dejar los productos y retirtarse
+                msg_for_app_mobile = _('Customer leaves the products and leaves the store')
+                message = _('Please Open door 1 and 2')
+                # Aqui yo deberia cancelar la sale order
+
             # tomar el mensaje y guardarlo en el model transaction
             transaction.sudo().create_transaction(login, store_id, door_id,
                                                   code, msg_for_app_mobile,

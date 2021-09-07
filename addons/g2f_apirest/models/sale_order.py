@@ -105,7 +105,10 @@ class SaleOrder(models.Model):
 
         for order in orders:
 
-            if order.invoice_ids and order.invoice_ids.payment_state.lower() == 'paid':
+            # Por ahora se saca el stado paid porque la factura aparece como
+            # que no se pago
+            # if order.invoice_ids and order.invoice_ids.payment_state.lower() == 'paid':
+            if order.invoice_ids:
                 data.update({"order": order.name,
                              "create_date": order.create_date.strftime("%Y-%m-%d"),
                              "store": order.user_id.name,
@@ -120,7 +123,7 @@ class SaleOrder(models.Model):
         """prepare download link invoice from sale order passed."""
 
         link = ''
-        server = env['ir.config_parameter'].search([('key', '=', 'web.base.url')])
+        server = self.env['ir.config_parameter'].search([('key', '=', 'web.base.url')])
         if not server.value:
             return link
 

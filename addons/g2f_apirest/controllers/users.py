@@ -79,7 +79,7 @@ class ResUser(http.Controller):
 
         method = http.request.httprequest.method
 
-        login = kw.get('login') 
+        login = kw.get('login')
         user = self._validate_user(login)
 
         if not user:
@@ -155,6 +155,7 @@ class ResUser(http.Controller):
         login = kw.get('login')
         door_id = kw.get('door_id')
         store_id = kw.get('store_id')
+        type = kw.get('type')
 
         response = {"status": "200", "message": "Wait for access control"}
 
@@ -171,6 +172,11 @@ class ResUser(http.Controller):
                 if not store:
                     msg = _('Store dont exist.')
                     response = {"status": "400", "message": msg}
+                    return response
+
+                if not type or type.lower() != 'in':
+                    msg = _('Door is not an entrance.')
+                    response = {"status": "403", "message": msg}
                     return response
 
                 # Prepare url endpoint and send to Access control server
