@@ -39,6 +39,7 @@ class ResPartner(models.Model):
     customer_attention_phone = fields.Char(_('Teléfono de atención al cliente'))
     customer_attention_email = fields.Char(_('Email de atención al cliente'))
     customer_attention_website = fields.Char(_('Website de atención al cliente'))
+    cuit_an = fields.Boolean('C.U.I.T/A.N. Se.S N°?', default=False)
 
     def l10n_ar_connection_test(self):
         self.ensure_one()
@@ -219,6 +220,13 @@ class ResPartner(models.Model):
             _logger.log(25, 'Setting demo certificate from %s to %s in seller %s' % (
             old, rec.l10n_ar_afip_ws_crt_fname, rec.name))
 
+    def get_last_caea_record(self):
+        if len(self.account_move_line_caea_ids):
+            records = self.account_move_line_caea_ids.sorted(key=lambda r: r.caea_creation_date, reverse=True)
+            for record in records:
+                return record
+            return False
+
 class AccountMoveCaeaLine(models.Model):
     _name = 'account.move.caea.line'
     _inherit = ['mail.thread', 'mail.activity.mixin']
@@ -227,4 +235,4 @@ class AccountMoveCaeaLine(models.Model):
     caea_creation_date = fields.Datetime(_('Fecha de creación'), default=lambda self: fields.datetime.now(),readonly=True, store=True, track_visibility="onchange")
     caea_validity_from = fields.Date(_('Vigencia desde'), required=True, track_visibility="onchange")
     caea_validity_to = fields.Date(_('Vigencia hasta'), required=True, track_visibility="onchange")
-    caea_number = fields.Integer(_('CAEA N°'), required=True, track_visibility="onchange")
+    caea_number = fields.Char(_('CAEA N°'), required=True, track_visibility="onchange")

@@ -69,6 +69,7 @@
                                 <field name="customer_attention_phone"/>
                                 <field name="customer_attention_email"/>
                                 <field name="customer_attention_website"/>
+                                <field name="cuit_an"/>
                             </group>
                         <group/>
                         </group>
