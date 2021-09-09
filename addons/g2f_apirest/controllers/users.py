@@ -401,6 +401,14 @@ class ResUser(http.Controller):
         user_data = self._get_data_user(login)
         return dumps({'status': '200', 'messsage': 'ok', 'data': user_data})
 
+    def build_response(self, entity, status=200):
+        """Build response by all responses tha app mobile or access control."""
+
+        response = dumps(entity, ensure_ascii=False).encode('utf8')
+        return http.Response(response,
+                             content_type='application/json; charset=utf-8',
+                             status=status)
+
     def _get_data_user(self, email):
         user = http.request.env['res.users'].sudo().search(
             [('login', 'ilike', email)]

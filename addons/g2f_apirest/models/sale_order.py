@@ -202,6 +202,7 @@ class SaleOrder(models.Model):
         line_vals = {
                 'order_id': order_instance.id,
                 'product_id': product_instance.id,
+                'seller': product_instance.seller_ids.name.id,
                 'name': product_instance.name,
                 'product_uom_qty': quantity,
                 'price_unit': product_instance.list_price
