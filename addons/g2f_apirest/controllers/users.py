@@ -288,6 +288,7 @@ class ResUser(http.Controller):
         birthday = params.get('birthday')
         gender = params.get('gender')
         mobile = params.get('mobile')
+        phone = params.get('mobile')
         business_name = params.get('business_name')
         address = params.get('address')
         identification_type = params.get('identification_type')
@@ -337,7 +338,7 @@ class ResUser(http.Controller):
                 user_inactive._cr.commit()
 
             # Update data in respartner
-            data = {'birthday': birthday, 'gender': gender, 'mobile': mobile,
+            data = {'birthday': birthday, 'gender': gender, 'mobile': mobile, 'phone': mobile,
                     'street': address, 'l10n_latam_identification_type_id': identification_type_,
                     'vat': vat, 'country_id': country_id, 'state_id': state_id,
                     'city': state_city, 'l10n_ar_afip_responsibility_type_id': 5,
