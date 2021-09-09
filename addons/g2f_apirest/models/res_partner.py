@@ -179,7 +179,7 @@ class ResPartner(models.Model):
         res_partner = {"name": self.name,
                        "lastname": self.lastname,
                        "login": self.email,
-                       "birthday": self.birthday.strftime('%Y-%m-%d'),
+                       "birthday": self.birthday.strftime('%Y-%m-%d') if self.birthday else None,
                        "gender": self.gender,
                        "identification_type": self.l10n_latam_identification_type_id.name,
                        "vat": self.vat,
