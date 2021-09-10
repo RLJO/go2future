@@ -79,6 +79,7 @@
             <field name="arch" type="xml">
                 <search string="Marketplace vendor">
                     <group string="Group By">
+                        <filter string="Estado" name="state"/>
                         <filter string="Fecha" name="date"
                             context="{'group_by': 'date'}"/>
                         <filter string="Vendedor" name="name"
@@ -121,6 +122,7 @@
                             <field name="amount_commission_amount_tax_company_total" widget="monetary"
                                   force_save="1" sum="TOTAL COMISION + IMP MINIGO"/>
                             <field name="total_vendor" force_save="1" widget="monetary" sum="TOTAL VENDEDOR"/>
+                            <field name="state" force_save="1"/>
                         </group>
                     </sheet>
                 </form>
@@ -131,7 +133,7 @@
         <field name="name">marketplace.vendor.form</field>
         <field name="model">marketplace.vendor</field>
         <field name="arch" type="xml">
-            <tree string="Marketplace Vendor" editable="bottom" default_order='date' delete="false">
+            <tree string="Marketplace Vendor" default_order='date' delete="false" create="0">
                 <field name="code"  readonly="1"/>
                 <field name="sale_order" class="btn-primary" readonly="1"/>
                 <field name="move_id" class="btn-primary" string="Factura" readonly="1"/>
@@ -157,6 +159,7 @@
                 <field name="amount_commission_amount_tax_company_total" widget="monetary"
                       sum="TOTAL COMISION + IMP MINIGO" readonly="1"/>
                 <field name="total_vendor" widget="monetary" sum="TOTAL VENDEDOR" readonly="1"/>
+                <field name="state" optional="show"/>
             </tree>
         </field>
         </record>
@@ -167,7 +170,8 @@
                 <field name="view_mode">tree,kanban,form</field>
                 <field name="view_id" ref="view_marketplace_vendor_tree_form"/>
                 <field name="search_view_id" ref="odoo_marketplace_custom.view_marketplace_vendor_search"/>
-                <field name="context">{"search_default_date":1,"search_default_name":1 }</field>
+                <field name="domain">[('state','=', 'sale')]</field>
+                <field name="context">{"search_default_date":1, "search_default_name":1, "search_default_state":1}</field>
         </record>
 
         <menuitem id="marketplace_vendor_menu" name="marketplace vendedor %" action="action_marketplace_vendor_form" parent="odoo_marketplace.wk_seller_dashboard_menu1"/>
