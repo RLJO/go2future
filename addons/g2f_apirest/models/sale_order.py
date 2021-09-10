@@ -122,24 +122,26 @@ class SaleOrder(models.Model):
     def _link_download_invoice(self, order):
         """prepare download link invoice from sale order passed."""
 
-        link = ''
+        links = []
         server = self.env['ir.config_parameter'].search([('key', '=', 'web.base.url')])
         if not server.value:
-            return link
+            return ''
 
         try:
-            order = order
-            access_url = order.invoice_ids.access_url
-            access_token = order.invoice_ids.access_token
-            command = '&report_type=pdf&download=true'
-            # link = f"{server.value}{access_url}?access_token={access_token}{command}"
-            link = f"{server.value}{access_url}?{command}"
-            _logger.info(link)
+            for invoice in order.invoice_ids:
+                link = ''
+                access_url = invoice.access_url
+                access_token = invoice.access_token
+                command = '&report_type=pdf&download=true'
+                # link = f"{server.value}{access_url}?access_token={access_token}{command}"
+                link = f"{server.value}{access_url}?{command}"
+                _logger.info(link)
+                links.append(link)
         except Exception as error:
             print(error)
-            link = error
+            links = error
 
-        return link
+        return links
 
     def _search_sale_order_by_partner(self, partner_id=None, state='draft'):
         '''Search sale order by partner id.'''
