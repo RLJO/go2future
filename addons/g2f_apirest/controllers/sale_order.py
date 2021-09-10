@@ -8,11 +8,10 @@ from odoo import http, _
 # from odoo.exceptions import ValidationError, UserError
 
 
- logging.basicConfig(
-         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-         level=logging.INFO)
-
-_logger = logging.getLogger(__name__) 
+logging.basicConfig(
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    level=logging.INFO)
+_logger = logging.getLogger(__name__)
 
 
 class SaleOrderCart(http.Controller):
