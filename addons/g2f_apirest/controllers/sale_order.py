@@ -1,10 +1,18 @@
 # pylint: disable=broad-except
 
 from datetime import datetime
+import logging
 import requests
 from json import dumps
 from odoo import http, _
 # from odoo.exceptions import ValidationError, UserError
+
+
+ logging.basicConfig(
+         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+         level=logging.INFO)
+
+_logger = logging.getLogger(__name__) 
 
 
 class SaleOrderCart(http.Controller):
@@ -91,6 +99,7 @@ class SaleOrderCart(http.Controller):
 
         if method == 'GET':
             response = sale_order.sudo().get_sale_order_list(user_id)
+            _logger.info(response)
             return dumps(response)
 
         return http.Response('NOT FOUND', status=404) 
