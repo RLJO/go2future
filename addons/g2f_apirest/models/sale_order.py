@@ -113,7 +113,7 @@ class SaleOrder(models.Model):
                              "create_date": order.create_date.strftime("%Y-%m-%d"),
                              "store": order.user_id.name,
                              "amount_total": order.amount_total,
-                             "download_invoice": self._link_download_invoice(order)
+                             # "download_invoice": self._link_download_invoice(order)
                              })
                 order_list.append(data)
 
