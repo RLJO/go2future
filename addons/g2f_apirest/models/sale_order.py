@@ -134,6 +134,7 @@ class SaleOrder(models.Model):
             command = '&report_type=pdf&download=true'
             # link = f"{server.value}{access_url}?access_token={access_token}{command}"
             link = f"{server.value}{access_url}?{command}"
+            _logger.info(link)
         except Exception as error:
             print(error)
             link = error
