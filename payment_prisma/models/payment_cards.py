@@ -47,8 +47,11 @@ class PaymentCards(models.Model):
     @api.depends('card_number')
     def _compute_last_digits(self):
         for record in self:
-            if len(record.card_number) >= 4:
-                record.card_last_digits = record.card_number[-4:]
+            if record.card_number:
+                if len(record.card_number) >= 4:
+                    record.card_last_digits = record.card_number[-4:]
+            else:
+                record.card_last_digits = ''
 
     def change_state(self):
         self.ensure_one()
