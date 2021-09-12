@@ -35,6 +35,8 @@ class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
     def _get_sale_order_from_controller(self, login):
+        """Get sale order from controller."""
+
         user_id = self.env['res.users'].search([('login', '=', login)])
         order = self._search_sale_order_by_partner(user_id.partner_id.id)
         list_sale = self._list_sale_order_cart(order)
@@ -42,6 +44,8 @@ class SaleOrder(models.Model):
 
     def _add_products_from_controller(self, userid, barcode, quantity, sensor,
                                       action=None):
+        """Add prodcuts from controllers."""
+
         user_id = self.env['res.users'].search([('id', '=', userid)])
         order = self._search_sale_order_by_partner(user_id.partner_id.id)
         product = self._search_product_by_id(barcode)
@@ -239,16 +243,17 @@ class SaleOrder(models.Model):
         result = []
         domain = [('id', '=', order_instance.id)]
         header = order_instance.search_read(domain, [
-            'name', 'amount_total', 'cart_quantity',
-            'state']
+            'name', 'amount_total', 'cart_quantity', 'amount_undiscounted',
+            'amount_untaxed', 'state']
             )
 
         result.append(header)
         lines = order_instance.search(domain).order_line
         title = ['product_name', 'product_sku', 'product_image',
-                'price_unit', 'product_uom_qty', 'price_subtotal',
-                'price_tax', 'price_total', 'product_uom',
-                'product_type', 'barcode']
+                 'price_unit', 'product_uom_qty', 'discount',
+                 'discount_amount', 'price_subtotal',
+                 'price_tax', 'price_total', 'product_uom',
+                 'product_type', 'barcode']
 
         for line in lines:
             product_barcode = line.product_id.barcode
@@ -257,6 +262,8 @@ class SaleOrder(models.Model):
             product_image = None if not line.product_id.image_128 else line.product_id.image_128.decode('ascii')
             price_unit = line.price_unit
             product_uom_qty = line.product_uom_qty
+            product_discount = line.discount
+            product_discount_amount = line.price_unit * (line.discount / 100)
             price_subtotal = line.price_subtotal
             price_tax = line.price_tax
             price_total = line.price_total
@@ -264,7 +271,8 @@ class SaleOrder(models.Model):
             product_type = line.product_type
             result.append(dict(zip(title, [
                 product_name, product_sku, product_image, price_unit,
-                product_uom_qty, price_subtotal, price_tax, price_total,
-                product_uom, product_type, product_barcode])))
+                product_uom_qty, product_discount, product_discount_amount,
+                price_subtotal, price_tax, price_total, product_uom,
+                product_type, product_barcode])))
         print(result)
         return result

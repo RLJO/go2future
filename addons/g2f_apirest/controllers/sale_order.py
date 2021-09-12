@@ -16,8 +16,10 @@ _logger = logging.getLogger(__name__)
 
 class SaleOrderCart(http.Controller):
     @http.route(['/user_cart'], type='http', auth='public',
-            methods=['GET'], website=True, csrf=False)
+                methods=['GET'], website=True, csrf=False)
     def get_user_cart_from_vision(self, **kw):
+        """get the list of items that a user has in the cart for Vision."""
+
         method = http.request.httprequest.method
 
         user_id = kw.get('user_id')
@@ -73,14 +75,14 @@ class SaleOrderCart(http.Controller):
 
         print(kw)
         method = http.request.httprequest.method
-        user_id = kw.get('login')
+        login = kw.get('login')
 
         sale_order = http.request.env['sale.order']
 
         if method == 'GET':
             # Obtener lista de productos de orden de venta abierta
             response = sale_order.sudo()._get_sale_order_from_controller(
-                user_id)
+                login)
             return dumps(response)
 
         return http.Response('NOT FOUND', status=404)
