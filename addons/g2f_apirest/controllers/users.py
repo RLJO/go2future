@@ -37,7 +37,7 @@ class ResUser(http.Controller):
 
         method = http.request.httprequest.method
         stores = http.request.env['stock.warehouse'].sudo().search_read(
-                fields=['name', 'direccion_local', 'country_id', 'state_id'])
+                fields=['name', 'direccion_local', 'country_id', 'state_id', 'store_image'])
         return dumps(stores)
 
     @http.route(['/users/Countries'], type='http', auth='public',
