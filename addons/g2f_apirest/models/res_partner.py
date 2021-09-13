@@ -40,6 +40,16 @@ class ResPartner(models.Model):
     terms_conditions_agreement = fields.Boolean(default=False)
     email_recipe_receive = fields.Boolean(default=False)
 
+    def name_get(self):
+        result = []
+        for record in self:
+            name = record.name
+            if record.lastname:
+                name += f" {record.lastname}"
+
+            result.append((record.id, name))
+        return result
+
     def age(self):
         age = 0
         for record in self:
