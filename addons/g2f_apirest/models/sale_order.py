@@ -104,21 +104,20 @@ class SaleOrder(models.Model):
         user_id = self.env['res.users'].search([('login', '=', login)])
         orders = self._search_sale_order_by_partner(user_id.partner_id.id,
                                                     'sale')
-        data = {}
         order_list = []
 
         for order in orders:
-
+            data = {}
             # Por ahora se saca el stado paid porque la factura aparece como
             # que no se pago
             # if order.invoice_ids and order.invoice_ids.payment_state.lower() == 'paid':
             if order.invoice_ids:
-                data.update({"order": order.name,
-                             "create_date": order.create_date.strftime("%Y-%m-%d"),
-                             "store": order.user_id.name,
-                             "amount_total": order.amount_total,
-                             "download_invoice": self._link_download_invoice(order)
-                             })
+                data = {"order": order.name,
+                        "create_date": order.create_date.strftime("%Y-%m-%d"),
+                        "store": order.user_id.name,
+                        "amount_total": order.amount_total,
+                        "download_invoice": self._link_download_invoice(order)
+                        }
                 order_list.append(data)
 
         return order_list
