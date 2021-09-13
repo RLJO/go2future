@@ -76,7 +76,7 @@ class SaleOrder(models.Model):
         try:
             self.action_confirm()
         except Exception as Error:
-            print(Error)
+            _logger.info(Error)
             return False
 
         return True
@@ -143,6 +143,7 @@ class SaleOrder(models.Model):
                 links.append(link)
         except Exception as error:
             print(error)
+            _logger.info(error)
             links = error
 
         return links
@@ -179,6 +180,7 @@ class SaleOrder(models.Model):
             return True
         except Exception as error:
             print(error)
+            _logger.info(error)
 
     def _remove_product_shelf(self, order, product, quantity, sensor):
         quantity = quantity
@@ -195,6 +197,7 @@ class SaleOrder(models.Model):
             return True
         except Exception as error:
             print(error)
+            _logger.info(error)
 
     def _add_product_cart(self, order_instance, product_instance, quantity):
         '''Add products to cart.'''
@@ -221,6 +224,8 @@ class SaleOrder(models.Model):
             return True
         except Exception as error:
             print(error)
+            _logger.info(error)
+
         return False
 
     def _remove_product_cart(self, order_instance, product_instance, quantity):

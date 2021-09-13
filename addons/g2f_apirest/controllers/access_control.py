@@ -64,9 +64,19 @@ class AccessControl(http.Controller):
 
             elif code == 11:
                 # El cliente decidio dejar los productos y retirtarse
-                msg_for_app_mobile = _('Customer leaves the products and leaves the store')
-                message = _('Please Open door 1 and 2')
-                # Aqui yo deberia cancelar la sale order
+                # Validar tambien que la sale order este en 0
+                order = sale_order._search_sale_order_by_partner(
+                        user.partner_id.id)
+                if order.amount_total > 0:
+                    msg_for_app_mobile = _(
+                            """
+                            Sorry, you cannot leave the store,
+                            products were detected in the cart"""
+                            )
+                else:
+                    msg_for_app_mobile = _('Customer leaves the products and leaves the store')
+                    message = _('Please Open door 1 and 2')
+                    # Aqui yo deberia cancelar la sale order
 
             # tomar el mensaje y guardarlo en el model transaction
             transaction.sudo().create_transaction(login, store_id, door_id,
