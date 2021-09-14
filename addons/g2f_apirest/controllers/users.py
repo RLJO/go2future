@@ -37,7 +37,7 @@ class ResUser(http.Controller):
 
         method = http.request.httprequest.method
         stores = http.request.env['stock.warehouse'].sudo().search_read(
-                fields=['name', 'direccion_local', 'country_id', 'state_id'])
+                fields=['name', 'direccion_local', 'country_id', 'state_id', 'store_image'])
         return dumps(stores)
 
     @http.route(['/users/Countries'], type='http', auth='public',
@@ -79,7 +79,7 @@ class ResUser(http.Controller):
 
         method = http.request.httprequest.method
 
-        login = kw.get('login') 
+        login = kw.get('login')
         user = self._validate_user(login)
 
         if not user:
@@ -155,6 +155,7 @@ class ResUser(http.Controller):
         login = kw.get('login')
         door_id = kw.get('door_id')
         store_id = kw.get('store_id')
+        type = kw.get('type')
 
         response = {"status": "200", "message": "Wait for access control"}
 
@@ -171,6 +172,11 @@ class ResUser(http.Controller):
                 if not store:
                     msg = _('Store dont exist.')
                     response = {"status": "400", "message": msg}
+                    return response
+
+                if not type or type.lower() != 'in':
+                    msg = _('Door is not an entrance.')
+                    response = {"status": "403", "message": msg}
                     return response
 
                 # Prepare url endpoint and send to Access control server
@@ -282,6 +288,7 @@ class ResUser(http.Controller):
         birthday = params.get('birthday')
         gender = params.get('gender')
         mobile = params.get('mobile')
+        phone = params.get('mobile')
         business_name = params.get('business_name')
         address = params.get('address')
         identification_type = params.get('identification_type')
@@ -331,7 +338,7 @@ class ResUser(http.Controller):
                 user_inactive._cr.commit()
 
             # Update data in respartner
-            data = {'birthday': birthday, 'gender': gender, 'mobile': mobile,
+            data = {'birthday': birthday, 'gender': gender, 'mobile': mobile, 'phone': mobile,
                     'street': address, 'l10n_latam_identification_type_id': identification_type_,
                     'vat': vat, 'country_id': country_id, 'state_id': state_id,
                     'city': state_city, 'l10n_ar_afip_responsibility_type_id': 5,
@@ -394,6 +401,14 @@ class ResUser(http.Controller):
 
         user_data = self._get_data_user(login)
         return dumps({'status': '200', 'messsage': 'ok', 'data': user_data})
+
+    def build_response(self, entity, status=200):
+        """Build response by all responses tha app mobile or access control."""
+
+        response = dumps(entity, ensure_ascii=False).encode('utf8')
+        return http.Response(response,
+                             content_type='application/json; charset=utf-8',
+                             status=status)
 
     def _get_data_user(self, email):
         user = http.request.env['res.users'].sudo().search(

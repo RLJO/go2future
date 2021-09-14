@@ -24,7 +24,7 @@ class MarketplaceVendor(models.Model):
         marketplace_vendor = vendor.filtered(lambda vendor: vendor.date >= date_star and vendor.date <= date_end
                                              and vendor.display_name != self.env.company.name)
         for vendor_id in marketplace_vendor:
-            if not vendor_id.move_id:
+            if not vendor_id.move_id and vendor_id.state == 'sale':
                 a = True
                 if not list == []:
                     for list_id in list:

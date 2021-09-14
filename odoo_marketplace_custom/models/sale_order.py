@@ -491,6 +491,18 @@ class MarketplaceVendor(models.Model):
     discount_total = fields.Float(string='Dcto Total', digits='Discount', default=0.0)
     code = fields.Char('#')
 
+    state = fields.Selection([
+        ('draft', 'Quotation'),
+        ('sent', 'Quotation Sent'),
+        ('sale', 'Confirmado'),
+        ('done', 'Locked'),
+        ('cancel', 'Cancelled'),
+    ], string='Estado', readonly=True, copy=False, default='draft', compute='_compute_state')
+
+    def _compute_state(self):
+        if self:
+           for marketplace_vendor in self:
+               marketplace_vendor.state = marketplace_vendor.sale_order.state
 
 
 class AccountMove(models.Model):
