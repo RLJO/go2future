@@ -98,15 +98,19 @@ class SaleOrder(models.Model):
         new_order._cr.commit()
         return True
 
-    def get_sale_order_list(self, login):
+    def get_sale_order_list(self, login, page=1):
         """Get sale order list by res.partner whith status sale."""
 
+        ORDER_FOR_PAGE = 2
         user_id = self.env['res.users'].search([('login', '=', login)])
         orders = self._search_sale_order_by_partner(user_id.partner_id.id,
                                                     'sale')
+        filters = orders.search([('id', 'in', orders.ids)],
+                                offset=(page - 1) * ORDER_FOR_PAGE,
+                                limit=ORDER_FOR_PAGE)
         order_list = []
 
-        for order in orders:
+        for order in filters:
             data = {}
             # Por ahora se saca el stado paid porque la factura aparece como
             # que no se pago

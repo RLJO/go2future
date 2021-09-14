@@ -87,19 +87,21 @@ class SaleOrderCart(http.Controller):
 
         return http.Response('NOT FOUND', status=404)
 
-    @http.route(['/sale_order_list/'], type='http', auth='public',
-                methods=['GET'], website=True, csrf=False)
-    def sale_order_list(self, **kw):
+    @http.route(['/sale_order_list/', '/sale_order_list/page/<int:page>',
+                 '/sale_order_list/page'],
+                type='http', auth='public', methods=['GET'], website=True,
+                csrf=False)
+    def sale_order_list(self, page=0, **kw):
         '''Get sale order list closed by login.'''
 
-        print(kw)
+        page = page or 1
         method = http.request.httprequest.method
         user_id = kw.get('login')
 
         sale_order = http.request.env['sale.order']
 
         if method == 'GET':
-            response = sale_order.sudo().get_sale_order_list(user_id)
+            response = sale_order.sudo().get_sale_order_list(user_id, page)
             _logger.info(response)
             return dumps(response)
 
