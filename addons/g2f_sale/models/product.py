@@ -111,8 +111,8 @@ class ProductTemplate(models.Model):
             if record.depth <= 0:
                 raise ValidationError(_('depth cannot be <= 0'))
 
-    @api.constrains('weight')
-    def _check_weigth(self):
-        for record in self:
-            if record.weight <= 0:
-                raise ValidationError(_('weight cannot be <= 0'))
+    # @api.constrains('weight')
+    # def _check_weigth(self):
+    #     for record in self:
+    #         if record.weight <= 0.0:
+    #             raise ValidationError(_('weight cannot be <= 0'))

@@ -28,10 +28,10 @@
              <field name="sequence">4</field>
         </record>
 
-        <record model="ir.config_parameter" id="marketplace_vendor_code_code">
-            <field name="key">marketplace_vendor_code.code</field>
-            <field name="value">Com</field>
-        </record>
+<!--        <record model="ir.config_parameter" id="marketplace_vendor_code">-->
+<!--            <field name="key">marketplace_vendor_code.code</field>-->
+<!--            <field name="value">Com</field>-->
+<!--        </record>-->
 
     </data>
 </odoo>

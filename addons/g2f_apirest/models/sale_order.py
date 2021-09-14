@@ -35,6 +35,8 @@ class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
     def _get_sale_order_from_controller(self, login):
+        """Get sale order from controller."""
+
         user_id = self.env['res.users'].search([('login', '=', login)])
         order = self._search_sale_order_by_partner(user_id.partner_id.id)
         list_sale = self._list_sale_order_cart(order)
@@ -42,6 +44,8 @@ class SaleOrder(models.Model):
 
     def _add_products_from_controller(self, userid, barcode, quantity, sensor,
                                       action=None):
+        """Add prodcuts from controllers."""
+
         user_id = self.env['res.users'].search([('id', '=', userid)])
         order = self._search_sale_order_by_partner(user_id.partner_id.id)
         product = self._search_product_by_id(barcode)
@@ -56,12 +60,25 @@ class SaleOrder(models.Model):
 
         return False
 
-    def confirm_sale_order(self, login):
+    def is_paid(self):
+        """Validate is payment_prisma_status is approved."""
+
+        self.ensure_one()
+        status_paid = self.payment_prisma_status_ids.status
+        if status_paid == 'approved':
+            return True
+        return False
+
+    def confirm_sale_order(self):
         """Confirm sale order."""
 
-        user_instance = self.env['res.users'].search([('login', '=', login)])
-        order_instance = self._search_sale_order_by_partner(user_instance.partner_id.id)
-        order_instance.action_confirm()
+        self.ensure_one()
+        try:
+            self.action_confirm()
+        except Exception as Error:
+            _logger.info(Error)
+            return False
+
         return True
 
     def create_sale_order(self, partner_id):
@@ -87,18 +104,20 @@ class SaleOrder(models.Model):
         user_id = self.env['res.users'].search([('login', '=', login)])
         orders = self._search_sale_order_by_partner(user_id.partner_id.id,
                                                     'sale')
-        data = {}
         order_list = []
 
         for order in orders:
-
-            if order.invoice_ids and order.invoice_ids.payment_state.lower() == 'paid':
-                data.update({"order": order.name,
-                             "create_date": order.create_date.strftime("%Y-%m-%d"),
-                             "store": order.user_id.name,
-                             "amount_total": order.amount_total,
-                             "download_invoice": self._link_download_invoice(order)
-                             })
+            data = {}
+            # Por ahora se saca el stado paid porque la factura aparece como
+            # que no se pago
+            # if order.invoice_ids and order.invoice_ids.payment_state.lower() == 'paid':
+            if order.invoice_ids:
+                data = {"order": order.name,
+                        "create_date": order.create_date.strftime("%Y-%m-%d"),
+                        "store": order.user_id.name,
+                        "amount_total": order.amount_total,
+                        "download_invoice": self._link_download_invoice(order)
+                        }
                 order_list.append(data)
 
         return order_list
@@ -106,22 +125,27 @@ class SaleOrder(models.Model):
     def _link_download_invoice(self, order):
         """prepare download link invoice from sale order passed."""
 
-        link = ''
-        server = env['ir.config_parameter'].search([('key', '=', 'web.base.url')])
+        links = []
+        server = self.env['ir.config_parameter'].search([('key', '=', 'web.base.url')])
         if not server.value:
-            return link
+            return ''
 
         try:
-            order = order
-            access_url = order.invoice_ids.access_url
-            access_token = order.invoice_ids.access_token
-            command = '&report_type=pdf&download=true'
-            link = f"{server.value}{access_url}?access_token={access_token}{command}"
+            for invoice in order.invoice_ids:
+                link = ''
+                access_url = invoice.access_url
+                access_token = invoice.access_token
+                command = '&report_type=pdf&download=true'
+                # link = f"{server.value}{access_url}?access_token={access_token}{command}"
+                link = f"{server.value}{access_url}?{command}"
+                _logger.info(link)
+                links.append(link)
         except Exception as error:
             print(error)
-            link = error
+            _logger.info(error)
+            links = error
 
-        return link
+        return links
 
     def _search_sale_order_by_partner(self, partner_id=None, state='draft'):
         '''Search sale order by partner id.'''
@@ -155,6 +179,7 @@ class SaleOrder(models.Model):
             return True
         except Exception as error:
             print(error)
+            _logger.info(error)
 
     def _remove_product_shelf(self, order, product, quantity, sensor):
         quantity = quantity
@@ -171,6 +196,7 @@ class SaleOrder(models.Model):
             return True
         except Exception as error:
             print(error)
+            _logger.info(error)
 
     def _add_product_cart(self, order_instance, product_instance, quantity):
         '''Add products to cart.'''
@@ -186,6 +212,7 @@ class SaleOrder(models.Model):
         line_vals = {
                 'order_id': order_instance.id,
                 'product_id': product_instance.id,
+                'seller': product_instance.seller_ids.name.id,
                 'name': product_instance.name,
                 'product_uom_qty': quantity,
                 'price_unit': product_instance.list_price
@@ -196,6 +223,8 @@ class SaleOrder(models.Model):
             return True
         except Exception as error:
             print(error)
+            _logger.info(error)
+
         return False
 
     def _remove_product_cart(self, order_instance, product_instance, quantity):
@@ -218,16 +247,17 @@ class SaleOrder(models.Model):
         result = []
         domain = [('id', '=', order_instance.id)]
         header = order_instance.search_read(domain, [
-            'name', 'amount_total', 'cart_quantity',
-            'state']
+            'name', 'amount_total', 'cart_quantity', 'amount_undiscounted',
+            'amount_untaxed', 'state']
             )
 
         result.append(header)
         lines = order_instance.search(domain).order_line
         title = ['product_name', 'product_sku', 'product_image',
-                'price_unit', 'product_uom_qty', 'price_subtotal',
-                'price_tax', 'price_total', 'product_uom',
-                'product_type', 'barcode']
+                 'price_unit', 'product_uom_qty', 'discount',
+                 'discount_amount', 'price_subtotal',
+                 'price_tax', 'price_total', 'product_uom',
+                 'product_type', 'barcode']
 
         for line in lines:
             product_barcode = line.product_id.barcode
@@ -236,6 +266,8 @@ class SaleOrder(models.Model):
             product_image = None if not line.product_id.image_128 else line.product_id.image_128.decode('ascii')
             price_unit = line.price_unit
             product_uom_qty = line.product_uom_qty
+            product_discount = line.discount
+            product_discount_amount = line.price_unit * (line.discount / 100)
             price_subtotal = line.price_subtotal
             price_tax = line.price_tax
             price_total = line.price_total
@@ -243,7 +275,8 @@ class SaleOrder(models.Model):
             product_type = line.product_type
             result.append(dict(zip(title, [
                 product_name, product_sku, product_image, price_unit,
-                product_uom_qty, price_subtotal, price_tax, price_total,
-                product_uom, product_type, product_barcode])))
+                product_uom_qty, product_discount, product_discount_amount,
+                price_subtotal, price_tax, price_total, product_uom,
+                product_type, product_barcode])))
         print(result)
         return result
