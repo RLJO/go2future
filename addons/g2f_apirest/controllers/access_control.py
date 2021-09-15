@@ -39,6 +39,10 @@ class AccessControl(http.Controller):
         sale_order = http.request.env['sale.order'].sudo()
         user = http.request.env['res.partner'].sudo().validate_user(login)
 
+        if user and user.is_staff():
+            response = {'status': '200', 'message': 'OK'}
+            return dumps(response)
+
         if method == 'POST' and user:
             if code == 7:
                 # Crear la sale order
