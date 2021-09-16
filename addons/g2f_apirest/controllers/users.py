@@ -195,12 +195,16 @@ class ResUser(http.Controller):
                     return response
 
                 # Prepare url endpoint and send to Access control server
+                endpoint = 'api/Odoo/OpenDoor'
                 base_url = store.access_control_url
                 params = {"storeCode": int(store_id),
                           "doorId": int(door_id),
-                          "userId": login}
+                          "userId": login,
+                          "token": "G02Future$2021"
+                          }
+
                 try:
-                    requests.post(base_url, json=params)
+                    requests.post(urljoin(base_url, endpoint), json=params)
                 except Exception as Error:
                     response = {"status": "400", "message": Error}
 

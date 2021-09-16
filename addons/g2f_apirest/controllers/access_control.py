@@ -115,12 +115,15 @@ class AccessControl(http.Controller):
             store_id = kw.get('store_id') or 1
             door_id = kw.get('door_id') or 0
             was_confirmed = kw.get('was_confirmed')
+            # token = 'aqui un token'
 
             # Prepare url endpoint and send to Access control server
             base_url = self.get_store_by_id(store_id)
             endpoint = 'api/Odoo/ConfirmAtHall'
             params = {"storeCode": int(store_id), "doorId": int(door_id),
-                      "userId": login, "WasConfirmed": was_confirmed}
+                      "userId": login, "WasConfirmed": was_confirmed,
+                      "token": "G02Future$2021"
+                      }
             send_access_store_response = requests.post(urljoin(base_url, endpoint), json=params)
             print(send_access_store_response)
             return send_access_store_response
