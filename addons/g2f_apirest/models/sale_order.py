@@ -140,8 +140,8 @@ class SaleOrder(models.Model):
                 access_url = invoice.access_url
                 access_token = invoice.access_token
                 command = '&report_type=pdf&download=true'
-                # link = f"{server.value}{access_url}?access_token={access_token}{command}"
-                link = f"{server.value}{access_url}?{command}"
+                link = f"{server.value}{access_url}?access_token={access_token}{command}"
+                # link = f"{server.value}{access_url}?{command}"
                 _logger.info(link)
                 links.append(link)
         except Exception as error:

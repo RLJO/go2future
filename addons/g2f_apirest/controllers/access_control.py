@@ -11,6 +11,12 @@ from odoo.exceptions import ValidationError, UserError
 class AccessControl(http.Controller):
     """Access Control Controller."""
 
+    @http.route(['/test'], type='http', auth='user', methods=['GET'],
+                website=True, csrf=False)
+    def test(self, **kw):
+        print(kw)
+
+
     def get_store_by_id(self, store_id):
         """Get Store from id passed."""
 
