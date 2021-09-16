@@ -89,7 +89,7 @@ class SaleOrderCart(http.Controller):
 
     @http.route(['/sale_order_list/', '/sale_order_list/page/<int:page>',
                  '/sale_order_list/page'],
-                type='http', auth='public', methods=['GET'], website=True,
+                type='http', auth='user', methods=['GET'], website=True,
                 csrf=False)
     def sale_order_list(self, page=0, **kw):
         '''Get sale order list closed by login.'''
