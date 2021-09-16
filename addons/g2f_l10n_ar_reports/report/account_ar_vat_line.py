@@ -27,7 +27,7 @@ SELECT
     am.invoice_date,
     am.partner_id,
 	aml.account_id,
-	aa.name as account_name,
+	aa.code || ' ' || aa.name as account_name,
     --(SELECT aa.name FROM account_account aa WHERE aa.ID = aml.account_id) AS account_id,
     am.journal_id,
     am.name,
