@@ -7,6 +7,10 @@
         <field name="inherit_id" ref="sale.view_order_form" />
         <field name="arch" type="xml">
             <xpath expr="//field[@name='marketplace_seller_id']" position="after">
+                <field name="count_qty" invisible="1"/>
+            </xpath>
+            
+            <xpath expr="//field[@name='marketplace_seller_id']" position="after">
                 <field name="payment_acquirer_id" options="{'no_create': True}"/>
             </xpath>
             <xpath expr="//notebook" position="inside">
