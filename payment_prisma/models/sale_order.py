@@ -249,3 +249,10 @@ class SaleOrder(models.Model):
         res = super(SaleOrder, self)._prepare_invoice()
         res['sale_order_id'] = self.id
         return res
+
+
+class SaleOrderLine(models.Model):
+    _inherit = 'sale.order.line'
+    _description = 'Lineas del pedido de venta'
+
+    warehouse_id = fields.Many2one('stock.warehouse', string='Local', related='order_id.warehouse_id', store=True)

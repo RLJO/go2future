@@ -88,5 +88,35 @@
             </xpath>
         </field>
     </record>
+    <!--Modificacion en vista tree de lineas de pedidos de venta-->
+    <record id="g2f_sale_order_line_inh" model="ir.ui.view">
+        <field name="name">g2f.sale.order.line.inh</field>
+        <field name="model">sale.order.line</field>
+        <field name="inherit_id" ref="sale.view_order_line_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='salesman_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='qty_delivered']" position="attributes">
+                <attribute name="groups">base.group_system</attribute>
+            </xpath>
+            <xpath expr="//field[@name='qty_invoiced']" position="attributes">
+                <attribute name="groups">base.group_system</attribute>
+            </xpath>
+            <xpath expr="//field[@name='qty_to_invoice']" position="attributes">
+                <attribute name="groups">base.group_system</attribute>
+            </xpath>
+            <xpath expr="//field[@name='product_uom_qty']" position="after">
+                <field name="price_unit"/>
+            </xpath>
+            <xpath expr="//field[@name='product_uom_qty']" position="attributes">
+                <attribute name="sum">Total</attribute>
+            </xpath>
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="warehouse_id"/>
+            </xpath>
+
+        </field>
+    </record>
 
 </odoo>
