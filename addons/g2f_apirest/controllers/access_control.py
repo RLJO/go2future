@@ -11,6 +11,12 @@ from odoo.exceptions import ValidationError, UserError
 class AccessControl(http.Controller):
     """Access Control Controller."""
 
+    @http.route(['/test'], type='http', auth='user', methods=['GET'],
+                website=True, csrf=False)
+    def test(self, **kw):
+        print(kw)
+
+
     def get_store_by_id(self, store_id):
         """Get Store from id passed."""
 
@@ -38,6 +44,10 @@ class AccessControl(http.Controller):
 
         sale_order = http.request.env['sale.order'].sudo()
         user = http.request.env['res.partner'].sudo().validate_user(login)
+
+        if user and user.is_staff():
+            response = {'status': '200', 'message': 'OK'}
+            return dumps(response)
 
         if method == 'POST' and user:
             if code == 7:
@@ -105,12 +115,15 @@ class AccessControl(http.Controller):
             store_id = kw.get('store_id') or 1
             door_id = kw.get('door_id') or 0
             was_confirmed = kw.get('was_confirmed')
+            # token = 'aqui un token'
 
             # Prepare url endpoint and send to Access control server
             base_url = self.get_store_by_id(store_id)
             endpoint = 'api/Odoo/ConfirmAtHall'
             params = {"storeCode": int(store_id), "doorId": int(door_id),
-                      "userId": login, "WasConfirmed": was_confirmed}
+                      "userId": login, "WasConfirmed": was_confirmed,
+                      "token": "G02Future$2021"
+                      }
             send_access_store_response = requests.post(urljoin(base_url, endpoint), json=params)
             print(send_access_store_response)
             return send_access_store_response

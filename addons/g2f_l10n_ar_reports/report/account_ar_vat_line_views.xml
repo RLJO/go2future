@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="g2f_view_account_ar_vat_line_search" model="ir.ui.view">
+        <field name="name">g2f.account.ar.vat.line.search</field>
+        <field name="model">account.ar.vat.line</field>
+        <field name="inherit_id" ref="l10n_ar_reports.view_account_ar_vat_line_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search/field[@name='partner_id']" position="after">
+                <field name="account_id"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="g2f_view_account_ar_vat_line_tree" model="ir.ui.view">
+        <field name="name">g2f.account.ar.vat.line.tree</field>
+        <field name="model">account.ar.vat.line</field>
+        <field name="inherit_id" ref="l10n_ar_reports.view_account_ar_vat_line_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree/field[@name='partner_id']" position="after">
+                <field name="account_id"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

@@ -225,3 +225,61 @@ class ProductStore(models.Model):
     def _compute_total_weight(self):
         for prod in self:
             prod.weight_total_prod = prod.weight_total_prod * prod.und_front
+
+    @api.model
+    def _set_plano(self, vals):
+        code = vals.get('code')
+        product = vals.get('product')
+        gondola = vals.get('gondola')
+        linea = vals.get('linea')
+        estante = vals.get('estante')
+        qty_total = vals.get('qty_total')
+        ini_position = vals.get('ini_position')
+        end_position = vals.get('end_position')
+        und_front = vals.get('und_front')
+        und_fund = vals.get('und_fund')
+        und_high = vals.get('und_high')
+        if qty_total <= 0:
+            res = {'ERROR': 'El campo qty_total debe ser mayor a cero (0)'}
+            return res
+        if und_front <= 0:
+            res = {'ERROR': 'El campo und_front debe ser mayor a cero (0)'}
+            return res
+        if und_fund <= 0:
+            res = {'ERROR': 'El campo und_fund debe ser mayor a cero (0)'}
+            return res
+        if und_high <= 0:
+            res = {'ERROR': 'El campo und_high debe ser mayor a cero (0)'}
+            return res
+        local_id = self.env['stock.warehouse'].search([('code', '=', code)])
+        if not local_id:
+            res = {'ERROR': 'No se encontró Minigo registrado con el código: %s' % code}
+            return res
+        product_plano_ids = local_id.product_plano_ids.filtered(lambda p: p.product_id.barcode == product and
+                                                                          p.gondola_id.name == gondola)
+        if not product_plano_ids:
+            res = {'ERROR': 'No se encontró Producto registrado con el código EAN: %s y góndola: %s' % (product, gondola)}
+            return res
+        gondola_id = self.env['store.raspi'].search([('name', '=', gondola)])
+        if not gondola_id:
+            res = {'ERROR': 'No se encontró Góndola registrada con el nombre: %s' % gondola}
+            return res
+        shelf_id = self.env['store.sensor'].search([('name', '=', estante)])
+        if not shelf_id:
+            res = {'ERROR': 'No se encontró Estante registrado con el nombre: %s' % estante}
+            return res
+
+        data = {
+            'gondola_id': gondola_id.id,
+            'line': linea,
+            'shelf_id': shelf_id.id,
+            'qty_total_prod': qty_total,
+            'ini_position': ini_position,
+            'end_position': end_position,
+            'und_front': und_front,
+            'und_fund': und_fund,
+            'und_high': und_high,
+        }
+        product_plano_ids.write(data)
+        res = {'CODE': 200}
+        return res

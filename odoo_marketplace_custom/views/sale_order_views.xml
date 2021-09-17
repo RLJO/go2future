@@ -174,6 +174,12 @@
                 <field name="context">{"search_default_date":1, "search_default_name":1, "search_default_state":1}</field>
         </record>
 
+        <record id="marketplace_vendor_form" model="ir.rule">
+            <field name="name">marketplace vendor form</field>
+            <field ref="odoo_marketplace_custom.model_marketplace_vendor" name="model_id"/>
+            <field name="domain_force">['|',('state','=', 'sale'), ('state','!=', False)]</field>
+        </record>
+
         <menuitem id="marketplace_vendor_menu" name="marketplace vendedor %" action="action_marketplace_vendor_form" parent="odoo_marketplace.wk_seller_dashboard_menu1"/>
         <menuitem id="marketplace_vendor_menu_sale" name="marketplace vendedor %" action="action_marketplace_vendor_form"  parent="sale.sale_menu_root"/>
 

@@ -319,7 +319,8 @@ class AccountMove(models.Model):
                         item in unprocess
                     ])
                 )
-            raise UserError(msg)
+            #raise UserError(msg)
+            error_invoice.message_post(body=_('%s', msg))
 
         return validated + (self - sale_ar_edi_invoices)._post_data()
 
