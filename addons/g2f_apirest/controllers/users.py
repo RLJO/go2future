@@ -22,6 +22,27 @@ class ResUser(http.Controller):
         if isinstance(object, bytes):
             return object.decode('ascii')
 
+    @http.route(['/users/new/login'], type='json', auth='user',
+                methods=['POST'], website=True, csrf=False)
+    def new_login(self, **kw):
+        """New login user."""
+
+        url_sesion = "http://localhost:9000/web/session/authenticate"
+        headers_login = {'content-type': 'application/json'}
+        database = kw.get("db")
+        login = kw.get("login")
+        password = kw.get("password")
+
+        body = {"jsonrpc": "2.0",
+                "params": {
+                    "db": database, "login": login, "password": password}
+                }
+        session = requests.post(url_sesion, data=dumps(body),
+                                headers=headers_login
+                                )
+        session_id = session.cookies.get('session_id')
+        return session_id
+
     @http.route(['/users/get_transaction'], type='json', auth='public',
                 methods=['POST'],
                 website=True, csrf=False)
@@ -189,7 +210,7 @@ class ResUser(http.Controller):
                     response = {"status": "400", "message": msg}
                     return response
 
-                if not type or type.lower() != 'in':
+                if type.lower() not in ['in']:
                     msg = _('Door is not an entrance.')
                     response = {"status": "403", "message": msg}
                     return response
