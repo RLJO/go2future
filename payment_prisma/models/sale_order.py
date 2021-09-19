@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from odoo import _, fields, models
+from odoo import _, fields, models, api
 from odoo.exceptions import ValidationError
 import json
 import logging
@@ -15,6 +15,17 @@ class SaleOrder(models.Model):
     site_transaction_id = fields.Char(string=_('Transaction ID'), readonly=True, store=True)
     transaction_status = fields.Char(string=_('Transaction Status'), readonly=True, store=True)
     payment_prisma_status_ids = fields.One2many(comodel_name='payment.prisma.status', inverse_name='sale_order_id', readonly=True, store=True)
+    count_qty = fields.Float(string='Cantidad de productos', store=True, compute='_compute_qty')
+
+    @api.depends('order_line.product_uom_qty')
+    def _compute_qty(self):
+        for order in self:
+            count = 0.0
+            for line in order.order_line:
+                count += line.product_uom_qty
+                order.update({
+                    'count_qty': count,
+                })
 
     def prisma_amount_format(self, amount):
         amount_str = str(amount)
@@ -238,3 +249,10 @@ class SaleOrder(models.Model):
         res = super(SaleOrder, self)._prepare_invoice()
         res['sale_order_id'] = self.id
         return res
+
+
+class SaleOrderLine(models.Model):
+    _inherit = 'sale.order.line'
+    _description = 'Lineas del pedido de venta'
+
+    warehouse_id = fields.Many2one('stock.warehouse', string='Local', related='order_id.warehouse_id', store=True)
