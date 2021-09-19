@@ -1,5 +1,6 @@
 # pylint: disable=broad-except
 
+from urllib.parse import urljoin
 from datetime import datetime
 from json import dumps
 import requests
@@ -27,7 +28,10 @@ class ResUser(http.Controller):
     def new_login(self, **kw):
         """New login user."""
 
-        url_sesion = "http://localhost:9000/web/session/authenticate"
+        server = http.request.env['ir.config_parameter'].sudo().search([
+            ('key', '=', 'web.base.url')])
+
+        url_sesion = urljoin(server.value, "/web/session/authenticate")
         headers_login = {'content-type': 'application/json'}
         database = kw.get("db")
         login = kw.get("login")
