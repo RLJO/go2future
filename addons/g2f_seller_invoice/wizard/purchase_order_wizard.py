@@ -25,6 +25,7 @@ class PurchaseOrderWizard(models.TransientModel):
         send_date = time.strftime("%Y%m%d")
         send_time = time.strftime("%H%M")
         detail = ''
+        i = 1
 
         if not self.env.company.code_gln:
             raise UserError(_("EAN del Emisor (%s) no puede ser nulo.") %
@@ -72,7 +73,7 @@ class PurchaseOrderWizard(models.TransientModel):
                 default_code = line.product_id.default_code or ''
                 brand = line.product_id.brand or ''
                 detail += 'LINE'
-                detail += str(len(po.order_line)).zfill(6)
+                detail += str(i).zfill(6)
                 detail += barcode.ljust(14)
                 detail += line.product_id.name[:35].ljust(35)
                 detail += brand[:35].ljust(35)
@@ -86,6 +87,7 @@ class PurchaseOrderWizard(models.TransientModel):
                 detail += ''.ljust(15)
                 detail += str(line.price_subtotal).zfill(15)
                 detail += ''.ljust(80) + '\n'
+                i += 1
 
             data = info + '\n' + head + '\n' + detail
             print(data)
