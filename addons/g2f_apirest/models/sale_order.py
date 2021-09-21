@@ -37,7 +37,7 @@ class SaleOrder(models.Model):
     def _get_sale_order_from_controller(self, login):
         """Get sale order from controller."""
 
-        user_id = self.env['res.users'].search([('login', '=', login)])
+        user_id = self.env['res.users'].search([('id', '=', login)])
         order = self._search_sale_order_by_partner(user_id.partner_id.id)
         list_sale = self._list_sale_order_cart(order)
         return list_sale
