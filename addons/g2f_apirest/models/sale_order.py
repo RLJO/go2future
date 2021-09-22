@@ -37,7 +37,10 @@ class SaleOrder(models.Model):
     def _get_sale_order_from_controller(self, login):
         """Get sale order from controller."""
 
-        user_id = self.env['res.users'].search([('login', '=', login)])
+        domain = [('id', '=', login)] if login.isdigit() else \
+                 [('login', '=', login)]
+
+        user_id = self.env['res.users'].search(domain)
         order = self._search_sale_order_by_partner(user_id.partner_id.id)
         list_sale = self._list_sale_order_cart(order)
         return list_sale
@@ -98,15 +101,19 @@ class SaleOrder(models.Model):
         new_order._cr.commit()
         return True
 
-    def get_sale_order_list(self, login):
+    def get_sale_order_list(self, login, page=1):
         """Get sale order list by res.partner whith status sale."""
 
+        ORDER_FOR_PAGE = 2
         user_id = self.env['res.users'].search([('login', '=', login)])
         orders = self._search_sale_order_by_partner(user_id.partner_id.id,
                                                     'sale')
+        filters = orders.search([('id', 'in', orders.ids)],
+                                offset=(page - 1) * ORDER_FOR_PAGE,
+                                limit=ORDER_FOR_PAGE)
         order_list = []
 
-        for order in orders:
+        for order in filters:
             data = {}
             # Por ahora se saca el stado paid porque la factura aparece como
             # que no se pago
@@ -136,8 +143,8 @@ class SaleOrder(models.Model):
                 access_url = invoice.access_url
                 access_token = invoice.access_token
                 command = '&report_type=pdf&download=true'
-                # link = f"{server.value}{access_url}?access_token={access_token}{command}"
-                link = f"{server.value}{access_url}?{command}"
+                link = f"{server.value}{access_url}?access_token={access_token}{command}"
+                # link = f"{server.value}{access_url}?{command}"
                 _logger.info(link)
                 links.append(link)
         except Exception as error:

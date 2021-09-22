@@ -138,15 +138,9 @@ class ResPartner(models.Model):
                                             product_owner_warehouse['partner_id'] = children.id
 
                             partner_warehouse = product_supplierinfo.search([('product_tmpl_id', '=', product_owner_warehouse['product_id']), ('name', '=', product_owner_warehouse['partner_id']), ('warehouse_id', '=', product_owner_warehouse['warehouse_id'])])
-                            if not partner_warehouse:
-                                product_supplierinfo.create({
-                                    'name': product_owner_warehouse['partner_id'],
-                                    'warehouse_id': product_owner_warehouse['warehouse_id'],
-                                    'product_tmpl_id': product_owner_warehouse['product_id']
-                                })
-                            else:
-                                for item in partner_warehouse:
-                                    item.write({
+                            if self:
+                                if not partner_warehouse:
+                                    product_supplierinfo.create({
                                         'name': product_owner_warehouse['partner_id'],
                                         'warehouse_id': product_owner_warehouse['warehouse_id'],
                                     })

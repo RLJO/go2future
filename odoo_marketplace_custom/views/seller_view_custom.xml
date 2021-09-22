@@ -305,7 +305,7 @@
             <field name="res_model">res.partner</field>
             <field name="binding_view_types">form</field>
             <field name="domain">[('seller', '=', True),('state', '!=', False),('children_parent_id', '=', False),
-                ('active', '=', True), ('id','in',['get_marketplace_seller_id()'])]</field>
+                ('active', '=', True), ('id','in',['get_marketplace_seller_id()']),('parent_id', '=', False)]</field>
             <field name="context">{ 'default_seller': 1, 'search_default_seller_status_filter': 1, 'no_archive': 1}</field>
             <field name="view_mode">kanban,tree,form</field>
             <field name="view_id" ref="odoo_marketplace.wk_seller_kanban_view"/>

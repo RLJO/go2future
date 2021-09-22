@@ -1,5 +1,7 @@
 # pylint: disable=broad-except
 
+from urllib.parse import urljoin
+from datetime import datetime
 from json import dumps
 import requests
 from urllib.parse import urljoin
@@ -10,6 +12,41 @@ from odoo.exceptions import ValidationError, UserError
 
 
 class ResUser(http.Controller):
+
+
+    def parse_dumps(self, object):
+        """Parse fields for dumps response."""
+
+        if isinstance(object, datetime):
+            return object.__str__()
+
+        if isinstance(object, bytes):
+            return object.decode('ascii')
+
+    @http.route(['/users/new/login'], type='json', auth='user',
+                methods=['POST'], website=True, csrf=False)
+    def new_login(self, **kw):
+        """New login user."""
+
+        server = http.request.env['ir.config_parameter'].sudo().search([
+            ('key', '=', 'web.base.url')])
+
+        url_sesion = urljoin(server.value, "/web/session/authenticate")
+        headers_login = {'content-type': 'application/json'}
+        database = kw.get("db")
+        login = kw.get("login")
+        password = kw.get("password")
+
+        body = {"jsonrpc": "2.0",
+                "params": {
+                    "db": database, "login": login, "password": password}
+                }
+        session = requests.post(url_sesion, data=dumps(body),
+                                headers=headers_login
+                                )
+        session_id = session.cookies.get('session_id')
+        return session_id
+
     @http.route(['/users/get_transaction'], type='json', auth='public',
                 methods=['POST'],
                 website=True, csrf=False)
@@ -37,8 +74,11 @@ class ResUser(http.Controller):
 
         method = http.request.httprequest.method
         stores = http.request.env['stock.warehouse'].sudo().search_read(
-                fields=['name', 'direccion_local', 'country_id', 'state_id', 'store_image'])
-        return dumps(stores)
+                [('active', '=', True)],
+                fields=['name', 'direccion_local', 'country_id',
+                        'state_id', 'store_image']
+                )
+        return dumps(stores, default=self.parse_dumps)
 
     @http.route(['/users/Countries'], type='http', auth='public',
                 methods=['GET'],
@@ -174,18 +214,22 @@ class ResUser(http.Controller):
                     response = {"status": "400", "message": msg}
                     return response
 
-                if not type or type.lower() != 'in':
+                if type.lower() not in ['in']:
                     msg = _('Door is not an entrance.')
                     response = {"status": "403", "message": msg}
                     return response
 
                 # Prepare url endpoint and send to Access control server
+                endpoint = 'api/Odoo/OpenDoor'
                 base_url = store.access_control_url
                 params = {"storeCode": int(store_id),
                           "doorId": int(door_id),
-                          "userId": login}
+                          "userId": login,
+                          "token": "G02Future$2021"
+                          }
+
                 try:
-                    requests.post(base_url, json=params)
+                    requests.post(urljoin(base_url, endpoint), json=params)
                 except Exception as Error:
                     response = {"status": "400", "message": Error}
 
