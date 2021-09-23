@@ -63,7 +63,16 @@ class SaleOrder(models.Model):
 
         return False
 
-    def is_paid(self):
+    def is_pending_order_to_pay(self):
+        """Validate if user has be opending order to pay."""
+        try:
+            self.ensure_one()
+            return bool(self.amount_total)
+        except Exception as error:
+            _logger.error(error)
+        return True
+
+    def is_payment_approved(self):
         """Validate is payment_prisma_status is approved."""
 
         self.ensure_one()
@@ -71,6 +80,18 @@ class SaleOrder(models.Model):
         if status_paid == 'approved':
             return True
         return False
+
+    def cancel_sale_order(self):
+        """Cancel sale order."""
+
+        self.ensure_one()
+        try:
+            self.action_cancel()
+        except Exception as Error:
+            _logger.info(Error)
+            return False
+
+        return True
 
     def confirm_sale_order(self):
         """Confirm sale order."""

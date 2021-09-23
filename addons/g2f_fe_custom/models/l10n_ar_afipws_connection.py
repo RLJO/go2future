@@ -3,16 +3,35 @@
 from lxml import builder, etree
 from odoo import fields, models
 from OpenSSL import crypto
-
+from requests.adapters import HTTPAdapter
 import base64
 import datetime
 import logging
 import time
+from zeep import transports
+from urllib3.util.ssl_ import create_urllib3_context, DEFAULT_CIPHERS
 import zeep
 
 _logger = logging.getLogger(__name__)
 
-class ARTransport(zeep.transports.Transport):
+AFIP_CIPHERS = DEFAULT_CIPHERS + ":!DH"
+
+
+class L10nArHTTPAdapter(HTTPAdapter):
+    """ An adapter to block DH ciphers which may not work for *.afip.gov.ar """
+
+    def init_poolmanager(self, *args, **kwargs):
+        context = create_urllib3_context(ciphers=AFIP_CIPHERS)
+        kwargs["ssl_context"] = context
+        return super().init_poolmanager(*args, **kwargs)
+
+
+class ARTransport(transports.Transport):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.session.mount('https://', L10nArHTTPAdapter()) # block DH ciphers for AFIP servers
+
     def post(self, address, message, headers):
         response = super().post(address, message, headers)
         self.xml_request = etree.tostring(

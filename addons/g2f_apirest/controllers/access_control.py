@@ -115,25 +115,37 @@ class AccessControl(http.Controller):
             elif code == 9:
                 order = sale_order._search_sale_order_by_partner(user.partner_id.id)
                 # codigo 9 es que esta saliendo de la tienda
-                # Se confirma la sale order
-                order.confirm_sale_order()
 
-                # Ahora validar que el pago se efectuo
-                if order.sudo().is_paid():
-                    code = 10
-                    msg_for_app_mobile = _('successful payment')
-                    message = _('Please Open door 2')
+                # Valido que tenga algo pendiente por pagar o se va sin nada
+                if order.is_pending_order_to_pay():
+                    # Tiene productos en el carrito se confirma la sale order
+                    order.confirm_sale_order()
+
+                    # Ahora validar que el pago se efectuo
+                    if order.sudo().is_payment_approved():
+                        code = 10
+                        msg_for_app_mobile = _('successful payment')
+                        message = _('Please Open door 2')
+                    else:
+                        code = 0
+                        msg_for_app_mobile = _('Payment declined')
+                        message = _('Payment declined')
+
                 else:
-                    code = 0
-                    msg_for_app_mobile = _('Payment declined')
-                    message = _('Payment declined')
+                    code = 10
+                    msg_for_app_mobile = _(
+                            'Customer does not have products pending payment')
+                    message = _('Please Open door 2')
+
+                    # Aqui yo deberia cancelar la sale order
+                    order.cancel_sale_order()
 
             elif code == 11:
                 # El cliente decidio dejar los productos y retirtarse
                 # Validar tambien que la sale order este en 0
                 order = sale_order._search_sale_order_by_partner(
                         user.partner_id.id)
-                if order.amount_total > 0:
+                if order.is_pending_order_to_pay():
                     msg_for_app_mobile = _(
                             """
                             Sorry, you cannot leave the store,
@@ -142,7 +154,9 @@ class AccessControl(http.Controller):
                 else:
                     msg_for_app_mobile = _('Customer leaves the products and leaves the store')
                     message = _('Please Open door 1 and 2')
+
                     # Aqui yo deberia cancelar la sale order
+                    order.cancel_sale_order()
 
             # tomar el mensaje y guardarlo en el model transaction
             transaction.sudo().create_transaction(login, store_id, door_id,
