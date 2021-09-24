@@ -184,7 +184,7 @@ class StoreSensor(models.Model):
     calibration_factor = fields.Float(string='Factor de Calibracion')
     dt_pin = fields.Integer(string='dt_pin')
     sck_pin = fields.Integer(string='sck pin')
-    cart_id = fields.Integer(string='cart_id')
+    cart_id = fields.Integer(string='cart_id', store=True)
     zone_id = fields.Many2one('camera.zone', string='Zona')
     pi_id = fields.Many2one('store.raspi', string='Raspberry PI')
     store_id = fields.Many2one('stock.warehouse', string='Tienda', related="pi_id.store_id", store=True)
