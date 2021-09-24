@@ -198,6 +198,7 @@ class StoreSensor(models.Model):
             "dt_pin": sensor.dt_pin,
             "sck_pin": sensor.sck_pin,
             "zone": sensor.zone_id.name,
+            "cart_id": sensor.cart_id,
         })
         return res
 
