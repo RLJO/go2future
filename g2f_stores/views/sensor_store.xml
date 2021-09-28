@@ -20,6 +20,7 @@
                                 <field name="calibration_factor"/>
                                 <field name="dt_pin"/>
                                 <field name="sck_pin"/>
+                                <field name="cart_id"/>
                             </group>
                         </group>
                     </sheet>
