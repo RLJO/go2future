@@ -65,7 +65,7 @@ class ResPartner(models.Model):
         Parameters:
         email: str"""
 
-        user = self.user_ids.search([('email', 'ilike', login)])
+        user = self.user_ids.search([('email', '=', login)])
         return user or None
 
     def document_exist(self, identification_type, document):

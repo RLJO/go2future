@@ -1,5 +1,6 @@
 # pylint: disable=broad-except
 
+import logging
 from urllib.parse import urljoin
 from datetime import datetime
 from json import dumps
@@ -9,6 +10,12 @@ from urllib.parse import urljoin
 from odoo import http, _
 from odoo.addons.g2f_apirest.controllers.vision_system import VisionSystem
 from odoo.exceptions import ValidationError, UserError
+
+
+logging.basicConfig(
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+        level=logging.INFO)
+_logger = logging.getLogger(__name__)
 
 
 class ResUser(http.Controller):
@@ -183,7 +190,7 @@ class ResUser(http.Controller):
             response = {"status": "201", "message": "OK"}
             return dumps(response)
 
-    @http.route(['/users/EnterStore'], type='json', auth='public',
+    @http.route(['/users/EnterStores'], type='json', auth='public',
                 methods=['POST'],
                 website=True, csrf=False)
     def enter_store(self, **kw):
@@ -214,7 +221,7 @@ class ResUser(http.Controller):
                     response = {"status": "400", "message": msg}
                     return response
 
-                if type.lower() not in ['in']:
+                if type.lower() not in ['in'] and not user.is_staff():
                     msg = _('Door is not an entrance.')
                     response = {"status": "403", "message": msg}
                     return response
@@ -231,6 +238,7 @@ class ResUser(http.Controller):
                 try:
                     requests.post(urljoin(base_url, endpoint), json=params)
                 except Exception as Error:
+                    _logger.error(Error)
                     response = {"status": "400", "message": Error}
 
                 return dumps(response)
