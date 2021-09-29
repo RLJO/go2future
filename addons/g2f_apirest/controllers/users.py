@@ -190,7 +190,7 @@ class ResUser(http.Controller):
             response = {"status": "201", "message": "OK"}
             return dumps(response)
 
-    @http.route(['/users/EnterStores'], type='json', auth='public',
+    @http.route(['/users/EnterStore'], type='json', auth='public',
                 methods=['POST'],
                 website=True, csrf=False)
     def enter_store(self, **kw):
