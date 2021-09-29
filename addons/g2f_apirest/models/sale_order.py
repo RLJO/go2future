@@ -180,7 +180,8 @@ class SaleOrder(models.Model):
                 new = invoice.get_portal_url()
                 access_url = invoice.access_url
                 access_token = invoice.access_token
-                command = '&report_type=pdf&download=true'
+                command = '&report_type=pdf'
+                # command = '&report_type=pdf&download=true'
                 link = f"{server.value}{new}{command}"
                 # link = f"{server.value}{access_url}?access_token={access_token}{command}"
                 # link = f"{server.value}{access_url}?{command}"
