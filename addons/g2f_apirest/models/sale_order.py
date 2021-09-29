@@ -9,7 +9,8 @@ from json import dumps
 import logging
 from odoo import models, fields, api, _
 from odoo.exceptions import MissingError
-
+from odoo import http
+from odoo.addons.web.controllers.main import serialize_exception,content_disposition 
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -150,6 +151,19 @@ class SaleOrder(models.Model):
 
         return order_list
 
+    def create_pdf(self, order):
+        """Method for create pdf invoice."""
+
+        for invoice in order.invoice_ids:
+            pdf, _ = self.env['ir.actions.report']._get_report_from_name(
+                    'account.report_invoice').sudo()._render_qweb_pdf(
+                            [int(invoice.id)])
+            pdf_http_headers = [('Content-Type', 'application/pdf'),
+                                ('Content-Length', len(pdf)),
+                                ('Content-Disposition', 'mifactura')]
+            import ipdb; ipdb.set_trace() # BREAKPOINT
+            response = http.request.make_response(pdf, headers=pdf_http_headers)
+
     def _link_download_invoice(self, order):
         """prepare download link invoice from sale order passed."""
 
@@ -158,13 +172,18 @@ class SaleOrder(models.Model):
         if not server.value:
             return ''
 
+        # self.create_pdf(order)
+
         try:
             for invoice in order.invoice_ids:
+
                 link = ''
+                new = invoice.get_portal_url()
                 access_url = invoice.access_url
                 access_token = invoice.access_token
                 command = '&report_type=pdf&download=true'
-                link = f"{server.value}{access_url}?access_token={access_token}{command}"
+                link = f"{server.value}{new}{command}"
+                # link = f"{server.value}{access_url}?access_token={access_token}{command}"
                 # link = f"{server.value}{access_url}?{command}"
                 _logger.info(link)
                 links.append(link)
