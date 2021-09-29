@@ -236,9 +236,10 @@ class ResUser(http.Controller):
                           }
 
                 try:
-                    requests.post(urljoin(base_url, endpoint), json=params)
+                    respon = requests.post(urljoin(base_url, endpoint), json=params)
+                    _logger.error(respon)
                 except Exception as Error:
-                    _logger.error(Error)
+                    _logger.info(Error)
                     response = {"status": "400", "message": Error}
 
                 return dumps(response)

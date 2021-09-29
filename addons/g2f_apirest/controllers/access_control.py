@@ -4,8 +4,15 @@ import requests
 from json import dumps
 from urllib.parse import urljoin
 
+import logging
 from odoo import http, _
 from odoo.exceptions import ValidationError, UserError
+
+
+logging.basicConfig(
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    level=logging.INFO)
+_logger = logging.getLogger(__name__) 
 
 
 class AccessControl(http.Controller):
@@ -32,6 +39,26 @@ class AccessControl(http.Controller):
             response = {"status": "400", "message": str(Error)}
 
         return dumps(response)
+
+    def _confirm_payment_to_access_control(self, store_id, door_id, login,
+                                           was_confirmed):
+        """Send to AccessControl confirm payment."""
+
+        base_url = self.get_store_by_id(store_id)
+        endpoint = 'api/Odoo/ConfirmPayment'
+        params = {"storeCode": int(store_id),
+                  "doorId": int(door_id),
+                  "userId": login,
+                  "WasConfirmed": was_confirmed,
+                  "token": "G02Future$2021"}
+        try:
+            response = requests.post(
+                    urljoin(base_url, endpoint), json=params)
+        except Exception as Error:
+            _logger.error(Error)
+            response = {"status": "400", "message": str(Error)}
+
+        return response
 
     @http.route(['/test'], type='http', auth='user', methods=['GET'],
                 website=True, csrf=False)
@@ -114,7 +141,8 @@ class AccessControl(http.Controller):
 
             elif code == 9:
                 order = sale_order._search_sale_order_by_partner(user.partner_id.id)
-                # codigo 9 es que esta saliendo de la tienda
+                # codigo 9 significa que control de acceso espera que se
+                # confirme el pago
 
                 # Valido que tenga algo pendiente por pagar o se va sin nada
                 if order.is_pending_order_to_pay():
@@ -123,16 +151,19 @@ class AccessControl(http.Controller):
 
                     # Ahora validar que el pago se efectuo
                     if order.sudo().is_payment_approved():
-                        code = 10
+                        code = 100
                         msg_for_app_mobile = _('successful payment')
                         message = _('Please Open door 2')
+
+
+
                     else:
                         code = 0
                         msg_for_app_mobile = _('Payment declined')
                         message = _('Payment declined')
 
                 else:
-                    code = 10
+                    code = 100
                     msg_for_app_mobile = _(
                             'Customer does not have products pending payment')
                     message = _('Please Open door 2')
@@ -194,6 +225,7 @@ class AccessControl(http.Controller):
                       "userId": login, "WasConfirmed": was_confirmed,
                       "token": "G02Future$2021"
                       }
-            send_access_store_response = requests.post(urljoin(base_url, endpoint), json=params)
+            send_access_store_response = requests.post(urljoin(base_url,
+                                                       endpoint), json=params)
             print(send_access_store_response)
             return send_access_store_response
