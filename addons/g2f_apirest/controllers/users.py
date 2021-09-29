@@ -190,64 +190,6 @@ class ResUser(http.Controller):
             response = {"status": "201", "message": "OK"}
             return dumps(response)
 
-    @http.route(['/users/EnterStore'], type='json', auth='public',
-                methods=['POST'],
-                website=True, csrf=False)
-    def enter_store(self, **kw):
-        """Endpoint when user enter Store."""
-
-        method = http.request.httprequest.method
-        kw = http.request.jsonrequest
-
-        login = kw.get('login')
-        door_id = kw.get('door_id')
-        store_id = kw.get('store_id')
-        type = kw.get('type')
-
-        response = {"status": "200", "message": "Wait for access control"}
-
-        if method == 'POST':
-            print('Validar que el usuario exista o este activo')
-            user = self._validate_user(login)
-            if user:
-                print(f'El ID del usuario es:{user.id}')
-                # Enviarle al sistema de control de acceso que el usaurio entro
-
-                store = http.request.env['stock.warehouse'].sudo().search(
-                        [('id', '=', store_id)]
-                )
-                if not store:
-                    msg = _('Store dont exist.')
-                    response = {"status": "400", "message": msg}
-                    return response
-
-                if type.lower() not in ['in'] and not user.is_staff():
-                    msg = _('Door is not an entrance.')
-                    response = {"status": "403", "message": msg}
-                    return response
-
-                # Prepare url endpoint and send to Access control server
-                endpoint = 'api/Odoo/OpenDoor'
-                base_url = store.access_control_url
-                params = {"storeCode": int(store_id),
-                          "doorId": int(door_id),
-                          "userId": login,
-                          "token": "G02Future$2021"
-                          }
-
-                try:
-                    respon = requests.post(urljoin(base_url, endpoint), json=params)
-                    _logger.error(respon)
-                except Exception as Error:
-                    _logger.info(Error)
-                    response = {"status": "400", "message": Error}
-
-                return dumps(response)
-
-            msg = _('User dont exists!')
-            response = {'status': '400', 'messsage': msg}
-            return dumps(response)
-
     @http.route(['/users/avatar'], type='json', auth='public', methods=['PUT'],
                 website=True, csrf=False)
     def update_user_avatar(self, **kw):
