@@ -161,7 +161,6 @@ class SaleOrder(models.Model):
             pdf_http_headers = [('Content-Type', 'application/pdf'),
                                 ('Content-Length', len(pdf)),
                                 ('Content-Disposition', 'mifactura')]
-            import ipdb; ipdb.set_trace() # BREAKPOINT
             response = http.request.make_response(pdf, headers=pdf_http_headers)
 
     def _link_download_invoice(self, order):
