@@ -2,7 +2,7 @@
 
 import logging
 import requests
-from json import dumps
+from json import dumps, loads
 from urllib.parse import urljoin
 
 from odoo import http, _
@@ -46,13 +46,12 @@ class AccessControl(http.Controller):
 
         try:
             # timeout=0.001
-            response = requests.post(urljoin(base_url, endpoint), json=params,
-                                     timeout=5)
+            response = requests.post(urljoin(base_url, endpoint), json=params)
             _logger.info(response.text)
         except Exception as Error:
             return dumps({"status": "400", "message": str(Error)})
 
-        return response.text
+        return dumps(loads(response.text).update({"role": role}))
 
     def _confirm_payment_to_access_control(self, store_id, door_id, login,
                                            was_confirmed):
