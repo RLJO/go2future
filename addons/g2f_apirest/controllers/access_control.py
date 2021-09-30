@@ -44,12 +44,13 @@ class AccessControl(http.Controller):
 
         try:
             # timeout=0.001
-            response = requests.post(urljoin(base_url, endpoint), json=params)
-            _logger.info(response)
+            response = requests.post(urljoin(base_url, endpoint), json=params,
+                                     timeout=5)
+            _logger.info(response.text)
         except Exception as Error:
-            response = {"status": "400", "message": str(Error)}
+            return dumps({"status": "400", "message": str(Error)})
 
-        return dumps(response)
+        return response.text
 
     def _confirm_payment_to_access_control(self, store_id, door_id, login,
                                            was_confirmed):
@@ -65,12 +66,12 @@ class AccessControl(http.Controller):
         try:
             response = requests.post(
                     urljoin(base_url, endpoint), json=params)
-            _logger.info(response)
+            _logger.info(response.text)
         except Exception as Error:
             _logger.error(Error)
-            response = {"status": "400", "message": str(Error)}
+            return dumps({"status": "400", "message": str(Error)})
 
-        return response
+        return response.text
 
     @http.route(['/users/EnterStore'], type='json', auth='public',
                 methods=['POST'],
