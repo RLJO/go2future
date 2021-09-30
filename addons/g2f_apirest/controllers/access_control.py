@@ -32,7 +32,8 @@ class AccessControl(http.Controller):
                 )
         return store
 
-    def _open_door_access_control(self, store_id, door_id, login):
+    def _open_door_access_control(self, store_id, door_id, login,
+                                  role='customer'):
         """Send to AccessControl open Door."""
 
         endpoint = 'api/Odoo/OpenDoor'
@@ -40,7 +41,8 @@ class AccessControl(http.Controller):
         params = {"storeCode": int(store_id),
                   "doorId": int(door_id),
                   "userId": login,
-                  "token": "G02Future$2021"}
+                  "token": "G02Future$2021",
+                  "role": role}
 
         try:
             # timeout=0.001
@@ -86,13 +88,16 @@ class AccessControl(http.Controller):
         door_id = kw.get('door_id')
         store_id = kw.get('store_id')
         type_ = kw.get('type')
+        role = 'customer'
 
         if method == 'POST':
             print('Validar que el usuario exista o este activo')
             user = self._validate_user(login)
             if user:
-                _logger.info(f'El ID del usuario es:{user.id}')
-                # Enviarle al sistema de control de acceso que el usaurio entro
+                _logger.info(f"El ID del usuario es:{user.id}")
+
+                if user.is_staff():
+                    role = 'staff'
 
                 store = self.get_store_by_id(store_id)
                 if not store:
@@ -108,13 +113,15 @@ class AccessControl(http.Controller):
                     return dumps(response)
 
                 # Prepare url endpoint and send to Access control server
-                res = self._open_door_access_control(store_id, door_id, login)
+                res = self._open_door_access_control(store_id, door_id, login,
+                                                     role)
                 return res
 
             msg = _('User dont exists!')
             response = {'status': '400', 'messsage': msg}
             _logger.info(response)
             return dumps(response)
+        return False
 
     @http.route(['/test'], type='http', auth='user', methods=['GET'],
                 website=True, csrf=False)
@@ -143,12 +150,12 @@ class AccessControl(http.Controller):
         sale_order = http.request.env['sale.order'].sudo()
         user = http.request.env['res.partner'].sudo().validate_user(login)
 
-        if user and user.is_staff():
-            response = {'status': '200', 'message': 'is staff'}
-            return dumps(response)
-
         if method == 'POST' and user:
-            if code == 7:
+            if user.is_staff():
+                msg_for_app_mobile = 'is staff'
+                message = _('is staff')
+
+            if code == 7 and not user.is_staff():
                 # Crear la sale order
                 sale_order.create_sale_order(user.partner_id.id)
                 msg_for_app_mobile = _('sales order was created successfully')
@@ -206,7 +213,8 @@ class AccessControl(http.Controller):
                     # Aqui yo deberia cancelar la sale order
                     order.cancel_sale_order()
 
-            # tomar el mensaje y guardarlo en el model transaction
+            # tomar el mensaje y guardarlo en el model transaction para que
+            # la app le llegue el mensaje y tome una decision.
             transaction.sudo().create_transaction(login, store_id, door_id,
                                                   code, msg_for_app_mobile,
                                                   'access_control')
