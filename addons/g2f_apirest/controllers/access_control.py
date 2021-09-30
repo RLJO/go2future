@@ -51,7 +51,9 @@ class AccessControl(http.Controller):
         except Exception as Error:
             return dumps({"status": "400", "message": str(Error)})
 
-        return dumps(loads(response.text).update({"role": role}))
+        resp = loads(response.text)
+        resp.update({"role": role})
+        return dumps(resp)
 
     def _confirm_payment_to_access_control(self, store_id, door_id, login,
                                            was_confirmed):
