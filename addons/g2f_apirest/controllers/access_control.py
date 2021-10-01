@@ -92,10 +92,9 @@ class AccessControl(http.Controller):
         role = 'customer'
 
         if method == 'POST':
-            print('Validar que el usuario exista o este activo')
             user = self._validate_user(login)
             if user:
-                _logger.info(f"El ID del usuario es:{user.id}")
+                _logger.info(f"Id usuario:{user.id}, {user.login}")
 
                 if user.is_staff():
                     role = 'staff'
