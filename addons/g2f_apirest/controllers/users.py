@@ -54,6 +54,26 @@ class ResUser(http.Controller):
         session_id = session.cookies.get('session_id')
         return session_id
 
+    @http.route(['/users/get_transaction/last'], type='http', auth='public',
+                methods=['GET'],
+                website=True, csrf=False)
+    def get_last_transaction_by_user(self, **kw):
+        """Get last transactions by user betewn app mpbile acces control and
+        vision_system."""
+
+        method = http.request.httprequest.method
+        login = kw.get('login')
+        user = self._validate_user(login)
+        transaction = http.request.env['apirest.transaction']
+
+        if method == 'GET' and user:
+            transaction = transaction.sudo().get_last_transaction_by_user(
+                    login)
+            _logger.info(transaction)
+            return dumps(transaction[0], default=self.parse_dumps)
+
+        return http.Response('NOT FOUND', status=404)
+
     @http.route(['/users/get_transaction'], type='json', auth='public',
                 methods=['POST'],
                 website=True, csrf=False)
