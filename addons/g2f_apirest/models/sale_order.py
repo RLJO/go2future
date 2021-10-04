@@ -66,6 +66,9 @@ class SaleOrder(models.Model):
 
     def is_pending_order_to_pay(self):
         """Validate if user has be opending order to pay."""
+        if not self:
+            return False
+
         try:
             self.ensure_one()
             return bool(self.amount_total)
