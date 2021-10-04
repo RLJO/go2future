@@ -162,12 +162,15 @@ class AccessControl(http.Controller):
                 message = _('OK')
 
             elif code == 9:
+                _logger.info('recibi el codigo 9 de control de acceso')
                 order = sale_order._search_sale_order_by_partner(user.partner_id.id)
                 # codigo 9 significa que control de acceso espera que se
                 # confirme el pago
 
                 # Valido que tenga algo pendiente por pagar o se va sin nada
                 if order.is_pending_order_to_pay():
+                    _logger.info('Tiene orden pendiente por pagar')
+
                     # Tiene productos en el carrito se confirma la sale order
                     order.confirm_sale_order()
 
@@ -194,6 +197,7 @@ class AccessControl(http.Controller):
 
                     # Aqui yo deberia cancelar la sale order
                     order.cancel_sale_order()
+                    _logger.info('Carrito esta en 0')
 
             elif code == 11:
                 # El cliente decidio dejar los productos y retirtarse
