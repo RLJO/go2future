@@ -190,7 +190,7 @@ class AccessControl(http.Controller):
                         self._confirm_payment_to_access_control(
                                 store_id, door_id, login, "false")
                 else:
-                    code = 100
+                    code = 111
                     msg_for_app_mobile = _(
                             'Customer does not have products pending payment')
                     message = _('Please Open door 2')
