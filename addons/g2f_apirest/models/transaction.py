@@ -42,7 +42,10 @@ class Transaction(models.Model):
         """Get las transacction by user."""
 
         transaction = self.env['apirest.transaction'].search_read(
-                [('login', '=', login), ('active', '=', True)],
+                [
+                    ('login', '=', login),
+                    ('active', '=', True),
+                    ('door_id', '!=', False)],
                 ['login', 'store_id', 'door_id', 'datetime'],
                 order="datetime desc", limit=1)
 
