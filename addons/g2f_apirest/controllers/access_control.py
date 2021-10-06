@@ -61,16 +61,16 @@ class AccessControl(http.Controller):
 
         base_url = self.get_store_by_id(store_id).access_control_url
         endpoint = 'api/Odoo/ConfirmPayment'
-        params = {"storeCode": int(store_id),
+        params = dumps({"storeCode": int(store_id),
                   "doorId": int(door_id),
                   "userId": login,
                   "WasConfirmed": was_confirmed,
-                  "token": "G02Future$2021"}
+                  "token": "G02Future$2021"})
         _logger.info('enviar a control de acceso para que abra la puerta')
         _logger.info(params)
         try:
             response = requests.post(
-                    urljoin(base_url, endpoint), json=params)
+                    urljoin(base_url, endpoint), data=params)
             _logger.info(response.text)
         except Exception as Error:
             _logger.error(Error)
