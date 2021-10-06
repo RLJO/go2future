@@ -85,6 +85,7 @@ class ProductTemplate(models.Model):
                 "ITEM_DEPTH": line.product_id.profundidad,
                 "ITEM_WEIGHT": line.product_id.peso_bruto,
                 "ITEM_LAYOUT": line.product_id.layout,
+                "ITEM_URL_3D_FILE": line.product_id.product_url,
             }
             data["data"].append(head)
         if not quant_ids:
