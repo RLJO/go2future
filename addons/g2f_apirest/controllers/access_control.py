@@ -66,6 +66,8 @@ class AccessControl(http.Controller):
                   "userId": login,
                   "WasConfirmed": was_confirmed,
                   "token": "G02Future$2021"}
+        _logger.info('enviar a control de acceso para que abra la puerta')
+        _logger.info(params)
         try:
             response = requests.post(
                     urljoin(base_url, endpoint), json=params)
