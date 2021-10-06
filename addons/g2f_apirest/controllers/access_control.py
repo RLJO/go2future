@@ -181,14 +181,14 @@ class AccessControl(http.Controller):
                         message = _('successful payment')
                         # enviar a control de acceso que todo esta bien
                         self._confirm_payment_to_access_control(
-                                store_id, door_id, login, "true")
+                                store_id, door_id, login, True)
                     else:
                         code = 0
                         msg_for_app_mobile = _('Payment declined')
                         message = _('Payment declined')
                         # enviar a control de acceso que algo no esta bien
                         self._confirm_payment_to_access_control(
-                                store_id, door_id, login, "false")
+                                store_id, door_id, login, False)
                 else:
                     code = 111
                     msg_for_app_mobile = _(
@@ -203,7 +203,7 @@ class AccessControl(http.Controller):
                     message = _('successful payment')
                     # enviar a control de acceso que todo esta bien
                     self._confirm_payment_to_access_control(
-                            store_id, door_id, login, "true")
+                            store_id, door_id, login, True)
             elif code == 11:
                 # El cliente decidio dejar los productos y retirtarse
                 # Validar tambien que la sale order este en 0
