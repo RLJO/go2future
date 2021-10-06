@@ -12,6 +12,8 @@
                             <field name="name" size="3"/>
                             <field name="ip_add"/>
                             <field name="store_id" readonly="1"/>
+                            <field name="position_x"/>
+                            <field name="position_y"/>
                         </group>
                         <group name="sensors" string="Sensores">
                             <field name="sensor_ids" nolabel="1"/>

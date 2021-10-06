@@ -3,6 +3,8 @@
 from itertools import groupby
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError, AccessError
+from odoo.tools.float_utils import float_round
+import base64
 import time
 import requests
 import json
@@ -528,6 +530,48 @@ class AccountMove(models.Model):
             args += [('seller_id', '=', partner_id.id)]
         return super(AccountMove, self).search(args, **kwargs)
     '''
+
+    @api.depends('l10n_latam_document_type_id')
+    def _compute_l10n_ar_afip_qr_code(self):
+        with_qr_code = self.filtered(lambda x: x.l10n_ar_afip_auth_mode in ['CAE', 'CAEA'] and x.l10n_ar_afip_auth_code) + self.filtered(lambda x: x.electronic_invoice_type in ['afip', 'no_afip'])
+        for rec in with_qr_code:
+            if rec.l10n_ar_afip_auth_code and rec.l10n_ar_afip_auth_mode:
+                data = {
+                    'ver': 1,
+                    'fecha': str(rec.invoice_date),
+                    'cuit': int(rec.company_id.partner_id.l10n_ar_vat),
+                    'ptoVta': rec.journal_id.l10n_ar_afip_pos_number,
+                    'tipoCmp': int(rec.l10n_latam_document_type_id.code),
+                    'nroCmp': int(self._l10n_ar_get_document_number_parts(rec.l10n_latam_document_number, rec.l10n_latam_document_type_id.code)['invoice_number']),
+                    'importe': float_round(rec.amount_total, precision_digits=2, rounding_method='DOWN'),
+                    'moneda': rec.currency_id.l10n_ar_afip_code,
+                    'ctz': float_round(rec.l10n_ar_currency_rate, precision_digits=6, rounding_method='DOWN'),
+                    'tipoCodAut': 'E' if rec.l10n_ar_afip_auth_mode == 'CAE' else 'A',
+                    'codAut': int(rec.l10n_ar_afip_auth_code),
+                }
+            else:
+                data = {
+                    'ver': 1,
+                    'fecha': str(rec.invoice_date),
+                    'cuit': int(rec.company_id.partner_id.l10n_ar_vat),
+                    'ptoVta': rec.journal_id.l10n_ar_afip_pos_number,
+                    'tipoCmp': int(rec.l10n_latam_document_type_id.code),
+                    'nroCmp': int(self._l10n_ar_get_document_number_parts(rec.l10n_latam_document_number, rec.l10n_latam_document_type_id.code)['invoice_number']),
+                    'importe': float_round(rec.amount_total, precision_digits=2, rounding_method='DOWN'),
+                    'moneda': rec.currency_id.l10n_ar_afip_code,
+                    'ctz': float_round(rec.l10n_ar_currency_rate, precision_digits=6, rounding_method='DOWN'),
+                    'tipoCodAut': 'E' if rec.electronic_invoice_type == 'afip' else 'A',
+                }
+            if rec.commercial_partner_id.vat:
+                data.update({'nroDocRec': rec.commercial_partner_id._get_id_number_sanitize()})
+            if rec.commercial_partner_id.l10n_latam_identification_type_id:
+                data.update({'tipoDocRec': int(rec._get_partner_code_id(rec.commercial_partner_id))})
+            # For more info go to https://www.afip.gob.ar/fe/qr/especificaciones.asp
+            rec.l10n_ar_afip_qr_code = 'https://www.afip.gob.ar/fe/qr/?p=%s' % base64.b64encode(json.dumps(
+                data).encode()).decode('ascii')
+
+        remaining = self - with_qr_code
+        remaining.l10n_ar_afip_qr_code = False
 
 
 class AccountMove(models.Model):

@@ -5,7 +5,9 @@
 
 import logging
 import json
+from datetime import datetime
 from odoo import models, fields
+
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -26,6 +28,29 @@ class Transaction(models.Model):
     from_app = fields.Char()
     datetime = fields.Datetime('Scheduled Date', default=fields.Datetime.now)
     active = fields.Boolean(default=True)
+
+    def parse_dumps(self, object):
+        """Parse fields for dumps response."""
+
+        if isinstance(object, datetime):
+            return object.__str__()
+
+        if isinstance(object, bytes):
+            return object.decode('ascii') 
+
+    def get_last_transaction_by_user(self, login):
+        """Get las transacction by user."""
+
+        transaction = self.env['apirest.transaction'].search_read(
+                [
+                    ('login', '=', login),
+                    ('active', '=', True),
+                    ('door_id', '!=', False)],
+                ['login', 'store_id', 'door_id', 'datetime'],
+                order="datetime desc", limit=1)
+
+        _logger.info(transaction)
+        return transaction
 
     def get_transaction_by_user(self, login='', store_id=''):
         """return transaction list by user passed."""

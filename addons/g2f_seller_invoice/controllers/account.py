@@ -104,6 +104,7 @@ class Account(http.Controller):
                 "minigo_address": invoice._get_address(invoice.warehouse_id.partner_id),
                 "origin": invoice.name,
                 "invoice_date": invoice.invoice_date,
+                "invoice_type": invoice.l10n_latam_document_type_id.name,
                 "seller": invoice.seller_id.vat,
                 "amount_untaxed": invoice.amount_untaxed,
                 "amount_tax": invoice.amount_tax,

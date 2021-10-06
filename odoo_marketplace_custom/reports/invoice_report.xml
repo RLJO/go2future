@@ -1,112 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <template id="custom_header" inherit_id="l10n_ar.custom_header">
+        <template id="custom_header_go2future">
+            <div>
+                <div class="row">
+                    <div name="left-upper-side" class="col-5">
+                        <img t-if="o.seller_id and o.seller_id.image_128" t-att-src="image_data_uri(o.seller_id.image_128)" style="max-height: 45px;" alt="Logo"/>
+                    </div>
 
-            <xpath expr="//div[@name='left-upper-side']" position="replace">
-                <div name="left-upper-side" class="col-5" t-if="not pre_printed_report and o.company_invoicing">
-                    <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" style="max-height: 45px;" alt="Logo"/>
-                </div>
-                <div class="col-5" t-if="not o.company_invoicing">
-                    <img t-if="o.seller_id and o.seller_id.image_128" t-att-src="image_data_uri(o.seller_id.image_128)" style="max-height: 45px;" alt="Logo"/>
-                </div>
-            </xpath>
+                    <div name="center-upper" class="col-2 text-center" t-att-style="'color: %s;' % o.company_id.primary_color">
+                        <span style="display: inline-block; text-align: center; line-height: 8px;">
+                            <h1 style="line-height: 25px;">
+                                <strong><span t-esc="document_letter"/></strong>
+                            </h1>
+                            <span style="font-size: x-small;" t-esc="document_legend"/>
+                        </span>
+                    </div>
 
-            <xpath expr="//div[@name='center-upper']/span/h1/strong" position="replace">
-                <strong t-if="o.company_invoicing"><span t-esc="not pre_printed_report and document_letter or '&#160;'"/></strong>
-                <strong t-else=""><span t-esc="document_letter"/></strong>
-            </xpath>
-
-            <xpath expr="//div[@name='center-upper']/span/span" position="replace">
-                <t t-if="o.company_invoicing">
-                    <span style="font-size: x-small;" t-esc="not pre_printed_report and document_legend or '&#160;'"/>
-                </t>
-                <t t-else="">
-                    <span style="font-size: x-small;" t-esc="document_legend"/>
-                </t>
-            </xpath>
-
-            <xpath expr="//div[@name='right-upper-side']" position="attributes">
-                <attribute name="t-if">not pre_printed_report and o.company_invoicing</attribute>
-            </xpath>
-
-            <xpath expr="//div[@name='right-upper-side']" position="after">
-                <div class="col-5 text-right" style="padding-left: 0px;" t-if="not o.company_invoicing">
-                    <h4 t-att-style="'color: %s;' % o.company_id.primary_color">
-                        <strong>
+                    <div name="right-upper-side" class="col-5 text-right" style="padding-left: 0px;">
+                        <h4 t-att-style="'color: %s;' % o.company_id.primary_color"><strong>
                             <span t-esc="report_name"/>
-                        </strong>
-                    </h4>
+                        </strong></h4>
+                    </div>
                 </div>
-            </xpath>
 
-            <xpath expr="//div[@class='row'][2]/div[1]/t" position="attributes">
-                <attribute name="t-if">not pre_printed_report and o.company_invoicing</attribute>
-            </xpath>
+                <div class="row">
+                    <div class="col-6" style="padding-right: 0px;">
+                        <t>
+                            <t t-set="header_address" t-value="o.seller_id"/>
+                            <span style="text-transform: uppercase;" t-field="o.seller_id.name"/>
+                            <br/>
+                            <span>DOMICILIO LEGAL </span>
+                            <span t-esc="o.seller_id.full_direction"/>
+                            <br/>
+                            <t t-if="o.seller_id.customer_attention_phone">
+                                <span>Atención al cliente: </span>
+                                <span t-esc="o.seller_id.customer_attention_phone"/>
+                                <br/>
+                            </t>
+                            <span t-if="o.seller_id.customer_attention_email" t-att-style="'color: %s;' % o.company_id.primary_color" t-esc="o.seller_id.customer_attention_email + ' '"/>
+                            <span t-if="o.seller_id.customer_attention_website" t-att-style="'color: %s;' % o.company_id.primary_color" t-esc="o.seller_id.customer_attention_website"/>
+                            <br t-if="o.seller_id.customer_attention_email or o.seller_id.customer_attention_website"/>
+                            <span>DOMICILIO COMERCIAL: </span>
+                            <span t-esc="o.warehouse_id.direccion_local"/>
+                        </t>
+                    </div>
 
-            <xpath expr="//div[@class='row'][2]/div[1]/t" position="after">
-                <t t-if="not o.company_invoicing">
-                    <t t-set="header_address" t-value="o.seller_id"/>
-                    <span style="text-transform: uppercase;" t-field="o.seller_id.name"/>
-                    <br/>
-                    <span>DOMICILIO LEGAL </span>
-                    <span t-esc="o.seller_id.full_direction"/>
-                    <br/>
-                    <t t-if="o.seller_id.customer_attention_phone">
-                        <span>Atención al cliente: </span>
-                        <span t-esc="o.seller_id.customer_attention_phone"/>
+                    <div class="col-6 text-right" style="padding-left: 0px;">
+                        <t>
+                            <span t-att-style="'color: %s;' % o.company_id.secondary_color">Número: </span><span t-esc="report_number"/>
+                        </t>
                         <br/>
-                    </t>
-                    <span t-if="o.seller_id.customer_attention_email" t-att-style="'color: %s;' % o.company_id.primary_color" t-esc="o.seller_id.customer_attention_email + ' '"/>
-                    <span t-if="o.seller_id.customer_attention_website" t-att-style="'color: %s;' % o.company_id.primary_color" t-esc="o.seller_id.customer_attention_website"/>
-                    <br t-if="o.seller_id.customer_attention_email or o.seller_id.customer_attention_website"/>
-                    <span>DOMICILIO COMERCIAL: </span>
-                    <span t-esc="o.warehouse_id.direccion_local"/>
-                </t>
-            </xpath>
-
-            <xpath expr="//div[@class='row'][2]/div[2]/t[1]" position="attributes">
-                <attribute name="t-if">not pre_printed_report and o.company_invoicing</attribute>
-            </xpath>
-
-            <xpath expr="//div[@class='row'][2]/div[2]/t[1]" position="after">
-                <t t-if="not o.company_invoicing">
-                    <span t-att-style="'color: %s;' % o.company_id.secondary_color">Número: </span><span t-esc="report_number"/>
-                </t>
-            </xpath>
-
-            <xpath expr="//div[@class='row'][2]/div[2]/span[1]" position="before">
-                <t t-if="not o.company_invoicing">
-                    <span t-att-style="'color: %s;' % o.company_id.secondary_color">Inicio de actividades: </span><span t-esc="o.seller_id.activities_start"/>
-                    <br/>
-                </t>
-            </xpath>
-
-            <xpath expr="//div[@class='row'][2]/div[2]/span[2]" position="after">
-                <t t-if="not o.company_invoicing">
-                    <br/>
-                    <span t-if="o.seller_id.cuit_an" t-att-style="'color: %s;' % o.company_id.secondary_color">C.U.I.T/A.N. Se.S N°: </span>
-                    <span t-if="not o.seller_id.cuit_an" t-att-style="'color: %s;' % o.company_id.secondary_color">C.U.I.T: </span>
-                    <span t-esc="o.seller_id.vat"/>
-                    <br/>
-                    <span t-att-style="'color: %s;' % o.company_id.secondary_color">I.B.C.M. N°: </span>
-                    <span t-esc="o.seller_id.l10n_ar_gross_income_number"/>
-                    <br/>
-                    <t t-if="o.seller_id.internal_taxes">
-                        <span t-att-style="'color: %s;' % o.company_id.secondary_color">IMP. INTERNOS RESPONSABLE INSCRITO</span>
+                        <span t-att-style="'color: %s;' % o.company_id.secondary_color">Inicio de actividades: </span><span t-esc="o.seller_id.activities_start"/>
                         <br/>
-                    </t>
-                    <span t-att-style="'color: %s;text-transform: uppercase;' % o.company_id.secondary_color" t-esc="o.seller_id.l10n_ar_afip_responsibility_type_id.name"/>
-                </t>
-            </xpath>
-
-            <xpath expr="//div[@class='row'][2]/div[2]/t[2]" position="attributes">
-                <attribute name="t-if">not pre_printed_report and o.company_invoicing</attribute>
-            </xpath>
-
+                        <span t-att-style="'color: %s;' % o.company_id.secondary_color">Date: </span><span t-esc="report_date" t-options='{"widget": "date"}'/>
+                        <br/>
+                        <span t-if="o.seller_id.cuit_an" t-att-style="'color: %s;' % o.company_id.secondary_color">C.U.I.T/A.N. Se.S N°: </span>
+                        <span t-if="not o.seller_id.cuit_an" t-att-style="'color: %s;' % o.company_id.secondary_color">C.U.I.T: </span>
+                        <span t-esc="o.seller_id.vat"/>
+                        <br/>
+                        <span t-att-style="'color: %s;' % o.company_id.secondary_color">I.B.C.M. N°: </span>
+                        <span t-esc="o.seller_id.l10n_ar_gross_income_number"/>
+                        <br/>
+                        <t t-if="o.seller_id.internal_taxes">
+                            <span t-att-style="'color: %s;' % o.company_id.secondary_color">IMP. INTERNOS RESPONSABLE INSCRITO</span>
+                            <br/>
+                        </t>
+                        <span t-att-style="'color: %s;text-transform: uppercase;' % o.company_id.secondary_color" t-esc="o.seller_id.l10n_ar_afip_responsibility_type_id.name"/>
+                    </div>
+                </div>
+            </div>
         </template>
 
         <template id="report_invoice_document" inherit_id="l10n_ar.report_invoice_document">
+
+            <xpath expr="//t[@t-set='custom_header']" position="replace">
+                <t t-if="o.company_invoicing">
+                    <t t-set="custom_header" t-value="'l10n_ar.custom_header'"/>
+                </t>
+                <t t-else="">
+                   <t t-set="custom_header" t-value="'odoo_marketplace_custom.custom_header_go2future'"/>
+                </t>
+            </xpath>
+
+            <xpath expr="//div[@id='informations']/div[1]" position="replace">
+                <div class="col-6">
+                    <t t-if="o.company_invoicing">
+                        <strong>Customer: </strong><span t-field="o.partner_id.commercial_partner_id.name"/>
+                        <br/>
+                        <span t-field="o.partner_id" t-options="{'widget': 'contact', 'fields': ['address'], 'no_marker': true, 'no_tag_br': True}"/>
+                        <strong>VAT Cond: </strong><span t-field="o.partner_id.l10n_ar_afip_responsibility_type_id"/>
+                        <t t-if="o.partner_id.vat and o.partner_id.l10n_latam_identification_type_id and o.partner_id.l10n_latam_identification_type_id.l10n_ar_afip_code != '99'">
+                            <br/><strong><t t-esc="o.partner_id.l10n_latam_identification_type_id.name or o.company_id.country_id.vat_label" id="inv_tax_id_label"/>:</strong> <span t-esc="o.partner_id.l10n_ar_formatted_vat if o.partner_id.l10n_latam_identification_type_id.is_vat else o.partner_id.vat"/>
+                        </t>
+                    </t>
+                    <t t-else="">
+                        <strong>Cliente: </strong><span t-field="o.partner_id.name"/>
+                        <br/>
+                        <span t-esc="', '.join([item for item in [
+                            ', '.join([item for item in [o.partner_id.street, o.partner_id.street2] if item]),
+                            o.partner_id.city,
+                            o.partner_id.state_id and o.partner_id.state_id.name,
+                            o.partner_id.zip,
+                            o.partner_id.country_id and o.partner_id.country_id.name] if item])"/>
+                        <br/>
+                        <strong>VAT Cond: </strong><span t-field="o.partner_id.l10n_ar_afip_responsibility_type_id"/>
+                        <t t-if="o.partner_id.vat and o.partner_id.l10n_latam_identification_type_id and o.partner_id.l10n_latam_identification_type_id.l10n_ar_afip_code != '99'">
+                            <br/><strong><t t-esc="o.partner_id.l10n_latam_identification_type_id.name or o.company_id.country_id.vat_label" id="inv_tax_id_label"/>:</strong> <span t-esc="o.partner_id.l10n_ar_formatted_vat if o.partner_id.l10n_latam_identification_type_id.is_vat else o.partner_id.vat"/>
+                        </t>
+                    </t>
+                </div>
+            </xpath>
 
             <xpath expr="//div[@id='informations']/div[2]" position="replace">
                 <div class="col-6">
@@ -136,7 +140,7 @@
                     </t>
                     <t t-else="">
                         <strong>Fecha: </strong>
-                        <span t-field="o.invoice_date" t-options='{"format": "dd/MM/YYYY"}'/>
+                        <span t-field="o.invoice_date" t-options='{"format": "dd/MM/YYYY"}'/> <span t-esc="(o.create_date - datetime.timedelta(hours=3)).strftime('%H:%M:%S')"/>
                         <br/>
                         <strong>Ticket origen: </strong>
                         <span t-if="o.sale_order_id" t-field="o.sale_order_id.name"/>
@@ -204,6 +208,16 @@
                 <span t-if="not o.company_invoicing" class="text-nowrap" t-esc="o.amount_total" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
             </xpath>
 
+            <xpath expr="//th[@name='th_taxes']" position="replace">
+                <th name="th_taxes" t-attf-class="text-left {{ 'd-none d-md-table-cell' if (report_type == 'html' or o.electronic_invoice_type == 'no_afip') else '' }}"><span>% VAT</span></th>
+            </xpath>
+
+            <xpath expr="//span[@id='line_tax_ids']/.." position="replace">
+                <td t-attf-class="text-left {{ 'd-none d-md-table-cell' if (report_type == 'html' or o.electronic_invoice_type == 'no_afip') else '' }}">
+                    <span t-esc="', '.join(map(lambda x: (x.description or x.name), line.tax_ids))" id="line_tax_ids"/>
+                </td>
+            </xpath>
+
             <xpath expr="//div[@class='clearfix']" position="after">
                 <br/>
                 <t t-set="card_used" t-value="o.partner_id.get_active_card()"/>
@@ -219,6 +233,35 @@
                     <span t-field="o.seller_id.invoices_note"/>
                 </p>
             </xpath>
+
+            <xpath expr="//div[@class='clearfix']//table/t[1]" position="replace">
+                <t t-if="o.electronic_invoice_type != 'no_afip'">
+                    <t t-foreach="o.amount_by_group" t-as="amount_by_group">
+                        <tr style="">
+                            <t t-if="len(o.line_ids.filtered(lambda line: line.tax_line_id)) in [0, 1] and o.amount_untaxed == amount_by_group[2]">
+                                <td><span class="text-nowrap" t-esc="amount_by_group[0]"/></td>
+                                <td class="text-right o_price_total">
+                                    <span class="text-nowrap" t-esc="amount_by_group[3]" />
+                                </td>
+                            </t>
+                            <t t-else="">
+                                <td>
+                                    <span t-esc="amount_by_group[0]"/>
+                                    <span class="text-nowrap"> on
+                                        <t t-esc="amount_by_group[4]"/>
+                                    </span>
+                                </td>
+                                <td class="text-right o_price_total">
+                                    <span class="text-nowrap" t-esc="amount_by_group[3]"/>
+                                </td>
+                            </t>
+                        </tr>
+                    </t>
+                </t>
+            </xpath>
+
+            <xpath expr="//p[@name='payment_term']" position="replace"></xpath>
+            <xpath expr="//p[@name='comment']" position="replace"></xpath>
 
             <xpath expr="//t[@t-set='custom_footer']" position="replace">
                 <t t-set="custom_footer">
@@ -243,7 +286,7 @@
                                     <span>FECHA Vto. CAE </span><span t-field="o.l10n_ar_afip_auth_code_due" t-options='{"format": "dd/MM/YYYY"}'/>
                                     <br/>
                                 </t>
-                                Página': <span class="page"/> / <span class="topage"/>
+                                Página: <span class="page"/> / <span class="topage"/>
                             </div>
                         </div>
                     </div>
