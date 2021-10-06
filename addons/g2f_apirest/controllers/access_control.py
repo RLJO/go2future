@@ -75,6 +75,7 @@ class AccessControl(http.Controller):
         try:
             response = requests.post(url, json=params)
             _logger.info('Control de acceso responde')
+            _logger.info(response)
             _logger.info(response.text)
         except Exception as Error:
             _logger.error(Error)
