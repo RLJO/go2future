@@ -173,6 +173,8 @@ class RaspberryPi(models.Model):
     ip_add = fields.Char('Dirección IP')
     store_id = fields.Many2one('stock.warehouse', string='Tienda')
     sensor_ids = fields.One2many('store.sensor', inverse_name='pi_id', string='Sensor_ids')
+    position_x = fields.Float (string='Posición X', store=True)
+    position_y = fields.Float (string='Posición Y', store=True)
 
 
 class StoreSensor(models.Model):
@@ -188,6 +190,7 @@ class StoreSensor(models.Model):
     zone_id = fields.Many2one('camera.zone', string='Zona')
     pi_id = fields.Many2one('store.raspi', string='Raspberry PI')
     store_id = fields.Many2one('stock.warehouse', string='Tienda', related="pi_id.store_id", store=True)
+    position_z = fields.Float (string='Posición Z', store=True)
 
     def get_sensor_data(self, data):
         res =[]

@@ -6,7 +6,7 @@
             <field name="name">store.sensor.form</field>
             <field name="model">store.sensor</field>
             <field name="arch" type="xml">
-                <form string="ModelTitle">
+                <form string="Sensor">
                     <sheet>
                         <group>
                             <group name="info" string="Información">
@@ -14,6 +14,7 @@
                                 <field name="zone_id" />
                                 <field name="pi_id" readonly="1"/>
                                 <field name="store_id" readonly="1"/>
+                                <field name="position_z"/>
                             </group>
                             <group name="config" string="Configurar Sensor">
                                 <field name="product_weight"/>
