@@ -237,7 +237,7 @@ class AccessControl(http.Controller):
                                                   code, msg_for_app_mobile,
                                                   'access_control')
             response = {'status': '200', 'message': message}
-            _logger.info(response)
+            _logger.info(dumps(response))
             return dumps(response)
 
         response = {'status': '400', 'message': 'NOT FOUND'}
