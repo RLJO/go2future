@@ -34,6 +34,7 @@
             'data/marketplace_dashboard_data.xml',
             'data/cron_data.xml',
             'reports/invoice_report.xml',
+            'wizard/afip_file_report.xml',
             ],
   "application":  True,
   "installable":  True,
