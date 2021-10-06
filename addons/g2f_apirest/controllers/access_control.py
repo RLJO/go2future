@@ -185,32 +185,34 @@ class AccessControl(http.Controller):
                     if order.sudo().is_payment_approved():
                         code = 100
                         msg_for_app_mobile = _('successful payment')
-                        message = _('successful payment')
+                        message = _('Successful payment')
                         # enviar a control de acceso que todo esta bien
-                        self._confirm_payment_to_access_control(
-                                store_id, door_id, login, True)
+                        # self._confirm_payment_to_access_control(
+                        #        store_id, door_id, login, True)
                     else:
                         code = 0
                         msg_for_app_mobile = _('Payment declined')
                         message = _('Payment declined')
                         # enviar a control de acceso que algo no esta bien
-                        self._confirm_payment_to_access_control(
-                                store_id, door_id, login, False)
+                        # self._confirm_payment_to_access_control(
+                        #        store_id, door_id, login, False)
                 else:
                     code = 111
                     msg_for_app_mobile = _(
                             'Customer does not have products pending payment')
-                    message = _('Please Open door 2')
 
-                    # Aqui yo deberia cancelar la sale order
                     order.cancel_sale_order()
                     _logger.info('Carrito esta en 0')
 
                     msg_for_app_mobile = _('successful payment')
-                    message = _('successful payment')
+                    message = _('Successful payment')
                     # enviar a control de acceso que todo esta bien
-                    self._confirm_payment_to_access_control(
-                            store_id, door_id, login, True)
+                    # self._confirm_payment_to_access_control(
+                    #        store_id, door_id, login, True)
+            elif code == 10:
+                # Cuando ya salio de la tienda
+                pass
+
             elif code == 11:
                 # El cliente decidio dejar los productos y retirtarse
                 # Validar tambien que la sale order este en 0
