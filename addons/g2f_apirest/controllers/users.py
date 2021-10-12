@@ -322,12 +322,12 @@ class ResUser(http.Controller):
         user_inactive = self._validate_user_inactive(login)
 
         if self._validate_user(login):
-            msg = _('User already exists!')
+            msg = _('Email User already exists!')
             response = {'status': '400', 'message': msg}
             return dumps(response)
 
         if (user.partner_id.sudo().document_exist(identification_type, vat) and not user_inactive):
-            msg = _('User already exists!')
+            msg = _('There is already a registered user with this Document!')
             response = {'status': '400', 'message': msg}
             return dumps(response)
 
