@@ -237,6 +237,15 @@ class ResUser(http.Controller):
         method = http.request.httprequest.method
         kw = http.request.jsonrequest
 
+        if method == 'GET':
+            msg = _('User dont exists!')
+            login = kw.get('login')
+            if self._validate_user(login):
+                msg = _('User already exists!')
+
+            response = {'status': '200', 'messsage': msg}
+            return dumps(response)
+
         if method == 'POST':
             print('Crear usuario')
             response = self.register(kw)
