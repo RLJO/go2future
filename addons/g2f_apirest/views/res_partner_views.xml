@@ -19,6 +19,14 @@
                 <field name="gender" string="Genero" attrs="{'invisible': [('company_type','!=', 'person')]}"/>
             </xpath>
 
+            <xpath expr="//notebook" position="inside">
+                <page name="image_documents" groups="base.group_system" string="Image Documents">
+                    <group>
+                        <field name="document_obverse" widget="image"/>
+                        <field name="document_reverse" widget="image"/> 
+                    </group>
+                </page> 
+            </xpath>
         </field>
     </record>
 
