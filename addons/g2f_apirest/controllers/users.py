@@ -228,23 +228,41 @@ class ResUser(http.Controller):
 
         return False
 
+    @http.route(['/users'], type='http', auth='public',
+                methods=['GET'],
+                website=True, csrf=False)
+    def validate_res_user(self, **kw):
+        """Endpoint for register and update data User from app mobile."""
+
+        method = http.request.httprequest.method
+        msg = _('User dont exists!')
+        login = kw.get('login')
+        vat = kw.get('vat')
+        identification_type = kw.get('identification_type')
+        res_partner = http.request.env['res.partner'].sudo()
+
+        if method == 'GET':
+            if res_partner.validate_user(login):
+                msg = _('Email User already exists!')
+
+            if res_partner.document_exist(identification_type, vat):
+                msg = _('Document User already exists!')
+
+            if res_partner.document_exist(identification_type, vat) and \
+                    res_partner.validate_user(login):
+                msg = _('Email and Document already exists!')
+
+        response = {'status': '200', 'messsage': msg}
+        return dumps(response)
+
     @http.route(['/users'], type='json', auth='public',
-                methods=['GET', 'POST', 'PUT', 'DELETE'],
+                methods=['POST', 'PUT', 'DELETE'],
                 website=True, csrf=False)
     def res_user(self, **kw):
         """Endpoint for register and update data User from app mobile."""
 
         method = http.request.httprequest.method
         kw = http.request.jsonrequest
-
-        if method == 'GET':
-            msg = _('User dont exists!')
-            login = kw.get('login')
-            if self._validate_user(login):
-                msg = _('User already exists!')
-
-            response = {'status': '200', 'messsage': msg}
-            return dumps(response)
 
         if method == 'POST':
             print('Crear usuario')
