@@ -143,7 +143,14 @@ class ResPartner(models.Model):
                                     product_supplierinfo.create({
                                         'name': product_owner_warehouse['partner_id'],
                                         'warehouse_id': product_owner_warehouse['warehouse_id'],
+                                        'product_tmpl_id': product_owner_warehouse['product_id']
                                     })
+                                else:
+                                    for item in partner_warehouse:
+                                        item.write({
+                                            'name': product_owner_warehouse['partner_id'],
+                                            'warehouse_id': product_owner_warehouse['warehouse_id'],
+                                        })
 
     def change_seller_group(self, set_to_group=None):
         """ param: set_to_group should be string, value must be 'not_seller' or 'seller' only. """
