@@ -33,6 +33,8 @@
             'views/stock_view_custom.xml',
             'data/marketplace_dashboard_data.xml',
             'data/cron_data.xml',
+            'wizard/afip_file_report.xml',
+            'views/afip_report_view.xml',
             'reports/invoice_report.xml',
             ],
   "application":  True,

@@ -64,11 +64,18 @@ class AccessControl(http.Controller):
         params = {"storeCode": int(store_id),
                   "doorId": int(door_id),
                   "userId": login,
-                  "WasConfirmed": was_confirmed,
+                  "wasConfirmed": was_confirmed,
                   "token": "G02Future$2021"}
+        url = urljoin(base_url, endpoint)
+
+        _logger.info('enviar a control de acceso para que abra la puerta')
+        _logger.info(params)
+        _logger.info(url)
+
         try:
-            response = requests.post(
-                    urljoin(base_url, endpoint), json=params)
+            response = requests.post(url, json=params)
+            _logger.info('Control de acceso responde')
+            _logger.info(response)
             _logger.info(response.text)
         except Exception as Error:
             _logger.error(Error)
@@ -178,32 +185,34 @@ class AccessControl(http.Controller):
                     if order.sudo().is_payment_approved():
                         code = 100
                         msg_for_app_mobile = _('successful payment')
-                        message = _('successful payment')
+                        message = _('Successful payment')
                         # enviar a control de acceso que todo esta bien
-                        self._confirm_payment_to_access_control(
-                                store_id, door_id, login, "true")
+                        # self._confirm_payment_to_access_control(
+                        #        store_id, door_id, login, True)
                     else:
                         code = 0
                         msg_for_app_mobile = _('Payment declined')
                         message = _('Payment declined')
                         # enviar a control de acceso que algo no esta bien
-                        self._confirm_payment_to_access_control(
-                                store_id, door_id, login, "false")
+                        # self._confirm_payment_to_access_control(
+                        #        store_id, door_id, login, False)
                 else:
                     code = 111
                     msg_for_app_mobile = _(
                             'Customer does not have products pending payment')
-                    message = _('Please Open door 2')
 
-                    # Aqui yo deberia cancelar la sale order
                     order.cancel_sale_order()
                     _logger.info('Carrito esta en 0')
 
                     msg_for_app_mobile = _('successful payment')
-                    message = _('successful payment')
+                    message = _('Successful payment')
                     # enviar a control de acceso que todo esta bien
-                    self._confirm_payment_to_access_control(
-                            store_id, door_id, login, "true")
+                    # self._confirm_payment_to_access_control(
+                    #        store_id, door_id, login, True)
+            elif code == 10:
+                # Cuando ya salio de la tienda
+                pass
+
             elif code == 11:
                 # El cliente decidio dejar los productos y retirtarse
                 # Validar tambien que la sale order este en 0
@@ -228,7 +237,7 @@ class AccessControl(http.Controller):
                                                   code, msg_for_app_mobile,
                                                   'access_control')
             response = {'status': '200', 'message': message}
-            _logger.info(response)
+            _logger.info(dumps(response))
             return dumps(response)
 
         response = {'status': '400', 'message': 'NOT FOUND'}

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Informe txt de las facturas emitidas al consumidor final para los vendedores -->
+        <record id="account_afip_statement_view" model="ir.ui.view">
+            <field name="name">Journals Audit</field>
+            <field name="model">account.afip.report</field>
+            <field name="arch" type="xml">
+                <form string="AFIP Statement Report">
+                    <div class="alert alert-info text-center" role="status">
+                        Press the "Download AFIP File" button to generate AFIP Report.
+                    </div>
+                    <footer>
+                        <button string="Download AFIP File" name="make_afip_file" type="object" class="btn-primary"/>
+                         or
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

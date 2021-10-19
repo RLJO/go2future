@@ -10,7 +10,7 @@
              <xpath expr="//button[@name='set_to_pending']" position="after">
                  <button name="update_seller" string="Actualizar proveedor" groups="odoo_marketplace.marketplace_manager_group" type="object" states="new,approved" class="btn-primary"/>
             </xpath>
-            <xpath expr="//div[@class='oe_title']" position="inside">
+            <xpath expr="//div[hasclass('oe_title')]" position="inside">
                 <div class="oe_edit_only">
                     <label for="children_parent_id" string="Vendedor padre" groups="odoo_marketplace.marketplace_manager_group"/>
                 </div>
