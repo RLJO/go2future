@@ -78,6 +78,11 @@ msgid "Card Brand"
 msgstr "Marca de la tarjeta"
 
 #. module: payment_prisma
+#: model:ir.model.fields,field_description:payment_prisma.field_payment_prisma_status__card_type
+msgid "Card Type"
+msgstr "Tipo de tarjeta"
+
+#. module: payment_prisma
 #: model:ir.model.fields,field_description:payment_prisma.field_payment_prisma_status__card_data
 msgid "Card Data"
 msgstr "Datos de la tarjeta"
