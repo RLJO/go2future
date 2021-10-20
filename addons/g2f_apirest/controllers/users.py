@@ -103,7 +103,7 @@ class ResUser(http.Controller):
         stores = http.request.env['stock.warehouse'].sudo().search_read(
                 [('active', '=', True)],
                 fields=['name', 'direccion_local', 'country_id',
-                        'state_id', 'store_image']
+                        'state_id', 'store_image', 'code']
                 )
         return dumps(stores, default=self.parse_dumps)
 
