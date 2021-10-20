@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="action_afip_statement" model="ir.actions.act_window">
+            <field name="name">AFIP Statement Report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.afip.report</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="account_afip_statement_view"/>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="wk_seller_dashboard_reports_menu" name="Reports" parent="odoo_marketplace.wk_seller_dashboard" groups="odoo_marketplace.marketplace_seller_group" sequence="9"/>
+        <menuitem id="afip_statement_menu" name="AFIP Statement" parent="wk_seller_dashboard_reports_menu" sequence="1"/>
+<!--        <menuitem id="afip_file_menu" name="Download AFIP File" parent="afip_statement_menu" action="action_afip_statement" sequence="10"/>-->
+
+    </data>
+</odoo>

@@ -184,12 +184,12 @@
                 <span t-if="not o.company_invoicing" class="text-nowrap" t-esc="'{:.2f}'.format(line_discount)"/>
             </xpath>
 
-            <xpath expr="//div[@class='clearfix']//table/tr[1]/td[1]/strong" position="replace">
+            <xpath expr="//div[hasclass('clearfix')]//table/tr[1]/td[1]/strong" position="replace">
                 <strong t-if="o.company_invoicing">Subtotal</strong>
                 <strong t-if="not o.company_invoicing">Subtotal (Sin descuentos)</strong>
             </xpath>
 
-            <xpath expr="//div[@class='clearfix']//table/tr[1]/td[2]/span" position="replace">
+            <xpath expr="//div[hasclass('clearfix')]//table/tr[1]/td[2]/span" position="replace">
                 <span t-if="o.company_invoicing" t-field="o.l10n_latam_amount_untaxed"/>
                 <span t-if="not o.company_invoicing" t-esc="o.amount_total + total_discounts" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
             </xpath>
@@ -203,22 +203,22 @@
                 </tr>
             </xpath>
 
-            <xpath expr="//div[@class='clearfix']//table/tr[3]/td[2]/span" position="replace">
+            <xpath expr="//div[hasclass('clearfix')]//table/tr[3]/td[2]/span" position="replace">
                 <span t-if="o.company_invoicing" class="text-nowrap" t-field="o.amount_total"/>
                 <span t-if="not o.company_invoicing" class="text-nowrap" t-esc="o.amount_total" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
             </xpath>
 
             <xpath expr="//th[@name='th_taxes']" position="replace">
-                <th name="th_taxes" t-attf-class="text-left {{ 'd-none d-md-table-cell' if (report_type == 'html' or o.electronic_invoice_type == 'no_afip') else '' }}"><span>% VAT</span></th>
+                <th name="th_taxes" t-attf-class="text-left {{ 'd-none d-md-table-cell' if (report_type == 'html' or o.company_invoicing == False) else '' }}"><span>% VAT</span></th>
             </xpath>
 
             <xpath expr="//span[@id='line_tax_ids']/.." position="replace">
-                <td t-attf-class="text-left {{ 'd-none d-md-table-cell' if (report_type == 'html' or o.electronic_invoice_type == 'no_afip') else '' }}">
+                <td t-attf-class="text-left {{ 'd-none d-md-table-cell' if (report_type == 'html' or o.company_invoicing == False) else '' }}">
                     <span t-esc="', '.join(map(lambda x: (x.description or x.name), line.tax_ids))" id="line_tax_ids"/>
                 </td>
             </xpath>
 
-            <xpath expr="//div[@class='clearfix']" position="after">
+            <xpath expr="//div[hasclass('clearfix')]" position="after">
                 <br/>
                 <t t-set="card_used" t-value="o.partner_id.get_active_card()"/>
                 <p t-if="card_used and o.payment_prisma_status_ids">
@@ -234,7 +234,7 @@
                 </p>
             </xpath>
 
-            <xpath expr="//div[@class='clearfix']//table/t[1]" position="replace">
+            <xpath expr="//div[hasclass('clearfix')]//table/t[1]" position="replace">
                 <t t-if="o.electronic_invoice_type != 'no_afip'">
                     <t t-foreach="o.amount_by_group" t-as="amount_by_group">
                         <tr style="">
