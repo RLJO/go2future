@@ -70,7 +70,7 @@ class ResUser(http.Controller):
             transaction = transaction.sudo().get_last_transaction_by_user(
                     login)
             _logger.info(transaction)
-            return dumps(transaction[0], default=self.parse_dumps)
+            return dumps(transaction[0] if transaction else [], default=self.parse_dumps)
 
         return http.Response('NOT FOUND', status=404)
 
