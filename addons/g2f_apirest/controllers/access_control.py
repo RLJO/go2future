@@ -48,7 +48,8 @@ class AccessControl(http.Controller):
             # timeout=0.001
             url = urljoin(base_url, endpoint)
             response = requests.post(url, json=params)
-            _logger.info('El endpoint es:{}'.format(url))
+            _logger.info('El endpoint es:{} y los parametros son:{}'.format(
+                url, params))
             _logger.info('Se pidio a control de acceso entrar')
             _logger.info(response.text)
         except Exception as Error:
