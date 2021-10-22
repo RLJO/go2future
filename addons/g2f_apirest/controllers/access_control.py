@@ -36,7 +36,6 @@ class AccessControl(http.Controller):
                                   role='customer'):
         """Send to AccessControl open Door."""
 
-        endpoint = 'api/Odoo/OpenDoor'
         base_url = self.get_store_by_id(store_id).access_control_url
         params = {"storeCode": int(store_id),
                   "doorId": int(door_id),
@@ -46,10 +45,9 @@ class AccessControl(http.Controller):
 
         try:
             # timeout=0.001
-            url = urljoin(base_url, endpoint)
             response = requests.post(base_url, json=params)
             _logger.info('El endpoint es:{} y los parametros son:{}'.format(
-                url, params))
+                base_url, params))
             _logger.info('Se pidio a control de acceso entrar')
             _logger.info(response.text)
         except Exception as Error:
