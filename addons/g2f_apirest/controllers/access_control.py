@@ -37,6 +37,7 @@ class AccessControl(http.Controller):
         """Send to AccessControl open Door."""
 
         base_url = self.get_store_by_id(store_id).access_control_url
+        command = 'OpenDoor'
         params = {"storeCode": int(store_id),
                   "doorId": int(door_id),
                   "userId": login,
@@ -45,7 +46,7 @@ class AccessControl(http.Controller):
 
         try:
             # timeout=0.001
-            response = requests.post(base_url, json=params)
+            response = requests.post(urljoin(base_url, command), json=params)
             _logger.info('El endpoint es:{} y los parametros son:{}'.format(
                 base_url, params))
             _logger.info('Se pidio a control de acceso entrar')
