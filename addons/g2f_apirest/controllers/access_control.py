@@ -50,7 +50,7 @@ class AccessControl(http.Controller):
             _logger.info('El endpoint es:{} y los parametros son:{}'.format(
                 base_url, params))
             _logger.info('Se pidio a control de acceso entrar')
-            _logger.info(response.text)
+            _logger.info('Control de Acceso responde:{}'.format(response.text))
         except Exception as Error:
             return dumps({"status": "400", "message": str(Error)})
 
