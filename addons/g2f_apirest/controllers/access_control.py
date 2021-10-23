@@ -43,13 +43,16 @@ class AccessControl(http.Controller):
                   "userId": login,
                   "token": "G02Future$2021",
                   "role": role}
+        url = urljoin(base_url, command)
 
         try:
             # timeout=0.001
-            response = requests.post(urljoin(base_url, command), json=params)
-            _logger.info('El endpoint es:{} y los parametros son:{}'.format(
-                base_url, params))
-            _logger.info('Se pidio a control de acceso entrar')
+            msg = """*** Se pidio a control de acceso entrar. ***
+                    El endpoint es:{} y los parametros son:{}
+                  """.format(url, params)
+            _logger.info(msg)
+
+            response = requests.post(url, json=params)
             _logger.info('Control de Acceso responde:{}'.format(response.text))
         except Exception as Error:
             return dumps({"status": "400", "message": str(Error)})
@@ -63,17 +66,18 @@ class AccessControl(http.Controller):
         """Send to AccessControl confirm payment."""
 
         base_url = self.get_store_by_id(store_id).access_control_url
-        endpoint = 'api/Odoo/ConfirmPayment'
+        command = 'ConfirmPayment'
         params = {"storeCode": int(store_id),
                   "doorId": int(door_id),
                   "userId": login,
                   "wasConfirmed": was_confirmed,
                   "token": "G02Future$2021"}
-        url = urljoin(base_url, endpoint)
+        url = urljoin(base_url, command)
 
-        _logger.info('enviar a control de acceso para que abra la puerta')
-        _logger.info(params)
-        _logger.info(url)
+        msg = """*** Enviar a control de acceso para que abra la puerta. ***
+                 El endpoint es:{} y los parametros son:{}
+              """.format(url, params)
+        _logger.info(msg)
 
         try:
             response = requests.post(url, json=params)
