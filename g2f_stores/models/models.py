@@ -211,10 +211,8 @@ class ProductStore(models.Model):
     _description = 'Product in Store'
 
     product_id = fields.Many2one('product.product', string='Producto')
-    gondola = fields.Char(string='Gondola')
     gondola_id = fields.Many2one('store.raspi', string='Gondola')
     line = fields.Char(string='Linea')
-    shelf = fields.Char(string='Estante')
     shelf_id = fields.Many2one('store.sensor', string='Estante')
     ini_position = fields.Char(string='Posición Inicial')
     end_position = fields.Char(string='Posición Final')
@@ -229,62 +227,86 @@ class ProductStore(models.Model):
     @api.depends('ini_position')
     def _compute_total_weight(self):
         for prod in self:
-            prod.weight_total_prod = prod.weight_total_prod * prod.und_front
+            prod.weight_total_prod = prod.product_id.peso_bruto * prod.qty_total_prod
 
     @api.model
-    def _set_plano(self, vals):
-        code = vals.get('code')
-        product = vals.get('product')
-        gondola = vals.get('gondola')
-        linea = vals.get('linea')
-        estante = vals.get('estante')
-        qty_total = vals.get('qty_total')
-        ini_position = vals.get('ini_position')
-        end_position = vals.get('end_position')
-        und_front = vals.get('und_front')
-        und_fund = vals.get('und_fund')
-        und_high = vals.get('und_high')
-        if qty_total <= 0:
-            res = {'ERROR': 'El campo qty_total debe ser mayor a cero (0)'}
-            return res
-        if und_front <= 0:
-            res = {'ERROR': 'El campo und_front debe ser mayor a cero (0)'}
-            return res
-        if und_fund <= 0:
-            res = {'ERROR': 'El campo und_fund debe ser mayor a cero (0)'}
-            return res
-        if und_high <= 0:
-            res = {'ERROR': 'El campo und_high debe ser mayor a cero (0)'}
-            return res
-        local_id = self.env['stock.warehouse'].search([('code', '=', code)])
-        if not local_id:
-            res = {'ERROR': 'No se encontró Minigo registrado con el código: %s' % code}
-            return res
-        product_plano_ids = local_id.product_plano_ids.filtered(lambda p: p.product_id.barcode == product and
-                                                                          p.gondola_id.name == gondola)
-        if not product_plano_ids:
-            res = {'ERROR': 'No se encontró Producto registrado con el código EAN: %s y góndola: %s' % (product, gondola)}
-            return res
-        gondola_id = self.env['store.raspi'].search([('name', '=', gondola)])
-        if not gondola_id:
-            res = {'ERROR': 'No se encontró Góndola registrada con el nombre: %s' % gondola}
-            return res
-        shelf_id = self.env['store.sensor'].search([('name', '=', estante)])
-        if not shelf_id:
-            res = {'ERROR': 'No se encontró Estante registrado con el nombre: %s' % estante}
-            return res
+    def _set_plano(self, values):
+        ids_created = []
+        ids_updated = []
+        for vals in values:
+            code = vals.get('code')
+            product = vals.get('product')
+            gondola = vals.get('gondola')
+            linea = vals.get('linea')
+            estante = vals.get('estante')
+            qty_total = vals.get('qty_total')
+            ini_position = vals.get('ini_position')
+            end_position = vals.get('end_position')
+            und_front = vals.get('und_front')
+            und_fund = vals.get('und_fund')
+            und_high = vals.get('und_high')
+            if qty_total <= 0:
+                msg = 'El campo qty_total debe ser mayor a cero (0)'
+                res = {'status': '422', 'messsage': msg}
+                return res
+            if und_front <= 0:
+                res = {'ERROR': 'El campo und_front debe ser mayor a cero (0)'}
+                return res
+            if und_fund <= 0:
+                res = {'ERROR': 'El campo und_fund debe ser mayor a cero (0)'}
+                return res
+            if und_high <= 0:
+                msg = 'El campo und_high debe ser mayor a cero (0)'
+                res = {'status': '422', 'messsage': msg}
+                return res
+            local_id = self.env['stock.warehouse'].search([('code', '=', code)])
+            if not local_id:
+                msg = 'No se encontró Minigo registrado con el código: %s' % code
+                res = {'status': '422', 'messsage': msg}
+                return res
+            product_id = self.env['product.product'].search([('barcode', '=', product)])
+            if not product_id:
+                msg = 'No se encontró Producto registrado con el código EAN13: %s' % product
+                res = {'status': '422', 'messsage': msg}
+                return res
+            product_plano_ids = local_id.product_plano_ids.filtered(lambda p: p.product_id.barcode == product and
+                                                                              p.store_id.code == code)
+            # nota: no se puede filtrar por estos valores si se  cambian en la aplicacion de plano
+            # p.gondola_id.name == gondola and # p.shelf_id == estante and
+            if not product_plano_ids:
+                action_flag = 'c'
+            else:
+                action_flag = 'w'
+            gondola_id = self.env['store.raspi'].search([('name', 'like', gondola)])
+            if not gondola_id:
+                msg = 'No se encontró Góndola registrada con el nombre: %s' % gondola
+                res = {'status': '422', 'messsage': msg}
+                return res
+            shelf_id = self.env['store.sensor'].search([('id', '=', estante)])
+            if not shelf_id:
+                msg = 'No se encontró Estante registrado con el nombre: %s' % estante
+                res = {'status': '422', 'messsage': msg}
+                return res
 
-        data = {
-            'gondola_id': gondola_id.id,
-            'line': linea,
-            'shelf_id': shelf_id.id,
-            'qty_total_prod': qty_total,
-            'ini_position': ini_position,
-            'end_position': end_position,
-            'und_front': und_front,
-            'und_fund': und_fund,
-            'und_high': und_high,
-        }
-        product_plano_ids.write(data)
-        res = {'CODE': 200}
+            data = {
+                'gondola_id': gondola_id.id,
+                'line': linea,
+                'shelf_id': shelf_id.id,
+                'qty_total_prod': qty_total,
+                'ini_position': ini_position,
+                'end_position': end_position,
+                'und_front': und_front,
+                'und_fund': und_fund,
+                'und_high': und_high,
+            }
+            if action_flag == 'c':
+                data['product_id'] = product_id.id
+                data['store_id'] = local_id.id
+                new = product_plano_ids.create(data)
+                ids_created.append(new.id)
+            if action_flag == 'w':
+                product_plano_ids.write(data)
+                ids_updated.append(product_plano_ids.id)
+        msg = 'Creados: %s, Actualizados: %s' % (ids_created, ids_updated)
+        res = {'status': 200, 'messsage': msg}
         return res

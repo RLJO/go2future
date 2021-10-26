@@ -90,7 +90,8 @@ class Account(http.Controller):
             for p in invoice.payment_prisma_status_ids:
                 prisma = {
                     "transaction": p.site_transaction_id,
-                    "card_brand": p.card_brand
+                    "card_brand": p.card_brand,
+                    "card_type": p.card_type
                 }
 
             data = {

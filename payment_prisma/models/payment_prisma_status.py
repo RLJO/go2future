@@ -5,6 +5,7 @@ from odoo.exceptions import ValidationError
 import json
 import requests
 
+
 class PaymentPrismaStatus(models.Model):
     _name = 'payment.prisma.status'
 
@@ -37,6 +38,8 @@ class PaymentPrismaStatus(models.Model):
     card_data = fields.Char(string='Card Data')
     token = fields.Char(string='Token')
     sub_payments_ids = fields.One2many(comodel_name='payment.prisma.status.line', inverse_name='payment_prisma_status_id', string='Sub Payments')
+    card_type = fields.Char(string='Card Type')
+
 
 class PaymentPrismaStatusLine(models.Model):
     _name = 'payment.prisma.status.line'

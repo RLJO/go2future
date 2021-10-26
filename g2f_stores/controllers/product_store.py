@@ -7,13 +7,16 @@ _logger = logging.getLogger(__name__)
 
 
 class StorePlano(http.Controller):
-    @http.route('/store/plano/', type='json', auth="none", methods=['GET'], cors="*", csrf=False)
+
+    @http.route('/store/plano', type='json', auth="none", methods=['POST'], website=True, csrf=False)
     def set_plano(self, **kw):
-        code = kw.get('code')
-        store = http.request.env['product.store']
-        response = store.sudo()._set_plano(kw)
-        print(http.request.params)
-        print(response)
-        # return json.dumps({"result": "Success"})
-        _logger.info("### TRAMA ### %r", response)
-        return response
+        method = http.request.httprequest.method
+        kw = http.request.jsonrequest
+        if method == 'POST':
+            data = kw.get('data')
+            store = http.request.env['product.store']
+            response = store.sudo()._set_plano(data)
+            _logger.info(" * Llamada de API planogrametria %s", response)
+            return response
+        else:
+            return http.Response('NOT FOUND', status=404)

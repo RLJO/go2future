@@ -21,6 +21,7 @@
                             <tree>
                                 <field name="site_transaction_id"/>
                                 <field name="card_brand"/>
+                                <field name="card_type"/>
                                 <field name="amount"/>
                                 <field name="currency"/>
                                 <field name="status"/>
@@ -46,6 +47,7 @@
                                             <field name="date"/>
                                             <field name="payment_method_id"/>
                                             <field name="card_brand"/>
+                                            <field name="card_type"/>
                                             <field name="payment_type"/>
                                             <field name="amount"/>
                                             <field name="currency"/>
