@@ -63,4 +63,4 @@ class StorePlano(http.Controller):
             else:
                 _logger.info("Failed POST api /store/plano_shelf: %s" % response)
 
-        return response
+        return dumps(response)
