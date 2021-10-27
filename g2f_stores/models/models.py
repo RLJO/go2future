@@ -173,8 +173,37 @@ class RaspberryPi(models.Model):
     ip_add = fields.Char('Dirección IP')
     store_id = fields.Many2one('stock.warehouse', string='Tienda')
     sensor_ids = fields.One2many('store.sensor', inverse_name='pi_id', string='Sensor_ids')
-    position_x = fields.Float (string='Posición X', store=True)
-    position_y = fields.Float (string='Posición Y', store=True)
+    position_x = fields.Float(string='Posición X', store=True)
+    position_y = fields.Float(string='Posición Y', store=True)
+
+    def get_plano_shelf_data(self, store):
+        res = []
+        store_id = self.env['stock.warehouse'].search([('code', '=', store)])
+        if not store_id:
+            store_id = self.env['stock.warehouse'].search([('name', '=', store)])
+            if not store_id:
+                store_id = self.env['stock.warehouse'].search([('id', '=', store)])
+        ids = self.env['store.raspi'].search([('store_id', '=', store_id.id)])
+        for gond in ids:
+            shelf_data = []
+            res.append({
+                "id": gond.id,
+                "name": gond.name,
+                "store_id": gond.store_id.id,
+                # "store_name": gond.store_id.name,
+                "store_code": gond.store_id.code,
+                "x_position": gond.position_x,
+                "y_position": gond.position_y,
+                "shelf_ids": shelf_data
+            })
+            for shelf in gond.sensor_ids:
+                shelf_data.append({
+                    "shelf_id": shelf.id,
+                    "shelf_name": shelf.name,
+                    "z_position": shelf.position_z
+                })
+
+        return res
 
 
 class StoreSensor(models.Model):
@@ -190,7 +219,7 @@ class StoreSensor(models.Model):
     zone_id = fields.Many2one('camera.zone', string='Zona')
     pi_id = fields.Many2one('store.raspi', string='Raspberry PI')
     store_id = fields.Many2one('stock.warehouse', string='Tienda', related="pi_id.store_id", store=True)
-    position_z = fields.Float (string='Posición Z', store=True)
+    position_z = fields.Float(string='Posición Z', store=True)
 
     def get_sensor_data(self, data):
         res =[]
