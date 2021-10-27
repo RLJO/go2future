@@ -318,7 +318,7 @@ class ResUser(http.Controller):
             return dumps(response)
 
         try:
-            user.sudo().write(data)
+            user.partner_id.write(data)
             user._cr.commit()
             response = {'status': '200', 'message': 'ok'}
         except Exception as error_excp:
