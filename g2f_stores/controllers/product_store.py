@@ -36,7 +36,7 @@ class StorePlano(http.Controller):
         :return: position data of gondolas and shelf
         """
         method = http.request.httprequest.method
-        kw = http.request.jsonrequest
+        # kw = http.request.jsonrequest
         response = {"status": 200, "data": []}
         _logger.debug("Init call api /store/plano_shelf: %s" % response)
         if method == 'GET':
