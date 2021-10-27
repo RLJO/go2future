@@ -205,6 +205,15 @@ class RaspberryPi(models.Model):
 
         return res
 
+    def post_plano_shelf_data(self, data):
+        ids_updated = []
+        for vals in data:
+            id = vals.get('id')
+            x_position = vals.get('x_position')
+            y_position = vals.get('y_position')
+        msg = " No Disponible "# 'Creados: %s, Actualizados: %s' % (ids_created, ids_updated)
+        res = {'status': 200, 'messsage': msg}
+
 
 class StoreSensor(models.Model):
     _name = 'store.sensor'

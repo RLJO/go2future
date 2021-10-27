@@ -28,7 +28,7 @@ class StorePlano(http.Controller):
         else:
             return http.Response('NOT FOUND', status=404)
 
-    @http.route(['/store/plano_shelf'], type="json", auth="public", website=True, method=['GET'], csrf=False)
+    @http.route(['/store/plano_shelf'], type="http", auth="public", website=True, method=['GET'], csrf=False)
     def get_sensor_cart_data(self, **kw):
         """
         THIS CONTROLER sends the data of gondolas and shelf positions given a store code or id or name
@@ -37,20 +37,30 @@ class StorePlano(http.Controller):
         """
         method = http.request.httprequest.method
         kw = http.request.jsonrequest
-        store = kw.get('store')
         response = {"status": 200, "data": []}
+        _logger.debug("Init call api /store/plano_shelf: %s" % response)
         if method == 'GET':
-            # make a method
-            data = request.env['store.raspi'].sudo()
-            res = data.get_plano_shelf_data(store)
+            store = kw.get('store')
+            obj = request.env['store.raspi'].sudo()
+            res = obj.get_plano_shelf_data(store)
             if res:
                 response['success'] = True
                 response['error_code'] = 0
                 response['data'] = res
             else:
-                _logger.info("No data found: %s" % response)
+                _logger.info("No data found api /store/plano_shelf: %s" % response)
                 response['success'] = False
                 response['error_code'] = 1
                 response['error_data'] = 'No data found!'
+        if method == 'POST':
+            data = kw.get('data')
+            obj = request.env['store.raspi'].sudo()
+            res = obj.post_plano_shelf_data(data)
+            if res:
+                response['success'] = res['status']
+                response['error_code'] = res['code']
+                response['message'] = res['message']
+            else:
+                _logger.info("Failed POST api /store/plano_shelf: %s" % response)
 
         return response
