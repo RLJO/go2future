@@ -297,10 +297,18 @@ class ResUser(http.Controller):
         response = {'status': '200', 'messsage': msg}
         return dumps(response)
 
-    def update_user(self, kw):
-        login = kw.get('login')
-        name = kw.get('name')
-        lastname = kw.get('lastname')
+    def update_user(self, params):
+        login = params.get('login')
+
+        address = params.get('address')
+        gender = params.get('gender')
+        # business_name = params.get('business_name')
+        mobile = params.get('mobile')
+        email_recipe_receive = params.get('email_recipe_receive') or False
+
+        data = {'gender': gender, 'mobile': mobile, 'phone': mobile,
+                'street': address,
+                'email_recipe_receive': email_recipe_receive}
 
         user = self._validate_user(login)
 
@@ -310,7 +318,7 @@ class ResUser(http.Controller):
             return dumps(response)
 
         try:
-            user.sudo().write({'name': name, 'lastname': lastname})
+            user.partner_id.write(data)
             user._cr.commit()
             response = {'status': '200', 'message': 'ok'}
         except Exception as error_excp:
