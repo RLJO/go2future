@@ -305,10 +305,18 @@ class ResUser(http.Controller):
         # business_name = params.get('business_name')
         mobile = params.get('mobile')
         email_recipe_receive = params.get('email_recipe_receive') or False
+        country = params.get('country')
+        country_state = params.get('country_state')
+        state_city = params.get('state_city')
+
+        country_id, state_id = self.res_partner.search_country_state_by_name(
+                country, country_state)
 
         data = {'gender': gender, 'mobile': mobile, 'phone': mobile,
                 'street': address,
-                'email_recipe_receive': email_recipe_receive}
+                'email_recipe_receive': email_recipe_receive,
+                'country_id': country_id, 'state_id': state_id,
+                'city': state_city}
 
         user = self._validate_user(login)
 
