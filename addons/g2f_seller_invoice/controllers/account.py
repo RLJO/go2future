@@ -96,8 +96,8 @@ class Account(http.Controller):
 
             data = {
                 "id": invoice.id,
-                "name": first_name,
-                "last_name": last_name,
+                "name": invoice.partner_id.name,
+                "last_name": invoice.partner_id.last_name,
                 "consumer_address": invoice._get_address(invoice.partner_id),
                 "street": invoice.partner_id.street,
                 "street2": invoice.partner_id.street2,
