@@ -44,17 +44,17 @@ class Account(http.Controller):
         for invoice in moves:
             items = []
             prisma = []
-            name = invoice.partner_id.name.split()
-            first_name = ''
-            last_name = ''
-            if len(name) == 2:
-                first_name = name[0]
-                last_name = name[1]
-            if len(name) >= 3:
-                first_name = name[0] + ' ' + name[1]
-                last_name = name[2]
-                if len(name) == 4:
-                    last_name += ' ' + name[3]
+            # name = invoice.partner_id.name.split()
+            # first_name = ''
+            # last_name = ''
+            # if len(name) == 2:
+            #     first_name = name[0]
+            #     last_name = name[1]
+            # if len(name) >= 3:
+            #     first_name = name[0] + ' ' + name[1]
+            #     last_name = name[2]
+            #     if len(name) == 4:
+            #         last_name += ' ' + name[3]
 
             ('seller_api', _('API Seller')),
             ('afip', _('AFIP')),
@@ -97,7 +97,7 @@ class Account(http.Controller):
             data = {
                 "id": invoice.id,
                 "name": invoice.partner_id.name,
-                "last_name": invoice.partner_id.last_name,
+                "last_name": invoice.partner_id.lastname,
                 "consumer_address": invoice._get_address(invoice.partner_id),
                 "street": invoice.partner_id.street,
                 "street2": invoice.partner_id.street2,
