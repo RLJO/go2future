@@ -105,7 +105,7 @@ class SaleOrderCart(http.Controller):
             _logger.info(response)
             return dumps(response)
 
-        return http.Response('NOT FOUND', status=404) 
+        return http.Response('NOT FOUND', status=404)
 
     @http.route(['/sale_order_detail/'], type='http', auth='public',
                 methods=['GET'], website=True, csrf=False)

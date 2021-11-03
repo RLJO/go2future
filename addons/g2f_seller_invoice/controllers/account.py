@@ -44,17 +44,17 @@ class Account(http.Controller):
         for invoice in moves:
             items = []
             prisma = []
-            name = invoice.partner_id.name.split()
-            first_name = ''
-            last_name = ''
-            if len(name) == 2:
-                first_name = name[0]
-                last_name = name[1]
-            if len(name) >= 3:
-                first_name = name[0] + ' ' + name[1]
-                last_name = name[2]
-                if len(name) == 4:
-                    last_name += ' ' + name[3]
+            # name = invoice.partner_id.name.split()
+            # first_name = ''
+            # last_name = ''
+            # if len(name) == 2:
+            #     first_name = name[0]
+            #     last_name = name[1]
+            # if len(name) >= 3:
+            #     first_name = name[0] + ' ' + name[1]
+            #     last_name = name[2]
+            #     if len(name) == 4:
+            #         last_name += ' ' + name[3]
 
             ('seller_api', _('API Seller')),
             ('afip', _('AFIP')),
@@ -90,14 +90,20 @@ class Account(http.Controller):
             for p in invoice.payment_prisma_status_ids:
                 prisma = {
                     "transaction": p.site_transaction_id,
-                    "card_brand": p.card_brand
+                    "card_brand": p.card_brand,
+                    "card_type": p.card_type
                 }
 
             data = {
                 "id": invoice.id,
-                "name": first_name,
-                "last_name": last_name,
+                "name": invoice.partner_id.name,
+                "last_name": invoice.partner_id.lastname,
                 "consumer_address": invoice._get_address(invoice.partner_id),
+                "street": invoice.partner_id.street,
+                "street2": invoice.partner_id.street2,
+                "city": invoice.partner_id.city,
+                "province": invoice.partner_id.state_id.name,
+                "country": invoice.partner_id.country_id.name,
                 "doc_type": invoice.partner_id.l10n_latam_identification_type_id.name,
                 "doc_nbr": invoice.partner_id.vat,
                 "minigo_code": invoice.warehouse_id.code,

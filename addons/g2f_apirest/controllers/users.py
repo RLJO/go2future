@@ -70,7 +70,7 @@ class ResUser(http.Controller):
             transaction = transaction.sudo().get_last_transaction_by_user(
                     login)
             _logger.info(transaction)
-            return dumps(transaction[0], default=self.parse_dumps)
+            return dumps(transaction[0] if transaction else [], default=self.parse_dumps)
 
         return http.Response('NOT FOUND', status=404)
 
@@ -103,7 +103,7 @@ class ResUser(http.Controller):
         stores = http.request.env['stock.warehouse'].sudo().search_read(
                 [('active', '=', True)],
                 fields=['name', 'direccion_local', 'country_id',
-                        'state_id', 'store_image']
+                        'state_id', 'store_image', 'code']
                 )
         return dumps(stores, default=self.parse_dumps)
 
@@ -297,10 +297,26 @@ class ResUser(http.Controller):
         response = {'status': '200', 'messsage': msg}
         return dumps(response)
 
-    def update_user(self, kw):
-        login = kw.get('login')
-        name = kw.get('name')
-        lastname = kw.get('lastname')
+    def update_user(self, params):
+        login = params.get('login')
+
+        address = params.get('address')
+        gender = params.get('gender')
+        # business_name = params.get('business_name')
+        mobile = params.get('mobile')
+        email_recipe_receive = params.get('email_recipe_receive') or False
+        country = params.get('country')
+        country_state = params.get('country_state')
+        state_city = params.get('state_city')
+
+        country_id, state_id = self.res_partner.search_country_state_by_name(
+                country, country_state)
+
+        data = {'gender': gender, 'mobile': mobile, 'phone': mobile,
+                'street': address,
+                'email_recipe_receive': email_recipe_receive,
+                'country_id': country_id, 'state_id': state_id,
+                'city': state_city}
 
         user = self._validate_user(login)
 
@@ -310,7 +326,7 @@ class ResUser(http.Controller):
             return dumps(response)
 
         try:
-            user.sudo().write({'name': name, 'lastname': lastname})
+            user.partner_id.write(data)
             user._cr.commit()
             response = {'status': '200', 'message': 'ok'}
         except Exception as error_excp:
