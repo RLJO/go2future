@@ -129,7 +129,7 @@ class SaleOrder(models.Model):
     def get_sale_order_list(self, login, page=1):
         """Get sale order list by res.partner whith status sale."""
 
-        ORDER_FOR_PAGE = 2
+        ORDER_FOR_PAGE = 6
         user_id = self.env['res.users'].search([('login', '=', login)])
         orders = self._search_sale_order_by_partner(user_id.partner_id.id,
                                                     'sale')
