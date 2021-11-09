@@ -5,9 +5,8 @@
 # -
 
 from datetime import datetime
-from json import dumps
 import logging
-from odoo import models, fields, api, _
+from odoo import models, fields, _
 from odoo.exceptions import MissingError
 from odoo import http
 from odoo.addons.web.controllers.main import serialize_exception,content_disposition 
@@ -109,7 +108,7 @@ class SaleOrder(models.Model):
 
         return True
 
-    def create_sale_order(self, partner_id):
+    def create_sale_order(self, partner_id, store_id):
         '''Create sale order.'''
 
         # Si ya existe una orden Abierta para este usuario con estado draft
@@ -117,10 +116,15 @@ class SaleOrder(models.Model):
         if self._search_sale_order_by_partner(partner_id):
             return True
 
+        user_id = self.env['res.users'].search([('name', '=', 'admin')])
+
         order_vals = {'partner_id': partner_id,
-                'validity_date': datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S'),
-                'order_line': [],
-                }
+                      'validity_date': datetime.utcnow().strftime(
+                          '%Y-%m-%d %H:%M:%S'),
+                      'warehouse_id': store_id,
+                      'user_id': user_id,
+                      'order_line': [],
+                      }
 
         new_order = self.create(order_vals)
         new_order._cr.commit()

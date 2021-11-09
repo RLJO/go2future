@@ -171,7 +171,7 @@ class AccessControl(http.Controller):
 
             if code == 7 and not user.is_staff():
                 # Crear la sale order
-                sale_order.create_sale_order(user.partner_id.id)
+                sale_order.create_sale_order(user.partner_id.id, store_id)
                 msg_for_app_mobile = _('sales order was created successfully')
                 message = _('OK')
 
