@@ -116,7 +116,7 @@ class SaleOrder(models.Model):
         if self._search_sale_order_by_partner(partner_id):
             return True
 
-        user_id = self.env['res.users'].search([('name', '=', 'admin')], limit=1)
+        user_id = self.env['res.users'].search([('login', '=', 'admin')], limit=1)
 
         order_vals = {'partner_id': partner_id,
                       'validity_date': datetime.utcnow().strftime(
