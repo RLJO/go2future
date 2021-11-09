@@ -125,6 +125,7 @@ class SaleOrder(models.Model):
                       'user_id': user_id.id,
                       'order_line': [],
                       }
+        _logger.info(order_vals)
 
         new_order = self.create(order_vals)
         new_order._cr.commit()
