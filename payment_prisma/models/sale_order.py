@@ -16,6 +16,7 @@ class SaleOrder(models.Model):
     transaction_status = fields.Char(string=_('Transaction Status'), readonly=True, store=True)
     payment_prisma_status_ids = fields.One2many(comodel_name='payment.prisma.status', inverse_name='sale_order_id', readonly=True, store=True)
     count_qty = fields.Float(string='Cantidad de productos', store=True, compute='_compute_qty')
+    payment_prisma_attempt_ids = fields.One2many(comodel_name='payment.prisma.attempt', inverse_name='sale_order_id', store=True)
 
     @api.depends('order_line.product_uom_qty')
     def _compute_qty(self):
@@ -165,7 +166,18 @@ class SaleOrder(models.Model):
                 payment_response = self.send_payment_prisma(payment_token)
                 if payment_response:
                     data = self.get_payment_data(payment_response)
+                    partner = self.partner_id
+                    card = partner.payment_cards_ids.filtered(lambda c: c.state == 'active')
+                    data_attempt = {
+                        'sale_order_id': self.id,
+                        'partner_id': partner.id,
+                        'bin': "****" + card.card_last_digits,
+                        'card_type': card.card_type,
+                        'card_brand': data['card_brand'],
+                        'status': data['status']
+                    }
                     self.env['payment.prisma.status'].create(data)
+                    self.env['payment.prisma.attempt'].sudo().create(data_attempt)
                     res = super(SaleOrder, self).action_confirm()
                     return res
         else:

@@ -4,3 +4,5 @@ payment_cards_manager,payment_cards_manager,model_payment_cards,base.group_user,
 payment_cards_types_manager,payment_cards_types_manager,model_payment_cards_types,base.group_user,1,1,1,1
 payment_prisma_status_manager,payment_prisma_status_manager,model_payment_prisma_status,base.group_user,1,1,1,1
 payment_prisma_status_line_manager,payment_prisma_status_line_manager,model_payment_prisma_status_line,base.group_user,1,1,1,1
+payment_prisma_attempt_manager,payment_prisma_attempt_manager,model_payment_prisma_attempt,base.group_user,1,1,1,1
+

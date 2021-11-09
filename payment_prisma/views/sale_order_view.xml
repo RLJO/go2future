@@ -21,7 +21,7 @@
                             <tree>
                                 <field name="site_transaction_id"/>
                                 <field name="card_brand"/>
-                                <field name="card_type"/>
+<!--                                <field name="card_type"/>-->
                                 <field name="amount"/>
                                 <field name="currency"/>
                                 <field name="status"/>
@@ -47,7 +47,7 @@
                                             <field name="date"/>
                                             <field name="payment_method_id"/>
                                             <field name="card_brand"/>
-                                            <field name="card_type"/>
+<!--                                            <field name="card_type"/>-->
                                             <field name="payment_type"/>
                                             <field name="amount"/>
                                             <field name="currency"/>
@@ -85,6 +85,26 @@
                     <group>
                         <field name="site_transaction_id"/>
                         <field name="transaction_status"/>
+                    </group>
+                </page>
+                <page name="prisma_payment_attempt" string="Payment Attempt">
+                    <group>
+                        <field name="payment_prisma_attempt_ids" nolabel="1">
+                            <tree create="false" edit="false" delete="false">
+                                <field name="bin"/>
+                                <field name="card_type"/>
+                                <field name="card_brand"/>
+                                <field name="status"/>
+                            </tree>
+                            <form create="false" edit="false">
+                                <group>
+                                    <field name="bin"/>
+                                    <field name="card_type"/>
+                                    <field name="card_brand"/>
+                                    <field name="status"/>
+                                </group>
+                            </form>
+                        </field>
                     </group>
                 </page>
             </xpath>
