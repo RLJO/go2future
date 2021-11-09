@@ -121,7 +121,7 @@ class SaleOrder(models.Model):
         order_vals = {'partner_id': partner_id,
                       'validity_date': datetime.utcnow().strftime(
                           '%Y-%m-%d %H:%M:%S'),
-                      'warehouse_id': store_id,
+                      'warehouse_id': int(store_id),
                       'user_id': user_id.id,
                       'order_line': [],
                       }
