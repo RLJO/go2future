@@ -5,9 +5,8 @@
 # -
 
 from datetime import datetime
-from json import dumps
 import logging
-from odoo import models, fields, api, _
+from odoo import models, fields, _
 from odoo.exceptions import MissingError
 from odoo import http
 from odoo.addons.web.controllers.main import serialize_exception,content_disposition 
@@ -109,7 +108,7 @@ class SaleOrder(models.Model):
 
         return True
 
-    def create_sale_order(self, partner_id):
+    def create_sale_order(self, partner_id, store_id):
         '''Create sale order.'''
 
         # Si ya existe una orden Abierta para este usuario con estado draft
@@ -117,10 +116,16 @@ class SaleOrder(models.Model):
         if self._search_sale_order_by_partner(partner_id):
             return True
 
+        user_id = self.env['res.users'].search([('login', '=', 'admin')], limit=1)
+
         order_vals = {'partner_id': partner_id,
-                'validity_date': datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S'),
-                'order_line': [],
-                }
+                      'validity_date': datetime.utcnow().strftime(
+                          '%Y-%m-%d %H:%M:%S'),
+                      'warehouse_id': int(store_id),
+                      'user_id': user_id.id,
+                      'order_line': [],
+                      }
+        _logger.info(order_vals)
 
         new_order = self.create(order_vals)
         new_order._cr.commit()
@@ -129,7 +134,7 @@ class SaleOrder(models.Model):
     def get_sale_order_list(self, login, page=1):
         """Get sale order list by res.partner whith status sale."""
 
-        ORDER_FOR_PAGE = 2
+        ORDER_FOR_PAGE = 6
         user_id = self.env['res.users'].search([('login', '=', login)])
         orders = self._search_sale_order_by_partner(user_id.partner_id.id,
                                                     'sale')
