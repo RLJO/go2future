@@ -152,6 +152,7 @@ class SaleOrder(models.Model):
             # Por ahora se saca el stado paid porque la factura aparece como
             # que no se pago
             # if order.invoice_ids and order.invoice_ids.payment_state.lower() == 'paid':
+            _logger.info('order: {}'.format(order.invoice_ids))
             if order.invoice_ids:
                 data = {"order": order.name,
                         "create_date": order.create_date.strftime("%Y-%m-%d"),
