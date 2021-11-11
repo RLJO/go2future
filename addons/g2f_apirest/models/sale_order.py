@@ -137,7 +137,8 @@ class SaleOrder(models.Model):
         ORDER_FOR_PAGE = 6
         user_id = self.env['res.users'].search([('login', '=', login)])
         orders = self._search_sale_order_by_partner(user_id.partner_id.id,
-                                                    'sale')
+        _logger.info('Ordenes: {}'.format(orders))
+
         filters = orders.search([('id', 'in', orders.ids)],
                                 offset=(page - 1) * ORDER_FOR_PAGE,
                                 limit=ORDER_FOR_PAGE)
