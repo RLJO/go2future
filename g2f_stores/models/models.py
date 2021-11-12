@@ -5,6 +5,7 @@ import base64
 from odoo import api, fields, models, _
 from random import randrange
 from PIL import Image
+import json
 from odoo.exceptions import ValidationError, UserError
 
 
@@ -207,12 +208,23 @@ class RaspberryPi(models.Model):
 
     def post_plano_shelf_data(self, data):
         ids_updated = []
+        obj_gond = self.env['store.raspi']
+        obj_shelf = self.env['store.sensor']
         for vals in data:
             id = vals.get('id')
-            x_position = vals.get('x_position')
-            y_position = vals.get('y_position')
-        msg = " No Disponible "# 'Creados: %s, Actualizados: %s' % (ids_created, ids_updated)
-        res = {'status': 200, 'messsage': msg}
+            x_new = vals.get('x_position')
+            y_new = vals.get('y_position')
+            gond = obj_gond.search([('id', '=', id)])
+            gond.write({'position_x': x_new, 'position_y': y_new})
+            ids_updated.append(id)
+            for shelf in vals['shelf_ids']:
+                s_id = shelf['shelf_id']
+                z_new = shelf['z_position']
+                shf = obj_shelf.search([('id', '=', s_id)])
+                shf.write({'position_z': z_new})
+        msg = "Actualizados: %s " % ids_updated
+        res = {'status': 0, 'message': msg}
+        return res
 
 
 class StoreSensor(models.Model):
