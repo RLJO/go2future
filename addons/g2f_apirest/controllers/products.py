@@ -69,7 +69,7 @@ class Product(http.Controller):
         product_list_id = [p.id for p in get_products]
         domain = [('id', 'in', product_list_id)]
         response["data"] = products.sudo().search_read(domain, ['id', 'name', 'weight'])
-        return dumps(response['data'])
+        return response['data']
 
     @http.route(['/weight_sensor_data/'], type='http', auth='public',
              methods=['GET'], website=True, csrf=False)
