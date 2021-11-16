@@ -7,7 +7,7 @@ _logger = logging.getLogger(__name__)
 
 class GetStoreZones(http.Controller):
 
-    @http.route(['/store/get_zones'], type="http", auth="public", website=True, method=['GET'],
+    @http.route(['/store/get_zones'], type="json", auth="public", website=True, method=['GET'],
                 csrf=False)
     def get_store_zones(self, **kw):
         method = request.httprequest.method
@@ -23,4 +23,4 @@ class GetStoreZones(http.Controller):
                 response['success'] = False
                 response['error_code'] = 1
                 response['error_data'] = 'No data found!'
-        return dumps(response)
+        return response
