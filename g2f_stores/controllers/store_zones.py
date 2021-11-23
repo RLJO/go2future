@@ -11,7 +11,9 @@ class GetStoreZones(http.Controller):
                 csrf=False)
     def get_store_zones(self, **kw):
         method = request.httprequest.method
-        store_id = int(kw.get('store_id'))
+        store_id = kw.get('store_id')
+        if type(store_id) == str:
+            store_id = http.request.env['stock.warehouse'].sudo().search([('code', '=', store_id)]).id
         response = {"id": store_id, "status": 200, "data": []}
 
         if method == 'GET':
