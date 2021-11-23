@@ -63,12 +63,15 @@ class Product(http.Controller):
         """Get product list."""
 
         response = {"status": 200, "data": []}
-
         products = http.request.env['product.product']
         get_products = products.sudo().search_product_by_location_code(location_code)
         product_list_id = [p.id for p in get_products]
         domain = [('id', 'in', product_list_id)]
-        response["data"] = products.sudo().search_read(domain, ['id', 'barcode', 'name', 'weight'])
+        res = products.sudo().search_read(domain, ['id', 'barcode', 'name', 'weight'])
+        d = {}
+        for r in res:
+            d.update({r['barcode']: (r['weight'], r['name'])})
+        response["data"] = d
         return response['data']
 
     @http.route(['/weight_sensor_data/'], type='http', auth='public',
