@@ -73,8 +73,7 @@ class Product(http.Controller):
         response["data"] = d
         return response
 
-    @http.route(['/weight_sensor_data/'], type='http', auth='public',
-             methods=['GET'], website=True, csrf=False)
+    @http.route(['/weight_sensor_data/'], type='json', auth='public', methods=['GET'], website=True, csrf=True)
     def get_weigth_sensor_data(self, **kw):
         method = http.request.httprequest.method
         print(kw)
@@ -87,7 +86,7 @@ class Product(http.Controller):
             print('Obtener Productos que estan ubicados dentro de un determinado sensor en una tienda')
             product_list = product.sudo().search_products_by_weight_sensor_id(weight_sensor_id)
             response["data"] = product_list
-            return dumps(response)
+            return response
 
     @http.route(['/update_gondola'], type='http', auth='public',
                 methods=['POST'], website=True, csrf=False)
