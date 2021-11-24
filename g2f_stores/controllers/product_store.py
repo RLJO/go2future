@@ -28,7 +28,7 @@ class StorePlano(http.Controller):
         else:
             return http.Response('NOT FOUND', status=404)
 
-    @http.route(['/store/plano_shelf'], type="json", auth="public", website=True, method=['GET'], csrf=False)
+    @http.route(['/store/plano_shelf'], type='json', auth="none", methods=["POST", "GET"], website=True)
     def get_plano_shelf_data(self, **kw):
         """
         THIS CONTROLER sends the data of gondolas and shelf positions given a store code or id or name
@@ -40,7 +40,7 @@ class StorePlano(http.Controller):
         response = {"status": 200, "data": []}
         _logger.debug("Init call api /store/plano_shelf: %s" % response)
         if method == 'GET':
-            kw = http.request.jsonrequest
+            # kw = http.request.jsonrequest
             store = kw.get('store')
             obj = request.env['store.raspi'].sudo()
             res = obj.get_plano_shelf_data(store)

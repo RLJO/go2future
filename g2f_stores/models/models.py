@@ -121,7 +121,10 @@ class CameraZone(models.Model):
 
     def data_zone_camera(self, store_id):
         zone_obj = self.env['camera.zone']
-        zone_ids = zone_obj.search([('store_id', '=', store_id),])
+        if type(store_id) == str:
+            store_id = self.env['stock.warehouse'].search([('code', '=', store_id)]).id
+
+        zone_ids = zone_obj.search([('store_id', '=', store_id)])
         data = []
         for zone in zone_ids:
             if zone.parent_id: # Solo sub_zonas

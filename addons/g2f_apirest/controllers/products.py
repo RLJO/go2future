@@ -36,13 +36,12 @@ class Product(http.Controller):
     def product_all(self, **kw):
         method = http.request.httprequest.method
         kw = http.request.jsonrequest
-        print(kw)
         store_code = kw.get('store_code')
 
         if method == 'GET':
-            print('Listar, Obtener Productos')
             product_list = self.get_product_list(store_code)
-            print(product_list)
+            response = {"status": 200, "data": product_list}
+            #print(product_list)
             return product_list
 
     def get_product(self, kw):
@@ -63,13 +62,16 @@ class Product(http.Controller):
         """Get product list."""
 
         response = {"status": 200, "data": []}
-
         products = http.request.env['product.product']
         get_products = products.sudo().search_product_by_location_code(location_code)
         product_list_id = [p.id for p in get_products]
         domain = [('id', 'in', product_list_id)]
-        response["data"] = products.sudo().search_read(domain, ['id', 'name', 'weight'])
-        return dumps(response['data'])
+        res = products.sudo().search_read(domain, ['id', 'barcode', 'name', 'weight'])
+        d = {}
+        for r in res:
+            d.update({r['barcode']: (r['weight'], r['name'])})
+        response["data"] = d
+        return response
 
     @http.route(['/weight_sensor_data/'], type='http', auth='public',
              methods=['GET'], website=True, csrf=False)

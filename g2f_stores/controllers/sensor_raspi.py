@@ -7,8 +7,7 @@ _logger = logging.getLogger(__name__)
 
 class StoreRasberryPi(http.Controller):
 
-    @http.route(['/store/get_sensor_cart_data'], type="http", auth="public", website=True, method=['GET'],
-                csrf=False)
+    @http.route(['/store/get_sensor_cart_data'], type="json", auth="public", website=True, method=['GET'], csrf=False)
     def get_sensor_cart_data(self, **kw):
         pi_id = int(kw.get('pi_id'))
         response = {"id": pi_id, "status": 200, "data": []}
@@ -25,4 +24,4 @@ class StoreRasberryPi(http.Controller):
             response['error_code'] = 1
             response['error_data'] = 'No data found!'
 
-        return dumps(response)
+        return response
