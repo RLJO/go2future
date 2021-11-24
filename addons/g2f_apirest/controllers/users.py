@@ -54,6 +54,30 @@ class ResUser(http.Controller):
         session_id = session.cookies.get('session_id')
         return session_id
 
+    @http.route(['/users/helpdesk/ticket'], type='json', auth='public',
+                methods=['POST'],
+                website=True, csrf=False)
+    def report(self, **kw):
+        """Make an inquiry or report a problem from the app and create
+        a ticket automatically."""
+
+        method = http.request.httprequest.method
+        kw = http.request.jsonrequest
+        login = kw.get('login')
+        name = kw.get('name')
+        description = kw.get('description')
+        phone = kw.get('phone')
+        attachment = kw.get('attachment')
+
+        user = self._validate_user(login)
+
+        hd = http.request.env['helpdesk.ticket']
+        if method == 'POST' and user:
+            data = {"name": name,
+                    "description": description,
+                    "phone": phone}
+
+
     @http.route(['/users/get_transaction/last'], type='http', auth='public',
                 methods=['GET'],
                 website=True, csrf=False)

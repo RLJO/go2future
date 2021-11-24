@@ -1,0 +1,14 @@
+ <odoo>
+    <record id="go2f_helpdesk_ticket_view_form" model="ir.ui.view" >
+        <field name="name">helpdesk.ticket.form</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="priority" eval="1"/>
+        <field name="inherit_id" ref="helpdesk.helpdesk_ticket_view_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='email_cc']" position="after">
+                <field name="phone" string="Phone"/>
+            </xpath> 
+        </field>
+    </record>
+</odoo>
