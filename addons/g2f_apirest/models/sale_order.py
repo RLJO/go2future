@@ -30,7 +30,7 @@ def validate_product_exist(search_product_method):
 
 
 class SaleOrder(models.Model):
-    '''Sale order model by Api Mobile.'''
+    """Sale order model by Api Mobile."""
 
     _inherit = 'sale.order'
 
@@ -109,14 +109,15 @@ class SaleOrder(models.Model):
         return True
 
     def create_sale_order(self, partner_id, store_id):
-        '''Create sale order.'''
+        """Create sale order."""
 
         # Si ya existe una orden Abierta para este usuario con estado draft
         # no no crear la Orden de venta para que se use esta
         if self._search_sale_order_by_partner(partner_id):
             return True
 
-        user_id = self.env['res.users'].search([('login', '=', 'admin')], limit=1)
+        user_id = self.env['res.users'].search([('login', '=', 'admin')],
+                                               limit=1)
 
         order_vals = {'partner_id': partner_id,
                       'validity_date': datetime.utcnow().strftime(
@@ -158,7 +159,8 @@ class SaleOrder(models.Model):
                             for t in order.payment_prisma_attempt_ids]
 
                 data = {"order": order.name,
-                        "create_date": order.create_date.strftime("%Y-%m-%d, %H:%M:%S"),
+                        "create_date": order.create_date.strftime(
+                            "%Y-%m-%d, %H:%M:%S"),
                         "store": order.user_id.name,
                         "amount_total": order.amount_total,
                         "download_invoice": self._link_download_invoice(order),
@@ -173,7 +175,7 @@ class SaleOrder(models.Model):
 
         for invoice in order.invoice_ids:
             pdf, _ = self.env['ir.actions.report']._get_report_from_name(
-                    'account.report_invoice').sudo()._render_qweb_pdf(
+                'account.report_invoice').sudo()._render_qweb_pdf(
                             [int(invoice.id)])
             pdf_http_headers = [('Content-Type', 'application/pdf'),
                                 ('Content-Length', len(pdf)),
@@ -184,7 +186,9 @@ class SaleOrder(models.Model):
         """prepare download link invoice from sale order passed."""
 
         links = []
-        server = self.env['ir.config_parameter'].search([('key', '=', 'web.base.url')])
+        server = self.env['ir.config_parameter'].search([
+            ('key', '=', 'web.base.url')]
+        )
         if not server.value:
             return ''
 
@@ -212,7 +216,7 @@ class SaleOrder(models.Model):
         return links
 
     def _search_sale_order_by_partner(self, partner_id=None, state='draft'):
-        '''Search sale order by partner id.'''
+        """Search sale order by partner id."""
 
         order_sale = self.search([
             ('partner_id', '=', partner_id),
@@ -232,9 +236,12 @@ class SaleOrder(models.Model):
     def _add_product_shelf(self, order, product, quantity, sensor):
         quantity = quantity
         store = order.warehouse_id
-        product_store = self.env['product.store'].search([('product_id', '=', product.id),
-                                                          ('shelf_id', '=', sensor),
-                                                          ('store_id', '=', store.id)])
+        product_store = self.env['product.store'].search(
+            [('product_id', '=', product.id),
+             ('shelf_id', '=', sensor),
+             ('store_id', '=', store.id)
+             ]
+        )
         try:
             if product_store:
                 quantity += product_store.qty_available_prod
@@ -248,10 +255,12 @@ class SaleOrder(models.Model):
     def _remove_product_shelf(self, order, product, quantity, sensor):
         quantity = quantity
         store = order.warehouse_id
-        product_store = self.env['product.store'].search([('product_id', '=', product.id),
-                                                          ('shelf_id.name', '=', sensor),
-                                                          ('store_id', '=', store.id)])
-        # _product_in_sale_order(order_instance, product_instance)
+        product_store = self.env['product.store'].search(
+            [('product_id', '=', product.id),
+             ('shelf_id.name', '=', sensor),
+             ('store_id', '=', store.id)]
+        )
+
         try:
             if product_store:
                 quantity = product_store.qty_available_prod - quantity
@@ -263,7 +272,7 @@ class SaleOrder(models.Model):
             _logger.info(error)
 
     def _add_product_cart(self, order_instance, product_instance, quantity):
-        '''Add products to cart.'''
+        """Add products to cart."""
 
         quantity = quantity
         product = self._product_in_sale_order(order_instance, product_instance)
@@ -292,7 +301,7 @@ class SaleOrder(models.Model):
         return False
 
     def _remove_product_cart(self, order_instance, product_instance, quantity):
-        '''remove products from cart.'''
+        """remove products from cart."""
 
         quantity = quantity
         product = self._product_in_sale_order(order_instance, product_instance)
@@ -308,6 +317,12 @@ class SaleOrder(models.Model):
         return False
 
     def _list_sale_order_cart(self, order_instance):
+        """Get list products, amount total, payment method from
+           sale order pased."""
+
+        payments = [(t.bin, t.card_type, t.card_brand, t.status)
+                    for t in order_instance.payment_prisma_attempt_ids]
+
         result = []
         domain = [('id', '=', order_instance.id)]
         header = order_instance.search_read(domain, [
@@ -315,7 +330,14 @@ class SaleOrder(models.Model):
             'amount_untaxed', 'state']
             )
 
+        header[0]["create_date"] = order_instance.create_date.strftime(
+            "%Y-%m-%d, %H:%M:%S")
+        header[0]["payments"] = payments
+        header[0]["address"] = order_instance.warehouse_id.direccion_local
+        header[0]["store"] = order_instance.warehouse_id.name
+
         result.append(header)
+
         lines = order_instance.search(domain).order_line
         title = ['product_name', 'product_sku', 'product_image',
                  'price_unit', 'product_uom_qty', 'discount',
@@ -327,7 +349,8 @@ class SaleOrder(models.Model):
             product_barcode = line.product_id.barcode
             product_name = line.product_id.name
             product_sku = line.product_id.default_code
-            product_image = None if not line.product_id.image_128 else line.product_id.image_128.decode('ascii')
+            product_image = None if not line.product_id.image_128 else \
+                    line.product_id.image_128.decode('ascii')
             price_unit = line.price_unit
             product_uom_qty = line.product_uom_qty
             product_discount = line.discount
