@@ -131,10 +131,10 @@ class SaleOrder(models.Model):
         new_order._cr.commit()
         return True
 
-    def get_sale_order_list(self, login, page=1):
+    def get_sale_order_list(self, login, page=1, order_for_page=6):
         """Get sale order list by res.partner whith status sale."""
 
-        ORDER_FOR_PAGE = 6
+        ORDER_FOR_PAGE = order_for_page
         user_id = self.env['res.users'].search([('login', '=', login)])
         orders = self._search_sale_order_by_partner(user_id.partner_id.id,
                                                     'sale')
@@ -158,7 +158,7 @@ class SaleOrder(models.Model):
                             for t in order.payment_prisma_attempt_ids]
 
                 data = {"order": order.name,
-                        "create_date": order.create_date.strftime("%Y-%m-%d"),
+                        "create_date": order.create_date.strftime("%Y-%m-%d, %H:%M:%S"),
                         "store": order.user_id.name,
                         "amount_total": order.amount_total,
                         "download_invoice": self._link_download_invoice(order),

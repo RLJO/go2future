@@ -4,3 +4,4 @@ from . import store
 from . import sale_order
 from . import product
 from . import transaction
+from . import helpdesk
