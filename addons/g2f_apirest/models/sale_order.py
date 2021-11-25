@@ -149,23 +149,19 @@ class SaleOrder(models.Model):
 
         for order in filters:
             data = {}
-            # Por ahora se saca el stado paid porque la factura aparece como
-            # que no se pago
-            # if order.invoice_ids and order.invoice_ids.payment_state.lower() == 'paid':
-            _logger.info('order: {}'.format(order.invoice_ids))
-            if order.invoice_ids:
-                payments = [(t.bin, t.card_type, t.card_brand, t.status)
-                            for t in order.payment_prisma_attempt_ids]
+            _logger.info('order: {}'.format(order))
+            payments = [(t.bin, t.card_type, t.card_brand, t.status)
+                        for t in order.payment_prisma_attempt_ids]
 
-                data = {"order": order.name,
-                        "create_date": order.create_date.strftime(
-                            "%Y-%m-%d, %H:%M:%S"),
-                        "store": order.user_id.name,
-                        "amount_total": order.amount_total,
-                        "download_invoice": self._link_download_invoice(order),
-                        "payments": payments
-                        }
-                order_list.append(data)
+            data = {"order": order.name,
+                    "create_date": order.create_date.strftime(
+                        "%Y-%m-%d, %H:%M:%S"),
+                    "store": order.user_id.name,
+                    "amount_total": order.amount_total,
+                    "download_invoice": self._link_download_invoice(order),
+                    "payments": payments
+                    }
+            order_list.append(data)
 
         return order_list
 
