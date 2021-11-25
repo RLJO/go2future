@@ -37,9 +37,7 @@ class SaleOrder(models.Model):
     def _get_sale_order_from_controller(self, login):
         """Get sale order from controller."""
 
-        domain = [('id', '=', login)] if login.isdigit() else \
-                 [('login', '=', login)]
-
+        domain = [('login', '=', login)] if type(login) == str else [('id', '=', login)]
         user_id = self.env['res.users'].search(domain)
         order = self._search_sale_order_by_partner(user_id.partner_id.id)
         list_sale = self._list_sale_order_cart(order)
@@ -49,7 +47,8 @@ class SaleOrder(models.Model):
                                       action=None):
         """Add prodcuts from controllers."""
 
-        user_id = self.env['res.users'].search([('id', '=', userid)])
+        domain = [('login', '=', userid)] if type(userid) == str else [('id', '=', userid)]
+        user_id = self.env['res.users'].search(domain)
         order = self._search_sale_order_by_partner(user_id.partner_id.id)
         product = self._search_product_by_id(barcode)
         if action == 'picked':
@@ -132,7 +131,7 @@ class SaleOrder(models.Model):
         new_order._cr.commit()
         return True
 
-    def get_sale_order_list(self, login, page=1, order_for_page=10):
+    def get_sale_order_list(self, login, page=1, order_for_page=6):
         """Get sale order list by res.partner whith status sale."""
 
         ORDER_FOR_PAGE = order_for_page
@@ -236,9 +235,11 @@ class SaleOrder(models.Model):
     def _add_product_shelf(self, order, product, quantity, sensor):
         quantity = quantity
         store = order.warehouse_id
+        sensor_dom = [('name', '=', sensor)] if type(sensor) == str else [('id', '=', sensor)]
+        sensor_id = self.env['store.sensor'].search(sensor_dom).id
         product_store = self.env['product.store'].search(
             [('product_id', '=', product.id),
-             ('shelf_id', '=', sensor),
+             ('shelf_id', '=', sensor_id),
              ('store_id', '=', store.id)
              ]
         )
