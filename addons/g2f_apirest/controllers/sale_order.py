@@ -101,8 +101,10 @@ class SaleOrderCart(http.Controller):
         sale_order = http.request.env['sale.order']
 
         if method == 'GET':
-            response = sale_order.sudo().get_sale_order_list(user_id, page,
-                                                             order_for_page)
+            response = sale_order.sudo().get_sale_order_list(user_id,
+                                                             page,
+                                                             int(order_for_page)
+                                                             )
             _logger.info(response)
             return dumps(response)
 
