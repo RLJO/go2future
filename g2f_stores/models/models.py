@@ -249,12 +249,13 @@ class StoreSensor(models.Model):
         res =[]
         for sensor in data:
             res.append({
-            "sensor_id": sensor.id,
+            # "sensor_id": sensor.id,
+            "cart_id": sensor.name,
             "calibration_factor": sensor.calibration_factor,
             "dt_pin": sensor.dt_pin,
             "sck_pin": sensor.sck_pin,
             "zone": sensor.zone_id.name,
-            "cart_id": sensor.cart_id,
+            # "cart_id": sensor.cart_id,
         })
         return res
 
