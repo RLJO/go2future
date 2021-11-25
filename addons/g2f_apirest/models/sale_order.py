@@ -149,7 +149,7 @@ class SaleOrder(models.Model):
 
         for order in filters:
             data = {}
-            _logger.info('order: {}'.format(order))
+            _logger.info('order: {}'.format(order.name))
             payments = [(t.bin, t.card_type, t.card_brand, t.status)
                         for t in order.payment_prisma_attempt_ids]
 
