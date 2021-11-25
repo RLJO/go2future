@@ -331,8 +331,7 @@ class SaleOrder(models.Model):
             'amount_untaxed', 'state']
             )
 
-        header[0]["create_date"] = order_instance.create_date.strftime(
-            "%Y-%m-%d, %H:%M:%S")
+        header[0]["create_date"] = order_instance.create_date.strftime("%Y-%m-%d, %H:%M:%S")
         header[0]["payments"] = payments
         header[0]["address"] = order_instance.warehouse_id.direccion_local
         header[0]["store"] = order_instance.warehouse_id.name

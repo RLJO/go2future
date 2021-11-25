@@ -15,7 +15,7 @@ _logger = logging.getLogger(__name__)
 
 
 class SaleOrderCart(http.Controller):
-    @http.route(['/user_cart'], type='http', auth='public',
+    @http.route(['/user_cart'], type='json', auth='public',
                 methods=['GET'], website=True, csrf=False)
     def get_user_cart_from_vision(self, **kw):
         """get the list of items that a user has in the cart for Vision."""
@@ -29,8 +29,7 @@ class SaleOrderCart(http.Controller):
 
         if method == 'GET':
             # Obtener lista de productos de orden de venta abierta
-            response = sale_order.sudo()._get_sale_order_from_controller(
-                user_id)
+            response = sale_order.sudo()._get_sale_order_from_controller(user_id)
 
             # Parsear para vision: {'barcode': cantidad, 'barcode': cantidad}
             for producto in response:
@@ -38,7 +37,7 @@ class SaleOrderCart(http.Controller):
                     barcode = producto.get('barcode')
                     qty = producto.get('product_uom_qty')
                     products.update({barcode: int(qty)})
-            return dumps(products)
+            return products
 
     @http.route(['/cart_update'], type='json', auth='public',
             methods=['GET', 'POST'], website=True, csrf=False)
@@ -59,7 +58,7 @@ class SaleOrderCart(http.Controller):
         if method == 'GET':
             # Obtener lista de productos de orden de venta abierta
             response = sale_order.sudo()._get_sale_order_from_controller(user_id)
-            return dumps(response)
+            return response
 
         if method == 'POST':
             #  Agregar un prodcuto a una orden de venta
