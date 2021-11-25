@@ -97,11 +97,13 @@ class SaleOrderCart(http.Controller):
         page = page or 1
         method = http.request.httprequest.method
         user_id = kw.get('login')
+        order_for_page = kw.get('order_for_page') or 6
 
         sale_order = http.request.env['sale.order']
 
         if method == 'GET':
-            response = sale_order.sudo().get_sale_order_list(user_id, page)
+            response = sale_order.sudo().get_sale_order_list(user_id, page,
+                                                             order_for_page)
             _logger.info(response)
             return dumps(response)
 
