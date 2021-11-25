@@ -131,7 +131,7 @@ class SaleOrder(models.Model):
         new_order._cr.commit()
         return True
 
-    def get_sale_order_list(self, login, page=1, order_for_page=10):
+    def get_sale_order_list(self, login, page=1, order_for_page=6):
         """Get sale order list by res.partner whith status sale."""
 
         ORDER_FOR_PAGE = order_for_page
