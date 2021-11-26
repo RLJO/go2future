@@ -25,6 +25,15 @@ class StockWarehouse(models.Model):
     country_id = fields.Many2one('res.country', string='Country', default=lambda self: self.env.company.country_id)
     state_id = fields.Many2one('res.country.state', string='State', domain="[('country_id', '=', country_id)]")
     store_image = fields.Binary(string='Imagen Tienda', attachment=False)
+    store_stage = fields.Selection([('draft', 'Borrador'), ('confirm', 'Confirmado')], default='draft', string="Estado Tienda")
+
+    def action_send_confirm(self):
+        for obj in self:
+            obj.store_stage = 'confirm'
+
+    def action_send_draft(self):
+        for obj in self:
+            obj.store_stage = 'draft'
 
 
 class StoreDoor(models.Model):
@@ -258,6 +267,15 @@ class StoreSensor(models.Model):
             # "cart_id": sensor.cart_id,
         })
         return res
+
+    def post_sensor_calibration_data(self, sensor, c_factor):
+        """ACTUALIZA el factor de calibración"""
+        obj_sensor = self.env['store.sensor'].search([("name", "=", sensor)])
+        if obj_sensor.id:
+            obj_sensor.write({'calibration_factor': c_factor})
+            return True
+        else:
+            return False
 
 
 class ProductStore(models.Model):

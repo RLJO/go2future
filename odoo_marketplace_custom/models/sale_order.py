@@ -308,7 +308,7 @@ class SaleOrder(models.Model):
                 continue
             items = []
             # date_order = str(invoice.invoice_date).split() if invoice.invoice_date else ''
-            inv_date = time.strftime("%d/%m/%y")
+            inv_date = time.strftime("%Y-%m-%d")
             inv_time = time.strftime("%H:%M:%S")
             api_path = invoice.seller_id.seller_api_path
             api_key = invoice.seller_id.seller_api_key
@@ -355,11 +355,11 @@ class SaleOrder(models.Model):
                 "doc_type": invoice.partner_id.l10n_latam_identification_type_id.name,
                 "doc_nbr": invoice.partner_id.vat,
                 "minigo_code": invoice.warehouse_id.code,
-                "minigo_address": self._get_address(self.warehouse_id.partner_id),
-                "origin": self.name,
+                "minigo_address": self.warehouse_id.direccion_local,
+                "origin": invoice.sale_order_id.name,
                 "date": inv_date,
                 "time": inv_time,
-                "seller": invoice.seller_id.name,
+                "seller": invoice.seller_id.vat,
                 "amount_untaxed": invoice.amount_untaxed,
                 "amount_tax": invoice.amount_tax,
                 "amount_total": invoice.amount_total,
