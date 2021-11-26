@@ -29,7 +29,7 @@ class StoreRasberryPi(http.Controller):
 
         return response
 
-    @http.route(['/store/post_sensor_calibration'], type='json', auth='public', methods=['POST'], website=True, csrf=False)
+    @http.route(['/store/post_sensor_calibration'], type='json', auth='public', methods=['POST'], website=True, csrf=False, cors='*')
     def post_sensor_calibration(self, **kw):
         method = http.request.httprequest.method
         sensor = kw.get('sensor')
@@ -51,7 +51,7 @@ class StoreRasberryPi(http.Controller):
 
         return response
 
-    @http.route(['/store/get_gondola_store'], type='json', auth='public', methods=['POST'], website=True, csrf=False)
+    @http.route(['/store/get_gondola_store'], type='json', auth='public', methods=['POST'], website=True, csrf=False, cors='*')
     def get_gondola_store(self, **kw):
         method = http.request.httprequest.method
         store_code = kw.get('store_code')
