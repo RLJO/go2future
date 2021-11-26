@@ -1,0 +1,4 @@
+googlemaps
+Shapely
+qrcode
+statsmodels
