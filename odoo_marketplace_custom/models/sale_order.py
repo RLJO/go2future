@@ -308,7 +308,7 @@ class SaleOrder(models.Model):
                 continue
             items = []
             # date_order = str(invoice.invoice_date).split() if invoice.invoice_date else ''
-            inv_date = time.strftime("%d/%m/%y")
+            inv_date = time.strftime("%Y-%m-%d")
             inv_time = time.strftime("%H:%M:%S")
             api_path = invoice.seller_id.seller_api_path
             api_key = invoice.seller_id.seller_api_key
@@ -359,7 +359,7 @@ class SaleOrder(models.Model):
                 "origin": self.name,
                 "date": inv_date,
                 "time": inv_time,
-                "seller": invoice.seller_id.name,
+                "seller": invoice.seller_id.vat,
                 "amount_untaxed": invoice.amount_untaxed,
                 "amount_tax": invoice.amount_tax,
                 "amount_total": invoice.amount_total,
