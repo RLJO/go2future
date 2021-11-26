@@ -7,8 +7,7 @@ _logger = logging.getLogger(__name__)
 
 class StoreCameraPorts(http.Controller):
 
-    @http.route(['/store/camera_ports'], type="http", auth="public", website=True, method=['GET'],
-                csrf=False)
+    @http.route(['/store/camera_ports'], type="json", auth="public", website=True, method=['GET'], csrf=False)
     def get_camera_ports(self, **kw):
         method = request.httprequest.method
         #kw = request.jsonrequest
@@ -27,4 +26,4 @@ class StoreCameraPorts(http.Controller):
                 response['error_code'] = 1
                 response['error_data'] = 'No data found!'
 
-        return dumps(response)
+        return response

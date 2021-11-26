@@ -5,6 +5,7 @@ import base64
 from odoo import api, fields, models, _
 from random import randrange
 from PIL import Image
+import json
 from odoo.exceptions import ValidationError, UserError
 
 
@@ -24,6 +25,15 @@ class StockWarehouse(models.Model):
     country_id = fields.Many2one('res.country', string='Country', default=lambda self: self.env.company.country_id)
     state_id = fields.Many2one('res.country.state', string='State', domain="[('country_id', '=', country_id)]")
     store_image = fields.Binary(string='Imagen Tienda', attachment=False)
+    store_stage = fields.Selection([('draft', 'Borrador'), ('confirm', 'Confirmado')], default='draft', string="Estado Tienda")
+
+    def action_send_confirm(self):
+        for obj in self:
+            obj.store_stage = 'confirm'
+
+    def action_send_draft(self):
+        for obj in self:
+            obj.store_stage = 'draft'
 
 
 class StoreDoor(models.Model):
@@ -120,7 +130,10 @@ class CameraZone(models.Model):
 
     def data_zone_camera(self, store_id):
         zone_obj = self.env['camera.zone']
-        zone_ids = zone_obj.search([('store_id', '=', store_id),])
+        if type(store_id) == str:
+            store_id = self.env['stock.warehouse'].search([('code', '=', store_id)]).id
+
+        zone_ids = zone_obj.search([('store_id', '=', store_id)])
         data = []
         for zone in zone_ids:
             if zone.parent_id: # Solo sub_zonas
@@ -207,12 +220,23 @@ class RaspberryPi(models.Model):
 
     def post_plano_shelf_data(self, data):
         ids_updated = []
+        obj_gond = self.env['store.raspi']
+        obj_shelf = self.env['store.sensor']
         for vals in data:
             id = vals.get('id')
-            x_position = vals.get('x_position')
-            y_position = vals.get('y_position')
-        msg = " No Disponible "# 'Creados: %s, Actualizados: %s' % (ids_created, ids_updated)
-        res = {'status': 200, 'messsage': msg}
+            x_new = vals.get('x_position')
+            y_new = vals.get('y_position')
+            gond = obj_gond.search([('id', '=', id)])
+            gond.write({'position_x': x_new, 'position_y': y_new})
+            ids_updated.append(id)
+            for shelf in vals['shelf_ids']:
+                s_id = shelf['shelf_id']
+                z_new = shelf['z_position']
+                shf = obj_shelf.search([('id', '=', s_id)])
+                shf.write({'position_z': z_new})
+        msg = "Actualizados: %s " % ids_updated
+        res = {'status': 0, 'message': msg}
+        return res
 
 
 class StoreSensor(models.Model):
@@ -234,14 +258,24 @@ class StoreSensor(models.Model):
         res =[]
         for sensor in data:
             res.append({
-            "sensor_id": sensor.id,
+            # "sensor_id": sensor.id,
+            "cart_id": sensor.name,
             "calibration_factor": sensor.calibration_factor,
             "dt_pin": sensor.dt_pin,
             "sck_pin": sensor.sck_pin,
             "zone": sensor.zone_id.name,
-            "cart_id": sensor.cart_id,
+            # "cart_id": sensor.cart_id,
         })
         return res
+
+    def post_sensor_calibration_data(self, sensor, c_factor):
+        """ACTUALIZA el factor de calibración"""
+        obj_sensor = self.env['store.sensor'].search([("name", "=", sensor)])
+        if obj_sensor.id:
+            obj_sensor.write({'calibration_factor': c_factor})
+            return True
+        else:
+            return False
 
 
 class ProductStore(models.Model):

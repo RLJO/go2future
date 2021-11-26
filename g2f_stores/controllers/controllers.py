@@ -25,17 +25,19 @@ _logger = logging.getLogger(__name__)
 
 class StoreCameraVision(http.Controller):
     @http.route(['/store/get_cameras'], type='json', auth='public',
-                methods=['GET'], website=True, csrf=False)
+                methods=['GET'], website=True, csrf=False) ## Controlador que NO SE USA
     def get_cameras(self, **kw):
         method = http.request.httprequest.method
         kw = http.request.jsonrequest
         print(kw)
         store_id = kw.get('store_id')
+        if type(store_id) == str:
+            store_id = http.request.env['stock.warehouse'].sudo().search([('code', '=', store_id)]).id
         if method == 'GET':
             print('Listar, Obtener Productos')
             res_list = http.request.env['store.camera'].sudo().search([('id', '=', store_id)])
-            print(res_list)
-            return res_list
+            #print(res_list)
+            #return res_list
             #return dumps(res_list)
             # res_list = self.env['store.camera'].sudo().search([('id', '=', store_id)])
 

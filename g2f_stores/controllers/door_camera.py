@@ -7,12 +7,12 @@ _logger = logging.getLogger(__name__)
 
 class StoreDoorCam(http.Controller):
 
-    @http.route(['/store/get_door_cam'], type="http", auth="public", website=True, method=['GET'],
+    @http.route(['/store/get_door_cam'], type="json", auth="public", website=True, method=['GET'],
                 csrf=False)
     def get_door_cam(self, **kw):
         method = request.httprequest.method
         store_id = kw.get('store_id')
-        doors = request.env['store.door'].sudo().search([("store_id.name", "=", store_id)])
+        doors = request.env['store.door'].sudo().search([("store_id.code", "=", store_id)])
         response = {"id": store_id, "status": 200, "data": []}
         data = {}
         if method == 'GET':
@@ -27,4 +27,4 @@ class StoreDoorCam(http.Controller):
                 response['error_code'] = 1
                 response['error_data'] = 'No data found!'
 
-        return dumps(data)
+        return response

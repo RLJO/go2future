@@ -28,8 +28,35 @@ class StorePlano(http.Controller):
         else:
             return http.Response('NOT FOUND', status=404)
 
-    @http.route(['/store/plano_shelf'], type="http", auth="public", website=True, method=['GET'], csrf=False)
-    def get_sensor_cart_data(self, **kw):
+    @http.route(['/store/plano_shelf_positions'], type='json', auth='public', methods=['POST'], website=True, csrf=False)
+    def plano_shelf_positions(self, **kw):
+        """
+        THIS CONTROLER sends the data of gondolas and shelf positions given a store code or id or name
+        :param kw:
+        :return: position data of gondolas and shelf
+        """
+        method = http.request.httprequest.method
+        # kw = http.request.jsonrequest
+        response = {"status": 200, "data": []}
+        _logger.debug("Init call api /store/plano_shelf: %s" % response)
+        if method == 'POST':
+            # kw = http.request.jsonrequest
+            store = kw.get('store')
+            obj = request.env['store.raspi'].sudo()
+            res = obj.get_plano_shelf_data(store)
+            if res:
+                response['success'] = True
+                response['error_code'] = 0
+                response['data'] = res
+            else:
+                _logger.info("No data found api /store/plano_shelf: %s" % response)
+                response['success'] = False
+                response['error_code'] = 1
+                response['error_data'] = 'No data found!'
+        return response
+
+    @http.route(['/store/plano_shelf'], type='json', auth="public", methods=['GET', 'POST'], website=True, csrf=False)
+    def post_plano_shelf_data(self, **kw):
         """
         THIS CONTROLER sends the data of gondolas and shelf positions given a store code or id or name
         :param kw:
@@ -40,6 +67,7 @@ class StorePlano(http.Controller):
         response = {"status": 200, "data": []}
         _logger.debug("Init call api /store/plano_shelf: %s" % response)
         if method == 'GET':
+            # kw = http.request.jsonrequest
             store = kw.get('store')
             obj = request.env['store.raspi'].sudo()
             res = obj.get_plano_shelf_data(store)
@@ -53,14 +81,13 @@ class StorePlano(http.Controller):
                 response['error_code'] = 1
                 response['error_data'] = 'No data found!'
         if method == 'POST':
+            kw = http.request.jsonrequest
             data = kw.get('data')
             obj = request.env['store.raspi'].sudo()
             res = obj.post_plano_shelf_data(data)
             if res:
-                response['success'] = res['status']
-                response['error_code'] = res['code']
+                response['error_code'] = res['status']
                 response['message'] = res['message']
             else:
                 _logger.info("Failed POST api /store/plano_shelf: %s" % response)
-
-        return dumps(response)
+        return response

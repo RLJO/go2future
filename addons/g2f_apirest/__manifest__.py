@@ -9,10 +9,11 @@
     'website': "http://redti.naltu.com",
     'category': 'ecommerce',
     'license': 'LGPL-3',
-    'version': '12.0.1.0.0',
-    'depends': ['website', 'website_sale', 'l10n_ar', 'payment_prisma', 'g2f_stores'],
+    'version': '14.0.1.0.0',
+    'depends': ['website', 'website_sale', 'l10n_ar', 'payment_prisma', 'g2f_stores', 'helpdesk'],
     'data': [
         'views/res_partner_views.xml',
+        'views/helpdesk.xml',
         'security/ir.model.access.csv',
     ],
     'demo': [
