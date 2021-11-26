@@ -1,7 +1,10 @@
-from odoo import http
 from odoo.http import request
-from json import dumps
 import logging
+from odoo import http, _
+# from odoo.exceptions import ValidationError, UserError
+
+
+
 _logger = logging.getLogger(__name__)
 
 
@@ -23,5 +26,27 @@ class StoreRasberryPi(http.Controller):
             response['success'] = False
             response['error_code'] = 1
             response['error_data'] = 'No data found!'
+
+        return response
+
+    @http.route(['/store/post_sensor_calibration'], type='json', auth='public', methods=['POST'], website=True, csrf=False)
+    def post_sensor_calibration(self, **kw):
+        method = http.request.httprequest.method
+        sensor = kw.get('sensor')
+        c_factor = kw.get('c_factor')
+        response = {"id": sensor, "status": 200, "data": []}
+
+        # make a method
+        if method == "POST":
+            obj = request.env['store.sensor'].sudo()
+            res = obj.post_sensor_calibration_data(sensor, c_factor)
+            if res:
+                response['success'] = True
+                response['data'] = res
+            else:
+                _logger.info("No data found: %s" % response)
+                response['success'] = False
+                response['error_code'] = 1
+                response['error_data'] = 'No data found!'
 
         return response
