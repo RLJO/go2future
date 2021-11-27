@@ -34,6 +34,12 @@ class SaleOrder(models.Model):
 
     _inherit = 'sale.order'
 
+
+    presential_purchase = fields.Boolean(
+            string='Presential purchase in a physical store',
+            store=True
+            )
+
     def _get_sale_order_from_controller(self, login):
         """Get sale order from controller."""
 
