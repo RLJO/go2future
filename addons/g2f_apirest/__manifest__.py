@@ -14,6 +14,7 @@
     'data': [
         'views/res_partner_views.xml',
         'views/helpdesk.xml',
+        'views/view_sale_order_form.xml',
         'security/ir.model.access.csv',
     ],
     'demo': [
