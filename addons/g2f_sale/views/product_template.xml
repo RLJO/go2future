@@ -78,13 +78,13 @@
 
             <xpath expr="//field[@name='sale_ok']" position="attributes">
                 <!--<attribute name="invisible">1</attribute>-->
-                <attribute name="groups">account.group_account_user</attribute>
+                <attribute name="groups">base.group_system</attribute>
                 <field name="context">{'sale_ok': True}</field>
             </xpath>
 
             <xpath expr="//field[@name='purchase_ok']" position="attributes">
                 <!--<attribute name="invisible">1</attribute>-->
-                <attribute name="groups">account.group_account_user</attribute>
+                <attribute name="groups">base.group_system</attribute>
                 <field name="context">{'purchase_ok': True}</field>
             </xpath>
 
