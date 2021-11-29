@@ -3,3 +3,4 @@ marketplace_security/security/.~lock.res.groups.csv#
 __pycache__/
 *.pyc
 .DS_Store
+.vim
