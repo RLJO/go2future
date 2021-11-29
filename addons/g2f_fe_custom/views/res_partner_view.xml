@@ -69,7 +69,7 @@
                                 <field name="customer_attention_phone"/>
                                 <field name="customer_attention_email"/>
                                 <field name="customer_attention_website"/>
-                                <field name="cuit_an"/>
+                                <field name="cuit_an" groups="base.group_system"/>
                             </group>
                         <group/>
                         </group>
