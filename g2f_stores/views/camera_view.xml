@@ -23,6 +23,18 @@
                                        attrs="{'invisible': [('door_active', '=', False)],
                                        'required': [('door_active', '=', True)]}"/>
                             </group>
+                            <group string="Configuración">
+                                <field name="movement_resolution"/>
+                                <field name="movement_threshold"/>
+                                <field name="max_fps"/>
+                            </group>
+                            <group string="Crop">
+                                <field name="crop_min_x"/>
+                                <field name="crop_max_x"/>
+                                <field name="crop_min_y"/>
+                                <field name="crop_max_y"/>
+                            </group>
+
                             <group>
                                 <field name="camera_image" widget="image"/>
                             </group>
