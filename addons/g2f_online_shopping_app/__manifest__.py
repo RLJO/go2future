@@ -13,6 +13,8 @@
     'depends': ['website', 'website_sale', 'l10n_ar', 'payment_prisma', 'g2f_stores'],
     'data': [
         'security/ir.model.access.csv',
+        'views/sale_order_view_form.xml',
+        'views/sale_order_view_search.xml'
     ],
     'demo': [
     ],
