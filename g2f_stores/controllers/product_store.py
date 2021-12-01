@@ -17,14 +17,31 @@ class StorePlano(http.Controller):
         """
         method = http.request.httprequest.method
         kw = http.request.jsonrequest
+        store = http.request.env['product.store'].sudo()
         if method == 'POST':
             data = kw.get('data')
-            store = http.request.env['product.store']
-            response = store.sudo()._set_plano(data)
+            response = store._set_plano(data)
             _logger.info(" * Llamada de API planogrametria %s", response)
             return response
-        elif method == 'GET':
+        else:
             return http.Response('NOT FOUND', status=404)
+
+    @http.route('/store/get_plano', type='json', auth="none", methods=['POST'], website=True, csrf=False)
+    def get_plano(self, **kw):
+        """
+        THIS CONTROLER SEND THE INFORMATION FROM PRODUCT IN PLANOGRAM TO UNREAL
+        METHOD POST: Change the products in plano given a store code.
+        """
+        method = http.request.httprequest.method
+        # kw = http.request.jsonrequest
+        store = http.request.env['product.store'].sudo()
+        response = {}
+        if method == 'POST':
+            store_code = kw.get('store')
+            result = store._get_plano(store_code)
+            if result:
+                response = {"status": 200, "data": [result]}
+            return response
         else:
             return http.Response('NOT FOUND', status=404)
 
