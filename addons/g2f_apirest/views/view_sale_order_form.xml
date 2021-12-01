@@ -7,7 +7,7 @@
         <field name="arch" type="xml">
 
             <xpath expr="//field[@name='validity_date']" position="before">
-                <field name="presential_purchase" string="Presential Purchase in physical store?"/>
+                <field name="sale_order_type" string="Sale Order Type"/>
             </xpath> 
 
         </field>
@@ -20,7 +20,7 @@
         <field name="arch" type="xml">
 
             <xpath expr="//field[@name='invoice_status']" position="after">
-                <field name="presential_purchase" string="Presential Purchase?"/>
+                <field name="sale_order_type" string="Sale order type"/>
             </xpath>
         </field>
     </record>
