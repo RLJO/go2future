@@ -1,0 +1,309 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* g2f_apirest
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-12-01 21:21+0000\n"
+"PO-Revision-Date: 2021-12-01 18:27-0300\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: es_AR\n"
+"X-Generator: Poedit 3.0\n"
+
+#. module: g2f_apirest
+#: model:ir.model.fields,field_description:g2f_apirest.field_apirest_transaction__active
+#: model:ir.model.fields,field_description:g2f_apirest.field_store__active
+msgid "Active"
+msgstr "Activo"
+
+#. module: g2f_apirest
+#: model:ir.model.fields,field_description:g2f_apirest.field_res_partner__lastname
+#: model:ir.model.fields,field_description:g2f_apirest.field_res_users__lastname
+#: model_terms:ir.ui.view,arch_db:g2f_apirest.go2f_res_partner_view_form
+msgid "Apellidos"
+msgstr ""
+
+#. module: g2f_apirest
+#: model:ir.model.fields,field_description:g2f_apirest.field_apirest_transaction__code
+#: model:ir.model.fields,field_description:g2f_apirest.field_sale_order_type__code
+msgid "Code"
+msgstr "Código"
+
+#. module: g2f_apirest
+#: model:ir.model,name:g2f_apirest.model_res_partner
+msgid "Contact"
+msgstr "Contacto"
+
+#. module: g2f_apirest
+#: model:ir.model.fields,field_description:g2f_apirest.field_apirest_transaction__create_uid
+#: model:ir.model.fields,field_description:g2f_apirest.field_sale_order_type__create_uid
+#: model:ir.model.fields,field_description:g2f_apirest.field_store__create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: g2f_apirest
+#: model:ir.model.fields,field_description:g2f_apirest.field_apirest_transaction__create_date
+#: model:ir.model.fields,field_description:g2f_apirest.field_sale_order_type__create_date
+#: model:ir.model.fields,field_description:g2f_apirest.field_store__create_date
+msgid "Created on"
+msgstr "Creado"
+
+#. module: g2f_apirest
+#: model:ir.model.fields,field_description:g2f_apirest.field_res_partner__birthday
+msgid "Cumpleaños"
+msgstr ""
+
+#. module: g2f_apirest
+#: model:ir.model.fields,field_description:g2f_apirest.field_sale_order_type__description
+msgid "Description"
+msgstr "Descripción"
+
+#. module: g2f_apirest
+#: model:ir.model.fields,field_description:g2f_apirest.field_apirest_transaction__display_name
+#: model:ir.model.fields,field_description:g2f_apirest.field_helpdesk_ticket__display_name
+#: model:ir.model.fields,field_description:g2f_apirest.field_product_product__display_name
+#: model:ir.model.fields,field_description:g2f_apirest.field_res_partner__display_name
+#: model:ir.model.fields,field_description:g2f_apirest.field_res_users__display_name
+#: model:ir.model.fields,field_description:g2f_apirest.field_sale_order__display_name
+#: model:ir.model.fields,field_description:g2f_apirest.field_sale_order_type__display_name
+#: model:ir.model.fields,field_description:g2f_apirest.field_store__display_name
+msgid "Display Name"
+msgstr "Mostrar Nombre"
+
+#. module: g2f_apirest
+#: model:ir.model.fields,field_description:g2f_apirest.field_res_partner__document_obverse
+#: model:ir.model.fields,field_description:g2f_apirest.field_res_users__document_obverse
+msgid "Document Obverse"
+msgstr "Documento Anverso"
+
+#. module: g2f_apirest
+#: model:ir.model.fields,field_description:g2f_apirest.field_res_partner__document_reverse
+#: model:ir.model.fields,field_description:g2f_apirest.field_res_users__document_reverse
+msgid "Document Reverse"
+msgstr "Documento Reverso"
+
+#. module: g2f_apirest
+#: model:ir.model.fields,field_description:g2f_apirest.field_apirest_transaction__door_id
+msgid "Door"
+msgstr "Puerta"
+
+#. module: g2f_apirest
+#: model:ir.model.fields,field_description:g2f_apirest.field_store__email
+msgid "Email"
+msgstr "E-mail"
+
+#. module: g2f_apirest
+#: model:ir.model.fields,field_description:g2f_apirest.field_res_partner__email_recipe_receive
+#: model:ir.model.fields,field_description:g2f_apirest.field_res_users__email_recipe_receive
+msgid "Email Recipe Receive"
+msgstr ""
+
+#. module: g2f_apirest
+#: model_terms:ir.ui.view,arch_db:g2f_apirest.go2f_res_partner_view_form
+msgid "Fecha de cumpleaños"
+msgstr ""
+
+#. module: g2f_apirest
+#: model:ir.model.fields.selection,name:g2f_apirest.selection__res_partner__gender__f
+msgid "Female"
+msgstr "Femenino"
+
+#. module: g2f_apirest
+#: model:ir.model.fields,field_description:g2f_apirest.field_apirest_transaction__from_app
+msgid "From App"
+msgstr "Desde App"
+
+#. module: g2f_apirest
+#: model_terms:ir.ui.view,arch_db:g2f_apirest.go2f_res_partner_view_form
+msgid "Genero"
+msgstr ""
+
+#. module: g2f_apirest
+#: model_terms:ir.ui.view,arch_db:g2f_apirest.g2f_sale_order_view_search_inherit_quotation_apirest
+msgid "Group By"
+msgstr "Agrupado Por"
+
+#. module: g2f_apirest
+#: model:ir.model,name:g2f_apirest.model_helpdesk_ticket
+msgid "Helpdesk Ticket"
+msgstr "Ticket de servicio de asistencia"
+
+#. module: g2f_apirest
+#: model:ir.model.fields,field_description:g2f_apirest.field_apirest_transaction__id
+#: model:ir.model.fields,field_description:g2f_apirest.field_helpdesk_ticket__id
+#: model:ir.model.fields,field_description:g2f_apirest.field_product_product__id
+#: model:ir.model.fields,field_description:g2f_apirest.field_res_partner__id
+#: model:ir.model.fields,field_description:g2f_apirest.field_res_users__id
+#: model:ir.model.fields,field_description:g2f_apirest.field_sale_order__id
+#: model:ir.model.fields,field_description:g2f_apirest.field_sale_order_type__id
+#: model:ir.model.fields,field_description:g2f_apirest.field_store__id
+msgid "ID"
+msgstr "ID (identificación)"
+
+#. module: g2f_apirest
+#: model:ir.model.fields,field_description:g2f_apirest.field_product_product__image_128_parse
+msgid "Image 128 Parse"
+msgstr ""
+
+#. module: g2f_apirest
+#: model_terms:ir.ui.view,arch_db:g2f_apirest.go2f_res_partner_view_form
+msgid "Image Documents"
+msgstr ""
+
+#. module: g2f_apirest
+#: model:ir.model.fields,field_description:g2f_apirest.field_apirest_transaction____last_update
+#: model:ir.model.fields,field_description:g2f_apirest.field_helpdesk_ticket____last_update
+#: model:ir.model.fields,field_description:g2f_apirest.field_product_product____last_update
+#: model:ir.model.fields,field_description:g2f_apirest.field_res_partner____last_update
+#: model:ir.model.fields,field_description:g2f_apirest.field_res_users____last_update
+#: model:ir.model.fields,field_description:g2f_apirest.field_sale_order____last_update
+#: model:ir.model.fields,field_description:g2f_apirest.field_sale_order_type____last_update
+#: model:ir.model.fields,field_description:g2f_apirest.field_store____last_update
+msgid "Last Modified on"
+msgstr "Última modificación en"
+
+#. module: g2f_apirest
+#: model:ir.model.fields,field_description:g2f_apirest.field_apirest_transaction__write_uid
+#: model:ir.model.fields,field_description:g2f_apirest.field_sale_order_type__write_uid
+#: model:ir.model.fields,field_description:g2f_apirest.field_store__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: g2f_apirest
+#: model:ir.model.fields,field_description:g2f_apirest.field_apirest_transaction__write_date
+#: model:ir.model.fields,field_description:g2f_apirest.field_sale_order_type__write_date
+#: model:ir.model.fields,field_description:g2f_apirest.field_store__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: g2f_apirest
+#: model_terms:ir.ui.view,arch_db:g2f_apirest.go2f_res_partner_view_form
+msgid "Lastname"
+msgstr "Apellido"
+
+#. module: g2f_apirest
+#: model:ir.model.fields,field_description:g2f_apirest.field_apirest_transaction__login
+msgid "Login"
+msgstr "Login"
+
+#. module: g2f_apirest
+#: model:ir.model.fields.selection,name:g2f_apirest.selection__res_partner__gender__m
+msgid "Male"
+msgstr "Hombre"
+
+#. module: g2f_apirest
+#: model:ir.model.fields,field_description:g2f_apirest.field_apirest_transaction__message
+msgid "Message"
+msgstr "Mensaje"
+
+#. module: g2f_apirest
+#: model:ir.model.fields,field_description:g2f_apirest.field_sale_order_type__name
+#: model:ir.model.fields,field_description:g2f_apirest.field_store__name
+msgid "Name"
+msgstr "Nombre"
+
+#. module: g2f_apirest
+#: model:ir.model.fields.selection,name:g2f_apirest.selection__res_partner__gender__o
+msgid "Other"
+msgstr "Otro"
+
+#. module: g2f_apirest
+#: model:ir.model.fields,field_description:g2f_apirest.field_helpdesk_ticket__phone
+#: model:ir.model.fields,field_description:g2f_apirest.field_store__phone
+#: model_terms:ir.ui.view,arch_db:g2f_apirest.go2f_helpdesk_ticket_view_form
+msgid "Phone"
+msgstr "Teléfono"
+
+#. module: g2f_apirest
+#: model:ir.model.fields,field_description:g2f_apirest.field_sale_order__sale_order_type
+msgid "Presential purchase in a physical store"
+msgstr "Compra en tienda física"
+
+#. module: g2f_apirest
+#: model:ir.model,name:g2f_apirest.model_product_product
+msgid "Product"
+msgstr "Producto"
+
+#. module: g2f_apirest
+#: model:ir.actions.act_window,name:g2f_apirest.sale_order_types_tree_action
+#: model:ir.ui.menu,name:g2f_apirest.sale_order_types_menu
+#: model_terms:ir.ui.view,arch_db:g2f_apirest.g2f_sale_order_view_search_inherit_quotation_apirest
+#: model_terms:ir.ui.view,arch_db:g2f_apirest.g2f_view_sale_order_form
+#: model_terms:ir.ui.view,arch_db:g2f_apirest.sale_order_types_form_view
+msgid "Sale Order Type"
+msgstr "Tipo de venta"
+
+#. module: g2f_apirest
+#: model:ir.model,name:g2f_apirest.model_sale_order_type
+#: model_terms:ir.ui.view,arch_db:g2f_apirest.g2f_view_sale_order_tree
+msgid "Sale order type"
+msgstr "Tipo de venta"
+
+#. module: g2f_apirest
+#: model:ir.model,name:g2f_apirest.model_sale_order
+msgid "Sales Order"
+msgstr "Pedido de venta"
+
+#. module: g2f_apirest
+#: model:ir.model.fields,field_description:g2f_apirest.field_apirest_transaction__datetime
+msgid "Scheduled Date"
+msgstr ""
+
+#. module: g2f_apirest
+#: model:ir.model.fields,field_description:g2f_apirest.field_res_partner__gender
+msgid "Sexo"
+msgstr ""
+
+#. module: g2f_apirest
+#: model:ir.model.fields,field_description:g2f_apirest.field_apirest_transaction__store_id
+msgid "Store"
+msgstr "Almacen"
+
+#. module: g2f_apirest
+#: model:ir.model,name:g2f_apirest.model_store
+msgid "Store Name"
+msgstr "Nombre de almacén"
+
+#. module: g2f_apirest
+#: model:ir.model.fields,field_description:g2f_apirest.field_store__street
+msgid "Street"
+msgstr "Calle"
+
+#. module: g2f_apirest
+#: model:ir.model.fields,field_description:g2f_apirest.field_res_partner__terms_conditions_agreement
+#: model:ir.model.fields,field_description:g2f_apirest.field_res_users__terms_conditions_agreement
+msgid "Terms Conditions Agreement"
+msgstr "Términos y Condiciones"
+
+#. module: g2f_apirest
+#: model:ir.model.fields,field_description:g2f_apirest.field_res_partner__user_avatar
+#: model:ir.model.fields,field_description:g2f_apirest.field_res_users__user_avatar
+msgid "User Avatar"
+msgstr "Avatar"
+
+#. module: g2f_apirest
+#: model:ir.model,name:g2f_apirest.model_res_users
+msgid "Users"
+msgstr "Usuarios"
+
+#. module: g2f_apirest
+#: model_terms:ir.ui.view,arch_db:g2f_apirest.g2f_sale_order_view_search_inherit_quotation_apirest
+msgid "Warehouse"
+msgstr "Almacén"
+
+#. module: g2f_apirest
+#: model:ir.model.fields,field_description:g2f_apirest.field_store__website_id
+msgid "Website"
+msgstr ""
+
+#. module: g2f_apirest
+#: model:ir.model,name:g2f_apirest.model_apirest_transaction
+msgid "transaction messages"
+msgstr ""

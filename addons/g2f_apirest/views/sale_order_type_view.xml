@@ -5,6 +5,7 @@
         <field name="model">sale.order.type</field>
         <field name="arch" type="xml">
             <tree>
+                <field name="code"/>
                 <field name="name"/>
                 <field name="description"/>
             </tree>
@@ -15,18 +16,13 @@
         <field name="name">sale.order.type.form.view</field>
         <field name="model">sale.order.type</field>
         <field name="arch" type="xml">
-            <form>
+            <form string="Sale Order Type">
                 <sheet>
-                    <div class="oe_title">
-                        <div class="oe_edit_only">
-                            <label for="name"/>
-                        </div>
-                        <h1>
-                            <field name="name" default_focus="1"/>
-                        </h1>
-                        <label for="description"/>
+                    <group>
+                        <field name="code" default_focus="1"/>
+                        <field name="name"/>
                         <field name="description"/>
-                    </div>
+                    </group>
                 </sheet>
             </form>
         </field>

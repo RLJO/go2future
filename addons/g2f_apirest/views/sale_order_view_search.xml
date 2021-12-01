@@ -7,17 +7,9 @@
          <field name="arch" type="xml">
 
              <xpath expr="//filter[@name='my_quotation']" position="after">
-                 <!--
-                 <filter name="shipment_type" string="Shipment type Pickup" domain="[('shipment_type', '=', 'P')]"/>
-                 <filter name="shipment_type" string="Shipment type Delivery" domain="[('shipment_type', '=', 'D')]"/>
-                 <separator/>
-                 <filter name="filter_shipment_datetime" string="Shipment datetime" date="shipment_datetime"/>
-                 <separator/>
-                 <filter name="presential_purchase" string="Presential Purchase" domain="[('presential_purchase', '=', True)]"/>
-                 -->
-
                  <group expand="0" string="Group By">
                      <filter string="Sale Order Type" name="sale_order_type" domain="[]" context="{'group_by':'sale_order_type'}"/>
+                     <filter string="Warehouse" name="warehouse_id" domain="[]" context="{'group_by':'warehouse_id'}"/>
                  </group>
 
             </xpath>
