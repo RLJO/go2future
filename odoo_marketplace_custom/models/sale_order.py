@@ -307,32 +307,19 @@ class SaleOrder(models.Model):
             if invoice.seller_id.electronic_invoice_type not in ['seller_api']:
                 continue
             items = []
-            # date_order = str(invoice.invoice_date).split() if invoice.invoice_date else ''
+
             inv_date = time.strftime("%Y-%m-%d")
             inv_time = time.strftime("%H:%M:%S")
             api_path = invoice.seller_id.seller_api_path
             api_key = invoice.seller_id.seller_api_key
-            name = invoice.partner_id.name.split()
-            first_name = ''
-            last_name = ''
-            if len(name) == 2:
-                first_name = name[0]
-                last_name = name[1]
-            if len(name) >= 3:
-                first_name = name[0] + ' ' + name[1]
-                last_name = name[2]
-                if len(name) == 4:
-                    last_name += ' ' + name[3]
 
             for line in invoice.invoice_line_ids:
                 tax_items = []
-                subtotal = line.price_unit * line.quantity
                 for tax in line.tax_ids:
-                    tax_amount = subtotal / (1 + tax.amount / 100)
-                    tax_subtotal = subtotal - tax_amount
+                    tax_amount = line.price_subtotal * (tax.amount / 100)
                     tax_item = {
                         "name": tax.name,
-                        "amount": round(tax_subtotal, 2)
+                        "amount": round(tax_amount, 2)
                     }
                     tax_items.append(tax_item)
                 item = {
@@ -349,13 +336,13 @@ class SaleOrder(models.Model):
 
             data = {
                 "id": invoice.id,
-                "name": first_name,
-                "last_name": last_name,
-                "consumer_address": self._get_address(self.partner_id),
+                "name": invoice.partner_id.name,
+                "last_name": invoice.partner_id.lastname,
+                "consumer_address": self._get_address(invoice.partner_id),
                 "doc_type": invoice.partner_id.l10n_latam_identification_type_id.name,
                 "doc_nbr": invoice.partner_id.vat,
                 "minigo_code": invoice.warehouse_id.code,
-                "minigo_address": self.warehouse_id.direccion_local,
+                "minigo_address": invoice.warehouse_id.direccion_local,
                 "origin": invoice.sale_order_id.name,
                 "date": inv_date,
                 "time": inv_time,
@@ -367,7 +354,6 @@ class SaleOrder(models.Model):
             }
             pyload = {"invoices": [data,]}
 
-            # url = seller_id.api_path  # "http://dummy.minigo.store/orders"
             payload = json.dumps(pyload)
             headers = {
                 'Content-Type': "application/json",
@@ -377,7 +363,6 @@ class SaleOrder(models.Model):
                 headers.update({'Authorization': "Bearer " + api_key})
             elif invoice.seller_id.seler_token_type == 'header':
                 headers.update({invoice.seller_id.token_tag: api_key})
-
             try:
                 response = requests.request("POST", api_path, data=payload, headers=headers)
             except Exception as exc:
@@ -388,8 +373,8 @@ class SaleOrder(models.Model):
                 _logger.warning('Json enviado: (%s).', payload)
                 _logger.warning('Respuesta Vendedor: (%s).', response.text)
                 # raise UserError(_("Error en API %s") % response.text)
-            print(payload)
-            print(response.text)
+            # print(payload)
+            # print(response.text)
             _logger.warning('Json enviado: (%s).', payload)
             _logger.warning('Respuesta Vendedor: (%s).', response.text)
             invoice.seller_respond = response.text
