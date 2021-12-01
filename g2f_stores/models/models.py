@@ -319,6 +319,7 @@ class ProductStore(models.Model):
     qty_total_prod = fields.Integer(string="Cantidad total")
     qty_available_prod = fields.Integer(string="Cantidad disponible")
     store_id = fields.Many2one('stock.warehouse', string='Tienda')
+    rotation_p = fields.Integer(string="Rotación del Producto")
 
     @api.depends('ini_position')
     def _compute_total_weight(self):
@@ -341,6 +342,7 @@ class ProductStore(models.Model):
             und_front = vals.get('und_front')
             und_fund = vals.get('und_fund')
             und_high = vals.get('und_high')
+            rotation_p = vals.get('rotation_p')
             if qty_total <= 0:
                 msg = 'El campo qty_total debe ser mayor a cero (0)'
                 res = {'status': '422', 'messsage': msg}
@@ -394,6 +396,7 @@ class ProductStore(models.Model):
                 'und_front': und_front,
                 'und_fund': und_fund,
                 'und_high': und_high,
+                'rotation_p': rotation_p,
             }
             if action_flag == 'c':
                 data['product_id'] = product_id.id
@@ -406,3 +409,26 @@ class ProductStore(models.Model):
         msg = 'Creados: %s, Actualizados: %s' % (ids_created, ids_updated)
         res = {'status': 200, 'messsage': msg}
         return res
+
+    @api.model
+    def _get_plano(self, store):
+        store_id = self.env['stock.warehouse'].search([('code', '=', store)]).id
+        product_list = self.env['product.store'].search([('store_id', '=', store_id)])
+        data = []
+        for prod in product_list:
+            data.append(
+                {
+                    'product': prod.product_id.barcode,
+                    'gondola_id': prod.gondola_id.name,
+                    'line': prod.line,
+                    'shelf_id': prod.shelf_id.id,
+                    'qty_total_prod': prod.qty_total_prod,
+                    'ini_position': prod.ini_position,
+                    'end_position': prod.end_position,
+                    'und_front': prod.und_front,
+                    'und_fund': prod.und_fund,
+                    'und_high': prod.und_high,
+                    'rotation_p': prod.rotation_p,
+                }
+            )
+        return data
