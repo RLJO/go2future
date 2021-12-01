@@ -6,8 +6,9 @@
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
 
-            <xpath expr="//field[@name='validity_date']" position="before">
-                <field name="sale_order_type" string="Sale Order Type"/>
+            <xpath expr="//field[@name='date_order']" position="before">
+                <field name="shipment_type" string="Shipment type"/>
+                <field name="shipment_datetime" string="Shipment datetime"/>
             </xpath> 
 
         </field>
@@ -19,8 +20,9 @@
         <field name="inherit_id" ref="sale.view_quotation_tree"/>
         <field name="arch" type="xml">
 
-            <xpath expr="//field[@name='invoice_status']" position="after">
-                <field name="sale_order_type" string="Sale order type"/>
+            <xpath expr="//field[@name='state']" position="after">
+                <field name="shipment_type" string="Shipment type"/>
+                <field name="shipment_datetime" string="Shipment datetime"/>
             </xpath>
         </field>
     </record>

@@ -29,16 +29,24 @@ def validate_product_exist(search_product_method):
     return exceptions
 
 
+class SaleOrderType(models.Model):
+    """Sale order type: Presential, App Mobile, Metaverse Etc."""
+    
+    _name = 'sale.order.type'
+    _description = 'Sale order type'
+
+    name = fields.Char()
+    description = fields.Char()
+
+
 class SaleOrder(models.Model):
     """Sale order model by Api Mobile."""
 
     _inherit = 'sale.order'
 
 
-    presential_purchase = fields.Boolean(
-            string='Presential purchase in a physical store',
-            store=True
-            )
+    sale_order_type = fields.Many2one('sale.order.type',
+            string='Presential purchase in a physical store')
 
     def _get_sale_order_from_controller(self, login):
         """Get sale order from controller."""

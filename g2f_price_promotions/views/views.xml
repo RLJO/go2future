@@ -1,0 +1,17 @@
+<odoo>
+    <data>
+        <record id="g2f_price_supplierinfo_tree_view2_inh" model="ir.ui.view" >
+            <field name="name">go2f.supplierinfo.tree</field>
+            <field name="model">product.supplierinfo</field>
+            <field name="priority" eval="1"/>
+            <field name="inherit_id" ref="purchase.product_supplierinfo_tree_view2"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="price"/>
+                </xpath>
+
+            </field>
+        </record>
+    </data>
+</odoo>

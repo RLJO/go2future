@@ -15,6 +15,8 @@
         'views/res_partner_views.xml',
         'views/helpdesk.xml',
         'views/view_sale_order_form.xml',
+        'views/sale_order_type_view.xml',
+        'views/sale_order_view_search.xml',
         'security/ir.model.access.csv',
     ],
     'demo': [

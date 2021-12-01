@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_g2f_price_promotions_g2f_price_promotions,g2f_price_promotions.g2f_price_promotions,model_g2f_price_promotions_g2f_price_promotions,base.group_user,1,1,1,1
