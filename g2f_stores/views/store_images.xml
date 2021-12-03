@@ -21,7 +21,7 @@
             <field name="arch" type="xml">
                 <tree string="Imagen">
                     <field name="store_id" readonly="1"/>
-                    <field name="store_image" widget="image" class="oe_avatar"/>
+                    <field name="store_image" optional="show" widget="image"/>
                 </tree>
             </field>
         </record>
