@@ -74,7 +74,7 @@
                     </page>
                     <page name="store_images" string="Store Images" groups="stock.group_stock_manager">
                         <group name="store_images" string="Store Images">
-                            <field name="store_image_ids" nolabel="1" widget="image" class="oe_avatar"/>
+                            <field name="store_image_ids" string="Images"/>
                         </group>
                     </page>
 
