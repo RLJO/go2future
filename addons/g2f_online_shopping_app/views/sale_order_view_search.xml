@@ -12,10 +12,8 @@
                  <separator/>
                  <filter name="filter_shipment_datetime" string="Shipment datetime" date="shipment_datetime"/>
                  <separator/>
-                 <filter name="presential_purchase" string="Presential Purchase" domain="[('presential_purchase', '=', True)]"/>
 
                  <group expand="0" string="Group By">
-                     <filter string="Presential Purchase" name="presential_purchase" domain="[]" context="{'group_by':'presential_purchase'}"/>
                      <filter string="Shipment Type" name="shipment_type" domain="[]" context="{'group_by':'shipment_type'}"/>
                  </group>
 

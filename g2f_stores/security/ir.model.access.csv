@@ -7,3 +7,4 @@ access_g2f_store_camera_zone,g2f_stores.camera_zone,g2f_stores.model_camera_zone
 access_g2f_store_product_store,g2f_stores.product_store,g2f_stores.model_product_store,base.group_user,1,1,1,1
 access_g2f_store_serveria_store,g2f_stores.store_iaserver,g2f_stores.model_store_iaserver,base.group_user,1,1,1,1
 access_g2f_store_zone_points,g2f_stores.camera_zone_points,g2f_stores.model_camera_zone_points,base.group_user,1,1,1,1
+access_g2f_store_stock_warehouse_image,g2f_stores.stock.warehouse.image,g2f_stores.model_stock_warehouse_image,base.group_user,1,1,1,1

@@ -35,8 +35,9 @@ class SaleOrderType(models.Model):
     _name = 'sale.order.type'
     _description = 'Sale order type'
 
-    name = fields.Char()
-    description = fields.Char()
+    name = fields.Char('Name')
+    code = fields.Char('Code', size=4)
+    description = fields.Char('Description')
 
 
 class SaleOrder(models.Model):
