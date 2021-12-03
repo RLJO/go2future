@@ -25,6 +25,8 @@ class StockWarehouse(models.Model):
     country_id = fields.Many2one('res.country', string='Country', default=lambda self: self.env.company.country_id)
     state_id = fields.Many2one('res.country.state', string='State', domain="[('country_id', '=', country_id)]")
     store_image = fields.Binary(string='Imagen Tienda', attachment=False)
+    store_image_ids = fields.One2many('stock.warehouse.image',
+            inverse_name='store_id', string='Stock warehouse Images')
     store_stage = fields.Selection([('draft', 'Borrador'), ('confirm', 'Confirmado')], default='draft', string="Estado Tienda")
 
     def action_send_confirm(self):
@@ -34,6 +36,14 @@ class StockWarehouse(models.Model):
     def action_send_draft(self):
         for obj in self:
             obj.store_stage = 'draft'
+
+
+class StockWarehouseImage(models.Model):
+    _name = 'stock.warehouse.image'
+    _description = 'Stock Warehouse Images'
+
+    store_image = fields.Binary(string='Imagen Tienda', attachment=False)
+    store_id = fields.Many2one('stock.warehouse', string='Tienda')
 
 
 class StoreDoor(models.Model):
