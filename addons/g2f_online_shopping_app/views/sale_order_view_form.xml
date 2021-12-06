@@ -6,7 +6,7 @@
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
 
-            <xpath expr="//field[@name='date_order']" position="before">
+            <xpath expr="//field[@name='date_order']" position="after">
                 <field name="shipment_type" string="Shipment type"/>
                 <field name="shipment_datetime" string="Shipment datetime"/>
             </xpath> 
