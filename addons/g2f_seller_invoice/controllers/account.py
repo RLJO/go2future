@@ -66,6 +66,8 @@ class Account(http.Controller):
             for line in invoice.invoice_line_ids:
                 tax_items = []
                 subtotal = line.price_unit * line.quantity
+                discount = subtotal * (line.discount / 100)
+                subtotal = subtotal - discount
                 for tax in line.tax_ids:
                     tax_amount = subtotal / (1 + tax.amount / 100)
                     tax_subtotal = subtotal - tax_amount
@@ -87,11 +89,14 @@ class Account(http.Controller):
                 }
                 items.append(item)
 
+            sale_order = invoice.sale_order_id
+            payment_aprove = sale_order.payment_prisma_attempt_ids.filtered(lambda c: c.status == 'approved')
+
             for p in invoice.payment_prisma_status_ids:
                 prisma = {
                     "transaction": p.site_transaction_id,
-                    "card_brand": p.card_brand,
-                    "card_type": p.card_type
+                    "card_brand": payment_aprove.card_brand,
+                    "card_type": payment_aprove.card_type
                 }
 
             data = {
@@ -102,6 +107,7 @@ class Account(http.Controller):
                 "street": invoice.partner_id.street,
                 "street2": invoice.partner_id.street2,
                 "city": invoice.partner_id.city,
+                "zip": invoice.partner_id.zip,
                 "province": invoice.partner_id.state_id.name,
                 "country": invoice.partner_id.country_id.name,
                 "doc_type": invoice.partner_id.l10n_latam_identification_type_id.name,

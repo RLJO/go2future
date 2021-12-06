@@ -1,0 +1,19 @@
+
+<odoo>
+    <record id="g2f_sale_order_view_search_inherit_quotation_apirest" model="ir.ui.view">
+         <field name="name">order.search.inherit.quotation_apirest</field>
+         <field name="model">sale.order</field>
+         <field name="inherit_id" ref="sale.sale_order_view_search_inherit_quotation"/>
+         <field name="arch" type="xml">
+
+             <xpath expr="//filter[@name='my_quotation']" position="after">
+                 <group expand="0" string="Group By">
+                     <filter string="Sale Order Type" name="sale_order_type" domain="[]" context="{'group_by':'sale_order_type'}"/>
+                     <filter string="Warehouse" name="warehouse_id" domain="[]" context="{'group_by':'warehouse_id'}"/>
+                 </group>
+
+            </xpath>
+
+         </field>
+    </record>
+</odoo>

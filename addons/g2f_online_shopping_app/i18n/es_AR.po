@@ -1,0 +1,91 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* g2f_online_shopping_app
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-12-01 21:27+0000\n"
+"PO-Revision-Date: 2021-12-01 18:31-0300\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: es_AR\n"
+"X-Generator: Poedit 3.0\n"
+
+#. module: g2f_online_shopping_app
+#: model:ir.model.fields.selection,name:g2f_online_shopping_app.selection__sale_order__shipment_type__d
+msgid "Delivery"
+msgstr "Reparto"
+
+#. module: g2f_online_shopping_app
+#: model:ir.model.fields,field_description:g2f_online_shopping_app.field_sale_order__display_name
+msgid "Display Name"
+msgstr "Mostrar Nombre"
+
+#. module: g2f_online_shopping_app
+#: model_terms:ir.ui.view,arch_db:g2f_online_shopping_app.g2f_sale_order_view_search_inherit_quotation
+msgid "Group By"
+msgstr "Agrupado por"
+
+#. module: g2f_online_shopping_app
+#: model:ir.model.fields,field_description:g2f_online_shopping_app.field_sale_order__id
+msgid "ID"
+msgstr "ID (identificación)"
+
+#. module: g2f_online_shopping_app
+#: model:ir.model.fields,field_description:g2f_online_shopping_app.field_sale_order____last_update
+msgid "Last Modified on"
+msgstr "Última modificación en"
+
+#. module: g2f_online_shopping_app
+#: model:ir.model.fields.selection,name:g2f_online_shopping_app.selection__sale_order__shipment_type__p
+msgid "Pickup"
+msgstr "Retiro"
+
+#. module: g2f_online_shopping_app
+#: model:ir.model,name:g2f_online_shopping_app.model_sale_order
+msgid "Sales Order"
+msgstr "Pedido de venta"
+
+#. module: g2f_online_shopping_app
+#: model_terms:ir.ui.view,arch_db:g2f_online_shopping_app.g2f_sale_order_view_search_inherit_quotation
+msgid "Shipment Type"
+msgstr "Tipo de entrega"
+
+#. module: g2f_online_shopping_app
+#: model_terms:ir.ui.view,arch_db:g2f_online_shopping_app.g2f_sale_order_view_search_inherit_quotation
+#: model_terms:ir.ui.view,arch_db:g2f_online_shopping_app.g2f_view_sale_order_form
+#: model_terms:ir.ui.view,arch_db:g2f_online_shopping_app.g2f_view_sale_order_tree
+msgid "Shipment datetime"
+msgstr "Fecha de entrega"
+
+#. module: g2f_online_shopping_app
+#: model_terms:ir.ui.view,arch_db:g2f_online_shopping_app.g2f_view_sale_order_form
+#: model_terms:ir.ui.view,arch_db:g2f_online_shopping_app.g2f_view_sale_order_tree
+msgid "Shipment type"
+msgstr "Tipo de entrega"
+
+#. module: g2f_online_shopping_app
+#: model_terms:ir.ui.view,arch_db:g2f_online_shopping_app.g2f_sale_order_view_search_inherit_quotation
+msgid "Shipment type Delivery"
+msgstr "Tipo de entrega: Reparto"
+
+#. module: g2f_online_shopping_app
+#: model_terms:ir.ui.view,arch_db:g2f_online_shopping_app.g2f_sale_order_view_search_inherit_quotation
+msgid "Shipment type Pickup"
+msgstr "Tipo de entrega: Retiro en tienda"
+
+#. module: g2f_online_shopping_app
+#: model:ir.model.fields,field_description:g2f_online_shopping_app.field_sale_order__shipment_datetime
+msgid "shipment datetime"
+msgstr "Fecha de entrega"
+
+#. module: g2f_online_shopping_app
+#: model:ir.model.fields,field_description:g2f_online_shopping_app.field_sale_order__shipment_type
+msgid "shipment type"
+msgstr "Tipo de entrega"

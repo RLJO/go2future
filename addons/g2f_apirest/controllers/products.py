@@ -36,13 +36,12 @@ class Product(http.Controller):
     def product_all(self, **kw):
         method = http.request.httprequest.method
         kw = http.request.jsonrequest
-        print(kw)
         store_code = kw.get('store_code')
 
         if method == 'GET':
-            print('Listar, Obtener Productos')
             product_list = self.get_product_list(store_code)
-            print(product_list)
+            response = {"status": 200, "data": product_list}
+            #print(product_list)
             return product_list
 
     def get_product(self, kw):
@@ -63,16 +62,18 @@ class Product(http.Controller):
         """Get product list."""
 
         response = {"status": 200, "data": []}
-
         products = http.request.env['product.product']
         get_products = products.sudo().search_product_by_location_code(location_code)
         product_list_id = [p.id for p in get_products]
         domain = [('id', 'in', product_list_id)]
-        response["data"] = products.sudo().search_read(domain, ['id', 'name', 'weight'])
-        return dumps(response['data'])
+        res = products.sudo().search_read(domain, ['id', 'barcode', 'name', 'weight'])
+        d = {}
+        for r in res:
+            d.update({r['barcode']: (r['weight'], r['name'])})
+        response["data"] = d
+        return response
 
-    @http.route(['/weight_sensor_data/'], type='http', auth='public',
-             methods=['GET'], website=True, csrf=False)
+    @http.route(['/weight_sensor_data/'], type='json', auth='public', methods=['GET'], website=True, csrf=True)
     def get_weigth_sensor_data(self, **kw):
         method = http.request.httprequest.method
         print(kw)
@@ -85,7 +86,7 @@ class Product(http.Controller):
             print('Obtener Productos que estan ubicados dentro de un determinado sensor en una tienda')
             product_list = product.sudo().search_products_by_weight_sensor_id(weight_sensor_id)
             response["data"] = product_list
-            return dumps(response)
+            return response
 
     @http.route(['/update_gondola'], type='http', auth='public',
                 methods=['POST'], website=True, csrf=False)

@@ -35,6 +35,7 @@
         'views/store_iaserver.xml',
         'views/plano_product_view.xml',
         'views/templates.xml',
+        'views/store_images.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

@@ -1,0 +1,28 @@
+<odoo>
+    <record id="g2f_view_sale_order_form" model="ir.ui.view" >
+        <field name="name">sale.order.form</field>
+        <field name="model">sale.order</field>
+        <field name="priority" eval="1"/>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='validity_date']" position="before">
+                <field name="sale_order_type" string="Sale Order Type"/>
+            </xpath> 
+
+        </field>
+    </record>
+
+    <record id="g2f_view_sale_order_tree" model="ir.ui.view" >
+        <field name="name">sale.order.tree</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='invoice_status']" position="after">
+                <field name="sale_order_type" string="Sale order type"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

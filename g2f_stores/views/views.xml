@@ -6,6 +6,13 @@
             <field name="model">stock.warehouse</field>
             <field name="inherit_id" ref="stock.view_warehouse"/>
             <field name="arch" type="xml">
+                <xpath expr="//sheet" position="before">
+                    <header>
+                        <button name="action_send_confirm" attrs="{'invisible': [('store_stage','==', 'confirm')]}" string="Confirmar" type="object" class="btn-primary"/>
+                        <button name="action_send_draft" attrs="{'invisible': [('store_stage','==', 'draft')]}" string="A Borrador" type="object" class="oe_highlight"/>
+                        <field name="store_stage" widget="statusbar" nolabel="1" colspan="2" class="oe_right"/>
+                    </header>
+                </xpath>
                 <xpath expr="//field[@name='name']" position="after">
                     <div>
                         <field name="store_image" widget="image" class="oe_avatar"/>
@@ -65,6 +72,12 @@
                             <field name="product_plano_ids" nolabel="1"/>
                         </group>
                     </page>
+                    <page name="store_images" string="Store Images" groups="stock.group_stock_manager">
+                        <group name="store_images" string="Store Images">
+                            <field name="store_image_ids" string="Images"/>
+                        </group>
+                    </page>
+
                 </xpath>
             </field>
         </record>

@@ -22,6 +22,10 @@
 
             <xpath expr="//field[@name='name']" position="after">
                 <field name="warehouse_id"/>
+                <field name="delay"/>
+                <field name="min_qty"/>
+                <field name="date_start"/>
+                <field name="price"/>
             </xpath>
 
             <xpath expr="//field[@name='product_uom']" position="attributes">
@@ -74,13 +78,13 @@
 
             <xpath expr="//field[@name='sale_ok']" position="attributes">
                 <!--<attribute name="invisible">1</attribute>-->
-                <attribute name="groups">account.group_account_user</attribute>
+                <attribute name="groups">base.group_system</attribute>
                 <field name="context">{'sale_ok': True}</field>
             </xpath>
 
             <xpath expr="//field[@name='purchase_ok']" position="attributes">
                 <!--<attribute name="invisible">1</attribute>-->
-                <attribute name="groups">account.group_account_user</attribute>
+                <attribute name="groups">base.group_system</attribute>
                 <field name="context">{'purchase_ok': True}</field>
             </xpath>
 

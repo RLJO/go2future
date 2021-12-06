@@ -62,7 +62,7 @@ class ProductProduct(models.Model):
         product_ids = [stock.product_id.id for stock in stock_quant_list]
 
         product_list = self.search([('id', 'in', product_ids)])
-        print(product_list)
+        #print(product_list)
         return product_list
 
     def search_products_by_weight_sensor_id(self, sensor_id):

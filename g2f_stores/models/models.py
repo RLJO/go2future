@@ -5,6 +5,7 @@ import base64
 from odoo import api, fields, models, _
 from random import randrange
 from PIL import Image
+import json
 from odoo.exceptions import ValidationError, UserError
 
 
@@ -24,6 +25,25 @@ class StockWarehouse(models.Model):
     country_id = fields.Many2one('res.country', string='Country', default=lambda self: self.env.company.country_id)
     state_id = fields.Many2one('res.country.state', string='State', domain="[('country_id', '=', country_id)]")
     store_image = fields.Binary(string='Imagen Tienda', attachment=False)
+    store_image_ids = fields.One2many('stock.warehouse.image',
+            inverse_name='store_id', string='Stock warehouse Images')
+    store_stage = fields.Selection([('draft', 'Borrador'), ('confirm', 'Confirmado')], default='draft', string="Estado Tienda")
+
+    def action_send_confirm(self):
+        for obj in self:
+            obj.store_stage = 'confirm'
+
+    def action_send_draft(self):
+        for obj in self:
+            obj.store_stage = 'draft'
+
+
+class StockWarehouseImage(models.Model):
+    _name = 'stock.warehouse.image'
+    _description = 'Stock Warehouse Images'
+
+    store_image = fields.Binary(string='Imagen Tienda', attachment=False)
+    store_id = fields.Many2one('stock.warehouse', string='Tienda')
 
 
 class StoreDoor(models.Model):
@@ -84,6 +104,18 @@ class StoreCamera(models.Model):
     camera_image = fields.Binary(string='Imagen de Camara', attachment=False)
     door_active = fields.Boolean(string='¿Apunta a puerta?')
     door_id = fields.Many2one('store.door', string='Puerta')
+    movement_resolution = fields.Integer(string='Resolución de Movimiento', default=-1)
+    movement_threshold = fields.Integer(string='Umbral de Movimiento', default=-1)
+    max_fps = fields.Integer(string='FPS Maximo', default=-1)
+    crop_min_x = fields.Integer(string='Crop Mimimo X', default=-1)
+    crop_max_x = fields.Integer(string='Crop Maximo X', default=-1)
+    crop_min_y = fields.Integer(string='Crop Mimimo Y', default=-1)
+    crop_max_y = fields.Integer(string='Crop Maximo Y', default=-1)
+
+    @api.onchange('door_active')
+    def onchange_door_active(self):
+        if not self.door_active:
+            self.door_id = ''
 
     def get_camera_by_ai_unit(self, ai_unit):
         domain = [('ai_unit', '=', ai_unit)]
@@ -98,7 +130,16 @@ class StoreCamera(models.Model):
                         'camera_name': camera.name,
                         'ai_unit': camera.ai_unit.id,
                         'device_url': camera.device_url,
-                        'port_number': camera.port_number
+                        'port_number': camera.port_number,
+                        'movement_resolution': camera.movement_resolution,
+                        'movement_threshold': camera.movement_threshold,
+                        'max_fps': camera.max_fps,
+                        'corp': {
+                            'min_x': camera.crop_min_x,
+                            'max_x': camera.crop_max_x,
+                            'min_y': camera.crop_min_y,
+                            'max_y': camera.crop_max_y,
+                        }
                     },
                 )
         return data
@@ -120,7 +161,10 @@ class CameraZone(models.Model):
 
     def data_zone_camera(self, store_id):
         zone_obj = self.env['camera.zone']
-        zone_ids = zone_obj.search([('store_id', '=', store_id),])
+        if type(store_id) == str:
+            store_id = self.env['stock.warehouse'].search([('code', '=', store_id)]).id
+
+        zone_ids = zone_obj.search([('store_id', '=', store_id)])
         data = []
         for zone in zone_ids:
             if zone.parent_id: # Solo sub_zonas
@@ -175,6 +219,7 @@ class RaspberryPi(models.Model):
     sensor_ids = fields.One2many('store.sensor', inverse_name='pi_id', string='Sensor_ids')
     position_x = fields.Float(string='Posición X', store=True)
     position_y = fields.Float(string='Posición Y', store=True)
+    rotation = fields.Integer(string="Rotación")
 
     def get_plano_shelf_data(self, store):
         res = []
@@ -194,6 +239,7 @@ class RaspberryPi(models.Model):
                 "store_code": gond.store_id.code,
                 "x_position": gond.position_x,
                 "y_position": gond.position_y,
+                "rotation": gond.rotation,
                 "shelf_ids": shelf_data
             })
             for shelf in gond.sensor_ids:
@@ -207,12 +253,24 @@ class RaspberryPi(models.Model):
 
     def post_plano_shelf_data(self, data):
         ids_updated = []
+        obj_gond = self.env['store.raspi']
+        obj_shelf = self.env['store.sensor']
         for vals in data:
             id = vals.get('id')
-            x_position = vals.get('x_position')
-            y_position = vals.get('y_position')
-        msg = " No Disponible "# 'Creados: %s, Actualizados: %s' % (ids_created, ids_updated)
-        res = {'status': 200, 'messsage': msg}
+            x_new = vals.get('x_position')
+            y_new = vals.get('y_position')
+            rotation = vals.get('rotation')
+            gond = obj_gond.search([('id', '=', id)])
+            gond.write({'position_x': x_new, 'position_y': y_new, 'rotation': rotation})
+            ids_updated.append(id)
+            for shelf in vals['shelf_ids']:
+                s_id = shelf['shelf_id']
+                z_new = shelf['z_position']
+                shf = obj_shelf.search([('id', '=', s_id)])
+                shf.write({'position_z': z_new})
+        msg = "Actualizados: %s " % ids_updated
+        res = {'status': 0, 'message': msg}
+        return res
 
 
 class StoreSensor(models.Model):
@@ -234,14 +292,24 @@ class StoreSensor(models.Model):
         res =[]
         for sensor in data:
             res.append({
-            "sensor_id": sensor.id,
+            # "sensor_id": sensor.id,
+            "cart_id": sensor.name,
             "calibration_factor": sensor.calibration_factor,
             "dt_pin": sensor.dt_pin,
             "sck_pin": sensor.sck_pin,
             "zone": sensor.zone_id.name,
-            "cart_id": sensor.cart_id,
+            # "cart_id": sensor.cart_id,
         })
         return res
+
+    def post_sensor_calibration_data(self, sensor, c_factor):
+        """ACTUALIZA el factor de calibración"""
+        obj_sensor = self.env['store.sensor'].search([("name", "=", sensor)])
+        if obj_sensor.id:
+            obj_sensor.write({'calibration_factor': c_factor})
+            return True
+        else:
+            return False
 
 
 class ProductStore(models.Model):
@@ -261,6 +329,7 @@ class ProductStore(models.Model):
     qty_total_prod = fields.Integer(string="Cantidad total")
     qty_available_prod = fields.Integer(string="Cantidad disponible")
     store_id = fields.Many2one('stock.warehouse', string='Tienda')
+    rotation_p = fields.Integer(string="Rotación del Producto")
 
     @api.depends('ini_position')
     def _compute_total_weight(self):
@@ -283,6 +352,7 @@ class ProductStore(models.Model):
             und_front = vals.get('und_front')
             und_fund = vals.get('und_fund')
             und_high = vals.get('und_high')
+            rotation_p = vals.get('rotation_p')
             if qty_total <= 0:
                 msg = 'El campo qty_total debe ser mayor a cero (0)'
                 res = {'status': '422', 'messsage': msg}
@@ -336,6 +406,7 @@ class ProductStore(models.Model):
                 'und_front': und_front,
                 'und_fund': und_fund,
                 'und_high': und_high,
+                'rotation_p': rotation_p,
             }
             if action_flag == 'c':
                 data['product_id'] = product_id.id
@@ -348,3 +419,26 @@ class ProductStore(models.Model):
         msg = 'Creados: %s, Actualizados: %s' % (ids_created, ids_updated)
         res = {'status': 200, 'messsage': msg}
         return res
+
+    @api.model
+    def _get_plano(self, store):
+        store_id = self.env['stock.warehouse'].search([('code', '=', store)]).id
+        product_list = self.env['product.store'].search([('store_id', '=', store_id)])
+        data = []
+        for prod in product_list:
+            data.append(
+                {
+                    'product': prod.product_id.barcode,
+                    'gondola_id': prod.gondola_id.name,
+                    'line': prod.line,
+                    'shelf_id': prod.shelf_id.id,
+                    'qty_total_prod': prod.qty_total_prod,
+                    'ini_position': prod.ini_position,
+                    'end_position': prod.end_position,
+                    'und_front': prod.und_front,
+                    'und_fund': prod.und_fund,
+                    'und_high': prod.und_high,
+                    'rotation_p': prod.rotation_p,
+                }
+            )
+        return data

@@ -7,11 +7,13 @@ _logger = logging.getLogger(__name__)
 
 class GetStoreZones(http.Controller):
 
-    @http.route(['/store/get_zones'], type="http", auth="public", website=True, method=['GET'],
+    @http.route(['/store/get_zones'], type="json", auth="public", website=True, method=['GET'],
                 csrf=False)
     def get_store_zones(self, **kw):
         method = request.httprequest.method
-        store_id = int(kw.get('store_id'))
+        store_id = kw.get('store_id')
+        if type(store_id) == str:
+            store_id = http.request.env['stock.warehouse'].sudo().search([('code', '=', store_id)]).id
         response = {"id": store_id, "status": 200, "data": []}
 
         if method == 'GET':
@@ -23,4 +25,4 @@ class GetStoreZones(http.Controller):
                 response['success'] = False
                 response['error_code'] = 1
                 response['error_data'] = 'No data found!'
-        return dumps(response)
+        return response

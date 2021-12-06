@@ -38,7 +38,7 @@ class PaymentPrismaStatus(models.Model):
     card_data = fields.Char(string='Card Data')
     token = fields.Char(string='Token')
     sub_payments_ids = fields.One2many(comodel_name='payment.prisma.status.line', inverse_name='payment_prisma_status_id', string='Sub Payments')
-    card_type = fields.Char(string='Card Type')
+    # card_type = fields.Char(string='Card Type')
 
 
 class PaymentPrismaStatusLine(models.Model):
@@ -52,3 +52,15 @@ class PaymentPrismaStatusLine(models.Model):
     card_authorization_code = fields.Char(string='Card Authorization Code')
     subpayment_id = fields.Char(string='Sub Payment ID')
     status = fields.Char(string='Status')
+
+
+class PaymetPrismaDataAttempt(models.Model):
+    _name = 'payment.prisma.attempt'
+    _description = 'Prisma Payment Attempt'
+
+    sale_order_id = fields.Many2one('sale.order', string='Sale Order')
+    card_type = fields.Char(string='Card Type')
+    card_brand = fields.Char(string='Card Brand')
+    status = fields.Char(string='status')
+    partner_id = fields.Many2one('res.partner', string='Partner')
+    bin = fields.Char(string='Bin')

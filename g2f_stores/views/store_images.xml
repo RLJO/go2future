@@ -1,0 +1,56 @@
+<odoo>
+    <data>
+        <record id="store_image_form_view" model="ir.ui.view">
+            <field name="name">stock.warehouse.image.form</field>
+            <field name="model">stock.warehouse.image</field>
+            <field name="arch" type="xml">
+                <form string="Imagen">
+                    <sheet>
+                        <group name="info" string="Información">
+                            <field name="store_id" readonly="0"/>
+                            <field name="store_image" widget="image" class="oe_avatar"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="store_image_tree_view" model="ir.ui.view">
+            <field name="name">stock.warehouse.image.tree</field>
+            <field name="model">stock.warehouse.image</field>
+            <field name="arch" type="xml">
+                <tree string="Imagen">
+                    <field name="store_id" readonly="1"/>
+                    <field name="store_image" optional="show" widget="image"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="store_image_search_view" model="ir.ui.view">
+            <field name="name">stock.warehouse.image.search</field>
+            <field name="model">stock.warehouse.image</field>
+            <field name="arch" type="xml">
+                <search string="Imagen">
+                    <field name="store_id"/>
+                    <group expand="1" string="Group By">
+                        <filter string="Tienda" name="store_id" domain="[]" context="{'group_by':'store_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="store_image_act_window" model="ir.actions.act_window">
+            <field name="name">Imagenes de Tienda</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">stock.warehouse.image</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                </p>
+            </field>
+        </record>
+
+        <menuitem name="Imagenes de Tiendas" id="store_image_menu" parent="g2f_stores_config" action="store_image_act_window"/>
+
+    </data>
+</odoo>
