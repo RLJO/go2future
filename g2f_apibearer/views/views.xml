@@ -1,0 +1,60 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+<!--
+    <record model="ir.ui.view" id="g2f_apibearer.list">
+      <field name="name">g2f_apibearer list</field>
+      <field name="model">g2f_apibearer.g2f_apibearer</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </tree>
+      </field>
+    </record>
+-->
+
+    <!-- actions opening views on models -->
+<!--
+    <record model="ir.actions.act_window" id="g2f_apibearer.action_window">
+      <field name="name">g2f_apibearer window</field>
+      <field name="res_model">g2f_apibearer.g2f_apibearer</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+-->
+
+    <!-- server action to the one above -->
+<!--
+    <record model="ir.actions.server" id="g2f_apibearer.action_server">
+      <field name="name">g2f_apibearer server</field>
+      <field name="model_id" ref="model_g2f_apibearer_g2f_apibearer"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+-->
+
+    <!-- Top menu item -->
+<!--
+    <menuitem name="g2f_apibearer" id="g2f_apibearer.menu_root"/>
+-->
+    <!-- menu categories -->
+<!--
+    <menuitem name="Menu 1" id="g2f_apibearer.menu_1" parent="g2f_apibearer.menu_root"/>
+    <menuitem name="Menu 2" id="g2f_apibearer.menu_2" parent="g2f_apibearer.menu_root"/>
+-->
+    <!-- actions -->
+<!--
+    <menuitem name="List" id="g2f_apibearer.menu_1_list" parent="g2f_apibearer.menu_1"
+              action="g2f_apibearer.action_window"/>
+    <menuitem name="Server to list" id="g2f_apibearer" parent="g2f_apibearer.menu_2"
+              action="g2f_apibearer.action_server"/>
+-->
+  </data>
+</odoo>
