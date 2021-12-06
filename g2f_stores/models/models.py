@@ -442,3 +442,4 @@ class ProductStore(models.Model):
                 }
             )
         return data
+
