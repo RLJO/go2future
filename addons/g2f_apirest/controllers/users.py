@@ -115,14 +115,14 @@ class ResUser(http.Controller):
         results = [(
                 [i.store_image for i in f.store_image_ids],
                 f.name, f.direccion_local, f.country_id.name,
-                f.state_id.name, f.code, f.store_stage
+                f.state_id.name, f.code, f.store_stage, f.store_plano_sav
             )
             for f in store_list
             ]
 
         headers = [
                 'imagenes','name', 'direccion_local', 'country_id',
-                'state_id', 'code', 'store_stage'
+                'state_id', 'code', 'store_stage', 'store_plano_sav'
             ]
         for result in results:
             stores.append(dict(zip(headers, result)))
