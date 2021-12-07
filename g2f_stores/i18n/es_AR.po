@@ -1,0 +1,934 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* g2f_stores
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-12-07 00:01+0000\n"
+"PO-Revision-Date: 2021-12-06 21:07-0300\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: es_AR\n"
+"X-Generator: Poedit 3.0\n"
+
+#. module: g2f_stores
+#: model_terms:ir.ui.view,arch_db:g2f_stores.view_warehouse_inherit_store
+msgid "A Borrador"
+msgstr ""
+
+#. module: g2f_stores
+#: model_terms:ir.ui.view,arch_db:g2f_stores.camera_zone_points_form_view
+msgid "Abajo der."
+msgstr ""
+
+#. module: g2f_stores
+#: model_terms:ir.ui.view,arch_db:g2f_stores.camera_zone_points_form_view
+msgid "Abajo izq."
+msgstr ""
+
+#. module: g2f_stores
+#: model_terms:ir.ui.view,arch_db:g2f_stores.camera_zone_points_form_view
+msgid "Arriba der."
+msgstr ""
+
+#. module: g2f_stores
+#: model_terms:ir.ui.view,arch_db:g2f_stores.camera_zone_points_form_view
+msgid "Arriba izq."
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields.selection,name:g2f_stores.selection__stock_warehouse__store_stage__draft
+msgid "Borrador"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_camera_zone_points__camera_id
+msgid "Camara"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_camera_zone__camera_points_ids
+msgid "Camara-Puntos"
+msgstr ""
+
+#. module: g2f_stores
+#: model_terms:ir.ui.view,arch_db:g2f_stores.view_warehouse_inherit_store
+msgid "Camaras"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model,name:g2f_stores.model_camera_zone
+msgid "Camera Zone"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.actions.act_window,name:g2f_stores.store_camera_act_window
+#: model:ir.ui.menu,name:g2f_stores.store_camera_menu
+#: model_terms:ir.ui.view,arch_db:g2f_stores.store_camera_form_view
+#: model_terms:ir.ui.view,arch_db:g2f_stores.store_camera_search_view
+msgid "Cameras"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_product_store__qty_available_prod
+msgid "Cantidad disponible"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_product_store__qty_total_prod
+msgid "Cantidad total"
+msgstr ""
+
+#. module: g2f_stores
+#: model_terms:ir.ui.view,arch_db:g2f_stores.store_door_form_view
+msgid "Codigo QR"
+msgstr ""
+
+#. module: g2f_stores
+#: model_terms:ir.ui.view,arch_db:g2f_stores.view_warehouse_inherit_store
+msgid "Compañía"
+msgstr ""
+
+#. module: g2f_stores
+#: model_terms:ir.ui.view,arch_db:g2f_stores.view_warehouse_inherit_store
+msgid "Configuracion de Tienda"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.ui.menu,name:g2f_stores.g2f_stores_config
+#: model_terms:ir.ui.view,arch_db:g2f_stores.store_camera_form_view
+msgid "Configuración"
+msgstr ""
+
+#. module: g2f_stores
+#: model_terms:ir.ui.view,arch_db:g2f_stores.store_sensor_form_view
+msgid "Configurar Sensor"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields.selection,name:g2f_stores.selection__stock_warehouse__store_stage__confirm
+msgid "Confirmado"
+msgstr ""
+
+#. module: g2f_stores
+#: model_terms:ir.ui.view,arch_db:g2f_stores.view_warehouse_inherit_store
+msgid "Confirmar"
+msgstr ""
+
+#. module: g2f_stores
+#: model_terms:ir.ui.view,arch_db:g2f_stores.view_warehouse_inherit_store
+msgid "Connf API"
+msgstr ""
+
+#. module: g2f_stores
+#: model_terms:ir.ui.view,arch_db:g2f_stores.view_warehouse_inherit_store
+msgid "Control de Accesos"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_stock_warehouse__country_id
+msgid "Country"
+msgstr ""
+
+#. module: g2f_stores
+#: model_terms:ir.ui.view,arch_db:g2f_stores.store_iaserver_form_view
+#: model_terms:ir.ui.view,arch_db:g2f_stores.store_iaserver_tree_view
+msgid "Creado por"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_camera_zone__create_uid
+#: model:ir.model.fields,field_description:g2f_stores.field_camera_zone_points__create_uid
+#: model:ir.model.fields,field_description:g2f_stores.field_product_store__create_uid
+#: model:ir.model.fields,field_description:g2f_stores.field_stock_warehouse_image__create_uid
+#: model:ir.model.fields,field_description:g2f_stores.field_store_camera__create_uid
+#: model:ir.model.fields,field_description:g2f_stores.field_store_door__create_uid
+#: model:ir.model.fields,field_description:g2f_stores.field_store_iaserver__create_uid
+#: model:ir.model.fields,field_description:g2f_stores.field_store_raspi__create_uid
+#: model:ir.model.fields,field_description:g2f_stores.field_store_sensor__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_camera_zone__create_date
+#: model:ir.model.fields,field_description:g2f_stores.field_camera_zone_points__create_date
+#: model:ir.model.fields,field_description:g2f_stores.field_product_store__create_date
+#: model:ir.model.fields,field_description:g2f_stores.field_stock_warehouse_image__create_date
+#: model:ir.model.fields,field_description:g2f_stores.field_store_camera__create_date
+#: model:ir.model.fields,field_description:g2f_stores.field_store_door__create_date
+#: model:ir.model.fields,field_description:g2f_stores.field_store_iaserver__create_date
+#: model:ir.model.fields,field_description:g2f_stores.field_store_raspi__create_date
+#: model:ir.model.fields,field_description:g2f_stores.field_store_sensor__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: g2f_stores
+#: model_terms:ir.ui.view,arch_db:g2f_stores.store_camera_form_view
+msgid "Crop"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_store_camera__crop_max_x
+msgid "Crop Maximo X"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_store_camera__crop_max_y
+msgid "Crop Maximo Y"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_store_camera__crop_min_x
+msgid "Crop Mimimo X"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_store_camera__crop_min_y
+msgid "Crop Mimimo Y"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_stock_warehouse__cameras_ids
+msgid "Cámaras"
+msgstr ""
+
+#. module: g2f_stores
+#: model_terms:ir.ui.view,arch_db:g2f_stores.view_warehouse_inherit_store
+msgid "Código"
+msgstr ""
+
+#. module: g2f_stores
+#: model_terms:ir.ui.view,arch_db:g2f_stores.store_door_form_view
+msgid "Datos Puerta"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_store_door__description
+msgid "Descripción"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_stock_warehouse__direccion_local
+msgid "Direccion del MiniGO"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_store_raspi__ip_add
+msgid "Dirección IP"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_camera_zone__display_name
+#: model:ir.model.fields,field_description:g2f_stores.field_camera_zone_points__display_name
+#: model:ir.model.fields,field_description:g2f_stores.field_product_store__display_name
+#: model:ir.model.fields,field_description:g2f_stores.field_stock_warehouse__display_name
+#: model:ir.model.fields,field_description:g2f_stores.field_stock_warehouse_image__display_name
+#: model:ir.model.fields,field_description:g2f_stores.field_store_camera__display_name
+#: model:ir.model.fields,field_description:g2f_stores.field_store_door__display_name
+#: model:ir.model.fields,field_description:g2f_stores.field_store_iaserver__display_name
+#: model:ir.model.fields,field_description:g2f_stores.field_store_raspi__display_name
+#: model:ir.model.fields,field_description:g2f_stores.field_store_sensor__display_name
+msgid "Display Name"
+msgstr "Nombre mostrado"
+
+#. module: g2f_stores
+#: model:ir.model.fields.selection,name:g2f_stores.selection__store_door__type__in
+msgid "Entrada"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_stock_warehouse__store_stage
+msgid "Estado Tienda"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_product_store__shelf_id
+msgid "Estante"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.ui.menu,name:g2f_stores.store_sensor_menu
+msgid "Estantes - Sensores"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_store_camera__max_fps
+msgid "FPS Maximo"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_store_sensor__calibration_factor
+msgid "Factor de Calibracion"
+msgstr ""
+
+#. module: g2f_stores
+#: model_terms:ir.ui.view,arch_db:g2f_stores.store_iaserver_form_view
+#: model_terms:ir.ui.view,arch_db:g2f_stores.store_iaserver_tree_view
+msgid "Fecha de creación"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_stock_warehouse__code_krikos
+msgid "GLN"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_product_store__gondola_id
+msgid "Gondola"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.ui.menu,name:g2f_stores.store_raspi_menu
+msgid "Gondolas - Raspberry"
+msgstr ""
+
+#. module: g2f_stores
+#: model_terms:ir.ui.view,arch_db:g2f_stores.camera_zone_points_search_view
+#: model_terms:ir.ui.view,arch_db:g2f_stores.camera_zone_search_view
+#: model_terms:ir.ui.view,arch_db:g2f_stores.product_store_search_view
+#: model_terms:ir.ui.view,arch_db:g2f_stores.store_camera_search_view
+#: model_terms:ir.ui.view,arch_db:g2f_stores.store_door_search_view
+#: model_terms:ir.ui.view,arch_db:g2f_stores.store_image_search_view
+#: model_terms:ir.ui.view,arch_db:g2f_stores.store_raspi_search_view
+#: model_terms:ir.ui.view,arch_db:g2f_stores.store_sensor_search_view
+msgid "Group By"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model,name:g2f_stores.model_store_iaserver
+msgid "IA server"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_camera_zone__id
+#: model:ir.model.fields,field_description:g2f_stores.field_camera_zone_points__id
+#: model:ir.model.fields,field_description:g2f_stores.field_product_store__id
+#: model:ir.model.fields,field_description:g2f_stores.field_stock_warehouse__id
+#: model:ir.model.fields,field_description:g2f_stores.field_stock_warehouse_image__id
+#: model:ir.model.fields,field_description:g2f_stores.field_store_camera__id
+#: model:ir.model.fields,field_description:g2f_stores.field_store_door__id
+#: model:ir.model.fields,field_description:g2f_stores.field_store_iaserver__id
+#: model:ir.model.fields,field_description:g2f_stores.field_store_raspi__id
+#: model:ir.model.fields,field_description:g2f_stores.field_store_sensor__id
+msgid "ID"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_store_door__name
+#: model_terms:ir.ui.view,arch_db:g2f_stores.store_door_tree_view
+msgid "ID Puerta"
+msgstr ""
+
+#. module: g2f_stores
+#: model_terms:ir.ui.view,arch_db:g2f_stores.store_image_form_view
+#: model_terms:ir.ui.view,arch_db:g2f_stores.store_image_search_view
+#: model_terms:ir.ui.view,arch_db:g2f_stores.store_image_tree_view
+msgid "Imagen"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_stock_warehouse__store_image
+#: model:ir.model.fields,field_description:g2f_stores.field_stock_warehouse_image__store_image
+msgid "Imagen Tienda"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_camera_zone_points__camera_image_zone
+#: model:ir.model.fields,field_description:g2f_stores.field_store_camera__camera_image
+msgid "Imagen de Camara"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.actions.act_window,name:g2f_stores.store_image_act_window
+msgid "Imagenes de Tienda"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.ui.menu,name:g2f_stores.store_image_menu
+msgid "Imagenes de Tiendas"
+msgstr ""
+
+#. module: g2f_stores
+#: model_terms:ir.ui.view,arch_db:g2f_stores.view_warehouse_inherit_store
+msgid "Images"
+msgstr "Imágenes"
+
+#. module: g2f_stores
+#: model_terms:ir.ui.view,arch_db:g2f_stores.camera_zone_form_view
+#: model_terms:ir.ui.view,arch_db:g2f_stores.store_image_form_view
+#: model_terms:ir.ui.view,arch_db:g2f_stores.store_raspi_form_view
+#: model_terms:ir.ui.view,arch_db:g2f_stores.store_sensor_form_view
+msgid "Información"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_camera_zone____last_update
+#: model:ir.model.fields,field_description:g2f_stores.field_camera_zone_points____last_update
+#: model:ir.model.fields,field_description:g2f_stores.field_product_store____last_update
+#: model:ir.model.fields,field_description:g2f_stores.field_stock_warehouse____last_update
+#: model:ir.model.fields,field_description:g2f_stores.field_stock_warehouse_image____last_update
+#: model:ir.model.fields,field_description:g2f_stores.field_store_camera____last_update
+#: model:ir.model.fields,field_description:g2f_stores.field_store_door____last_update
+#: model:ir.model.fields,field_description:g2f_stores.field_store_iaserver____last_update
+#: model:ir.model.fields,field_description:g2f_stores.field_store_raspi____last_update
+#: model:ir.model.fields,field_description:g2f_stores.field_store_sensor____last_update
+msgid "Last Modified on"
+msgstr "Última modificación el"
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_camera_zone__write_uid
+#: model:ir.model.fields,field_description:g2f_stores.field_camera_zone_points__write_uid
+#: model:ir.model.fields,field_description:g2f_stores.field_product_store__write_uid
+#: model:ir.model.fields,field_description:g2f_stores.field_stock_warehouse_image__write_uid
+#: model:ir.model.fields,field_description:g2f_stores.field_store_camera__write_uid
+#: model:ir.model.fields,field_description:g2f_stores.field_store_door__write_uid
+#: model:ir.model.fields,field_description:g2f_stores.field_store_iaserver__write_uid
+#: model:ir.model.fields,field_description:g2f_stores.field_store_raspi__write_uid
+#: model:ir.model.fields,field_description:g2f_stores.field_store_sensor__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_camera_zone__write_date
+#: model:ir.model.fields,field_description:g2f_stores.field_camera_zone_points__write_date
+#: model:ir.model.fields,field_description:g2f_stores.field_product_store__write_date
+#: model:ir.model.fields,field_description:g2f_stores.field_stock_warehouse_image__write_date
+#: model:ir.model.fields,field_description:g2f_stores.field_store_camera__write_date
+#: model:ir.model.fields,field_description:g2f_stores.field_store_door__write_date
+#: model:ir.model.fields,field_description:g2f_stores.field_store_iaserver__write_date
+#: model:ir.model.fields,field_description:g2f_stores.field_store_raspi__write_date
+#: model:ir.model.fields,field_description:g2f_stores.field_store_sensor__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_product_store__line
+msgid "Linea"
+msgstr ""
+
+#. module: g2f_stores
+#: model_terms:ir.ui.view,arch_db:g2f_stores.camera_zone_points_search_view
+msgid "Local"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.ui.menu,name:g2f_stores.g2f_stores_locales
+#: model:ir.ui.menu,name:g2f_stores.g2f_stores_root
+msgid "Locales"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.actions.act_window,name:g2f_stores.store_sensor_act_window
+#: model_terms:ir.ui.view,arch_db:g2f_stores.store_sensor_search_view
+msgid "ModelTitle"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_camera_zone__name
+#: model:ir.model.fields,field_description:g2f_stores.field_store_camera__name
+#: model:ir.model.fields,field_description:g2f_stores.field_store_iaserver__name
+#: model:ir.model.fields,field_description:g2f_stores.field_store_raspi__name
+#: model:ir.model.fields,field_description:g2f_stores.field_store_sensor__name
+msgid "Nombre"
+msgstr ""
+
+#. module: g2f_stores
+#: model_terms:ir.ui.view,arch_db:g2f_stores.store_iaserver_form_view
+msgid "Nombre para el Servidor"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model,name:g2f_stores.model_store_sensor
+msgid "PI Sensors"
+msgstr ""
+
+#. module: g2f_stores
+#: model_terms:ir.ui.view,arch_db:g2f_stores.view_warehouse_inherit_store
+msgid "País"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_store_sensor__product_weight
+msgid "Peso de Productos"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_product_store__weight_total_prod
+msgid "Peso total Product"
+msgstr ""
+
+#. module: g2f_stores
+#: model_terms:ir.ui.view,arch_db:g2f_stores.store_sensor_search_view
+msgid "Pi"
+msgstr ""
+
+#. module: g2f_stores
+#: model_terms:ir.ui.view,arch_db:g2f_stores.view_warehouse_inherit_store
+msgid "Planogrametria"
+msgstr ""
+
+#. module: g2f_stores
+#: model_terms:ir.ui.view,arch_db:g2f_stores.view_warehouse_inherit_store
+msgid "Planogrametría"
+msgstr ""
+
+#. module: g2f_stores
+#: model_terms:ir.actions.act_window,help:g2f_stores.store_door_act_window
+msgid "Please click here to add new Door in the store."
+msgstr "Click aquí para añadir una nueva puerta en la tienda"
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_product_store__end_position
+msgid "Posición Final"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_product_store__ini_position
+msgid "Posición Inicial"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_store_raspi__position_x
+msgid "Posición X"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_store_raspi__position_y
+msgid "Posición Y"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_store_sensor__position_z
+msgid "Posición Z"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model,name:g2f_stores.model_product_store
+msgid "Product in Store"
+msgstr "Producto en tienda"
+
+#. module: g2f_stores
+#: model:ir.actions.act_window,name:g2f_stores.product_store_act_window
+#: model_terms:ir.ui.view,arch_db:g2f_stores.product_store_search_view
+msgid "Product in store"
+msgstr "Producto en tienda"
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_product_store__product_id
+msgid "Producto"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_stock_warehouse__product_plano_ids
+msgid "Productos Plano"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.ui.menu,name:g2f_stores.product_store_menu
+msgid "Productos en Tienda"
+msgstr ""
+
+#. module: g2f_stores
+#: model_terms:ir.ui.view,arch_db:g2f_stores.product_store_form_view
+#: model_terms:ir.ui.view,arch_db:g2f_stores.product_store_tree_view
+msgid "Products in store"
+msgstr ""
+
+#. module: g2f_stores
+#: model_terms:ir.ui.view,arch_db:g2f_stores.view_warehouse_inherit_store
+msgid "Provincia"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_store_camera__door_id
+msgid "Puerta"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_stock_warehouse__door_ids
+#: model:ir.ui.menu,name:g2f_stores.store_door_menu
+#: model_terms:ir.ui.view,arch_db:g2f_stores.store_door_form_view
+#: model_terms:ir.ui.view,arch_db:g2f_stores.store_door_search_view
+#: model_terms:ir.ui.view,arch_db:g2f_stores.store_door_tree_view
+#: model_terms:ir.ui.view,arch_db:g2f_stores.view_warehouse_inherit_store
+msgid "Puertas"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.actions.act_window,name:g2f_stores.store_door_act_window
+msgid "Puertas de tienda"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_store_camera__port_number
+msgid "Puerto"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_camera_zone_points__bottom_right_x
+msgid "Punto x abajo derecho"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_camera_zone_points__bottom_left_x
+msgid "Punto x abajo izquierdo"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_camera_zone_points__top_right_x
+msgid "Punto x arriba derecho"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_camera_zone_points__top_left_x
+msgid "Punto x arriba izquierdo"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_camera_zone_points__bottom_right_y
+msgid "Punto y abajo derecho"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_camera_zone_points__bottom_left_y
+msgid "Punto y abajo izquierdo"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_camera_zone_points__top_right_y
+msgid "Punto y arriba derecho"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_camera_zone_points__top_left_y
+msgid "Punto y arriba izquierdo"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_camera_zone_points__name
+#: model_terms:ir.ui.view,arch_db:g2f_stores.camera_zone_form_view
+#: model_terms:ir.ui.view,arch_db:g2f_stores.camera_zone_points_form_view
+msgid "Puntos"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.ui.menu,name:g2f_stores.camera_zone_points_menu
+msgid "Puntos de Camara en Zona"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model,name:g2f_stores.model_camera_zone_points
+msgid "Puntos de Zonas"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_store_door__qrcode
+msgid "QR"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.actions.act_window,name:g2f_stores.store_raspi_act_window
+#: model_terms:ir.ui.view,arch_db:g2f_stores.store_raspi_form_view
+#: model_terms:ir.ui.view,arch_db:g2f_stores.store_raspi_search_view
+#: model_terms:ir.ui.view,arch_db:g2f_stores.store_raspi_tree_view
+msgid "Raspberry"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_store_sensor__pi_id
+msgid "Raspberry PI"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_stock_warehouse__raspi_ids
+msgid "Raspberry Pi"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model,name:g2f_stores.model_store_raspi
+msgid "RaspberryPi"
+msgstr ""
+
+#. module: g2f_stores
+#: model_terms:ir.ui.view,arch_db:g2f_stores.view_warehouse_inherit_store
+msgid "Raspberrys"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_store_camera__movement_resolution
+msgid "Resolución de Movimiento"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_store_raspi__rotation
+msgid "Rotación"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_product_store__rotation_p
+msgid "Rotación del Producto"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields.selection,name:g2f_stores.selection__store_door__type__out
+msgid "Salida"
+msgstr ""
+
+#. module: g2f_stores
+#: model_terms:ir.ui.view,arch_db:g2f_stores.store_sensor_form_view
+msgid "Sensor"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_store_raspi__sensor_ids
+msgid "Sensor_ids"
+msgstr ""
+
+#. module: g2f_stores
+#: model_terms:ir.ui.view,arch_db:g2f_stores.store_raspi_form_view
+#: model_terms:ir.ui.view,arch_db:g2f_stores.store_raspi_tree_view
+#: model_terms:ir.ui.view,arch_db:g2f_stores.view_warehouse_inherit_store
+msgid "Sensores"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.actions.act_window,name:g2f_stores.store_iaserver_act_window
+#: model:ir.ui.menu,name:g2f_stores.store_iaserver_menu
+#: model_terms:ir.ui.view,arch_db:g2f_stores.store_iaserver_form_view
+#: model_terms:ir.ui.view,arch_db:g2f_stores.store_iaserver_search_view
+#: model_terms:ir.ui.view,arch_db:g2f_stores.store_iaserver_tree_view
+msgid "Servidor de IA"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields.selection,name:g2f_stores.selection__store_door__type__staff
+msgid "Staff"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_stock_warehouse__state_id
+msgid "State"
+msgstr "Estado"
+
+#. module: g2f_stores
+#: model:ir.model,name:g2f_stores.model_stock_warehouse_image
+msgid "Stock Warehouse Images"
+msgstr "Imágenes de almacén"
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_stock_warehouse__store_image_ids
+msgid "Stock warehouse Images"
+msgstr "Imágenes de almacén"
+
+#. module: g2f_stores
+#: model_terms:ir.ui.view,arch_db:g2f_stores.view_warehouse_inherit_store
+msgid "Store Images"
+msgstr "Imágenes de la tienda"
+
+#. module: g2f_stores
+#: model:ir.model,name:g2f_stores.model_store_camera
+msgid "StoreCameras"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model,name:g2f_stores.model_store_door
+msgid "StoreDoor"
+msgstr ""
+
+#. module: g2f_stores
+#: model_terms:ir.actions.act_window,help:g2f_stores.store_camera_act_window
+msgid "There is no examples click here to add new Cameras."
+msgstr ""
+
+#. module: g2f_stores
+#: model_terms:ir.actions.act_window,help:g2f_stores.store_sensor_act_window
+msgid "There is no examples click here to add new ModelTitle."
+msgstr ""
+
+#. module: g2f_stores
+#: model_terms:ir.actions.act_window,help:g2f_stores.product_store_act_window
+msgid "There is no examples click here to add new Product in store."
+msgstr ""
+
+#. module: g2f_stores
+#: model_terms:ir.actions.act_window,help:g2f_stores.camera_zone_act_window
+#: model_terms:ir.actions.act_window,help:g2f_stores.store_raspi_act_window
+msgid "There is no examples click here to add new Raspberry."
+msgstr ""
+
+#. module: g2f_stores
+#: model_terms:ir.actions.act_window,help:g2f_stores.store_iaserver_act_window
+msgid "There is no examples click here to add new Servidor de IA."
+msgstr ""
+
+#. module: g2f_stores
+#: model_terms:ir.actions.act_window,help:g2f_stores.camera_zone_points_act_window
+msgid "There is no examples click here to add new Zone Camera Points."
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_camera_zone__store_id
+#: model:ir.model.fields,field_description:g2f_stores.field_camera_zone_points__store_id
+#: model:ir.model.fields,field_description:g2f_stores.field_product_store__store_id
+#: model:ir.model.fields,field_description:g2f_stores.field_stock_warehouse_image__store_id
+#: model:ir.model.fields,field_description:g2f_stores.field_store_camera__store_id
+#: model:ir.model.fields,field_description:g2f_stores.field_store_door__store_id
+#: model:ir.model.fields,field_description:g2f_stores.field_store_raspi__store_id
+#: model:ir.model.fields,field_description:g2f_stores.field_store_sensor__store_id
+#: model_terms:ir.ui.view,arch_db:g2f_stores.camera_zone_search_view
+#: model_terms:ir.ui.view,arch_db:g2f_stores.product_store_search_view
+#: model_terms:ir.ui.view,arch_db:g2f_stores.store_camera_search_view
+#: model_terms:ir.ui.view,arch_db:g2f_stores.store_door_search_view
+#: model_terms:ir.ui.view,arch_db:g2f_stores.store_image_search_view
+#: model_terms:ir.ui.view,arch_db:g2f_stores.store_raspi_search_view
+#: model_terms:ir.ui.view,arch_db:g2f_stores.store_sensor_search_view
+msgid "Tienda"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_store_door__type
+msgid "Tipo"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_stock_warehouse__access_control_url
+msgid "URL Control de Accessos"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_store_camera__device_url
+msgid "URL Dispositivo"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_stock_warehouse__plano_url
+msgid "URL Plano"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_stock_warehouse__vision_url
+msgid "URL Vision"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_store_camera__movement_threshold
+msgid "Umbral de Movimiento"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_store_camera__ai_unit
+msgid "Unidad de AI"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_product_store__und_high
+msgid "Unidades Alto"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_product_store__und_fund
+msgid "Unidades Fondo"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_product_store__und_front
+msgid "Unidades Frente"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_store_door__code
+#: model_terms:ir.ui.view,arch_db:g2f_stores.store_door_tree_view
+msgid "Valor QR"
+msgstr ""
+
+#. module: g2f_stores
+#: model_terms:ir.ui.view,arch_db:g2f_stores.view_warehouse_inherit_store
+msgid "Vision"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model,name:g2f_stores.model_stock_warehouse
+msgid "Warehouse"
+msgstr "Almacén"
+
+#. module: g2f_stores
+#: model:ir.model.constraint,message:g2f_stores.constraint_store_door_unique_store_door_name
+msgid "Ya existe una puerta con el mismo Código en la tienda!"
+msgstr ""
+
+#. module: g2f_stores
+#: code:addons/g2f_stores/models/models.py:0
+#, python-format
+msgid "You can not create recursive zones."
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_camera_zone_points__zone_id
+#: model:ir.model.fields,field_description:g2f_stores.field_store_sensor__zone_id
+#: model_terms:ir.ui.view,arch_db:g2f_stores.camera_zone_form_view
+#: model_terms:ir.ui.view,arch_db:g2f_stores.camera_zone_points_search_view
+#: model_terms:ir.ui.view,arch_db:g2f_stores.camera_zone_search_view
+#: model_terms:ir.ui.view,arch_db:g2f_stores.camera_zone_tree_view
+#: model_terms:ir.ui.view,arch_db:g2f_stores.store_sensor_search_view
+msgid "Zona"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_camera_zone__parent_id
+#: model_terms:ir.ui.view,arch_db:g2f_stores.camera_zone_search_view
+msgid "Zona Padre"
+msgstr ""
+
+#. module: g2f_stores
+#: model_terms:ir.ui.view,arch_db:g2f_stores.view_warehouse_inherit_store
+msgid "Zonas"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.actions.act_window,name:g2f_stores.camera_zone_act_window
+msgid "Zonas de Camara"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.ui.menu,name:g2f_stores.camera_zone_menu
+msgid "Zonas de Camaras"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_stock_warehouse__camera_zone_ids
+msgid "Zonas de Cámaras"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.actions.act_window,name:g2f_stores.camera_zone_points_act_window
+#: model_terms:ir.ui.view,arch_db:g2f_stores.camera_zone_points_form_view
+#: model_terms:ir.ui.view,arch_db:g2f_stores.camera_zone_points_search_view
+#: model_terms:ir.ui.view,arch_db:g2f_stores.camera_zone_points_tree_view
+msgid "Zone Camera Points"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_store_sensor__cart_id
+msgid "cart_id"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_store_sensor__dt_pin
+msgid "dt_pin"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_store_sensor__sck_pin
+msgid "sck pin"
+msgstr ""
+
+#. module: g2f_stores
+#: model:ir.model.fields,field_description:g2f_stores.field_store_camera__door_active
+msgid "¿Apunta a puerta?"
+msgstr ""
