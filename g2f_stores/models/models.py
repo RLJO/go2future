@@ -318,10 +318,10 @@ class ProductStore(models.Model):
 
     product_id = fields.Many2one('product.product', string='Producto')
     gondola_id = fields.Many2one('store.raspi', string='Gondola')
-    line = fields.Char(string='Linea')
+    line = fields.Integer(string='Linea')
     shelf_id = fields.Many2one('store.sensor', string='Estante')
-    ini_position = fields.Char(string='Posición Inicial')
-    end_position = fields.Char(string='Posición Final')
+    ini_position = fields.Integer(string='Posición Inicial')
+    end_position = fields.Integer(string='Posición Final')
     und_front = fields.Integer(string='Unidades Frente')
     und_fund = fields.Integer(string='Unidades Fondo')
     und_high = fields.Integer(string='Unidades Alto')
@@ -352,7 +352,7 @@ class ProductStore(models.Model):
             und_front = vals.get('und_front')
             und_fund = vals.get('und_fund')
             und_high = vals.get('und_high')
-            rotation_p = vals.get('rotation_p')
+            rotation_p = vals.get('rotation')
             if qty_total <= 0:
                 msg = 'El campo qty_total debe ser mayor a cero (0)'
                 res = {'status': '422', 'messsage': msg}
@@ -406,7 +406,7 @@ class ProductStore(models.Model):
                 'und_front': und_front,
                 'und_fund': und_fund,
                 'und_high': und_high,
-                'rotation_p': rotation_p,
+                'rotation': rotation_p,
             }
             if action_flag == 'c':
                 data['product_id'] = product_id.id
@@ -438,7 +438,8 @@ class ProductStore(models.Model):
                     'und_front': prod.und_front,
                     'und_fund': prod.und_fund,
                     'und_high': prod.und_high,
-                    'rotation_p': prod.rotation_p,
+                    'rotation': prod.rotation_p,
                 }
             )
         return data
+
