@@ -100,11 +100,33 @@ class ResUser(http.Controller):
         """Endpoint return Store list for app moblie."""
 
         method = http.request.httprequest.method
+        """
         stores = http.request.env['stock.warehouse'].sudo().search_read(
                 [('active', '=', True)],
                 fields=['name', 'direccion_local', 'country_id',
                         'state_id', 'store_image', 'code']
                 )
+                """
+
+        stores = []
+        store_list = http.request.env['stock.warehouse'].sudo().search(
+                [('active', '=', True)]
+                )
+        results = [(
+                [i.store_image for i in f.store_image_ids],
+                f.name, f.direccion_local, f.country_id.name,
+                f.state_id.name, f.code, f.store_stage
+            )
+            for f in store_list
+            ]
+
+        headers = [
+                'imagenes','name', 'direccion_local', 'country_id',
+                'state_id', 'code', 'store_stage'
+            ]
+        for result in results:
+            stores.append(dict(zip(headers, result)))
+
         return dumps(stores, default=self.parse_dumps)
 
     @http.route(['/users/Countries'], type='http', auth='public',
