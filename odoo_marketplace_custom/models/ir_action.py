@@ -59,7 +59,10 @@ class IrActionWindow(models.Model):
                     for index in index_ids:
                         var = domain_list[index][0]
                         if var == 'seller_id.id':
-                            update_domain = [('seller_id.id', 'in', [user.partner_id.id])]
+                            ids = [user.partner_id.id]
+                            if user.partner_id.children_parent_id:
+                                ids.append(user.partner_id.children_parent_id.id)
+                            update_domain = [('seller_id.id', 'in', ids)]
                     r['domain'] = str(update_domain)
         except Exception as e:
             _logger.info("-----------------%r--------------------", e)
