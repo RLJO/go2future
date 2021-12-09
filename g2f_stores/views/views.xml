@@ -71,10 +71,14 @@
                         <group name="plano" string="Planogrametria">
                             <field name="product_plano_ids" nolabel="1"/>
                         </group>
+
                     </page>
                     <page name="store_images" string="Store Images" groups="stock.group_stock_manager">
                         <group name="store_images" string="Store Images">
                             <field name="store_image_ids" string="Images"/>
+                        </group>
+                        <group>
+                            <field name="store_plano_sav" widget="binary"/>
                         </group>
                     </page>
 

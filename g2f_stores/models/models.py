@@ -25,9 +25,9 @@ class StockWarehouse(models.Model):
     country_id = fields.Many2one('res.country', string='Country', default=lambda self: self.env.company.country_id)
     state_id = fields.Many2one('res.country.state', string='State', domain="[('country_id', '=', country_id)]")
     store_image = fields.Binary(string='Imagen Tienda', attachment=False)
-    store_image_ids = fields.One2many('stock.warehouse.image',
-            inverse_name='store_id', string='Stock warehouse Images')
+    store_image_ids = fields.One2many('stock.warehouse.image', inverse_name='store_id', string='Stock warehouse Images')
     store_stage = fields.Selection([('draft', 'Borrador'), ('confirm', 'Confirmado')], default='draft', string="Estado Tienda")
+    store_plano_sav = fields.Binary(string="Archivo sav Plano", attachment=True)
 
     def action_send_confirm(self):
         for obj in self:
@@ -206,7 +206,7 @@ class ZoneCameraPoints(models.Model):
 
     def name_zone_camera(self):
         for i in self:
-            i.name = i.zone_id.name + " - " + i.camera_id.name
+            i.name = i.zone_id.name or "" + " - " + i.camera_id.name or ""
 
 
 class RaspberryPi(models.Model):
