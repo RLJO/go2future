@@ -8,6 +8,8 @@ PARTNER_CHILDREN_CONDITION = 'get_partner_children()'
 SELLER_CONDITION = 'get_seller()'
 CUSTOMER_CONDITION = 'get_customer()'
 STOCK_CONDITION = 'get_marketplace_seller_stock()'
+SELLER_DOMAIN_STRING = "get_marketplace_seller_id()"
+
 
 class IrActionWindow(models.Model):
     _inherit = 'ir.actions.act_window'
@@ -64,6 +66,41 @@ class IrActionWindow(models.Model):
             pass
         return res
 
+    def update_mp_dynamic_domain(self, res):
+        if not res:
+            return res
+        obj_user = self.env.user
+        try:
+            for r in res:
+                mp_dynamic_domain = r.get("domain", [])
+                if mp_dynamic_domain and SELLER_DOMAIN_STRING in mp_dynamic_domain:
+                    domain_list = eval(mp_dynamic_domain)
+                    list_of_index = [index for index, mp_tuple in enumerate(domain_list) if SELLER_DOMAIN_STRING in str(mp_tuple[2])]
+                    updated_domain = ""
+                    if obj_user.has_group('odoo_marketplace.marketplace_officer_group'):
+                        for index in list_of_index:
+                            var = domain_list[index][0]
+                            if var == "id":
+                                domain_list.pop(index)
+                            else:
+                                domain_list[index] =  (var,'!=', False)
+                        updated_domain = str(domain_list)
+                    else:
+                        seller_id = obj_user.partner_id.id
+                        for index in list_of_index:
+                            var = domain_list[index][0]
+                            if var == "id":
+                                r["view_mode"] = "form"
+                                r["res_id"] = seller_id
+                                r["views"] = [(self.env.ref('odoo_marketplace.wk_seller_form_view').id, "form")]
+                            domain_list[index] = (var, 'in', [seller_id, obj_user.children_parent_id.id])
+                        updated_domain = str(domain_list)
+                    if SELLER_DOMAIN_STRING in (r.get('domain', '[]') or ''):
+                        r['domain'] = updated_domain
+        except Exception as e:
+            _logger.info("~~~~~~~~~~Exception~~~~~~~~%r~~~~~~~~~~~~~~~~~",e)
+            pass
+        return res
 
     def read(self, fields=None, load='_classic_read'):
         res = super(IrActionWindow, self).read(fields=fields, load=load)
