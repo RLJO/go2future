@@ -11,7 +11,6 @@ class Product(http.Controller):
             type='http', auth='public', methods=['GET'], website=True,
             csrf=False)
     def get_product(self, **kw):
-        import ipdb;ipdb.set_trace()
         default_code = kw.get('default_code')
         products = http.request.env['product.product']
         domain = [
