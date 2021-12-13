@@ -1,6 +1,4 @@
 # pylint: disable=eval-used
-# pylint: disable=eval-referenced
-# pylint: disable=consider-add-field-help
 # pylint: disable=broad-except
 # -
 
