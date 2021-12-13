@@ -100,13 +100,6 @@ class ResUser(http.Controller):
         """Endpoint return Store list for app moblie."""
 
         method = http.request.httprequest.method
-        """
-        stores = http.request.env['stock.warehouse'].sudo().search_read(
-                [('active', '=', True)],
-                fields=['name', 'direccion_local', 'country_id',
-                        'state_id', 'store_image', 'code']
-                )
-                """
 
         stores = []
         store_list = http.request.env['stock.warehouse'].sudo().search(
@@ -122,8 +115,9 @@ class ResUser(http.Controller):
             ]
 
         headers = [
-                'imagenes','name', 'direccion_local', 'country_id',
-                'state_id', 'code', 'store_stage', 'store_plano_sav'
+                'otras_imagenes','name', 'direccion_local', 'country_id',
+                'state_id', 'code', 'store_stage', 'store_plano_sav',
+                'store_image'
             ]
         for result in results:
             stores.append(dict(zip(headers, result)))
