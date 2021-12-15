@@ -73,7 +73,7 @@
                             <label for="other_parent_ids" string="Otros padres" groups="odoo_marketplace.marketplace_manager_group"/>
                         </div>
                         <div class="o_row">
-                            <field name="other_parent_ids" widget="many2many_tags" readonly="1" force_save="1" groups="odoo_marketplace.marketplace_manager_group"/>
+                            <field name="other_parent_ids" widget="many2many_tags" groups="odoo_marketplace.marketplace_manager_group"/>
                         </div>
 
                     </div>
