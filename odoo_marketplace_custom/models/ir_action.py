@@ -38,8 +38,11 @@ class IrActionWindow(models.Model):
                         for index in index_ids:
                             var = domain_list[index][0]
                             if var == 'seller_id.id':
-                                ids = user.partner_id.res_partner_children.ids
-                                ids.append(user.partner_id.id)
+                                ids = [user.partner_id.id]
+                                if user.partner_id.res_partner_children:  # Padre
+                                    ids.append(user.partner_id.res_partner_children.id)
+                                if user.other_parent_ids:  # otros padres
+                                    ids += user.other_parent_ids.ids
                                 update_domain = [('seller_id.id', 'in', ids)]
                     r['domain'] = str(update_domain)
                 if action_domain and CUSTOMER_CONDITION in action_domain:
@@ -60,8 +63,10 @@ class IrActionWindow(models.Model):
                         var = domain_list[index][0]
                         if var == 'seller_id.id':
                             ids = [user.partner_id.id]
-                            if user.partner_id.children_parent_id:
+                            if user.partner_id.children_parent_id:   # Padre
                                 ids.append(user.partner_id.children_parent_id.id)
+                            if user.other_parent_ids:  # otros Padres
+                                ids += user.other_parent_ids.ids
                             update_domain = [('seller_id.id', 'in', ids)]
                     r['domain'] = str(update_domain)
         except Exception as e:
@@ -86,17 +91,22 @@ class IrActionWindow(models.Model):
                             if var == "id":
                                 domain_list.pop(index)
                             else:
-                                domain_list[index] =  (var,'!=', False)
+                                domain_list[index] = (var, '!=', False)
                         updated_domain = str(domain_list)
                     else:
                         seller_id = obj_user.partner_id.id
+                        ids = [seller_id]
                         for index in list_of_index:
                             var = domain_list[index][0]
                             if var == "id":
                                 r["view_mode"] = "form"
                                 r["res_id"] = seller_id
                                 r["views"] = [(self.env.ref('odoo_marketplace.wk_seller_form_view').id, "form")]
-                            domain_list[index] = (var, 'in', [seller_id, obj_user.children_parent_id.id])
+                            if obj_user.children_parent_id:
+                                ids.append(obj_user.children_parent_id.id)
+                            if obj_user.other_parent_ids:
+                                ids += obj_user.other_parent_ids.ids
+                            domain_list[index] = (var, 'in', ids)
                         updated_domain = str(domain_list)
                     if SELLER_DOMAIN_STRING in (r.get('domain', '[]') or ''):
                         r['domain'] = updated_domain
