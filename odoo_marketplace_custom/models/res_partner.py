@@ -42,6 +42,7 @@ class ResPartner(models.Model):
     internal_taxes = fields.Boolean(_('Impuestos internos'), default=False)
     stocked_krikos = fields.Boolean('Stocked by krikos')
     supplier_ean = fields.Char('Supplier EAN')
+    other_parent_ids = fields.Many2many('res.partner', 'children_parent_rel', 'res_children', 'res_parent', string=_("Other Parents"))
 
     def update_warehouse_ids_domain(self, partner):
         warehouse_ids = []

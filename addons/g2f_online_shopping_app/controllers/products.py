@@ -33,6 +33,9 @@ class Product(http.Controller):
 
         return dumps(response)
 
+
+# Eliminar esto cuando ya este bien probado el endpoint
+
 """
 Nombre del producto.
 Descripción.
@@ -53,5 +56,4 @@ Atributos: vegano, orgánico, sin azúcar, sin tacc.
 Productos alternativos o similares.
 Productos complementarios.
 Stock disponible del producto en la ubicación para ventas on line. (En Odoo se debe de crear un campo para configurar la ubicación para ventas on line por local)
-
 """
