@@ -45,7 +45,7 @@ class ProductTemplate(models.Model):
     # list_price: catalog price, user defined
     list_price = fields.Float('Sales Price', default=1.0, digits='Product Price', tracking=True,
                               help="Price at which the product is sold to customers.")
-    dun14 = fields.Char('Dun14', size=14, tracking=True)
+    dun14 = fields.Char('Dun14', size=14, tracking=True, copy=False)
     width = fields.Integer('Width', tracking=True)
     height = fields.Integer('Height', tracking=True)
     depth = fields.Integer('Depth', tracking=True)

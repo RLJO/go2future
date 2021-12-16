@@ -103,6 +103,14 @@ class ResPartner(models.Model):
         res = super(ResPartner, self).write(vals)
         if res:
             self.update_product_seller(self)
+        if 'other_parent_ids' in vals:
+            otherp_ids = vals.get('other_parent_ids')[0][2]
+            for parent in otherp_ids:
+                obj_parent = self.env['res.partner'].search([('id', '=', parent)])
+                dic_data = {'res_partner_children': [(6, 0, self.ids)]}
+                if not obj_parent.has_children:
+                    dic_data.update({'has_children': True})
+                obj_parent.write(dic_data)
         return res
 
     def update_seller(self):
@@ -137,8 +145,13 @@ class ResPartner(models.Model):
                                     for children_warehouse in children.warehouse_ids:
                                         if children_warehouse.id == warehouse.id:
                                             product_owner_warehouse['partner_id'] = children.id
+                            if partner.other_parent_ids:
+                                for children in partner.other_parent_ids:
+                                    for children_warehouse in children.warehouse_ids:
+                                        if children_warehouse.id == warehouse.id:
+                                            product_owner_warehouse['partner_id'] = children.id
 
-                            partner_warehouse = product_supplierinfo.search([('product_tmpl_id', '=', product_owner_warehouse['product_id']), ('name', '=', product_owner_warehouse['partner_id']), ('warehouse_id', '=', product_owner_warehouse['warehouse_id'])])
+                            partner_warehouse = product_supplierinfo.search([('product_tmpl_id', '=', product_owner_warehouse['product_id']), ('warehouse_id', '=', product_owner_warehouse['warehouse_id'])])
                             if self:
                                 if not partner_warehouse:
                                     product_supplierinfo.create({

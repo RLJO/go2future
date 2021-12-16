@@ -294,6 +294,7 @@ class AccountMove(models.Model):
             if return_info:
                 error_invoice = inv
                 validated -= inv
+                _logger.warning('AFIP: (%s).', return_info)
                 break
 
             if not self.env.context.get('l10n_ar_invoice_skip_commit'):
