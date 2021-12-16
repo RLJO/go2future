@@ -111,6 +111,7 @@ class StoreCamera(models.Model):
     crop_max_x = fields.Integer(string='Crop Maximo X', default=-1)
     crop_min_y = fields.Integer(string='Crop Mimimo Y', default=-1)
     crop_max_y = fields.Integer(string='Crop Maximo Y', default=-1)
+    rotation = fields.Boolean(string='Rotación', default=0)
 
     @api.onchange('door_active')
     def onchange_door_active(self):
@@ -134,6 +135,7 @@ class StoreCamera(models.Model):
                         'movement_resolution': camera.movement_resolution,
                         'movement_threshold': camera.movement_threshold,
                         'max_fps': camera.max_fps,
+                        'rotation': camera.rotation,
                         'corp': {
                             'min_x': camera.crop_min_x,
                             'max_x': camera.crop_max_x,

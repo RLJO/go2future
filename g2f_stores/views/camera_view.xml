@@ -27,6 +27,7 @@
                                 <field name="movement_resolution"/>
                                 <field name="movement_threshold"/>
                                 <field name="max_fps"/>
+                                <field name="rotation"/>
                             </group>
                             <group string="Crop">
                                 <field name="crop_min_x"/>
