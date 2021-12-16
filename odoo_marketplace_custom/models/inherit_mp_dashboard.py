@@ -23,7 +23,8 @@ class marketplace_dashboard(models.Model):
 
     def action_res_partner_children(self):
         login_user_obj = self.env.user
-        domain = ('children_parent_id.id', '=', self.env.user.partner_id.id)
+        domain = ['|', ('children_parent_id.id', '=', self.env.user.partner_id.id),
+                  ('other_parent_ids', 'in', self.env.user.partner_id.id)]
         if login_user_obj.has_group('odoo_marketplace.marketplace_manager_group'):
             domain = ('children_parent_id', '!=', False)
         return {
@@ -35,9 +36,7 @@ class marketplace_dashboard(models.Model):
                 [self.env.ref('odoo_marketplace_custom.res_partner_children_tree').id, 'tree'],
                 [self.env.ref('odoo_marketplace_custom.res_partner_children_form').id, 'form']
             ],
-            'domain': [
-                domain
-            ]
+            'domain': domain
         }
 
     def action_marketplace_vendor_percentage(self):
