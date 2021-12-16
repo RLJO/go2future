@@ -24,7 +24,7 @@ class IrActionWindow(models.Model):
                 if action_domain and PARTNER_CHILDREN_CONDITION in action_domain:
                     domain_list = eval(action_domain)
                     index_ids = [index for index, tuple in enumerate(domain_list) if PARTNER_CHILDREN_CONDITION in str(tuple[2])]
-                    update_domain  = ''
+                    update_domain = ''
                     for index in index_ids:
                         var = domain_list[index][0]
                         if var == 'children_parent_id.id':
