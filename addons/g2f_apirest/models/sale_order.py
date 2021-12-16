@@ -31,7 +31,7 @@ def validate_product_exist(search_product_method):
 
 class SaleOrderType(models.Model):
     """Sale order type: Presential, App Mobile, Metaverse Etc."""
-    
+
     _name = 'sale.order.type'
     _description = 'Sale order type'
 
@@ -54,7 +54,16 @@ class SaleOrder(models.Model):
 
         domain = [('login', '=', login)] if type(login) == str else [('id', '=', login)]
         user_id = self.env['res.users'].search(domain)
+        if not user_id:
+            return {"status": "400",
+                    "message": "Usuario {} no existe".format(login)}
+
         order = self._search_sale_order_by_partner(user_id.partner_id.id)
+        if not order:
+            return {"status": "400",
+                    "message": "Usuario {} no posee ninguna orden de venta.".\
+                            format(login)}
+
         list_sale = self._list_sale_order_cart(order)
         return list_sale
 
