@@ -17,6 +17,12 @@
                 <div class="o_row">
                     <field name="children_parent_id" widget="res_partner_many2one"  groups="odoo_marketplace.marketplace_manager_group"/>
                 </div>
+                <div class="oe_edit_only">
+                    <label for="other_parent_ids" string="Otros padres" groups="odoo_marketplace.marketplace_manager_group"/>
+                </div>
+                <div class="o_row">
+                    <field name="other_parent_ids" widget="many2many_tags" groups="odoo_marketplace.marketplace_manager_group"/>
+                </div>
             </xpath>
             <!--  Campos requeridos   -->
             <xpath expr="//field[@name='street']" position="attributes">

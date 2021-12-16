@@ -68,6 +68,14 @@
                         <div class="o_row" groups="odoo_marketplace.marketplace_manager_group">
                             <field name="children_parent_id" widget="res_partner_many2one" readonly="1" force_save="1"/>
                         </div>
+
+                        <div class="oe_edit_only">
+                            <label for="other_parent_ids" string="Otros padres" groups="odoo_marketplace.marketplace_manager_group"/>
+                        </div>
+                        <div class="o_row">
+                            <field name="other_parent_ids" widget="many2many_tags" groups="odoo_marketplace.marketplace_manager_group"/>
+                        </div>
+
                     </div>
                     <group>
                         <field name="parent_id" invisible="1"/>
