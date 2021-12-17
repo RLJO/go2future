@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates>
+    <t t-extend="UserMenu.Actions">
+         <t t-jquery="a[data-menu='account']" t-operation="replace">
+            <a role="menuitem" href="#" data-menu="account" class="dropdown-item" style="display: none;">My Odoo.com account</a>
+        </t>
+<!--        <t t-jquery="a[data-menu='shortcuts']" t-operation="replace">-->
+<!--            <a role="menuitem" href="#" data-menu="shortcuts" class="dropdown-item" style="display: none;">Shortcuts</a>-->
+<!--        </t>-->
+    </t>
+</templates>

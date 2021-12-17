@@ -29,7 +29,7 @@ class marketplace_dashboard(models.Model):
                 if rec.is_seller:
                     user_obj = self.env['res.users'].browse(self._uid)
                     obj = self.env['sale.order'].search(
-                        [('marketplace_seller_id', '=',user_obj.partner_id.id), ('mp_order_state', '=', 'approved')])
+                        [('marketplace_seller_id', '=', user_obj.partner_id.id), ('mp_order_state', '=', 'approved')])
                 else:
                     obj = self.env['sale.order'].search(
                         [('marketplace_seller_id', '!=', False), ('mp_order_state', '=', 'approved')])
@@ -43,7 +43,7 @@ class marketplace_dashboard(models.Model):
                 user_obj = rec.env['res.users'].browse(self._uid)
                 if rec.is_seller:
                     obj = rec.env['sale.order'].search(
-                        [('marketplace_seller_id', '=',user_obj.partner_id.id), ('mp_order_state', '=', 'new')])
+                        [('marketplace_seller_id', '=', user_obj.partner_id.id), ('mp_order_state', '=', 'new')])
                 else:
                     obj = rec.env['sale.order'].search(
                         [('marketplace_seller_id', '!=', False), ('mp_order_state', '=', 'new')])

@@ -1,0 +1,7 @@
+<odoo>
+    <template id="odoo_user_option" inherit_id="web.assets_backend" name="Website User menu">
+        <xpath expr="//script[contains(@src, '/web/static/src/js/chrome/user_menu.js')]" position="replace">
+            <script type="text/javascript" src="/g2f_user_menu/static/src/js/user_option.js"></script>
+        </xpath>
+    </template>
+</odoo>

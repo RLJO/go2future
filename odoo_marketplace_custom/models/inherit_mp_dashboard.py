@@ -26,7 +26,7 @@ class marketplace_dashboard(models.Model):
         domain = ['|', ('children_parent_id.id', '=', self.env.user.partner_id.id),
                   ('other_parent_ids', 'in', self.env.user.partner_id.id)]
         if login_user_obj.has_group('odoo_marketplace.marketplace_manager_group'):
-            domain = ('children_parent_id', '!=', False)
+            domain = [('children_parent_id', '!=', False), ('other_parent_ids', '!=', False)]
         return {
             'name': _('Children'),
             'type': 'ir.actions.act_window',
@@ -67,7 +67,7 @@ class marketplace_dashboard(models.Model):
                     if user.other_parent_ids:  # otros padres
                         ids += user.other_parent_ids.ids
                     obj = self.env['product.template'].search(
-                        [('marketplace_seller_id', '=', ids), ('status', '=', 'approved')])
+                        [('marketplace_seller_id', 'in', ids), ('status', '=', 'approved')])
                 else:
                     obj = self.env['product.template'].search(
                         [('marketplace_seller_id', '!=', False), ('status', '=', 'approved')])
@@ -86,7 +86,7 @@ class marketplace_dashboard(models.Model):
                     if user.other_parent_ids:  # otros padres
                         ids += user.other_parent_ids.ids
                     obj = self.env['sale.order.line'].search(
-                        [('marketplace_seller_id', '=', ids), ('marketplace_state', '=', 'approved'),('state', 'not in', ('draft', 'sent'))])
+                        [('marketplace_seller_id', 'in', ids), ('marketplace_state', '=', 'approved'),('state', 'not in', ('draft', 'sent'))])
                 else:
                     obj = self.env['sale.order.line'].search(
                         [('marketplace_seller_id', '!=', False), ('marketplace_state', '=', 'approved'),('state', 'not in', ('draft', 'sent'))])
@@ -109,7 +109,7 @@ class marketplace_dashboard(models.Model):
                     if user.other_parent_ids:  # otros padres
                         ids += user.other_parent_ids.ids
                     obj = self.env['product.template'].search(
-                        [('marketplace_seller_id', '=', ids), ('status', '=', 'pending')])
+                        [('marketplace_seller_id', 'in', ids), ('status', '=', 'pending')])
                 else:
                     obj = self.env['product.template'].search(
                         [('marketplace_seller_id', '!=', False), ('status', '=', 'pending')])
@@ -128,7 +128,7 @@ class marketplace_dashboard(models.Model):
                     if user.other_parent_ids:  # otros padres
                         ids += user.other_parent_ids.ids
                     obj = self.env['sale.order.line'].search(
-                        [('marketplace_seller_id', '=', ids), ('marketplace_state', '=', 'new'),('state', 'not in', ('draft', 'sent'))])
+                        [('marketplace_seller_id', 'in', ids), ('marketplace_state', '=', 'new'), ('state', 'not in', ('draft', 'sent'))])
                 else:
                     obj = self.env['sale.order.line'].search(
                         [('marketplace_seller_id', '!=', False), ('marketplace_state', '=', 'new'),('state', 'not in', ('draft', 'sent'))])
@@ -151,7 +151,7 @@ class marketplace_dashboard(models.Model):
                     if user.other_parent_ids:  # otros padres
                         ids += user.other_parent_ids.ids
                     obj = self.env['product.template'].search(
-                        [('marketplace_seller_id', '=', ids), ('status', '=', 'rejected')])
+                        [('marketplace_seller_id', 'in', ids), ('status', '=', 'rejected')])
                 else:
                     obj = self.env['product.template'].search(
                         [('marketplace_seller_id', '!=', False), ('status', '=', 'rejected')])
@@ -170,7 +170,7 @@ class marketplace_dashboard(models.Model):
                     if user.other_parent_ids:  # otros padres
                         ids += user.other_parent_ids.ids
                     obj = self.env['sale.order.line'].search(
-                        [('marketplace_seller_id', '=', ids), ('marketplace_state', '=', 'shipped'),('state', 'not in', ('draft', 'sent'))])
+                        [('marketplace_seller_id', 'in', ids), ('marketplace_state', '=', 'shipped'),('state', 'not in', ('draft', 'sent'))])
                 else:
                     obj = self.env['sale.order.line'].search(
                         [('marketplace_seller_id', '!=', False), ('marketplace_state', '=', 'shipped'),('state', 'not in', ('draft', 'sent'))])
