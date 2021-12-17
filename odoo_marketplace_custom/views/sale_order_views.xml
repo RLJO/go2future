@@ -231,5 +231,33 @@
             </field>
         </record>
 
+        <!-- Update account invoice search view!-->
+        <record id="marketplace_custom_account_invoice_groupby_inherit" model="ir.ui.view">
+            <field name="name">market_place_custom_account.move.groupby</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group/filter[@name='status']" position="after">
+                    <filter string="Warehouse" name="warehouse_id" domain="[]" context="{'group_by': 'warehouse_id'}"/>
+                    <filter string="Seller" name="seller_id" domain="[]" context="{'group_by': 'seller_id'}"/>
+                <!--<filter string="Electronic Invoice" name="electronic_invoice_type" />-->
+                </xpath>
+            </field>
+        </record>
+
+        <record id="market_place_custom_account_invoice_view_tree" model="ir.ui.view">
+            <field name="name">market_place_custom_account.move.tree.inherit.sale</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_invoice_tree"/>
+            <field name="arch" type="xml">
+                <field name="invoice_origin" position="after">
+                    <field name="warehouse_id"/>
+                    <field name="seller_id"/>
+                </field>
+            </field>
+        </record>
+
+
+
     </data>
 </odoo>

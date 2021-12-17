@@ -15,6 +15,7 @@ class StockQuant(models.Model):
 
     location_parent_id = fields.Many2one('stock.location', _('Parent Location'), compute='_compute_stock_parent_location', store=True)
     seller_id = fields.Many2one('res.partner', _('Marketplace Seller'), compute='_compute_stock_marketplace_seller', store=True)
+    product_brand = fields.Char(related="product_id.brand", string="Brand", store=True)
 
     @api.depends('product_id')
     def _compute_stock_marketplace_seller(self):

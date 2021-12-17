@@ -37,6 +37,11 @@
                 <xpath expr='//filter[@name="company"]' position="after">
                     <filter string='Parent Location' name="location_parent" domain="[]" context="{'group_by': 'location_parent_id'}"/>
                 </xpath>
+
+                <xpath expr='//filter[@name="locationgroup"]' position="after">
+                    <filter string='Brand' name="product_brand"  domain="[]" context="{'group_by': 'product_brand'}"/>
+                </xpath>
+
             </field>
         </record>
 
