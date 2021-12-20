@@ -24,6 +24,7 @@
                                 <field name="weight_total_prod"/>
                                 <field name="qty_total_prod"/>
                                 <field name="qty_available_prod"/>
+                                <field name="store_id"/>
                             </group>
                             <group name="group_b">
                                 <field name="ini_position"/>
