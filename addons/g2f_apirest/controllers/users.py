@@ -316,7 +316,7 @@ class ResUser(http.Controller):
 
     def update_user(self, params):
         login = params.get('login')
-
+        user = self._validate_user(login)
         address = params.get('address')
         gender = params.get('gender')
         # business_name = params.get('business_name')
@@ -325,7 +325,7 @@ class ResUser(http.Controller):
         country = params.get('country')
         country_state = params.get('country_state')
         state_city = params.get('state_city')
-
+        self.res_partner = user.partner_id
         country_id, state_id = self.res_partner.search_country_state_by_name(
                 country, country_state)
 
@@ -335,7 +335,7 @@ class ResUser(http.Controller):
                 'country_id': country_id, 'state_id': state_id,
                 'city': state_city}
 
-        user = self._validate_user(login)
+
 
         if not user:
             msg = _('User does not exist!')
