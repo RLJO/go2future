@@ -86,7 +86,7 @@ class ProductProduct(models.Model):
         )
         for producto in productos:
             cab.append(f"{producto.product_id.barcode}")
-            det.append({'qty': producto.qty_available_prod, 'unit_weight': producto.peso_bruto})
+            det.append({'qty': producto.qty_available_prod, 'unit_weight': producto.peso_bruto, 'weight_threshold': producto.weight_threshold})
 
         response = dict(zip(cab, det))
         return response

@@ -22,6 +22,7 @@
                                 <field name="line"/>
                                 <field name="shelf_id"/>
                                 <field name="peso_bruto" string="Peso unitario" readonly="1"/>
+                                <field name="weight_threshold" readonly="1"/>
                                 <field name="weight_total_prod"/>
                                 <field name="qty_total_prod"/>
                                 <field name="qty_available_prod"/>
@@ -50,6 +51,7 @@
                     <field name="line"/>
                     <field name="shelf_id"/>
                     <field name="peso_bruto" string="Peso unitario" readonly="1"/>
+                    <field name="weight_threshold" readonly="1"/>
                     <field name="weight_total_prod"/>
                     <field name="qty_available_prod"/>
                 </tree>
