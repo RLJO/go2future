@@ -475,7 +475,7 @@ class ResUser(http.Controller):
             return dumps(response)
 
         user_data = self._get_data_user(login)
-        return dumps({'status': '200', 'messsage': 'ok', 'data': user_data})
+        return {'status': '200', 'messsage': 'ok', 'data': user_data}
 
     def build_response(self, entity, status=200):
         """Build response by all responses tha app mobile or access control."""

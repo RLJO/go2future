@@ -186,6 +186,15 @@ class ResPartner(models.Model):
     def get_data_user(self):
         """Parse data for user."""
 
+        child_ids = [
+                ({
+                    'email': f.email, 'name': f.name, 'phone': f.phone,
+                    'mobile': f.mobile, 'street': f.street,
+                    'country': f.country_id.name, 'state': f.state_id.name,
+                    'city': f.city, 'zip': f.zip, 'comment': f.comment
+                    }) for f in self.child_ids
+                ]
+
         res_partner = {"name": self.name,
                        "lastname": self.lastname,
                        "login": self.email,
@@ -200,6 +209,7 @@ class ResPartner(models.Model):
                        "business_name": '',
                        "phone": self.phone or '',
                        "password": self.user_id.password,
-                       "avatar": self.user_avatar.decode('ascii') if self.user_avatar else ''}
+                       "avatar": self.user_avatar.decode('ascii') if self.user_avatar else '',
+                       "child_ids": child_ids}
 
         return res_partner if res_partner else ''
