@@ -35,6 +35,7 @@ class ProductTemplate(models.Model):
     barcode_label = fields.Char('Barcode')
     product_code = fields.Char('Product code')
     product_url = fields.Char(string='Url archivo 3D')
+    weight_threshold = fields.Integer('Umbral de Peso')
 
     @api.depends('peso_bruto', 'cant_frente', 'cant_fondo', 'cant_altura')
     def _get_peso_estante(self):

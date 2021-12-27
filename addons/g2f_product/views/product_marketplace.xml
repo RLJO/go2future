@@ -22,6 +22,7 @@
                         <field name="ancho"/>
                         <field name="profundidad"/>
                         <field name="peso_bruto"/>
+                          <field name="weight_threshold"/>
                       </group>
                       <group string="Locación">
                         <field name="layout" attrs="{'required': [('status', 'in', ('pending', 'approved'))]}"/>
