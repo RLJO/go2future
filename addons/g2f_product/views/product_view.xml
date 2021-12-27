@@ -20,6 +20,7 @@
                             <field name="ancho" required="1"/>
                             <field name="profundidad" required="1"/>
                             <field name="peso_bruto" required="1"/>
+                              <field name="weight_threshold"/>
                           </group>
                           <group string="Ubicación">
                             <field name="layout"/>

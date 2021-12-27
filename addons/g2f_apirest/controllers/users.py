@@ -159,7 +159,7 @@ class ResUser(http.Controller):
                 methods=['GET'],
                 website=True, csrf=False)
     def get_payment_cards(self, **kw):
-        """Endpoint when user get list TDC."""
+        """Endpoint when user get list TDC. DEPRECATED. cambiar metodo a POST y utilizar /users/get_payment_cards"""
 
         method = http.request.httprequest.method
 
@@ -175,6 +175,24 @@ class ResUser(http.Controller):
             response = user.partner_id.get_payment_card()
             return dumps(response)
 
+    @http.route(['/users/get_payment_cards'], type='json', auth='public',
+                methods=['POST'], website=True, csrf=False)
+    def get_payment_cards(self, **kw):
+        """Endpoint when user get list TDC."""
+
+        method = http.request.httprequest.method
+
+        login = kw.get('login')
+        user = self._validate_user(login)
+
+        if not user:
+            msg = _('User dont exists!')
+            response = {'status': '400', 'messsage': msg}
+            return dumps(response)
+
+        if method == 'POST':
+            response = {'status': '200', 'data': user.partner_id.get_payment_card()}
+            return response
 
     @http.route(['/users/payment_cards'], type='json', auth='public',
                 methods=['POST', 'PUT', 'PATCH', 'DELETE'],
