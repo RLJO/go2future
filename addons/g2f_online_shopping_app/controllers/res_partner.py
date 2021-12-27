@@ -56,7 +56,8 @@ class ResPartner(http.Controller):
             except Exception as error:
                 _logger.error(error)
 
-            return http.Response('CREATED', status=201)
+            response = {'status': '200', 'messsage': 'OK'}
+            return dumps(response)
 
         msg = _('User does not exist!')
         response = {'status': '400', 'messsage': msg}
