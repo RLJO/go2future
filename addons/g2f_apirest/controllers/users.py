@@ -159,7 +159,7 @@ class ResUser(http.Controller):
                 methods=['GET'],
                 website=True, csrf=False)
     def get_payment_cards(self, **kw):
-        """Endpoint when user get list TDC."""
+        """Endpoint when user get list TDC. DEPRECATED. cambiar metodo a POST y utilizar /users/get_payment_cards"""
 
         method = http.request.httprequest.method
 
@@ -175,6 +175,24 @@ class ResUser(http.Controller):
             response = user.partner_id.get_payment_card()
             return dumps(response)
 
+    @http.route(['/users/get_payment_cards'], type='json', auth='public',
+                methods=['POST'], website=True, csrf=False)
+    def get_payment_cards(self, **kw):
+        """Endpoint when user get list TDC."""
+
+        method = http.request.httprequest.method
+
+        login = kw.get('login')
+        user = self._validate_user(login)
+
+        if not user:
+            msg = _('User dont exists!')
+            response = {'status': '400', 'messsage': msg}
+            return dumps(response)
+
+        if method == 'POST':
+            response = {'status': '200', 'data': user.partner_id.get_payment_card()}
+            return response
 
     @http.route(['/users/payment_cards'], type='json', auth='public',
                 methods=['POST', 'PUT', 'PATCH', 'DELETE'],
@@ -316,7 +334,7 @@ class ResUser(http.Controller):
 
     def update_user(self, params):
         login = params.get('login')
-
+        user = self._validate_user(login)
         address = params.get('address')
         gender = params.get('gender')
         # business_name = params.get('business_name')
@@ -325,7 +343,7 @@ class ResUser(http.Controller):
         country = params.get('country')
         country_state = params.get('country_state')
         state_city = params.get('state_city')
-
+        self.res_partner = user.partner_id
         country_id, state_id = self.res_partner.search_country_state_by_name(
                 country, country_state)
 
@@ -335,7 +353,7 @@ class ResUser(http.Controller):
                 'country_id': country_id, 'state_id': state_id,
                 'city': state_city}
 
-        user = self._validate_user(login)
+
 
         if not user:
             msg = _('User does not exist!')

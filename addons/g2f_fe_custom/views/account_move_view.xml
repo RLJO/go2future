@@ -19,5 +19,18 @@
             </field>
         </record>
 
+        <!-- Update account invoice search view!-->
+        <record id="g2f_fe_custom_account_invoice_groupby_inherit" model="ir.ui.view">
+            <field name="name">g2f_fe_custom_account.move.groupby</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="odoo_marketplace_custom.marketplace_custom_account_invoice_groupby_inherit"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group/filter[@name='status']" position="after">
+                    <filter string="Tipo de Factura Electronica" name="electronic_invoice_type" context="{'group_by': 'electronic_invoice_type'}" />
+                    <filter string="Entidad Comercial" name="partner_id" context="{'group_by': 'partner_id'}" />
+                </xpath>
+            </field>
+        </record>
+
     </data>
 </odoo>

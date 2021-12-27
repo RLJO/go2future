@@ -41,7 +41,14 @@ class marketplace_dashboard(models.Model):
 
     def action_marketplace_vendor_percentage(self):
         login_user_obj = self.env.user
-        domain = [('name.id', '=', self.env.user.partner_id.id)]
+        ids = [login_user_obj.partner_id.id]
+        other_p_ids = self.env['res.partner'].search([('other_parent_ids', '=', login_user_obj.partner_id.id)])
+        childs = self.env.user.partner_id.res_partner_children.ids
+        if other_p_ids:
+            ids += other_p_ids.ids
+        if childs:
+            ids += childs
+        domain = [('name.id', 'in', ids)]
         if login_user_obj.has_group('odoo_marketplace.marketplace_manager_group'):
             domain = [('partner_id', '!=', False)]
         return {

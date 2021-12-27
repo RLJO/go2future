@@ -28,6 +28,7 @@ class StockWarehouse(models.Model):
     store_image_ids = fields.One2many('stock.warehouse.image', inverse_name='store_id', string='Stock warehouse Images')
     store_stage = fields.Selection([('draft', 'Borrador'), ('confirm', 'Confirmado')], default='draft', string="Estado Tienda")
     store_plano_sav = fields.Binary(string="Archivo sav Plano", attachment=True)
+    alter_vision = fields.Boolean(string="Alternativa a Vision", default=False)
 
     def action_send_confirm(self):
         for obj in self:
@@ -332,6 +333,7 @@ class ProductStore(models.Model):
     qty_available_prod = fields.Integer(string="Cantidad disponible")
     store_id = fields.Many2one('stock.warehouse', string='Tienda')
     rotation_p = fields.Integer(string="Rotación del Producto")
+    peso_bruto = fields.Integer('Gross weight (g)', related='product_id.product_tmpl_id.peso_bruto', store=True)
 
     @api.depends('ini_position')
     def _compute_total_weight(self):

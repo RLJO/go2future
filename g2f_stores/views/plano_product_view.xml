@@ -21,9 +21,11 @@
                                 <field name="gondola_id"/>
                                 <field name="line"/>
                                 <field name="shelf_id"/>
+                                <field name="peso_bruto" string="Peso unitario" readonly="1"/>
                                 <field name="weight_total_prod"/>
                                 <field name="qty_total_prod"/>
                                 <field name="qty_available_prod"/>
+                                <field name="store_id"/>
                             </group>
                             <group name="group_b">
                                 <field name="ini_position"/>
@@ -47,6 +49,7 @@
                     <field name="gondola_id"/>
                     <field name="line"/>
                     <field name="shelf_id"/>
+                    <field name="peso_bruto" string="Peso unitario" readonly="1"/>
                     <field name="weight_total_prod"/>
                     <field name="qty_available_prod"/>
                 </tree>
