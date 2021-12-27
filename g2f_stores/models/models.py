@@ -334,6 +334,7 @@ class ProductStore(models.Model):
     store_id = fields.Many2one('stock.warehouse', string='Tienda')
     rotation_p = fields.Integer(string="Rotación del Producto")
     peso_bruto = fields.Integer('Gross weight (g)', related='product_id.product_tmpl_id.peso_bruto', store=True)
+    weight_threshold = fields.Integer('Umbral de Peso', related='product_id.product_tmpl_id.weight_threshold', store=True)
 
     @api.depends('ini_position')
     def _compute_total_weight(self):
