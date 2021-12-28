@@ -4,7 +4,6 @@ import logging
 from json import dumps
 
 from odoo import http, _
-# from odoo.exceptions import ValidationError, UserError
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -13,6 +12,37 @@ logging.basicConfig(
 _logger = logging.getLogger(__name__)
 
 class ResPartner(http.Controller):
+
+
+    @http.route(['/online_shopping_app/user/get_childs_contacts/'], 
+            type='json', auth='public', methods=['GET'], website=True,
+            csrf=False)
+    def get_childs_contacts(self, **kw):
+        """Get childs contacts addresses."""
+
+        method = http.request.httprequest.method
+        params = http.request.jsonrequest
+
+        if method != 'GET':
+            return {'status': '400', 'message': 'Invalid method'}
+
+        email = params.get('login')
+        res_user = http.request.env['res.partner'].sudo().validate_user(email)
+        if not res_user:
+            return {'status': '400', 'message': 'Invalid user:{}'.format(email)}
+
+        res_partner = res_user.partner_id
+
+        child_ids = [
+                ({
+                    'id': f.id, 'email': f.email, 'name': f.name, 'phone': f.phone,
+                    'mobile': f.mobile, 'street': f.street,
+                    'country': f.country_id.name, 'state': f.state_id.name,
+                    'city': f.city, 'zip': f.zip, 'comment': f.comment
+                    }) for f in res_partner.child_ids
+                ]
+        return child_ids
+
 
     @http.route(['/online_shopping_app/user/add_childs_contacts/'], 
             type='json', auth='public', methods=['POST'], website=True,
