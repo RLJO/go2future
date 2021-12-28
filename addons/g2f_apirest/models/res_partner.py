@@ -188,7 +188,7 @@ class ResPartner(models.Model):
 
         child_ids = [
                 ({
-                    'email': f.email, 'name': f.name, 'phone': f.phone,
+                    'id': f.id, 'email': f.email, 'name': f.name, 'phone': f.phone,
                     'mobile': f.mobile, 'street': f.street,
                     'country': f.country_id.name, 'state': f.state_id.name,
                     'city': f.city, 'zip': f.zip, 'comment': f.comment

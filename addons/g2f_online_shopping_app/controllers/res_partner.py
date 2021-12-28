@@ -62,3 +62,27 @@ class ResPartner(http.Controller):
         msg = _('User does not exist!')
         response = {'status': '400', 'messsage': msg}
         return dumps(response)
+
+    @http.route(['/online_shopping_app/user/del_child_contact/'], 
+            type='json', auth='public', methods=['DELETE'], website=True,
+            csrf=False)
+    def delete_child_contact(self, **kw):
+        """Adelete contact childs addresses."""
+
+        method = http.request.httprequest.method
+        params = http.request.jsonrequest
+
+        child_id = params.get('id') or 0
+        email = params.get('login')
+        domain = [('email', '=', email)]
+
+        res_user = http.request.env['res.users'].sudo().search(domain)
+        if int(child_id) in res_user.partner_id.child_ids.ids:
+            res_user.partner_id.child_ids.search([('id', '=', child_id)]).unlink()
+            response = {'status': '200', 'messsage': 'OK'}
+            return response
+
+        msg = _('User does not exist!')
+        response = {'status': '400', 'messsage': msg}
+        return response
+
