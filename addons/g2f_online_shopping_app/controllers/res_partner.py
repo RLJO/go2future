@@ -4,7 +4,6 @@ import logging
 from json import dumps
 
 from odoo import http, _
-# from odoo.exceptions import ValidationError, UserError
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -13,6 +12,37 @@ logging.basicConfig(
 _logger = logging.getLogger(__name__)
 
 class ResPartner(http.Controller):
+
+
+    @http.route(['/online_shopping_app/user/get_childs_contacts/'], 
+            type='json', auth='public', methods=['GET'], website=True,
+            csrf=False)
+    def get_childs_contacts(self, **kw):
+        """Get childs contacts addresses."""
+
+        method = http.request.httprequest.method
+        params = http.request.jsonrequest
+
+        if method != 'GET':
+            return {'status': '400', 'message': 'Invalid method'}
+
+        email = params.get('login')
+        res_user = http.request.env['res.partner'].sudo().validate_user(email)
+        if not res_user:
+            return {'status': '400', 'message': 'Invalid user:{}'.format(email)}
+
+        res_partner = res_user.partner_id
+
+        child_ids = [
+                ({
+                    'id': f.id, 'email': f.email, 'name': f.name, 'phone': f.phone,
+                    'mobile': f.mobile, 'street': f.street,
+                    'country': f.country_id.name, 'state': f.state_id.name,
+                    'city': f.city, 'zip': f.zip, 'comment': f.comment
+                    }) for f in res_partner.child_ids
+                ]
+        return child_ids
+
 
     @http.route(['/online_shopping_app/user/add_childs_contacts/'], 
             type='json', auth='public', methods=['POST'], website=True,
@@ -56,8 +86,33 @@ class ResPartner(http.Controller):
             except Exception as error:
                 _logger.error(error)
 
-            return http.Response('CREATED', status=201)
+            response = {'status': '200', 'messsage': 'OK'}
+            return dumps(response)
 
         msg = _('User does not exist!')
         response = {'status': '400', 'messsage': msg}
         return dumps(response)
+
+    @http.route(['/online_shopping_app/user/del_child_contact/'], 
+            type='json', auth='public', methods=['DELETE'], website=True,
+            csrf=False)
+    def delete_child_contact(self, **kw):
+        """Adelete contact childs addresses."""
+
+        method = http.request.httprequest.method
+        params = http.request.jsonrequest
+
+        child_id = params.get('id') or 0
+        email = params.get('login')
+        domain = [('email', '=', email)]
+
+        res_user = http.request.env['res.users'].sudo().search(domain)
+        if int(child_id) in res_user.partner_id.child_ids.ids:
+            res_user.partner_id.child_ids.search([('id', '=', child_id)]).unlink()
+            response = {'status': '200', 'messsage': 'OK'}
+            return response
+
+        msg = _('User does not exist!')
+        response = {'status': '400', 'messsage': msg}
+        return response
+

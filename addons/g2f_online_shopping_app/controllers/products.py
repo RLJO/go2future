@@ -56,4 +56,9 @@ Atributos: vegano, orgánico, sin azúcar, sin tacc.
 Productos alternativos o similares.
 Productos complementarios.
 Stock disponible del producto en la ubicación para ventas on line. (En Odoo se debe de crear un campo para configurar la ubicación para ventas on line por local)
+Crear un campo en stock.location para indentificar de cuales location se van a tomar los stock y sumarlos para devolverlo en el punto 19 (solo los que tienen stock) 
+Peso bruto
+
+NOTA:
+El precio del producto ahora es el precio del local que aparece en la pesta;a Ubicacion
 """
