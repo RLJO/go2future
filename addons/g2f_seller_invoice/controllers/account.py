@@ -65,15 +65,15 @@ class Account(http.Controller):
 
             for line in invoice.invoice_line_ids:
                 tax_items = []
-                subtotal = line.price_unit * line.quantity
-                discount = subtotal * (line.discount / 100)
-                subtotal = subtotal - discount
+                subtotal = line.price_subtotal
+                discount = (line.price_unit * line.quantity) * (line.discount / 100)
+                #subtotal = subtotal - discount
                 for tax in line.tax_ids:
-                    tax_amount = subtotal / (1 + tax.amount / 100)
-                    tax_subtotal = subtotal - tax_amount
+                    tax_amount = subtotal * (tax.amount / 100)
+                    #tax_subtotal = subtotal - tax_amount
                     tax_item = {
                         "name": tax.name,
-                        "amount": round(tax_subtotal, 2)
+                        "amount": round(tax_amount, 2)
                     }
                     tax_items.append(tax_item)
                 item = {
