@@ -23,14 +23,19 @@ class ProductProduct(models.Model):
 
         values = super(ProductProduct, self).parse_products(domain)
 
-        response = self.search_read(
-                domain,[
-                    'name', 'product_description', 'categ_id', 'brand',
-                    'contents', 'uom_id', 'barcode', 'country_id', 
-                    'marketplace_seller_id', 'list_price', 'uom_price', 
-                    'vegan', 'organic', 'without_tacc', 'sugar_free', 
-                    'alternative_product_ids',
-                    ] 
-                )
+        search_products = self.search(domain)
+        response = [{
+            'name': p.name, 'product_description': p.product_description, 
+            'categ_id_name': p.categ_id.name, 'brand': p.brand,
+            'contents': p.contents, 'uom_id_name': p.uom_id.name, 
+            'barcode': p.barcode, 'country_id_name': p.country_id.name, 
+            'marketplace_seller_id': p.marketplace_seller_id.name, 
+            'list_price': p.list_price, 'uom_price': p.uom_price, 
+            'vegan': p.vegan, 'organic': p.organic, 
+            'without_tacc': p.without_tacc, 'sugar_free': p.sugar_free, 
+            'alternative_product_ids': [f.name for f in p.alternative_product_ids], 
+            'image_1920': p.image_1920.decode("ascii"), 
+            'iframe': p.iframe} for p in search_products
+            ]
         return response
 

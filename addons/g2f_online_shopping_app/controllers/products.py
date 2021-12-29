@@ -18,7 +18,7 @@ class Product(http.Controller):
             ('active', '=', True),
             ]
 
-        response = {"status": 200, "data": []}
+        response = {"status": 200, "data": ''}
         response["data"] = products.sudo().parse_products(domain)
 
         """
