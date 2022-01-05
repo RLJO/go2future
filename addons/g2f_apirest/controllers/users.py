@@ -177,7 +177,7 @@ class ResUser(http.Controller):
 
     @http.route(['/users/get_payment_cards'], type='json', auth='public',
                 methods=['POST'], website=True, csrf=False)
-    def get_payment_cards(self, **kw):
+    def get_list_payment_cards(self, **kw):
         """Endpoint when user get list TDC."""
 
         method = http.request.httprequest.method
@@ -195,7 +195,7 @@ class ResUser(http.Controller):
             return response
 
     @http.route(['/users/payment_cards'], type='json', auth='public',
-                methods=['POST', 'PUT', 'PATCH', 'DELETE', 'GET'],
+                methods=['POST', 'PUT', 'PATCH', 'DELETE'],
                 website=True, csrf=False)
     def payment_cards(self, **kw):
         """Endpoint when user create new TDC."""
