@@ -276,5 +276,5 @@ class AccessControl(http.Controller):
                       }
             send_access_store_response = requests.post(urljoin(base_url,
                                                        endpoint), json=params)
-            print(send_access_store_response)
+            _logger.info('Control de acceso devuelve: {}'.format(send_access_store_response))
             return send_access_store_response
