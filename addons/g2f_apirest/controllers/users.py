@@ -463,7 +463,7 @@ class ResUser(http.Controller):
             data = {'birthday': birthday, 'gender': gender, 'mobile': mobile, 'phone': mobile,
                     'street': address, 'l10n_latam_identification_type_id': identification_type_,
                     'vat': vat, 'country_id': country_id, 'state_id': state_id,
-                    'city': state_city, 'l10n_ar_afip_responsibility_type_id': 5,
+                    'city': state_city, 'l10n_ar_afip_responsibility_type_id': afip_responsibility_type_id,
                     'image_1920': image_1920, 'document_obverse': document_obverse,
                     'document_reverse': document_reverse, 'lang': 'es_AR',
                     'terms_conditions_agreement': terms_conditions_agreement,
