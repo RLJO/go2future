@@ -195,7 +195,7 @@ class ResUser(http.Controller):
             return response
 
     @http.route(['/users/payment_cards'], type='json', auth='public',
-                methods=['POST', 'PUT', 'PATCH', 'DELETE'],
+                methods=['POST', 'PUT', 'PATCH', 'DELETE', 'GET'],
                 website=True, csrf=False)
     def payment_cards(self, **kw):
         """Endpoint when user create new TDC."""
