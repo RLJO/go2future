@@ -385,6 +385,7 @@ class ResUser(http.Controller):
         business_name = params.get('business_name')
         address = params.get('address')
         identification_type = params.get('identification_type')
+        afip_responsibility_type_id = int(params.get('afip_responsability_type_id')) or 0
         vat = params.get('vat')
         country = params.get('country')
         country_state = params.get('country_state')
@@ -398,6 +399,7 @@ class ResUser(http.Controller):
         user = http.request.env['res.users']
         self.res_partner = user.partner_id
         user_inactive = self._validate_user_inactive(login)
+
 
         if self._validate_user(login):
             msg = _('Email User already exists!')
@@ -413,6 +415,20 @@ class ResUser(http.Controller):
         identification_type_ = search_identification_type.id if search_identification_type else None
 
         country_id, state_id = self.res_partner.search_country_state_by_name(country, country_state)
+
+        # Validar aqui como se va amar el nombre, apellido o razon social:
+        if afip_responsibility_type_id == 1:
+            # Si es Iva responsable inscripto
+            print('Responsable inscripto')
+        elif afip_responsability_type_id == 5:
+            # Si es Consumidor Final
+            print('Consumidor final')
+        elif afip_responsibility_type_id == 6:
+            # Si es resonsable Monotributo
+            print('Responsable monotributo')
+        else:
+            # Se coloca uno por defecto (Consumidor final)
+            print('Consumidor final')
 
         try:
             if not self._validate_user(login) and not user_inactive:

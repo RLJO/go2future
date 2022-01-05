@@ -16,7 +16,7 @@ class Product(http.Controller):
         domain = [
             ('default_code', '=', default_code),
             ('active', '=', True),
-            ('is_publlished', '=', True),
+            ('is_published', '=', True),
             ]
 
         response = {"status": 200, "data": ''}

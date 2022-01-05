@@ -124,6 +124,18 @@ class ResPartner(models.Model):
         ])
         return [identification.name for identification in identification_type_list]
 
+    def list_l10n_ar_afip_responsability_type(self):
+        """Return responsibility afip type:
+            1 IVA Responsable Inscripto
+            5 Consumidor Final
+            6 Responsable Monotributo."""
+
+        domain = [('id', 'in', [1, 5, 6])]
+        rt = self.env['l10n_ar.afip.responsibility.type'].search(domain)
+
+        return [(responsibility.id, responsibility.name) for 
+                responsibility in rt]
+
     def search_country_info(self, country=''):
         """Search countries or country from app mobile.
 
