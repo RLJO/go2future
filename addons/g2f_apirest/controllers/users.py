@@ -135,6 +135,19 @@ class ResUser(http.Controller):
         res_partner = http.request.env['res.partner']
         return dumps(res_partner.sudo().search_country_info(country))
 
+    @http.route(['/users/afip_responsibility_types'], type='http', 
+            auth='public', methods=['GET'], website=True, csrf=False)
+    def afip_responsibility_types_list(self, **kw):
+        """Endpoint return afip_responsibility_types_list for app moblie."""
+
+        method = http.request.httprequest.method
+        if method != 'GET':
+            return False
+
+        res_partner = http.request.env['res.partner']
+        return dumps(
+                res_partner.sudo().list_l10n_ar_afip_responsability_type())
+
     @http.route(['/users/DocumentTypes'], type='http', auth='public',
                 methods=['GET'],
                 website=True, csrf=False)
@@ -509,7 +522,7 @@ class ResUser(http.Controller):
             return dumps(response)
 
         user_data = self._get_data_user(login)
-        return dumps({'status': '200', 'messsage': 'ok', 'data': user_data})
+        return {"status": "200", "messsage": "ok", "data": user_data}
 
     def build_response(self, entity, status=200):
         """Build response by all responses tha app mobile or access control."""

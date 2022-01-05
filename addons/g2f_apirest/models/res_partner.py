@@ -133,7 +133,7 @@ class ResPartner(models.Model):
         domain = [('id', 'in', [1, 5, 6])]
         rt = self.env['l10n_ar.afip.responsibility.type'].search(domain)
 
-        return [(responsibility.id, responsibility.name) for 
+        return [{'id': responsibility.id, 'name': responsibility.name} for 
                 responsibility in rt]
 
     def search_country_info(self, country=''):
@@ -213,6 +213,7 @@ class ResPartner(models.Model):
                        "birthday": self.birthday.strftime('%Y-%m-%d') if self.birthday else None,
                        "gender": self.gender,
                        "identification_type": self.l10n_latam_identification_type_id.name,
+                       "afip_responsibility_type_id": self.l10n_ar_afip_responsibility_type_id.name,
                        "vat": self.vat,
                        "address": self.street,
                        "country": self.country_id.name,
