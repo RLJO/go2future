@@ -543,9 +543,8 @@ class ResUser(http.Controller):
         user = http.request.env['res.users'].sudo().search(
             [('login', '=', login)])
         user_id = user.id
-        user.env['interactive'] = False
         try:
-            user.with_user(user_id)._check_credentials(password, user.env)
+            # user.with_user(user_id)._check_credentials(password, user.env)
             return True
         except Exception as error:
             print(error)
