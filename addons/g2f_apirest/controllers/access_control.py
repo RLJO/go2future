@@ -269,7 +269,7 @@ class AccessControl(http.Controller):
 
             # Prepare url endpoint and send to Access control server
             base_url = self.get_store_by_id(store_id).access_control_url
-            endpoint = 'api/Odoo/ConfirmAtHall'
+            endpoint = 'ConfirmAtHall'
             params = {"storeCode": int(store_id), "doorId": int(door_id),
                       "userId": login, "WasConfirmed": was_confirmed,
                       "token": "G02Future$2021"
