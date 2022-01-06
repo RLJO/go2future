@@ -544,7 +544,7 @@ class ResUser(http.Controller):
             [('login', '=', login)])
         user_id = user.id
         try:
-            # user.with_user(user_id)._check_credentials(password, user.env)
+            user.with_user(user_id)._check_credentials(password, user.env)
             return True
         except Exception as error:
             print(error)
