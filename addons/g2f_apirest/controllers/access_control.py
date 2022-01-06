@@ -276,5 +276,9 @@ class AccessControl(http.Controller):
                       }
             send_access_store_response = requests.post(urljoin(base_url,
                                                        endpoint), json=params)
+
+            _logger.info('login:{}, store_id:{}, door_id:{}, was_confirmed:{}'.format(login, store_id, door_id, was_confirmed))
+            _logger.info('Url server: {}'.format(urljoin(base_url, endpoint)))
             _logger.info('Control de acceso devuelve: {}'.format(send_access_store_response))
+
             return send_access_store_response
