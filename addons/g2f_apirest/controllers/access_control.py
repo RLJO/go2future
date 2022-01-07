@@ -57,8 +57,14 @@ class AccessControl(http.Controller):
         except Exception as Error:
             return dumps({"status": "400", "message": str(Error)})
 
-        resp = loads(response.text)
-        resp.update({"role": role})
+        try:
+            resp = loads(response.text)
+            resp.update({"role": role})
+        except Exception as ErrorResponse:
+            resp = response
+            _logger.error({"Ocurrio un error  ": "desconocido", 
+                "message": str(ErrorResponse)})
+
         return dumps(resp)
 
     def _confirm_payment_to_access_control(self, store_id, door_id, login,
@@ -269,12 +275,16 @@ class AccessControl(http.Controller):
 
             # Prepare url endpoint and send to Access control server
             base_url = self.get_store_by_id(store_id).access_control_url
-            endpoint = 'api/Odoo/ConfirmAtHall'
+            endpoint = 'ConfirmAtHall'
             params = {"storeCode": int(store_id), "doorId": int(door_id),
                       "userId": login, "WasConfirmed": was_confirmed,
                       "token": "G02Future$2021"
                       }
             send_access_store_response = requests.post(urljoin(base_url,
                                                        endpoint), json=params)
-            print(send_access_store_response)
+
+            _logger.info('login:{}, store_id:{}, door_id:{}, was_confirmed:{}'.format(login, store_id, door_id, was_confirmed))
+            _logger.info('Url server: {}'.format(urljoin(base_url, endpoint)))
+            _logger.info('Control de acceso devuelve: {}'.format(send_access_store_response))
+
             return send_access_store_response

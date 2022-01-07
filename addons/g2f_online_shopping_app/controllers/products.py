@@ -16,10 +16,11 @@ class Product(http.Controller):
         domain = [
             ('default_code', '=', default_code),
             ('active', '=', True),
+            ('is_published', '=', True),
             ]
 
-        response = {"status": 200, "data": []}
-        response["data"] = products.sudo().parse_products(domain)
+        response = {"status": 200, "data": ''}
+        response["data"] = products.sudo().parse_products_online_shopping(domain)
 
         """
         'name', 'product_description', 'categ_id.name', 'brand', 'contents',
