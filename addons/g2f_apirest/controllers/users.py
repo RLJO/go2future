@@ -135,6 +135,19 @@ class ResUser(http.Controller):
         res_partner = http.request.env['res.partner']
         return dumps(res_partner.sudo().search_country_info(country))
 
+    @http.route(['/users/afip_responsibility_types'], type='http', 
+            auth='public', methods=['GET'], website=True, csrf=False)
+    def afip_responsibility_types_list(self, **kw):
+        """Endpoint return afip_responsibility_types_list for app moblie."""
+
+        method = http.request.httprequest.method
+        if method != 'GET':
+            return False
+
+        res_partner = http.request.env['res.partner']
+        return dumps(
+                res_partner.sudo().list_l10n_ar_afip_responsability_type())
+
     @http.route(['/users/DocumentTypes'], type='http', auth='public',
                 methods=['GET'],
                 website=True, csrf=False)
@@ -177,7 +190,7 @@ class ResUser(http.Controller):
 
     @http.route(['/users/get_payment_cards'], type='json', auth='public',
                 methods=['POST'], website=True, csrf=False)
-    def get_payment_cards(self, **kw):
+    def get_list_payment_cards(self, **kw):
         """Endpoint when user get list TDC."""
 
         method = http.request.httprequest.method
@@ -385,6 +398,7 @@ class ResUser(http.Controller):
         business_name = params.get('business_name')
         address = params.get('address')
         identification_type = params.get('identification_type')
+        afip_responsibility_type_id = int(params.get('afip_responsability_type_id')) or 0
         vat = params.get('vat')
         country = params.get('country')
         country_state = params.get('country_state')
@@ -398,6 +412,7 @@ class ResUser(http.Controller):
         user = http.request.env['res.users']
         self.res_partner = user.partner_id
         user_inactive = self._validate_user_inactive(login)
+
 
         if self._validate_user(login):
             msg = _('Email User already exists!')
@@ -413,6 +428,20 @@ class ResUser(http.Controller):
         identification_type_ = search_identification_type.id if search_identification_type else None
 
         country_id, state_id = self.res_partner.search_country_state_by_name(country, country_state)
+
+        # Validar aqui como se va amar el nombre, apellido o razon social:
+        if afip_responsibility_type_id == 1:
+            # Si es Iva responsable inscripto
+            print('Responsable inscripto')
+        elif afip_responsability_type_id == 5:
+            # Si es Consumidor Final
+            print('Consumidor final')
+        elif afip_responsibility_type_id == 6:
+            # Si es resonsable Monotributo
+            print('Responsable monotributo')
+        else:
+            # Se coloca uno por defecto (Consumidor final)
+            print('Consumidor final')
 
         try:
             if not self._validate_user(login) and not user_inactive:
@@ -434,7 +463,7 @@ class ResUser(http.Controller):
             data = {'birthday': birthday, 'gender': gender, 'mobile': mobile, 'phone': mobile,
                     'street': address, 'l10n_latam_identification_type_id': identification_type_,
                     'vat': vat, 'country_id': country_id, 'state_id': state_id,
-                    'city': state_city, 'l10n_ar_afip_responsibility_type_id': 5,
+                    'city': state_city, 'l10n_ar_afip_responsibility_type_id': afip_responsibility_type_id,
                     'image_1920': image_1920, 'document_obverse': document_obverse,
                     'document_reverse': document_reverse, 'lang': 'es_AR',
                     'terms_conditions_agreement': terms_conditions_agreement,
@@ -493,7 +522,7 @@ class ResUser(http.Controller):
             return dumps(response)
 
         user_data = self._get_data_user(login)
-        return dumps({'status': '200', 'messsage': 'ok', 'data': user_data})
+        return {"status": "200", "messsage": "ok", "data": user_data}
 
     def build_response(self, entity, status=200):
         """Build response by all responses tha app mobile or access control."""
