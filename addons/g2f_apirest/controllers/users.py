@@ -300,8 +300,9 @@ class ResUser(http.Controller):
                     res_partner.validate_user(login):
                 msg = _("Email and Document already exists!")
 
-        response = {"status": "200", "messsage": msg}
-        return response
+        response = {'status': '200', 'messsage': msg}
+        print(dumps(response))
+        return dumps(response)
 
     @http.route(['/users'], type='json', auth='public',
                 methods=['POST', 'PUT', 'DELETE'],
