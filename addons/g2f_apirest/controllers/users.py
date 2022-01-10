@@ -431,18 +431,19 @@ class ResUser(http.Controller):
         country_id, state_id = self.res_partner.search_country_state_by_name(country, country_state)
 
         # Validar aqui como se va amar el nombre, apellido o razon social:
-        if afip_responsibility_type_id == 1:
+        print(afip_responsibility_type_id)
+        # if afip_responsibility_type_id = 1:
             # Si es Iva responsable inscripto
-            print('Responsable inscripto')
-        elif afip_responsability_type_id == 5:
+        #    print('Responsable inscripto')
+        #if afip_responsability_type_id = 5:
             # Si es Consumidor Final
-            print('Consumidor final')
-        elif afip_responsibility_type_id == 6:
+        #    print('Consumidor final')
+        #if afip_responsibility_type_id = 6:
             # Si es resonsable Monotributo
-            print('Responsable monotributo')
-        else:
-            # Se coloca uno por defecto (Consumidor final)
-            print('Consumidor final')
+        #    print('Responsable monotributo')
+        # else:
+        # Se coloca uno por defecto (Consumidor final)
+        #    print('Consumidor final')
 
         try:
             if not self._validate_user(login) and not user_inactive:
