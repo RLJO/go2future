@@ -74,6 +74,9 @@ class SaleOrder(models.Model):
         domain = [('login', '=', userid)] if type(userid) == str else [('id', '=', userid)]
         user_id = self.env['res.users'].search(domain)
         order = self._search_sale_order_by_partner(user_id.partner_id.id)
+        _logger.info('EL usuario:{}, tiene la orden:{}'.format(order,
+            user_id.partner_id))
+
         product = self._search_product_by_id(barcode)
         if action == 'picked':
             self._add_product_cart(order, product, quantity)
@@ -239,7 +242,8 @@ class SaleOrder(models.Model):
 
         order_sale = self.search([
             ('partner_id', '=', partner_id),
-            ('state', '=', state)])
+            ('state', '=', state)], 
+            order="datetime desc", limit=1)
         return order_sale
 
     @validate_product_exist
@@ -295,12 +299,14 @@ class SaleOrder(models.Model):
     def _add_product_cart(self, order_instance, product_instance, quantity):
         """Add products to cart."""
 
+        _logger.info('Orden:{} - Producto:{}'.format(order_instance,
+            product_instance))
+
         quantity = quantity
         product = self._product_in_sale_order(order_instance, product_instance)
         if product:
             quantity += product.product_uom_qty
             product.write({'product_uom_qty': quantity})
-            product._cr.commit()
             return True
 
         line_vals = {
@@ -317,7 +323,7 @@ class SaleOrder(models.Model):
             return True
         except Exception as error:
             print(error)
-            _logger.info(error)
+            _logger.error(error)
 
         return False
 
