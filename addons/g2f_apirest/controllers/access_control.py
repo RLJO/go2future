@@ -201,7 +201,7 @@ class AccessControl(http.Controller):
                         msg_for_app_mobile = _('successful payment')
                         message = _('Successful payment')
                         # enviar a control de acceso que todo esta bien
-                        in# self._confirm_payment_to_access_control(
+                        # self._confirm_payment_to_access_control(
                         #        store_id, door_id, login, True)
                     else:
                         code = 0
