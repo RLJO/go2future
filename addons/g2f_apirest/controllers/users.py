@@ -194,6 +194,7 @@ class ResUser(http.Controller):
         """Endpoint when user get list TDC."""
 
         method = http.request.httprequest.method
+        kw = http.request.jsonrequest
 
         login = kw.get('login')
         user = self._validate_user(login)
