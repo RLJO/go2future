@@ -264,6 +264,8 @@ class AccessControl(http.Controller):
 
             # tomar el mensaje y guardarlo en el model transaction para que
             # la app le llegue el mensaje y tome una decision.
+            _logger.info(' Se guarda en transaction-> Login:{}- code:{} - msg:{}'.format(
+                login, code, msg_for_app_mobile))
             transaction.sudo().create_transaction(login, store_id, door_id,
                                                   code, msg_for_app_mobile,
                                                   'access_control')
