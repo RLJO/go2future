@@ -166,6 +166,7 @@ class AccessControl(http.Controller):
         code = kw.get('code')
         message = kw.get('message')
         msg_for_app_mobile = ''
+        role = 'Customer'
 
         sale_order = http.request.env['sale.order'].sudo()
         user = http.request.env['res.partner'].sudo().validate_user(login)
@@ -200,7 +201,7 @@ class AccessControl(http.Controller):
                         msg_for_app_mobile = _('successful payment')
                         message = _('Successful payment')
                         # enviar a control de acceso que todo esta bien
-                        # self._confirm_payment_to_access_control(
+                        in# self._confirm_payment_to_access_control(
                         #        store_id, door_id, login, True)
                     else:
                         code = 0
@@ -226,7 +227,22 @@ class AccessControl(http.Controller):
                 # Cuando ya salio de la tienda
                 pass
 
+            # Nueva forma de el cliente dejar los productos
+            # Este codigo lo recibo es desde la app mobile (Alan)
             elif code == 11:
+                # El cliente decidio el mismo dejar los prductos en la gondola
+                # Pide a contrl de acceso que le abra la puerta 1 de salida
+                # Para dejar el los productos
+                # Prepare url endpoint and send to Access control server
+
+                door_id = 9  # Puerta de salida hacia la tienda
+                self._open_door_access_control(store_id, door_id, login, role)
+                msg_for_app_mobile = _('Se pidio a control de acceso abrir la puerta de salida a la tienda')
+                message = _('Please Open door {}'.format(door_id))
+
+            # Esto esta deprecado ya que ya vision no me avisa cuando el cliente
+            # Decide dejar los productos.
+            '''elif code == 11:
                 # El cliente decidio dejar los productos y retirtarse
                 # Validar tambien que la sale order este en 0
                 order = sale_order._search_sale_order_by_partner(
@@ -243,6 +259,8 @@ class AccessControl(http.Controller):
 
                     # Aqui yo deberia cancelar la sale order
                     order.cancel_sale_order()
+                    '''
+            # ---------  Fin de codigo 11 -----------------------------------
 
             # tomar el mensaje y guardarlo en el model transaction para que
             # la app le llegue el mensaje y tome una decision.
