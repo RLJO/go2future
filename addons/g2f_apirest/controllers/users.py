@@ -90,7 +90,7 @@ class ResUser(http.Controller):
         if method == 'POST' and user:
             transactions = transaction.sudo().get_transaction_by_user(login, store_id)
             print(transactions)
-            return dumps(transactions)
+            return transactions
 
         return http.Response('NOT FOUND', status=404)
 
