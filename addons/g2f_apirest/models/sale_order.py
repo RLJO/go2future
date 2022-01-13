@@ -243,7 +243,7 @@ class SaleOrder(models.Model):
         order_sale = self.search([
             ('partner_id', '=', partner_id),
             ('state', '=', state)], 
-            order="datetime desc", limit=1)
+            order="date_order desc", limit=1)
         return order_sale
 
     @validate_product_exist
