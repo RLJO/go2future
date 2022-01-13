@@ -37,6 +37,7 @@ class ProductTemplate(models.Model):
     product_url = fields.Char(string='Url archivo 3D')
     weight_threshold = fields.Integer('Umbral de Peso')
     iframe = fields.Text('iFrame html')
+    ia_model = fields.Many2one('product.iamodel', index=True, string='Modelo de IA')
 
     @api.depends('peso_bruto', 'cant_frente', 'cant_fondo', 'cant_altura')
     def _get_peso_estante(self):
@@ -124,6 +125,14 @@ class ProductTemplate(models.Model):
                 seq = self.env["ir.sequence"].next_by_code("product.code")
                 self.sudo().write({"product_code": seq})
             return True
+
+
+class ProductIAModel(models.Model):
+    _name = 'product.iamodel'
+    _description = 'Model of IA'
+
+    name = fields.Char('Nombre del Modelo')
+    product_ids = fields.One2many('product.template', 'ia_model', string='Productos del Modelo')
 
 
 class ProductSector(models.Model):

@@ -10,16 +10,17 @@
                     <page name="catman" string="CatMan" groups="odoo_marketplace.marketplace_manager_group">
                         <group>
                           <group string="Estructura mercadologica">
-                            <field name="sector" options="{'no_create': True, 'no_open': True}"/>
-                            <field name="familia" options="{'no_create': True, 'no_open': True}"/>
-                            <field name="subfamilia" options="{'no_create': True, 'no_open': True}"/>
-                            <field name="categoria" options="{'no_create': True, 'no_open': True}"/>
+                              <field name="sector" options="{'no_create': True, 'no_open': True}"/>
+                              <field name="familia" options="{'no_create': True, 'no_open': True}"/>
+                              <field name="subfamilia" options="{'no_create': True, 'no_open': True}"/>
+                              <field name="categoria" options="{'no_create': True, 'no_open': True}"/>
+                              <field name="ia_model" options="{'no_create': True, 'no_open': True}" />
                           </group>
                           <group string="Datos del producto">
-                            <field name="alto" required="1"/>
-                            <field name="ancho" required="1"/>
-                            <field name="profundidad" required="1"/>
-                            <field name="peso_bruto" required="1"/>
+                              <field name="alto" required="1"/>
+                              <field name="ancho" required="1"/>
+                              <field name="profundidad" required="1"/>
+                              <field name="peso_bruto" required="1"/>
                               <field name="weight_threshold"/>
                           </group>
                           <group string="Ubicación">
@@ -295,6 +296,52 @@
             </field>
         </record>
 
+        <!--      Modelo de IA     -->
+        <record id="product_iamodel_view_form" model="ir.ui.view">
+            <field name="name">product.iamodel.form</field>
+            <field name="model">product.iamodel</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="IA Model">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <field name="product_ids" widget="many2many_tags"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="product_iamodel_view_tree" model="ir.ui.view">
+            <field name="name">product.iamodel.tree</field>
+            <field name="model">product.iamodel</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="IA Model">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="product_iamodel_action" model="ir.actions.act_window">
+            <field name="name">Modelos de IA</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.iamodel</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Crear Modelo de IA para estructura mercadológica
+                </p><p>
+
+                </p>
+            </field>
+        </record>
+
+
+
         <!--<record id="wk_product_template_search_form_view" model="ir.ui.view">
             <field name="name">wk.product.template.search.form</field>
             <field name="model">product.template</field>
@@ -316,6 +363,7 @@
         <menuitem id="product_familia_menu" action="product_familia_action" parent="marketing_structure_menu" sequence="2" name="Familia" groups=""/>
         <menuitem id="product_subfamilia_menu" action="product_subfamilia_action" parent="marketing_structure_menu" sequence="3" name="Subfamilia" groups=""/>
         <menuitem id="product_categoria_menu" action="product_categoria_action" parent="marketing_structure_menu" sequence="4" name="Categoría" groups=""/>
+        <menuitem id="product_iamodel_menu" action="product_iamodel_action" parent="marketing_structure_menu" sequence="5" name="Modelos de IA" groups=""/>
 
     </data>
 </odoo>
