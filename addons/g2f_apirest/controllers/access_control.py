@@ -271,7 +271,7 @@ class AccessControl(http.Controller):
                                                   'access_control')
             response = {'status': '200', 'message': message}
             _logger.info(dumps(response))
-            return dumps(response)
+            return response
 
         response = {'status': '400', 'message': 'NOT FOUND'}
         return dumps(response)
