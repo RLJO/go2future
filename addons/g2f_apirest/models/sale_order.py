@@ -140,6 +140,13 @@ class SaleOrder(models.Model):
         # Si ya existe una orden Abierta para este usuario con estado draft
         # no no crear la Orden de venta para que se use esta
         if self._search_sale_order_by_partner(partner_id):
+            """LLego aqui porque es posible que se acciono el codigo 7
+                de access control por un acompa;ante que viene 
+                con el titular entonces se debe contar para saber cuantas 
+                Pesonas han entrado a la tienda
+            """
+            # capacidad_personas_en_tienda+=1
+            # capacidad_de_personas_por_grupo_en_tienda+=1
             return True
 
         user_id = self.env['res.users'].search([('login', '=', 'admin')],
@@ -155,6 +162,9 @@ class SaleOrder(models.Model):
         _logger.info(order_vals)
 
         new_order = self.create(order_vals)
+        # Se cuenta el titular de la cuenta
+        # capacidad_personas_en_tienda+=1
+
         new_order._cr.commit()
         return True
 
