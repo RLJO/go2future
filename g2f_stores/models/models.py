@@ -29,8 +29,8 @@ class StockWarehouse(models.Model):
     store_stage = fields.Selection([('draft', 'Borrador'), ('confirm', 'Confirmado')], default='draft', string="Estado Tienda")
     store_plano_sav = fields.Binary(string="Archivo sav Plano", attachment=True)
     alter_vision = fields.Boolean(string="Alternativa a Vision", default=False)
-    limit_person_in_store = fields.Integer(string="Limit user in Store")
-    limit_group_in_store = fields.Integer(string="Limit groups in Store")
+    limit_person_in_store = fields.Integer(string="Limit user in Store", default=10)
+    limit_group_in_store = fields.Integer(string="Limit groups in Store", default=3)
     count_person_in_store = fields.Integer(string="Count person in Store")
 
     def action_send_confirm(self):
