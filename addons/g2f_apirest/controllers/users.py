@@ -456,7 +456,6 @@ class ResUser(http.Controller):
                     'lastname': lastname,
                     'sel_groups_1_9_10':9
                 })
-                user._cr.commit()
 
             if user_inactive:
                 user_inactive.sudo().write({'password': passw, 'active': True})
@@ -477,6 +476,7 @@ class ResUser(http.Controller):
             response = {"status": "200", "message": "ok"}
 
         except Exception as error_excp:
+            user._cr.rollback()
             msg = _(error_excp)
             response = {"status": "400", "message": msg}
             return response
