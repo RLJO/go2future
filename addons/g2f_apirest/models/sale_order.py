@@ -137,6 +137,17 @@ class SaleOrder(models.Model):
     def create_sale_order(self, partner_id, store_id):
         """Create sale order."""
 
+        domain = [('id', '=', store_id)]
+        store_id = self.env['stock.warehouse'].search(domain)
+
+        limite_personas_en_tienda = store_id.limit_person_in_store
+        limite_grupos_en_tienda = store_id.limit_group_in_store
+        total_personas_en_tienda = store_id.count_person_in_store
+
+        # Cuento al titular la primera vez que se va a crear la orden de venta
+        if not self._search_sale_order_by_partner(partner_id):
+            total_personas_en_tienda+=1
+
         # Si ya existe una orden Abierta para este usuario con estado draft
         # no no crear la Orden de venta para que se use esta
         if self._search_sale_order_by_partner(partner_id):
@@ -145,8 +156,8 @@ class SaleOrder(models.Model):
                 con el titular entonces se debe contar para saber cuantas 
                 Pesonas han entrado a la tienda
             """
-            # capacidad_personas_en_tienda+=1
-            # capacidad_de_personas_por_grupo_en_tienda+=1
+            total_personas_en_tienda+=1
+
             return True
 
         user_id = self.env['res.users'].search([('login', '=', 'admin')],
