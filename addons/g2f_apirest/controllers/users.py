@@ -168,26 +168,6 @@ class ResUser(http.Controller):
         res_partner = http.request.env['res.partner']
         return dumps(list(res_partner.sudo().payment_cards_type_list()))
 
-    @http.route(['/users/payment_cards'], type='http', auth='public',
-                methods=['GET'],
-                website=True, csrf=False)
-    def get_payment_cards(self, **kw):
-        """Endpoint when user get list TDC. DEPRECATED. cambiar metodo a POST y utilizar /users/get_payment_cards"""
-
-        method = http.request.httprequest.method
-
-        login = kw.get('login')
-        user = self._validate_user(login)
-
-        if not user:
-            msg = _("User dont exists!")
-            response = {"status": "400", "messsage": msg}
-            return response
-
-        if method == 'GET':
-            response = user.partner_id.get_payment_card()
-            return dumps(response)
-
     @http.route(['/users/get_payment_cards'], type='json', auth='public',
                 methods=['POST'], website=True, csrf=False)
     def get_list_payment_cards(self, **kw):
