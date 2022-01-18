@@ -176,6 +176,12 @@ class AccessControl(http.Controller):
                 msg_for_app_mobile = 'is staff'
                 message = _('is staff')
 
+            if code == 4 and not user.is_staff():
+                # Jenny pide que cuando sea el codigo 4 por ahora
+                # No se le envie nada a la App mobile
+                msg_for_app_mobile = "" 
+                message = ""
+
             if code == 7 and not user.is_staff():
                 # Crear la sale order
                 sale_order.create_sale_order(user.partner_id.id, store_id)
