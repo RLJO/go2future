@@ -90,7 +90,7 @@ class ResUser(http.Controller):
         if method == 'POST' and user:
             transactions = transaction.sudo().get_transaction_by_user(login, store_id)
             print(transactions)
-            return dumps(transactions)
+            return transactions
 
         return http.Response('NOT FOUND', status=404)
 
@@ -168,43 +168,24 @@ class ResUser(http.Controller):
         res_partner = http.request.env['res.partner']
         return dumps(list(res_partner.sudo().payment_cards_type_list()))
 
-    @http.route(['/users/payment_cards'], type='http', auth='public',
-                methods=['GET'],
-                website=True, csrf=False)
-    def get_payment_cards(self, **kw):
-        """Endpoint when user get list TDC. DEPRECATED. cambiar metodo a POST y utilizar /users/get_payment_cards"""
-
-        method = http.request.httprequest.method
-
-        login = kw.get('login')
-        user = self._validate_user(login)
-
-        if not user:
-            msg = _('User dont exists!')
-            response = {'status': '400', 'messsage': msg}
-            return dumps(response)
-
-        if method == 'GET':
-            response = user.partner_id.get_payment_card()
-            return dumps(response)
-
     @http.route(['/users/get_payment_cards'], type='json', auth='public',
                 methods=['POST'], website=True, csrf=False)
     def get_list_payment_cards(self, **kw):
         """Endpoint when user get list TDC."""
 
         method = http.request.httprequest.method
+        kw = http.request.jsonrequest
 
         login = kw.get('login')
         user = self._validate_user(login)
 
         if not user:
-            msg = _('User dont exists!')
-            response = {'status': '400', 'messsage': msg}
-            return dumps(response)
+            msg = _("User dont exists!")
+            response = {"status": "400", "messsage": msg}
+            return response
 
         if method == 'POST':
-            response = {'status': '200', 'data': user.partner_id.get_payment_card()}
+            response = {"status": "200", "data": user.partner_id.get_payment_card()}
             return response
 
     @http.route(['/users/payment_cards'], type='json', auth='public',
@@ -234,9 +215,9 @@ class ResUser(http.Controller):
 
         user = self._validate_user(login)
         if not user:
-            msg = _('User dont exists!')
-            response = {'status': '400', 'messsage': msg}
-            return dumps(response)
+            msg = _("User dont exists!")
+            response = {"status": "400", "messsage": msg}
+            return response
 
         # Le agrega el partner a los parametros para enviar la solicitud
         vals.update({'partner_id': user.partner_id.id})
@@ -244,19 +225,19 @@ class ResUser(http.Controller):
         if method == 'POST':
             user.partner_id.create_payment_card(vals)
             response = {"status": "201", "message": "OK"}
-            return dumps(response)
+            return response
 
         if method == 'DELETE':
             kw.pop('login')
             user.partner_id.delete_payment_card(kw)
             response = {"status": "201", "message": "OK"}
-            return dumps(response)
+            return response
 
         if method == 'PATCH':
             kw.pop('login')
             user.partner_id.update_payment_card(kw)
             response = {"status": "201", "message": "OK"}
-            return dumps(response)
+            return response
 
     @http.route(['/users/avatar'], type='json', auth='public', methods=['PUT'],
                 website=True, csrf=False)
@@ -291,16 +272,17 @@ class ResUser(http.Controller):
 
         if method == 'GET':
             if res_partner.validate_user(login):
-                msg = _('Email User already exists!')
+                msg = _("Email User already exists!")
 
             if res_partner.document_exist(identification_type, vat):
-                msg = _('Document User already exists!')
+                msg = _("Document User already exists!")
 
             if res_partner.document_exist(identification_type, vat) and \
                     res_partner.validate_user(login):
-                msg = _('Email and Document already exists!')
+                msg = _("Email and Document already exists!")
 
         response = {'status': '200', 'messsage': msg}
+        print(dumps(response))
         return dumps(response)
 
     @http.route(['/users'], type='json', auth='public',
@@ -336,14 +318,14 @@ class ResUser(http.Controller):
         user = self._validate_user(login)
 
         if not user:
-            msg = _('User does not exist!')
-            response = {'status': '400', 'messsage': msg}
-            return dumps(response)
+            msg = _("User does not exist!")
+            response = {"status": "400", "messsage": msg}
+            return response
 
         user.write({'active': False})
-        msg = _('User has be deleted!')
-        response = {'status': '200', 'messsage': msg}
-        return dumps(response)
+        msg = _("User has be deleted!")
+        response = {"status": "200", "messsage": msg}
+        return response
 
     def update_user(self, params):
         login = params.get('login')
@@ -369,18 +351,18 @@ class ResUser(http.Controller):
 
 
         if not user:
-            msg = _('User does not exist!')
-            response = {'status': '400', 'messsage': msg}
-            return dumps(response)
+            msg = _("User does not exist!")
+            response = {"status": "400", "messsage": msg}
+            return response
 
         try:
             user.partner_id.write(data)
             user._cr.commit()
-            response = {'status': '200', 'message': 'ok'}
+            response = {"status": "200", "message": "ok"}
         except Exception as error_excp:
-            response = {'status': '400', 'message': _(error_excp)}
+            response = {"status": "400", "message": _(error_excp)}
 
-        return dumps(response)
+        return response
 
     def register(self, params=''):
         if not params:
@@ -415,14 +397,14 @@ class ResUser(http.Controller):
 
 
         if self._validate_user(login):
-            msg = _('Email User already exists!')
-            response = {'status': '400', 'message': msg}
-            return dumps(response)
+            msg = _("Email User already exists!")
+            response = {"status": "400", "message": msg}
+            return response
 
         if (user.partner_id.sudo().document_exist(identification_type, vat) and not user_inactive):
-            msg = _('There is already a registered user with this Document!')
-            response = {'status': '400', 'message': msg}
-            return dumps(response)
+            msg = _("There is already a registered user with this Document!")
+            response = {"status": "400", "message": msg}
+            return response
 
         search_identification_type = self.res_partner.sudo().search_identification_type(identification_type)
         identification_type_ = search_identification_type.id if search_identification_type else None
@@ -430,18 +412,19 @@ class ResUser(http.Controller):
         country_id, state_id = self.res_partner.search_country_state_by_name(country, country_state)
 
         # Validar aqui como se va amar el nombre, apellido o razon social:
-        if afip_responsibility_type_id == 1:
+        print(afip_responsibility_type_id)
+        # if afip_responsibility_type_id = 1:
             # Si es Iva responsable inscripto
-            print('Responsable inscripto')
-        elif afip_responsability_type_id == 5:
+        #    print('Responsable inscripto')
+        #if afip_responsability_type_id = 5:
             # Si es Consumidor Final
-            print('Consumidor final')
-        elif afip_responsibility_type_id == 6:
+        #    print('Consumidor final')
+        #if afip_responsibility_type_id = 6:
             # Si es resonsable Monotributo
-            print('Responsable monotributo')
-        else:
-            # Se coloca uno por defecto (Consumidor final)
-            print('Consumidor final')
+        #    print('Responsable monotributo')
+        # else:
+        # Se coloca uno por defecto (Consumidor final)
+        #    print('Consumidor final')
 
         try:
             if not self._validate_user(login) and not user_inactive:
@@ -453,7 +436,6 @@ class ResUser(http.Controller):
                     'lastname': lastname,
                     'sel_groups_1_9_10':9
                 })
-                user._cr.commit()
 
             if user_inactive:
                 user_inactive.sudo().write({'password': passw, 'active': True})
@@ -471,13 +453,14 @@ class ResUser(http.Controller):
 
             self._update_res_partner(login, data)
 
-            response = {'status': '200', 'message': 'ok'}
+            response = {"status": "200", "message": "ok"}
 
         except Exception as error_excp:
+            user._cr.rollback()
             msg = _(error_excp)
-            response = {'status': '400', 'message': msg}
-            return dumps(response)
-        return dumps(response)
+            response = {"status": "400", "message": msg}
+            return response
+        return response
 
     def _validate_user(self, login=''):
         user = http.request.env['res.users']
@@ -507,19 +490,19 @@ class ResUser(http.Controller):
         passw = kw.get('password')
 
         if self._validate_user_inactive(login):
-            msg = _('User is disabled, you must register again to enable it')
-            response = {'status': '400', 'messsage': msg}
-            return dumps(response)
+            msg = _("User is disabled, you must register again to enable it")
+            response = {"status": "400", "messsage": msg}
+            return response
 
         if not self._validate_user(login):
-            msg = _('User does not exist!')
-            response = {'status': '400', 'messsage': msg}
-            return dumps(response)
+            msg = _("User does not exist!")
+            response = {"status": "400", "messsage": msg}
+            return response
 
         if not self._validate_login(login, passw):
-            msg = _('Incorrect user or password!')
-            response = {'status': '400', 'messsage': msg}
-            return dumps(response)
+            msg = _("Incorrect user or password!")
+            response = {"status": "400", "messsage": msg}
+            return response
 
         user_data = self._get_data_user(login)
         return {"status": "200", "messsage": "ok", "data": user_data}
@@ -564,7 +547,6 @@ class ResUser(http.Controller):
         domain = [('l10n_latam_identification_type_id', '=', identification_type_id),
                   ('vat', '=', vat)]
         search_res_partner = res_partner.sudo().search(domain)
-        print(search_res_partner.email)
         return search_res_partner.email
 
     @http.route(['/users/ResetPassword'], type='json', auth='public',
@@ -574,17 +556,18 @@ class ResUser(http.Controller):
         kw = http.request.jsonrequest
         login = kw.get('login') or self.reset_password_by_document(kw)
 
+        response = {"status": "400", "messsage": "unknown error"}
         user = self._validate_user(login)
 
         if not user:
-            msg = _('User does not exist!')
-            response = {'status': '400', 'messsage': msg}
-            return dumps(response)
+            msg = _("User does not exist!")
+            response = {"status": "400", "messsage": msg}
+            return response
 
         try:
             user.reset_password(user.login)
-            response = {'status': '200', 'message': 'ok'}
+            response = {"status": "200", "message": "ok"}
         except Exception as error_reset_password:
-            response = {'status': '400', 'message': _(error_reset_password)}
+            response = {"status": "400", "message": _(error_reset_password)}
 
-        return dumps(response)
+        return response

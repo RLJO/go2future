@@ -46,6 +46,9 @@
                             <field name="vision_url"/>
                             <field name="access_control_url"/>
                             <field name="plano_url"/>
+                            <field name="limit_person_in_store"/>
+                            <field name="limit_group_in_store"/>
+                            <field name="count_person_in_store"/>
                         </group>
                     </page>
                     <page name="config_door" string="Control de Accesos" groups="stock.group_stock_manager">
