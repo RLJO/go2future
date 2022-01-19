@@ -28,3 +28,25 @@ class StoreDoorCam(http.Controller):
                 response['error_data'] = 'No data found!'
 
         return response
+
+    @http.route(['/store/get_store_cams'], type="json", auth="public", website=True, method=['POST'], csrf=False)
+    def get_store_cam(self, **kw):
+        method = request.httprequest.method
+        store_id = kw.get('store_code')
+        cameras = request.env['store.camera'].sudo().search_read([("store_id.code", "=", store_id)],
+                                                                 fields=['name', 'device_url', 'port_number'])
+        response = {"id": store_id, "status": 200, "data": []}
+        data = {}
+        if method == 'POST':
+            data = cameras
+            if data:
+                response['success'] = True
+                response['data'] = data  # values.update({'data': data})
+            else:
+                _logger.info("No data found: %s" % response)
+                response['success'] = False
+                response['error_code'] = 1
+                response['error_data'] = 'No data found!'
+
+        return response
+

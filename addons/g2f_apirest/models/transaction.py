@@ -65,7 +65,7 @@ class Transaction(models.Model):
         )
         if trasaction_list:
             self.mark_transaction_as_seen(domain)
-        return json.dumps(trasaction_list)
+        return trasaction_list
 
     def create_transaction(self, login='', store_id='', door_id='', code='',
                            message='', from_app=''):

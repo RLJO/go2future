@@ -29,6 +29,9 @@ class StockWarehouse(models.Model):
     store_stage = fields.Selection([('draft', 'Borrador'), ('confirm', 'Confirmado')], default='draft', string="Estado Tienda")
     store_plano_sav = fields.Binary(string="Archivo sav Plano", attachment=True)
     alter_vision = fields.Boolean(string="Alternativa a Vision", default=False)
+    limit_person_in_store = fields.Integer(string="Limit user in Store", default=10)
+    limit_group_in_store = fields.Integer(string="Limit groups in Store", default=3)
+    count_person_in_store = fields.Integer(string="Count person in Store")
 
     def action_send_confirm(self):
         for obj in self:
@@ -103,6 +106,7 @@ class StoreCamera(models.Model):
     store_id = fields.Many2one('stock.warehouse', string='Tienda')
     # zone_ids = fields.One2many('camera.zone', inverse_name='camera_id', string='Zonas')
     camera_image = fields.Binary(string='Imagen de Camara', attachment=False)
+    mask_image = fields.Binary(string='Imagen de Mascara', attachment=False)
     door_active = fields.Boolean(string='¿Apunta a puerta?')
     door_id = fields.Many2one('store.door', string='Puerta')
     movement_resolution = fields.Integer(string='Resolución de Movimiento', default=-1)
@@ -217,12 +221,15 @@ class RaspberryPi(models.Model):
     _description = 'RaspberryPi'
 
     name = fields.Char('Nombre')
+    code = fields.Integer(string="Codigo")
     ip_add = fields.Char('Dirección IP')
     store_id = fields.Many2one('stock.warehouse', string='Tienda')
     sensor_ids = fields.One2many('store.sensor', inverse_name='pi_id', string='Sensor_ids')
     position_x = fields.Float(string='Posición X', store=True)
     position_y = fields.Float(string='Posición Y', store=True)
     rotation = fields.Integer(string="Rotación")
+    height = fields.Integer(string="Alto de Gondola")
+    width = fields.Integer(string="Ancho de Gondola")
 
     def get_plano_shelf_data(self, store):
         res = []
@@ -236,6 +243,7 @@ class RaspberryPi(models.Model):
             shelf_data = []
             res.append({
                 "id": gond.id,
+                "code": gond.code,
                 "name": gond.name,
                 "store_id": gond.store_id.id,
                 # "store_name": gond.store_id.name,
@@ -243,13 +251,17 @@ class RaspberryPi(models.Model):
                 "x_position": gond.position_x,
                 "y_position": gond.position_y,
                 "rotation": gond.rotation,
+                "height": gond.height,
+                "width": gond.width,
                 "shelf_ids": shelf_data
             })
             for shelf in gond.sensor_ids:
                 shelf_data.append({
                     "shelf_id": shelf.id,
+                    "shelf_code": shelf.code,
                     "shelf_name": shelf.name,
-                    "z_position": shelf.position_z
+                    "z_position": shelf.position_z,
+                    "depth": shelf.depth
                 })
 
         return res
@@ -281,6 +293,7 @@ class StoreSensor(models.Model):
     _description = 'PI Sensors'
 
     name = fields.Char(string='Nombre')
+    code = fields.Integer(string="Codigo")
     product_weight = fields.Float(string='Peso de Productos')
     calibration_factor = fields.Float(string='Factor de Calibracion')
     dt_pin = fields.Integer(string='dt_pin')
@@ -290,6 +303,7 @@ class StoreSensor(models.Model):
     pi_id = fields.Many2one('store.raspi', string='Raspberry PI')
     store_id = fields.Many2one('stock.warehouse', string='Tienda', related="pi_id.store_id", store=True)
     position_z = fields.Float(string='Posición Z', store=True)
+    depth = fields.Integer(string="Profundidad de Estante")
 
     def get_sensor_data(self, data):
         res =[]

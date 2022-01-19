@@ -74,6 +74,9 @@ class SaleOrder(models.Model):
         domain = [('login', '=', userid)] if type(userid) == str else [('id', '=', userid)]
         user_id = self.env['res.users'].search(domain)
         order = self._search_sale_order_by_partner(user_id.partner_id.id)
+        _logger.info('EL usuario:{}, tiene la orden:{}'.format(order,
+            user_id.partner_id))
+
         product = self._search_product_by_id(barcode)
         if action == 'picked':
             self._add_product_cart(order, product, quantity)
@@ -134,9 +137,27 @@ class SaleOrder(models.Model):
     def create_sale_order(self, partner_id, store_id):
         """Create sale order."""
 
+        domain = [('id', '=', store_id)]
+        store_id = self.env['stock.warehouse'].search(domain)
+
+        limite_personas_en_tienda = store_id.limit_person_in_store
+        limite_grupos_en_tienda = store_id.limit_group_in_store
+        total_personas_en_tienda = store_id.count_person_in_store
+
+        # Cuento al titular la primera vez que se va a crear la orden de venta
+        if not self._search_sale_order_by_partner(partner_id):
+            total_personas_en_tienda+=1
+
         # Si ya existe una orden Abierta para este usuario con estado draft
         # no no crear la Orden de venta para que se use esta
         if self._search_sale_order_by_partner(partner_id):
+            """LLego aqui porque es posible que se acciono el codigo 7
+                de access control por un acompa;ante que viene 
+                con el titular entonces se debe contar para saber cuantas 
+                Pesonas han entrado a la tienda
+            """
+            total_personas_en_tienda+=1
+
             return True
 
         user_id = self.env['res.users'].search([('login', '=', 'admin')],
@@ -152,6 +173,9 @@ class SaleOrder(models.Model):
         _logger.info(order_vals)
 
         new_order = self.create(order_vals)
+        # Se cuenta el titular de la cuenta
+        # capacidad_personas_en_tienda+=1
+
         new_order._cr.commit()
         return True
 
@@ -239,7 +263,8 @@ class SaleOrder(models.Model):
 
         order_sale = self.search([
             ('partner_id', '=', partner_id),
-            ('state', '=', state)])
+            ('state', '=', state)], 
+            order="date_order desc", limit=1)
         return order_sale
 
     @validate_product_exist
@@ -295,12 +320,14 @@ class SaleOrder(models.Model):
     def _add_product_cart(self, order_instance, product_instance, quantity):
         """Add products to cart."""
 
+        _logger.info('Orden:{} - Producto:{}'.format(order_instance,
+            product_instance))
+
         quantity = quantity
         product = self._product_in_sale_order(order_instance, product_instance)
         if product:
             quantity += product.product_uom_qty
             product.write({'product_uom_qty': quantity})
-            product._cr.commit()
             return True
 
         line_vals = {
@@ -317,7 +344,7 @@ class SaleOrder(models.Model):
             return True
         except Exception as error:
             print(error)
-            _logger.info(error)
+            _logger.error(error)
 
         return False
 
