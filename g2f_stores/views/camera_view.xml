@@ -38,6 +38,7 @@
 
                             <group>
                                 <field name="camera_image" widget="image"/>
+                                <field name="mask_image" widget="image" attrs="{'invisible': [('door_active', '!=', True)]}"/>
                             </group>
                         </group>
 <!--                        <group>-->

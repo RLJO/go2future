@@ -4,6 +4,7 @@
 from odoo import models, fields, api, _
 from datetime import timedelta, time
 from odoo.tools.float_utils import float_round
+import base64
 
 
 class ProductTemplate(models.Model):
@@ -60,6 +61,7 @@ class ProductTemplate(models.Model):
         location_ids = self.env['stock.location'].search([('location_id.name', '=', code)])
         quant = self.env['stock.quant']
         quant_ids = quant.search([('location_id', 'in', location_ids.ids)], order='location_id')
+        base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
         for line in quant_ids:
             second_line = line.product_id.brand + ' ' if line.product_id.brand else ''
             second_line += str(line.product_id.contents) + ' ' if line.product_id.contents else ''
@@ -86,7 +88,11 @@ class ProductTemplate(models.Model):
                 "ITEM_WEIGHT": line.product_id.peso_bruto,
                 "ITEM_LAYOUT": line.product_id.layout,
                 "ITEM_URL_3D_FILE": line.product_id.product_url,
-            }
+                "UNIT_PRICE": line.product_id.product_tmpl_id.list_price,
+                "PRODUCT_DESCRIPTION": line.product_id.product_tmpl_id.product_description,
+                "PRODUCT_URL": base_url + '/web/image?' + 'model=product.template&id=' + str(line.product_id.product_tmpl_id.id) + '&field=image_128',
+                "PRODUCT_IMAGE": line.product_id.product_tmpl_id.image_128.decode("utf-8") if line.product_id.product_tmpl_id.image_128 else False
+                }
             data["data"].append(head)
         if not quant_ids:
             data = 'No se encontró Minigo registrado con el id: %s' % code
