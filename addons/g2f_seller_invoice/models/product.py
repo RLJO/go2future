@@ -4,7 +4,6 @@
 from odoo import models, fields, api, _
 from datetime import timedelta, time
 from odoo.tools.float_utils import float_round
-import base64
 
 
 class ProductTemplate(models.Model):
@@ -91,7 +90,7 @@ class ProductTemplate(models.Model):
                 "UNIT_PRICE": line.product_id.product_tmpl_id.list_price,
                 "PRODUCT_DESCRIPTION": line.product_id.product_tmpl_id.product_description,
                 "PRODUCT_URL": base_url + '/web/image?' + 'model=product.template&id=' + str(line.product_id.product_tmpl_id.id) + '&field=image_128',
-                "PRODUCT_IMAGE": line.product_id.product_tmpl_id.image_128.decode("utf-8") if line.product_id.product_tmpl_id.image_128 else False
+                # "PRODUCT_IMAGE": line.product_id.product_tmpl_id.image_128.decode("utf-8") if line.product_id.product_tmpl_id.image_128 else False
                 }
             data["data"].append(head)
         if not quant_ids:
