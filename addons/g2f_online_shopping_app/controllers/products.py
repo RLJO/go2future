@@ -35,6 +35,22 @@ class Product(http.Controller):
         return dumps(response)
 
 
+    @http.route(['/online_shopping_app/products/get_product_public_category/'], 
+            type='http', auth='public', methods=['GET'], website=True,
+            csrf=False)
+    def get_product_public_category(self, **kw):
+        """Get products public categories LIST."""
+
+        method = http.request.httprequest.method
+
+        if method != 'GET':
+            return {'status': '405', 'message': 'Method Not Allowed'}
+
+        public_categ = http.request.env['product.public.category'].sudo()
+        response = dumps(public_categ.product_public_category_list())
+        return response
+
+
 # Eliminar esto cuando ya este bien probado el endpoint
 
 """
