@@ -16,6 +16,7 @@
                                 <field name="pi_id" readonly="1"/>
                                 <field name="store_id" readonly="1"/>
                                 <field name="position_z"/>
+                                <field name="depth"/>
                             </group>
                             <group name="config" string="Configurar Sensor">
                                 <field name="product_weight"/>

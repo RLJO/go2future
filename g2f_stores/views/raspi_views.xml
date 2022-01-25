@@ -16,6 +16,8 @@
                             <field name="position_x"/>
                             <field name="position_y"/>
                             <field name="rotation"/>
+                            <field name="height"/>
+                            <field name="width"/>
                         </group>
                         <group name="sensors" string="Sensores">
                             <field name="sensor_ids" nolabel="1"/>
