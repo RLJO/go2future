@@ -246,27 +246,27 @@ class AccessControl(http.Controller):
                 msg_for_app_mobile = _('Se pidio a control de acceso abrir la puerta de salida a la tienda')
                 message = _('Please Open door {}'.format(door_id))
 
-            # Esto esta deprecado ya que ya vision no me avisa cuando el cliente
-            # Decide dejar los productos.
-            '''elif code == 11:
-                # El cliente decidio dejar los productos y retirtarse
-                # Validar tambien que la sale order este en 0
-                order = sale_order._search_sale_order_by_partner(
-                        user.partner_id.id)
-                if order.is_pending_order_to_pay():
-                    msg_for_app_mobile = _(
-                            """
-                            Sorry, you cannot leave the store,
-                            products were detected in the cart"""
-                            )
-                else:
-                    msg_for_app_mobile = _('Customer leaves the products and leaves the store')
-                    message = _('Please Open door 1 and 2')
+                # Esto esta deprecado ya que ya vision no me avisa cuando el cliente
+                # Decide dejar los productos.
+                '''elif code == 11:
+                    # El cliente decidio dejar los productos y retirtarse
+                    # Validar tambien que la sale order este en 0
+                    order = sale_order._search_sale_order_by_partner(
+                            user.partner_id.id)
+                    if order.is_pending_order_to_pay():
+                        msg_for_app_mobile = _(
+                                """
+                                Sorry, you cannot leave the store,
+                                products were detected in the cart"""
+                                )
+                    else:
+                        msg_for_app_mobile = _('Customer leaves the products and leaves the store')
+                        message = _('Please Open door 1 and 2')
 
-                    # Aqui yo deberia cancelar la sale order
-                    order.cancel_sale_order()
-                    '''
-            # ---------  Fin de codigo 11 -----------------------------------
+                        # Aqui yo deberia cancelar la sale order
+                        order.cancel_sale_order()
+                        '''
+                # ---------  Fin de codigo 11 -----------------------------------
             else:
                 # Si no es ninguno de los codigos anteriores
                 _logger.info("No es niguno de los codigos que yo espero")
