@@ -267,6 +267,10 @@ class AccessControl(http.Controller):
                     order.cancel_sale_order()
                     '''
             # ---------  Fin de codigo 11 -----------------------------------
+            else:
+                # Si no es ninguno de los codigos anteriores
+                _logger.info("No es niguno de los codigos que yo espero")
+                _logger.info(kw)
 
             # tomar el mensaje y guardarlo en el model transaction para que
             # la app le llegue el mensaje y tome una decision.
