@@ -205,12 +205,12 @@ class AccessControl(http.Controller):
                     if order.sudo().is_payment_approved():
                         code = 100
                         msg_for_app_mobile = _('successful payment')
-                        message = _('Successful payment')
+                        message = _("Successful payment")
                         # enviar a control de acceso que todo esta bien
                         # self._confirm_payment_to_access_control(store_id, door_id, login, True)
                     else:
                         code = 0
-                        msg_for_app_mobile = _('Payment declined')
+                        msg_for_app_mobile = _("Payment declined")
                         message = _('Payment declined')
                         # enviar a control de acceso que algo no esta bien
                         # self._confirm_payment_to_access_control(store_id, door_id, login, False)
@@ -278,7 +278,7 @@ class AccessControl(http.Controller):
                                                   code, msg_for_app_mobile,
                                                   'access_control')
             response = {'status': '200', 'message': message}
-            _logger.info(dumps(response))
+            _logger.info("Se le devuelve a control de acceso{0}".format(response))
             return response
 
         response = {'status': '400', 'message': 'NOT FOUND'}
