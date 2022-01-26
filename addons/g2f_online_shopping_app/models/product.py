@@ -38,17 +38,6 @@ class ProductProduct(models.Model):
             ]
         return response
 
-    def parse_product_public_category(self, domain=[]):
-        """Return parse product public category list."""
-
-        ppcatg = self.env['product.public.category'].search(domain)
-        response = [{
-            'name': f.name,
-            'padre': f.parent_id.name if f.parent_id else ''} 
-            for f in ppcatg]
-
-        print(response)
-
     def products_for_category_list(self, domain=[]):
         """Return list product for category."""
 
@@ -62,3 +51,28 @@ class ProductProduct(models.Model):
             for category in ppcatg.filtered('product_tmpl_ids')]
         print(response)
 
+
+    class ProductPublicCategory(models.Model):
+        """Product Public Category model inherit ."""
+
+        _inherit = 'product.public.category'
+
+        def product_public_category_list(self, domain=[]):
+            """Return Public Category List,
+               By Default domain = [] ."""
+
+
+            parent_ids = [{"id": c.id, "name":c.name} 
+                    for c in self.search(domain) if c.parent_id.id<=0]
+
+            lista = []
+            for parent_id in parent_ids:
+                child_ids = self.search(
+                        [('parent_id', '=', parent_id.get('id'))])
+                childs_of = [{"id": child.id, "name":child.name} 
+                        for child in child_ids]
+                line = {"id":parent_id.get('id'), 
+                        "name": parent_id.get("name"), 
+                        "childs": childs_of}
+                lista.append(line)
+            return lista

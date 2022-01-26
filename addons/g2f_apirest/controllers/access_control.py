@@ -205,17 +205,15 @@ class AccessControl(http.Controller):
                     if order.sudo().is_payment_approved():
                         code = 100
                         msg_for_app_mobile = _('successful payment')
-                        message = _('Successful payment')
+                        message = _("Successful payment")
                         # enviar a control de acceso que todo esta bien
-                        self._confirm_payment_to_access_control(
-                                store_id, door_id, login, True)
+                        # self._confirm_payment_to_access_control(store_id, door_id, login, True)
                     else:
                         code = 0
-                        msg_for_app_mobile = _('Payment declined')
+                        msg_for_app_mobile = _("Payment declined")
                         message = _('Payment declined')
                         # enviar a control de acceso que algo no esta bien
-                        self._confirm_payment_to_access_control(
-                                store_id, door_id, login, False)
+                        # self._confirm_payment_to_access_control(store_id, door_id, login, False)
                 else:
                     code = 111
                     msg_for_app_mobile = _(
@@ -227,8 +225,7 @@ class AccessControl(http.Controller):
                     msg_for_app_mobile = _('successful payment')
                     message = _('Successful payment')
                     # enviar a control de acceso que todo esta bien
-                    self._confirm_payment_to_access_control(
-                            store_id, door_id, login, True)
+                    # self._confirm_payment_to_access_control(store_id, door_id, login, True)
             elif code == 10:
                 # Cuando ya salio de la tienda
                 pass
@@ -246,27 +243,31 @@ class AccessControl(http.Controller):
                 msg_for_app_mobile = _('Se pidio a control de acceso abrir la puerta de salida a la tienda')
                 message = _('Please Open door {}'.format(door_id))
 
-            # Esto esta deprecado ya que ya vision no me avisa cuando el cliente
-            # Decide dejar los productos.
-            '''elif code == 11:
-                # El cliente decidio dejar los productos y retirtarse
-                # Validar tambien que la sale order este en 0
-                order = sale_order._search_sale_order_by_partner(
-                        user.partner_id.id)
-                if order.is_pending_order_to_pay():
-                    msg_for_app_mobile = _(
-                            """
-                            Sorry, you cannot leave the store,
-                            products were detected in the cart"""
-                            )
-                else:
-                    msg_for_app_mobile = _('Customer leaves the products and leaves the store')
-                    message = _('Please Open door 1 and 2')
+                # Esto esta deprecado ya que ya vision no me avisa cuando el cliente
+                # Decide dejar los productos.
+                '''elif code == 11:
+                    # El cliente decidio dejar los productos y retirtarse
+                    # Validar tambien que la sale order este en 0
+                    order = sale_order._search_sale_order_by_partner(
+                            user.partner_id.id)
+                    if order.is_pending_order_to_pay():
+                        msg_for_app_mobile = _(
+                                """
+                                Sorry, you cannot leave the store,
+                                products were detected in the cart"""
+                                )
+                    else:
+                        msg_for_app_mobile = _('Customer leaves the products and leaves the store')
+                        message = _('Please Open door 1 and 2')
 
-                    # Aqui yo deberia cancelar la sale order
-                    order.cancel_sale_order()
-                    '''
-            # ---------  Fin de codigo 11 -----------------------------------
+                        # Aqui yo deberia cancelar la sale order
+                        order.cancel_sale_order()
+                        '''
+                # ---------  Fin de codigo 11 -----------------------------------
+            else:
+                # Si no es ninguno de los codigos anteriores
+                _logger.info("No es niguno de los codigos que yo espero")
+                _logger.info(kw)
 
             # tomar el mensaje y guardarlo en el model transaction para que
             # la app le llegue el mensaje y tome una decision.
@@ -276,7 +277,7 @@ class AccessControl(http.Controller):
                                                   code, msg_for_app_mobile,
                                                   'access_control')
             response = {'status': '200', 'message': message}
-            _logger.info(dumps(response))
+            _logger.info("Se le devuelve a control de acceso{0}".format(response))
             return response
 
         response = {'status': '400', 'message': 'NOT FOUND'}
