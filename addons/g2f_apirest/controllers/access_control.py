@@ -190,9 +190,11 @@ class AccessControl(http.Controller):
 
             elif code == 9:
                 _logger.info('recibi el codigo 9 de control de acceso')
-                order = sale_order._search_sale_order_by_partner(user.partner_id.id)
                 # codigo 9 significa que control de acceso espera que se
                 # confirme el pago
+                code9_validate_payment_for_access_control(user.partner_id.id)
+
+                order = sale_order._search_sale_order_by_partner(user.partner_id.id)
 
                 # Valido que tenga algo pendiente por pagar o se va sin nada
                 if order.is_pending_order_to_pay():
@@ -207,13 +209,13 @@ class AccessControl(http.Controller):
                         msg_for_app_mobile = _('successful payment')
                         message = _("Successful payment")
                         # enviar a control de acceso que todo esta bien
-                        # self._confirm_payment_to_access_control(store_id, door_id, login, True)
+                        self._confirm_payment_to_access_control(store_id, door_id, login, True)
                     else:
                         code = 0
                         msg_for_app_mobile = _("Payment declined")
                         message = _('Payment declined')
                         # enviar a control de acceso que algo no esta bien
-                        # self._confirm_payment_to_access_control(store_id, door_id, login, False)
+                        self._confirm_payment_to_access_control(store_id, door_id, login, False)
                 else:
                     code = 111
                     msg_for_app_mobile = _(
