@@ -167,6 +167,7 @@ class AccessControl(http.Controller):
         message = kw.get('message')
         msg_for_app_mobile = ''
         role = 'Customer'
+        exitdoor = 4
 
         sale_order = http.request.env['sale.order'].sudo()
         user = http.request.env['res.partner'].sudo().validate_user(login)
@@ -208,12 +209,14 @@ class AccessControl(http.Controller):
                         message = _("Successful payment")
                         # enviar a control de acceso que todo esta bien
                         self._confirm_payment_to_access_control(store_id, door_id, login, True)
+                        self._open_door_access_control(store_id, exitdoor, login, 'customer')
                     else:
                         code = 0
                         msg_for_app_mobile = _("Payment declined")
                         message = _('Payment declined')
                         # enviar a control de acceso que algo no esta bien
                         self._confirm_payment_to_access_control(store_id, door_id, login, False)
+
                 else:
                     code = 111
                     msg_for_app_mobile = _(
@@ -225,7 +228,8 @@ class AccessControl(http.Controller):
                     msg_for_app_mobile = _('successful payment')
                     message = _('Successful payment')
                     # enviar a control de acceso que todo esta bien
-                    self._confirm_payment_to_access_control(store_id, door_id, login, True)
+                    self._confirm_payment_to_access_control(store_id, 4, login, True)
+                    self._open_door_access_control(store_id, exitdoor, login, 'customer')
             elif code == 10:
                 # Cuando ya salio de la tienda
                 pass
