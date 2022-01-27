@@ -414,3 +414,19 @@ class SaleOrder(models.Model):
                 product_type, product_barcode])))
         print(result)
         return result
+
+    def _products_in_carts(self, store_id):
+        order_obj = self.env['sale.order']
+        domain = [('warehouse_id', '=', store_id), ('state', '=', 'draft')]
+        orders = order_obj.search(domain)
+        carts = {}
+        for order in orders:
+            carts[order.partner_id.email] = {'products': {}}
+            for line in order.order_line:
+                 carts[order.partner_id.email]['products'].update({
+                    'product': line.product_id.barcode,
+                    'ia_model': line.product_id.product_tmpl_id.ia_model.name,
+                    'qty': line.product_uom_qty
+                })
+        return carts
+
