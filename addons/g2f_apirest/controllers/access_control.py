@@ -242,7 +242,7 @@ class AccessControl(http.Controller):
                 # Prepare url endpoint and send to Access control server
 
                 door_id = 9  # Puerta de salida hacia la tienda
-                self._open_door_access_control(store_id, door_id, login, role)
+                self._open_door_access_control(store_id, door_id, login, "staff")
                 msg_for_app_mobile = _('Se pidio a control de acceso abrir la puerta de salida a la tienda')
                 message = _('Please Open door {}'.format(door_id))
 
