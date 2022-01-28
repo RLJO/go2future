@@ -135,7 +135,8 @@ class AccessControl(http.Controller):
                 # Prepare url endpoint and send to Access control server
                 res = self._open_door_access_control(store_id, door_id, login,
                                                      role)
-                if user.is_staff():
+                if not  user.is_staff():
+                    sale_order = http.request.env['sale.order'].sudo()
                     sale_order.create_sale_order(user.partner_id.id, store_id)
                 return res
 
@@ -195,7 +196,7 @@ class AccessControl(http.Controller):
                 _logger.info('recibi el codigo 9 de control de acceso')
                 # codigo 9 significa que control de acceso espera que se
                 # confirme el pago
-                code9_validate_payment_for_access_control(user.partner_id.id)
+                # code9_validate_payment_for_access_control(user.partner_id.id)
 
                 order = sale_order._search_sale_order_by_partner(user.partner_id.id)
 
