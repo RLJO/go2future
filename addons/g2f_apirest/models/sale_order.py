@@ -421,9 +421,9 @@ class SaleOrder(models.Model):
         orders = order_obj.search(domain)
         carts = {}
         for order in orders:
-            carts[order.partner_id.email] = {'products': {}}
+            carts[order.partner_id.email] = {'products': []}
             for line in order.order_line:
-                 carts[order.partner_id.email]['products'].update({
+                 carts[order.partner_id.email]['products'].append({
                     'product': line.product_id.barcode,
                     'ia_model': line.product_id.product_tmpl_id.ia_model.name,
                     'qty': line.product_uom_qty
