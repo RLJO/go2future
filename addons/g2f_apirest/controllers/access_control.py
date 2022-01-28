@@ -135,6 +135,8 @@ class AccessControl(http.Controller):
                 # Prepare url endpoint and send to Access control server
                 res = self._open_door_access_control(store_id, door_id, login,
                                                      role)
+                if user.is_staff():
+                    sale_order.create_sale_order(user.partner_id.id, store_id)
                 return res
 
             msg = _('User dont exists!')
@@ -184,7 +186,7 @@ class AccessControl(http.Controller):
 
             if code == 7 and not user.is_staff():
                 # Crear la sale order
-                sale_order.create_sale_order(user.partner_id.id, store_id)
+                # sale_order.create_sale_order(user.partner_id.id, store_id)
                 msg_for_app_mobile = _('sales order was created successfully')
                 message = _('OK')
 
