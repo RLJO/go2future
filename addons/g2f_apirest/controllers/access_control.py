@@ -149,7 +149,6 @@ class AccessControl(http.Controller):
         print(kw)
         print(http.request.session.get('login'))
 
-
     @http.route(['/get_message_access_control'], type='json', auth='public',
                 methods=['POST'],
                 website=True, csrf=False)
@@ -171,6 +170,8 @@ class AccessControl(http.Controller):
 
         sale_order = http.request.env['sale.order'].sudo()
         user = http.request.env['res.partner'].sudo().validate_user(login)
+
+        _logger.info("Recibi de get_message_access_control el codigo: %s", code)
 
         if method == 'POST' and user:
             if user.is_staff():
