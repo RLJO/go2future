@@ -9,7 +9,7 @@ import logging
 from odoo import models, fields, _
 from odoo.exceptions import MissingError
 from odoo import http
-from odoo.addons.web.controllers.main import serialize_exception,content_disposition 
+from odoo.addons.web.controllers.main import serialize_exception, content_disposition
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -20,12 +20,14 @@ _logger = logging.getLogger(__name__)
 
 def validate_product_exist(search_product_method):
     """Decorator validate prodcut exist."""
+
     def exceptions(*args, **kwargs):
         """Search products."""
         product = search_product_method(*args, **kwargs)
         if not product:
             raise MissingError(_("Product does not exist in Store."))
         return product
+
     return exceptions
 
 
@@ -45,9 +47,8 @@ class SaleOrder(models.Model):
 
     _inherit = 'sale.order'
 
-
     sale_order_type = fields.Many2one('sale.order.type',
-            string='Presential purchase in a physical store')
+                                      string='Presential purchase in a physical store')
 
     def _get_sale_order_from_controller(self, login):
         """Get sale order from controller."""
@@ -61,8 +62,8 @@ class SaleOrder(models.Model):
         order = self._search_sale_order_by_partner(user_id.partner_id.id)
         if not order:
             return {"status": "400",
-                    "message": "Usuario {} no posee ninguna orden de venta.".\
-                            format(login)}
+                    "message": "Usuario {} no posee ninguna orden de venta.". \
+                        format(login)}
 
         list_sale = self._list_sale_order_cart(order)
         return list_sale
@@ -75,7 +76,7 @@ class SaleOrder(models.Model):
         user_id = self.env['res.users'].search(domain)
         order = self._search_sale_order_by_partner(user_id.partner_id.id)
         _logger.info('EL usuario:{}, tiene la orden:{}'.format(order,
-            user_id.partner_id))
+                                                               user_id.partner_id))
 
         product = self._search_product_by_id(barcode)
         if action == 'picked':
@@ -146,7 +147,7 @@ class SaleOrder(models.Model):
 
         # Cuento al titular la primera vez que se va a crear la orden de venta
         if not self._search_sale_order_by_partner(partner_id):
-            total_personas_en_tienda+=1
+            total_personas_en_tienda += 1
 
         # Si ya existe una orden Abierta para este usuario con estado draft
         # no no crear la Orden de venta para que se use esta
@@ -156,7 +157,7 @@ class SaleOrder(models.Model):
                 con el titular entonces se debe contar para saber cuantas 
                 Pesonas han entrado a la tienda
             """
-            total_personas_en_tienda+=1
+            total_personas_en_tienda += 1
 
             return True
 
@@ -219,7 +220,7 @@ class SaleOrder(models.Model):
         for invoice in order.invoice_ids:
             pdf, _ = self.env['ir.actions.report']._get_report_from_name(
                 'account.report_invoice').sudo()._render_qweb_pdf(
-                            [int(invoice.id)])
+                [int(invoice.id)])
             pdf_http_headers = [('Content-Type', 'application/pdf'),
                                 ('Content-Length', len(pdf)),
                                 ('Content-Disposition', 'mifactura')]
@@ -239,7 +240,6 @@ class SaleOrder(models.Model):
 
         try:
             for invoice in order.invoice_ids:
-
                 link = ''
                 new = invoice.get_portal_url()
                 access_url = invoice.access_url
@@ -263,7 +263,7 @@ class SaleOrder(models.Model):
 
         order_sale = self.search([
             ('partner_id', '=', partner_id),
-            ('state', '=', state)], 
+            ('state', '=', state)],
             order="date_order desc", limit=1)
         return order_sale
 
@@ -275,7 +275,7 @@ class SaleOrder(models.Model):
         return order_instance.order_line.search([
             ('order_id', '=', order_instance.id),
             ('product_id', '=', product_instance.id)
-            ])
+        ])
 
     def _add_product_shelf(self, order, product, quantity, sensor):
         quantity = quantity
@@ -321,7 +321,7 @@ class SaleOrder(models.Model):
         """Add products to cart."""
 
         _logger.info('Orden:{} - Producto:{}'.format(order_instance,
-            product_instance))
+                                                     product_instance))
 
         quantity = quantity
         product = self._product_in_sale_order(order_instance, product_instance)
@@ -331,13 +331,13 @@ class SaleOrder(models.Model):
             return True
 
         line_vals = {
-                'order_id': order_instance.id,
-                'product_id': product_instance.id,
-                'seller': product_instance.seller_ids.name.id,
-                'name': product_instance.name,
-                'product_uom_qty': quantity,
-                'price_unit': product_instance.list_price
-                }
+            'order_id': order_instance.id,
+            'product_id': product_instance.id,
+            'seller': product_instance.seller_ids.name.id,
+            'name': product_instance.name,
+            'product_uom_qty': quantity,
+            'price_unit': product_instance.list_price
+        }
 
         try:
             order_instance.order_line.create(line_vals)
@@ -376,7 +376,7 @@ class SaleOrder(models.Model):
         header = order_instance.search_read(domain, [
             'name', 'amount_total', 'cart_quantity', 'amount_undiscounted',
             'amount_untaxed', 'state']
-            )
+                                            )
 
         header[0]["create_date"] = order_instance.create_date.strftime("%Y-%m-%d, %H:%M:%S")
         header[0]["payments"] = payments
@@ -397,7 +397,7 @@ class SaleOrder(models.Model):
             product_name = line.product_id.name
             product_sku = line.product_id.default_code
             product_image = None if not line.product_id.image_128 else \
-                    line.product_id.image_128.decode('ascii')
+                line.product_id.image_128.decode('ascii')
             price_unit = line.price_unit
             product_uom_qty = line.product_uom_qty
             product_discount = line.discount
@@ -423,10 +423,11 @@ class SaleOrder(models.Model):
         for order in orders:
             carts[order.partner_id.email] = {'products': []}
             for line in order.order_line:
-                 carts[order.partner_id.email]['products'].append({
+                carts[order.partner_id.email]['products'].append({
                     'product': line.product_id.barcode,
                     'ia_model': line.product_id.product_tmpl_id.ia_model.name,
-                    'qty': line.product_uom_qty
+                    'qty': line.product_uom_qty,
+                    'unit_weight': line.product_id.peso_bruto,
+                    'weight_threshold': line.product_id.weight_threshold
                 })
         return carts
-
