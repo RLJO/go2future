@@ -75,9 +75,12 @@ class SaleOrder(models.Model):
         domain = [('login', '=', userid)] if type(userid) == str else [('id', '=', userid)]
         user_id = self.env['res.users'].search(domain)
         order = self._search_sale_order_by_partner(user_id.partner_id.id)
+        if not order:
+            _logger.error(f"El usuario:{user_id.email} no posee sale order abierta")
+            return False
+
         _logger.info('EL usuario:{}, tiene la orden:{}'.format(order,
                                                                user_id.partner_id))
-
         product = self._search_product_by_id(barcode)
         if action == 'picked':
             self._add_product_cart(order, product, quantity)
