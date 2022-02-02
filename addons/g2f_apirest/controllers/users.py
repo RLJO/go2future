@@ -233,7 +233,7 @@ class ResUser(http.Controller):
             response = {"status": "201", "message": "OK"}
             return response
 
-        if method == 'PATCH':
+        if method == 'PATCH' or 'PUT':
             kw.pop('login')
             user.partner_id.update_payment_card(kw)
             response = {"status": "201", "message": "OK"}
