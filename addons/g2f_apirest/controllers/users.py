@@ -108,7 +108,7 @@ class ResUser(http.Controller):
         results = [(
                 [i.store_image for i in f.store_image_ids],
                 f.name, f.direccion_local, f.country_id.name,
-                f.state_id.name, f.code, f.store_stage, f.store_plano_sav,
+                f.state_id.name, f.code, f.store_stage, False,
                 f.store_image
             )
             for f in store_list
@@ -233,7 +233,7 @@ class ResUser(http.Controller):
             response = {"status": "201", "message": "OK"}
             return response
 
-        if method == 'PATCH':
+        if method == 'PATCH' or 'PUT':
             kw.pop('login')
             user.partner_id.update_payment_card(kw)
             response = {"status": "201", "message": "OK"}
@@ -301,7 +301,7 @@ class ResUser(http.Controller):
             return response
 
         if method == 'PUT':
-            print('Modificar Usuario')
+            _logger.info('Modificar Usuario')
             response = self.update_user(kw)
             return response
 
@@ -332,7 +332,6 @@ class ResUser(http.Controller):
         user = self._validate_user(login)
         address = params.get('address')
         gender = params.get('gender')
-        # business_name = params.get('business_name')
         mobile = params.get('mobile')
         email_recipe_receive = params.get('email_recipe_receive') or False
         country = params.get('country')
@@ -348,6 +347,12 @@ class ResUser(http.Controller):
                 'country_id': country_id, 'state_id': state_id,
                 'city': state_city}
 
+        contact_childs = {'type': 'delivery', 'name': user.partner_id.name,
+                'street': address,
+                'city': state_city, 'state_id': state_id,
+                'zip': '', 'country_id': country_id, 
+                'comment': '', 'email': login, 'phone': mobile, 
+                'mobile': mobile, 'parent_id': user.partner_id.id}
 
 
         if not user:
@@ -357,10 +362,12 @@ class ResUser(http.Controller):
 
         try:
             user.partner_id.write(data)
+            user.partner_id.child_ids.create(contact_childs)
             user._cr.commit()
             response = {"status": "200", "message": "ok"}
         except Exception as error_excp:
             response = {"status": "400", "message": _(error_excp)}
+            user._cr.rollback()
 
         return response
 
@@ -411,24 +418,9 @@ class ResUser(http.Controller):
 
         country_id, state_id = self.res_partner.search_country_state_by_name(country, country_state)
 
-        # Validar aqui como se va amar el nombre, apellido o razon social:
-        print(afip_responsibility_type_id)
-        # if afip_responsibility_type_id = 1:
-            # Si es Iva responsable inscripto
-        #    print('Responsable inscripto')
-        #if afip_responsability_type_id = 5:
-            # Si es Consumidor Final
-        #    print('Consumidor final')
-        #if afip_responsibility_type_id = 6:
-            # Si es resonsable Monotributo
-        #    print('Responsable monotributo')
-        # else:
-        # Se coloca uno por defecto (Consumidor final)
-        #    print('Consumidor final')
-
         try:
             if not self._validate_user(login) and not user_inactive:
-                user.sudo().create({
+                new_user = user.sudo().create({
                     'login': login,
                     'email': login,
                     'password': passw,
@@ -451,7 +443,14 @@ class ResUser(http.Controller):
                     'terms_conditions_agreement': terms_conditions_agreement,
                     'email_recipe_receive': email_recipe_receive}
 
-            self._update_res_partner(login, data)
+            contact_child = {'type': 'delivery', 'name': name,
+                'street': address,
+                'city': state_city, 'state_id': state_id,
+                'zip': '', 'country_id': country_id, 
+                'comment': '', 'email': login, 'phone': mobile, 
+                'mobile': mobile, 'parent_id': new_user.partner_id.id}
+
+            self._update_res_partner(login, data, contact_child)
 
             response = {"status": "200", "message": "ok"}
 
@@ -466,11 +465,12 @@ class ResUser(http.Controller):
         user = http.request.env['res.users']
         return user.sudo().search([('login', '=', login)])
 
-    def _update_res_partner(self, login, data):
+    def _update_res_partner(self, login, data, contact_child):
         user = self._validate_user(login)
 
         if user:
             user.partner_id.write(data)
+            user.partner_id.child_ids.create(contact_child)
             user._cr.commit()
             return True
         return False

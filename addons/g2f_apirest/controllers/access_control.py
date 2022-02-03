@@ -149,7 +149,6 @@ class AccessControl(http.Controller):
         print(kw)
         print(http.request.session.get('login'))
 
-
     @http.route(['/get_message_access_control'], type='json', auth='public',
                 methods=['POST'],
                 website=True, csrf=False)
@@ -167,9 +166,12 @@ class AccessControl(http.Controller):
         message = kw.get('message')
         msg_for_app_mobile = ''
         role = 'Customer'
+        exitdoor = 3
 
         sale_order = http.request.env['sale.order'].sudo()
         user = http.request.env['res.partner'].sudo().validate_user(login)
+
+        _logger.info("Recibi de get_message_access_control el codigo: %s", code)
 
         if method == 'POST' and user:
             if user.is_staff():
@@ -207,13 +209,14 @@ class AccessControl(http.Controller):
                         msg_for_app_mobile = _('successful payment')
                         message = _("Successful payment")
                         # enviar a control de acceso que todo esta bien
-                        # self._confirm_payment_to_access_control(store_id, door_id, login, True)
+                        self._confirm_payment_to_access_control(store_id, door_id, login, True)
+                        self._open_door_access_control(store_id, exitdoor, login, "staff")
                     else:
                         code = 0
                         msg_for_app_mobile = _("Payment declined")
                         message = _('Payment declined')
                         # enviar a control de acceso que algo no esta bien
-                        # self._confirm_payment_to_access_control(store_id, door_id, login, False)
+                        self._confirm_payment_to_access_control(store_id, door_id, login, False)
                 else:
                     code = 111
                     msg_for_app_mobile = _(
@@ -225,7 +228,8 @@ class AccessControl(http.Controller):
                     msg_for_app_mobile = _('successful payment')
                     message = _('Successful payment')
                     # enviar a control de acceso que todo esta bien
-                    # self._confirm_payment_to_access_control(store_id, door_id, login, True)
+                    self._confirm_payment_to_access_control(store_id, door_id, login, True)
+                    self._open_door_access_control(store_id, exitdoor, login, "staff")
             elif code == 10:
                 # Cuando ya salio de la tienda
                 pass
@@ -238,8 +242,8 @@ class AccessControl(http.Controller):
                 # Para dejar el los productos
                 # Prepare url endpoint and send to Access control server
 
-                door_id = 9  # Puerta de salida hacia la tienda
-                self._open_door_access_control(store_id, door_id, login, role)
+                #door_id = 9 # Puerta de salida hacia la tienda
+                self._open_door_access_control(store_id, door_id, login, "staff")
                 msg_for_app_mobile = _('Se pidio a control de acceso abrir la puerta de salida a la tienda')
                 message = _('Please Open door {}'.format(door_id))
 
