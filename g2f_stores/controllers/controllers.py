@@ -24,6 +24,24 @@ class StorePlanoSav(http.Controller):
             response = {"status": 200, 'error_code': 0, "error_message": ['Se guardo de forma correcta']}
             return response
 
+    @http.route(['/store/get_sav_file'], type='json', auth='public', methods=['POST'], website=True, csrf='*')
+    def get_sav_file(self, **kw):
+        method = http.request.httprequest.method
+        store = kw.get('code')
+        obj_store = http.request.env['stock.warehouse'].sudo()
+        if type(store) == int:
+            store_id = obj_store.search([('id', '=', store)])
+        else:
+            store_id = obj_store.search([('code', '=', store)])
+        if not store_id:
+            return http.Response('NOT FOUND', status=404)
+        if method == 'POST':
+            file_sav = kw.get('file_sav')
+            data = {'store_plano_sav': store_id.store_plano_sav}
+            _logger.info("get_sav_file para store %s", store_id.code)
+            response = {"status": 200, 'data': data}
+            return response
+
 
 class StoreCameraVision(http.Controller):
     @http.route(['/store/get_cameras'], type='json', auth='api_key', methods=['GET'], website=True, csrf=False)
