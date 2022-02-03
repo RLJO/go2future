@@ -288,8 +288,7 @@ class SaleOrder(models.Model):
         product_store = self.env['product.store'].search(
             [('product_id', '=', product.id),
              ('shelf_id', '=', sensor_id),
-             ('store_id', '=', store.id)
-             ]
+             ('store_id', '=', store.id)]
         )
         try:
             if product_store:
@@ -336,7 +335,7 @@ class SaleOrder(models.Model):
         line_vals = {
             'order_id': order_instance.id,
             'product_id': product_instance.id,
-            'seller': product_instance.seller_ids.name.id,
+            'seller': product_instance.seller_ids.name.id, #sigleton cuando hay mas de un vendedor en diferentes ubicaciones
             'name': product_instance.name,
             'product_uom_qty': quantity,
             'price_unit': product_instance.list_price
