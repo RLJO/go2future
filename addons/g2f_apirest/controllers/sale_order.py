@@ -127,3 +127,27 @@ class SaleOrderCart(http.Controller):
             return dumps(response)
 
         return http.Response('NOT FOUND', status=404)
+
+    @http.route(['/products_in_carts'], type='json', auth='public', methods=['POST'], website=True, csrf=False)
+    def products_in_carts(self, **kw):
+        """Update or Get sale order to for  vision system."""
+
+        method = http.request.httprequest.method
+        kw = http.request.jsonrequest
+
+        store_code = kw.get('store_code')
+        store_id = http.request.env['stock.warehouse'].sudo().search([("code", "=", store_code)])
+        if not store_id:
+            return http.Response('NOT FOUND STORE', status=404)
+        response = {}
+        sale_order_line = http.request.env['sale.order']
+        if method == 'POST':
+            #  Agregar un prodcuto a una orden de venta
+            data = sale_order_line.sudo()._products_in_carts(store_id.id)
+            if data:
+                response['store_code'] = store_code,
+                response['status'] = 200,
+                response['success'] = True,
+                response['data'] = data
+                return response
+            return http.Response('NOT FOUND', status=404)
