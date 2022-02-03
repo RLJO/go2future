@@ -18,6 +18,12 @@ class ProductProduct(models.Model):
 
     _inherit = 'product.product'
 
+    def parse_product_by_category(self, domain=[]):
+        """Return product list parse filtered by category publics."""
+
+        search = self.search(domain)
+        print(search)
+
     def parse_products_online_shopping(self, domain=[]):
         """Return  products parse for online shopping."""
 

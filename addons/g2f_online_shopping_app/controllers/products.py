@@ -11,6 +11,8 @@ class Product(http.Controller):
             type='http', auth='public', methods=['GET'], website=True,
             csrf=False)
     def get_product(self, **kw):
+        """Get product details from default_code passed as parameters."""
+
         default_code = kw.get('default_code')
         products = http.request.env['product.product']
         domain = [
@@ -19,7 +21,7 @@ class Product(http.Controller):
             ('is_published', '=', True),
             ]
 
-        response = {"status": 200, "data": ''}
+        response = {"status": 200, "data": ""}
         response["data"] = products.sudo().parse_products_online_shopping(domain)
 
         """
@@ -34,6 +36,24 @@ class Product(http.Controller):
 
         return dumps(response)
 
+    @http.route(['/online_shopping_app/products/get_products_by_category/'],
+            type='http', auth='public', methods=['GET'], website=True,
+            csrf=False)
+    def get_products_by_category(self, **kw):
+        """Get products list by category passed as parameters."""
+
+        public_categ_id = kw.get('categ_id') or 0
+        response = {"status": 200, "data": ""}
+        products = http.request.env['product.product']
+
+        if not public_categ_id.isdigit():
+            return dumps({"status": "500",
+                "message": f"Internal error categ_id:`{public_categ_id}` must be numeric"})
+
+        domain = [('public_categ_ids', 'in', int(public_categ_id))]
+        response["data"] = products.sudo().parse_products_online_shopping(domain)
+
+        return dumps(response)
 
     @http.route(['/online_shopping_app/products/get_product_public_category/'], 
             type='http', auth='public', methods=['GET'], website=True,
@@ -44,7 +64,7 @@ class Product(http.Controller):
         method = http.request.httprequest.method
 
         if method != 'GET':
-            return {'status': '405', 'message': 'Method Not Allowed'}
+            return {"status": "405", "message": "Method Not Allowed"}
 
         public_categ = http.request.env['product.public.category'].sudo()
         response = dumps(public_categ.product_public_category_list())
